@@ -1,0 +1,30 @@
+.venv/
+site/
+.cache/
+tmp/
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+
+# CCDC/CSD exports and local project sources are intentionally never versioned.
+# Their licence may prohibit redistribution, even from a private repository.
+*.cqs
+*.csdsql*
+*.cif
+*.mol
+*.mol2
+*.sd
+*.sdf
+*.smi
+*.pdf
+*.local.csv
+*.local.json
+
+# Only explicitly reviewed, redistributable fixtures may override these rules.
+!fixtures/open/**/*.cif
+!fixtures/open/**/*.mol
+!fixtures/open/**/*.mol2
+!fixtures/open/**/*.sd
+!fixtures/open/**/*.sdf
+!fixtures/open/**/*.smi

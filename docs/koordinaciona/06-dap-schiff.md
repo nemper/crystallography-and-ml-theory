@@ -1,0 +1,325 @@
+# 6. DAP Schiff-base motiv u ovom skupu
+
+**Prioritet: MORAŠ.** Ovo poglavlje prevodi naziv koji su naučnici koristili — „DAP Schiff bases“ — u proverljiv hemijski graf. Cilj nije da zapamtiš katalog jedinjenja, nego da razumeš šta je motiv, kako nastaje, zašto može da koordinira metal i šta lokalni upit zaista dokazuje.
+
+## 6.1 Šta „DAP“ znači ovde
+
+Skraćenice u hemiji nisu globalno jedinstvene. U ovom projektu **DAP** treba čitati kao **2,6-diacetilpiridin** (*2,6-diacetylpyridine*), jer baš taj kostur rekonstruišemo iz dostavljenog ConQuest upita:
+
+- centralni šestoročlani piridinski prsten sa jednim N;
+- po jedna acetil-derived iminska ruka na položajima 2 i 6;
+- dva `C=N` centra;
+- po jedna metil-grupa uz svaki iminski C.
+
+Najkraća tekstualna skica bis-iminskog proizvoda je:
+
+```text
+                    N_pyridine
+                   /          \
+        R–N=C(CH3)–              –C(CH3)=N–R′
+                  \  pyridine  /
+
+potencijalni donorski niz: N_imine – N_pyridine – N_imine
+```
+
+!!! warning "Inference, ne originalno ime u fajlu"
+    Lokalni query graf vrlo snažno podržava 2,6-diacetilpiridinski bis-iminski motiv, ali `.cqs` ne nosi autoritativnu hemijsku definiciju skraćenice. Naučni tim treba pisano da potvrdi da je to nameravani scope, uključujući dozvoljene supstitucije, protone/tautomere i parcijalno kondenzovane proizvode.
+
+## 6.2 Od karbonila i amina do Schiffove baze
+
+2,6-diacetilpiridin ima dve ketonske karbonilne grupe. Svaka može reagovati sa **primarnim aminom** `R–NH2` i dati iminsku vezu `C=N`. Idealizovana ukupna reakcija za simetrični bis-iminski proizvod je:
+
+\[
+\text{2,6-diacetilpiridin} + 2\,\mathrm{RNH_2}
+\rightleftharpoons
+\text{DAP bis(imine)} + 2\,\mathrm{H_2O}.
+\]
+
+Na nivou jedne karbonilne grupe korisna mentalna slika je:
+
+1. nukleofilni N primarnog amina napada elektrofilni karbonilni C;
+2. nastaje tetraedarski intermedijer, često opisan kao karbinolamin nakon proton transfera;
+3. proton transferi pripremaju odlazak vode;
+4. eliminacija vode i deprotonovanje daju `C=N`.
+
+Reakcija je ravnotežna. Acid/base uslovi, voda, rastvarač, temperatura i stabilnost proizvoda mogu promeniti ishod. „Pomešali smo keton i amin“ nije dovoljan dokaz da je nastao čist bis-iminski ligand; identitet se potvrđuje analitikom i strukturom.
+
+### Imine i Schiffove baze
+
+IUPAC definiše **imine** kao jedinjenja sa motivom `RN=CR2`; aldehidni i ketonski analozi razlikuju se kao aldimini i ketimini ([imines](https://goldbook.iupac.org/terms/view/I02957)). **Schiffove baze** su imini kod kojih N nosi hidrokarbilnu grupu, `R2C=NR′`, uz `R′ ≠ H` ([Schiff bases](https://goldbook.iupac.org/terms/view/S05498)).
+
+U našem DAP motivu svaki iminski C potiče od ketona i vezan je za `CH3` i piridinski kostur; zato su to ketiminske Schiff-base ruke kada iminski N nosi organski supstituent.
+
+## 6.3 CAPHAG kao konkretna reakcijska provera
+
+Prvi `search1` pogodak, **CAPHAG**, ima formulu `C25 H27 N3` i SMILES:
+
+```text
+CCc1ccccc1N=C(C)c1cccc(n1)C(C)=Nc1ccccc1CC
+```
+
+On je konzistentan sa kondenzacijom 2,6-diacetilpiridina i dva ekvivalenta 2-etilanilina:
+
+\[
+\mathrm{C_9H_9NO_2} + 2\,\mathrm{C_8H_{11}N}
+\rightarrow
+\mathrm{C_{25}H_{27}N_3} + 2\,\mathrm{H_2O}.
+\]
+
+Provera atoma radi:
+
+- C: `9 + 2×8 = 25`;
+- N: `1 + 2×1 = 3`;
+- O: dva karbonilna O odlaze u dve vode, pa ih nema u proizvodu;
+- H: `9 + 2×11 − 2×2 = 27`.
+
+Ovo je koristan sanity check, ali formula sama ne dokazuje povezivanje atoma. Graf/SMILES pokazuje dve `C=N` veze i centralni piridinski N; kristalna struktura ili drugi analitički dokaz potvrđuje konkretan identitet.
+
+## 6.4 Zašto je N3 motiv dobar ligand
+
+Tri azota imaju slobodne elektronske parove koji mogu biti donori:
+
+| Donor | Gde se nalazi | Uloga u tipičnom N3 vezivanju |
+|---|---|---|
+| `N_imine,left` | leva `C=N–R` ruka | krajnji donor |
+| `N_pyridine` | centralni heteroatom prstena | srednji donor |
+| `N_imine,right` | desna `C=N–R′` ruka | krajnji donor |
+
+Ako sva tri vežu isti metal, ligand je **tridentatno koordinisan**. Raspored 2,6-ruku preorganizuje donor-atome i obično omogućava dva helatna prstena. To često stabilizuje vezivanje, ali „potencijalno tridentatan“ i „u ovoj strukturi tridentatan“ nisu isti iskazi.
+
+Donorska sposobnost može da se promeni kada:
+
+- iminski ili piridinski N bude protonovan;
+- dođe do tautomerije ili hemijske transformacije;
+- konformacija okrene donor od metala;
+- sterički glomazni `R` supstituenti zaklone džep;
+- metal preferira drugi koordinacioni broj/geometriju;
+- ligand koristi samo jedan ili dva N, premošćuje više metala ili ostane nekoordinisan;
+- konkurentni anjoni/rastvarači zauzmu koordinaciona mesta.
+
+<div class="project-link">
+**Data-model posledica:** u katalogu liganda čuvaj `potential_donors = 3`; u konkretnom kompleksu čuvaj `observed_denticity`, mapirane M–N veze i confidence. Jedno polje `denticity=3` izgubilo bi razliku između dizajna liganda i opažene strukture.
+</div>
+
+## 6.5 CAPHEK: kada se potencijalni džep zaista koristi
+
+Prvi `search2` pogodak, **CAPHEK**, daje jasan pozitivan primer:
+
+- formula celog entry-ja: `C27 H32 Cl2 N4 O Zn`;
+- jedan DAP bis-iminski ligand koristi tri N donora;
+- isti Zn vezuje i dva Cl donora;
+- lokalni donor-sastav je `N3Cl2`, pa je `CN = 5`;
+- Zn–N rastojanja su 2,081, 2,251 i 2,276 Å;
+- Zn–Cl rastojanja su 2,241 i 2,254 Å;
+- odvojeni acetonitril i voda objašnjavaju dodatni N i O u punoj formuli.
+
+Zato formula ima četiri N, ali koordinacioni N3 džep čine tri N iz istog liganda. Četvrti N pripada acetonitrilu i nije automatski donor cinku. Ovo je praktičan dokaz zašto se koordinacioni broj ne izvodi iz elementarne formule.
+
+Petokoordinisana geometrija CAPHEK-a nije idealna. Iz dva najveća ugla, 147,436° i 128,705°, dobija se `τ5 ≈ 0,312`: distordovana/intermedijarna okolina bliža kvadratno-piramidalnom kraju mere. Detaljno računanje je u [poglavlju 5](05-kompleksi.md#coordination-geometry).
+
+## 6.6 Šta tačno kodira prvi ConQuest upit
+
+Forenzičko čitanje fajla `1 - Sifove baze DAP.cqs` pokazuje jedan 2D connectivity query sa 18 eksplicitnih atoma:
+
+| Deo query-ja | Broj / vrsta |
+|---|---|
+| elementi | 9 C, 3 N, 6 H |
+| centralni prsten | 5 C + 1 N |
+| prstenaste veze | 6 veza sa ConQuest kodom 5 |
+| iminske veze | 2 dvostruke `C=N`, kod 2 |
+| ostale query veze | 10 `Any`, kod 99 |
+| režim | `exhaustive=1`, `symmchk=1` |
+
+Dve ruke su na položajima 2 i 6 centralnog piridinskog prstena i svaka sadrži `ring-C–C(=N)–CH3` deo. Eksplicitnih šest H pripada dvema metil-grupama.
+
+!!! note "Query graf nije hemijsko ime"
+    Naziv fajla kaže „DAP Schiff bases“, ali izvršiva semantika je skup atomskih, veznih i opcionalnih constraints. Produkcioni sistem mora čuvati oba: ljudsku nameru i mašinski query manifest. Kada se ne slažu, rezultat se klasifikuje prema constraints, a razlika ide na stručnu reviziju.
+
+Prvi upit **ne zabranjuje metal**. On samo nema dodatni metalni uslov. Zato `search1` sadrži i metal-free ligande i entry-je sa metalima.
+
+## 6.7 Drugi upit menja composition, ne koordinacionu vezu
+
+Fajl `2 - Kompleksi sa DAP SB.cqs` sadrži isti 18-atomski povezani motiv i još jedan atom:
+
+```text
+AT19  4M
+```
+
+CCDC ConQuest vodič definiše `4M` kao zbir grupa `1M + 2M + TR + LN + AN`, odnosno sve metalne elemente ([ConQuest User Guide](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf)). Atom 19 je u query objektu **nepovezan**: nema vezu, kontakt, distance constraint niti uslov da pripada istoj molekulskoj komponenti kao DAP motiv.
+
+Tačna logika je:
+
+\[
+\text{search2} = \text{DAP motiv} \land \text{metal negde u istom CSD entry-ju}.
+\]
+
+Netačna, jača interpretacija bila bi:
+
+\[
+\text{search2} = \text{DAP N3 ligand koordinisan metalu}.
+\]
+
+Lokalni izvozi to potvrđuju brojčano:
+
+- `search1`: 2.110 rezultata;
+- `search2`: 2.038 rezultata;
+- `search2` je tačan podskup `search1` u istom redosledu nakon filtriranja;
+- razlika od 72 entry-ja je metal-free deo `search1`;
+- svih 2.038 `search2` formula sadrži bar jedan `4M` element.
+
+## 6.8 Kontraprimeri su važniji od lakih pozitivnih primera
+
+Sledeći `search2` pogoci zadovoljavaju query, ali nisu dokaz ciljne DAP–metal koordinacije:
+
+| Refcode | Lokalni obrazac | Ispravna etiketa za N3 koordinaciju |
+|---|---|---|
+| APHZUC | protonovani DAP-derived ligand + odvojena U/O/Cl komponenta + acetonitril | negativan ili `not-coordinated` |
+| FOWLEJ | ligand + odvojeni Cd/Cl metalat | negativan |
+| GEHCOM | ligand + odvojeni Sn/Cl fragment | negativan |
+| MINQUV | ligand + odvojeni Cu/Cl fragment | negativan |
+| SUZBAT | Fe ima organometalno C okruženje, ne ciljnu N3 vezu | negativan za DAP–N3, iako nije „metal bez veza“ |
+| UJIXES | ligand + odvojeni `[Mn+2]` | negativan ili neodređen ako graf nije dovoljan |
+
+Oni su korisni **hard negatives** za model: veoma liče po scaffold-u i composition-u na pozitivne kandidate, ali padaju na semantički presudnom M–N mapping-u.
+
+!!! danger "SMILES tačka je signal, ne konačna presuda"
+    Tačka u SMILES-u označava odvojene graf komponente u tom eksportu. Kod kristala ipak treba proveriti CIF koordinate, simetriju, periodične slike i provenance percepcije veza. Zaključak `not coordinated` treba da nosi dokaz i confidence, naročito kada je izvor lossy.
+
+## 6.9 Precizna ontologija etiketa za projekat
+
+Umesto jednog booleana `is_complex`, koristi hijerarhiju:
+
+```text
+dap_motif_present
+├── metal_present_in_entry
+│   ├── metal_connected_in_exported_graph
+│   ├── metal_in_same_component_as_mapped_dap
+│   ├── any_metal_to_nitrogen_contact
+│   └── same_metal_bound_to_mapped_dap_nitrogens
+│       ├── observed_denticity: 1 / 2 / 3 / other
+│       ├── coordination_number
+│       ├── donor_signature
+│       └── geometry + confidence
+└── representation_sufficient: yes / no / ambiguous
+```
+
+Preporučene klase za ručno validiran skup:
+
+| Klasa | Značenje |
+|---|---|
+| `DAP_N3_COORDINATED` | isti metal potvrđeno vezuje sva tri mapirana DAP N |
+| `DAP_PARTIAL_COORDINATION` | isti metal vezuje samo 1–2 mapirana N |
+| `METAL_PRESENT_NOT_DAP_BOUND` | metal postoji, ali nije vezan za DAP motiv |
+| `MOTIF_PRESENT_METAL_FREE` | DAP motiv postoji, metal nije prisutan |
+| `AMBIGUOUS_REPRESENTATION` | format/quality ne omogućava pouzdanu odluku |
+| `QUERY_FALSE_INTERPRETATION` | naziv/upit pogrešno je korišćen kao jača etiketa |
+
+Ovakva šema omogućava da retrieval bude širok, a hemijska validacija stroga. Ne moraš odbaciti APHZUC iz candidate skupa; moraš sprečiti da postane lažno pozitivan ground truth za N3 koordinaciju.
+
+## 6.10 Varijacije koje model mora da očekuje
+
+Jedan 2D scaffold može dati mnogo struktukturnih varijanti:
+
+- `R = R′` ili nesimetrične ruke `R ≠ R′`;
+- E/Z konfiguracije iminskih veza;
+- različite konformacije i orijentacije aromatičnih supstituenata;
+- neutralni ligand, protonovani oblik ili druga tautomerna/protonaciona stanja;
+- jedan ili više metalnih centara;
+- dodatni monodentatni ili polidentatni ligandi;
+- koordinacioni polimeri, bridging i symmetry-generated veze;
+- counterion-i, hidrati i solvatisane forme;
+- disorder, parcijalna okupacija i zapisi bez punih koordinata.
+
+To objašnjava zašto „isti DAP motiv“ nije isto što i „ista molekulska struktura“, „isti koordinacioni kompleks“ ili „ista kristalna forma“.
+
+## 6.11 Kako ovo ulazi u dve aplikacije
+
+### Aplikacija 1 — globalna pretraga
+
+Korisniku treba ponuditi odvojene modove:
+
+1. isti/sličan DAP scaffold;
+2. DAP scaffold + metal bilo gde u entry-ju;
+3. DAP ligand i metal u istoj komponenti;
+4. potvrđena koordinacija preko najmanje jednog mapiranog N;
+5. potvrđena N3 koordinacija istom metalu;
+6. slična koordinaciona geometrija i donor-okruženje.
+
+Svaki stroži nivo je podskup prethodnog samo ako su podaci dovoljni. Zapisi bez 3D ili pouzdane konektivnosti treba da dobiju `unknown`, a ne da nestanu bez objašnjenja.
+
+### Aplikacija 2 — poređenje parova
+
+Za dva ulazna CIF-a report treba da razdvoji:
+
+- poklapanje 2D DAP podgrafa i njegov atom mapping;
+- identitet/protonaciju/supstitucije liganda;
+- koji mapirani N atomi koordiniraju koji metal;
+- observed denticity i M–N distance;
+- CN, ostale donore i geometriju metala;
+- razliku kristalne forme, packing-a, solvata i disorder-a.
+
+Visok ligand-similarity score uz različitu koordinaciju nije greška — to su dve različite ose sličnosti koje report mora prikazati odvojeno.
+
+## 6.12 Mini-vežbe
+
+### 1. Reakcijska stehiometrija
+
+Koliko molekula vode idealno nastaje kada 2,6-diacetilpiridin sa dve karbonilne grupe potpuno reaguje sa dva primarna amina do bis-imina?
+
+??? success "Odgovor"
+    Dva. Svaka karbonilna grupa daje jednu iminsku vezu i jednu molekulu vode u idealizovanoj kondenzaciji.
+
+### 2. Potencijalno naspram opaženog
+
+Ligand ima piridinski N i dva iminska N, ali u kristalu samo jedan iminski N vezuje metal. Koji je njegov potencijalni, a koji opaženi denticitet?
+
+??? success "Odgovor"
+    Potencijalno je tridentatan za taj N3 donorski set, ali je u konkretnoj strukturi monodentatno koordinisan. Potrebno je sačuvati oba podatka.
+
+### 3. Query logika
+
+Zašto 2.038 rezultata drugog upita nisu automatski 2.038 potvrđena DAP kompleksa?
+
+??? success "Odgovor"
+    Dodatni `4M` atom nema vezu ni geometrijski constraint prema DAP motivu. Upit traži motiv i metal u istom entry-ju, ne njihovu međusobnu koordinaciju.
+
+### 4. CAPHAG i CAPHEK
+
+Koji od ova dva lokalna primera je slobodni ligand, a koji potvrđen N3 kompleks?
+
+??? success "Odgovor"
+    CAPHAG je metal-free DAP bis-iminski ligand. CAPHEK sadrži Zn u N3Cl2 okolini; tri N iz DAP liganda vezuju isti Zn.
+
+### 5. Hard negative
+
+Zašto je SUZBAT bolji test modela od nasumičnog ugljovodonika bez N i metala?
+
+??? success "Odgovor"
+    SUZBAT prolazi široki DAP+metal query i zato deli relevantan scaffold/composition signal, ali Fe nije u ciljnom DAP–N3 okruženju. Model mora naučiti presudnu koordinacionu razliku, ne trivijalno odsustvo motiva.
+
+### 6. Nedovoljni podaci
+
+SMILES sadrži DAP motiv i metal u odvojenoj komponenti, a nemaš CIF koordinate. Koju etiketu daješ?
+
+??? success "Odgovor"
+    Možeš pouzdano označiti metal presence i odvojene komponente u toj reprezentaciji, ali ne treba izmišljati kristalografski contact zaključak. Za koordinaciju koristi `not shown in exported graph` ili `ambiguous/insufficient`, zavisno od ugovorenog annotation pravila.
+
+## 6.13 Kriterijum prolaza
+
+Poglavlje si savladao kada možeš da nacrtaš 2,6-diacetilpiridinski bis-iminski motiv, objasniš nastanak dve `C=N` veze, mapiraš N3 donorski set i napišeš test koji razlikuje:
+
+```text
+DAP motiv + metal presence
+od
+isti metal direktno koordinisan mapiranim DAP N atomima.
+```
+
+## Primarni i autoritativni izvori
+
+- [IUPAC Gold Book: imines](https://goldbook.iupac.org/terms/view/I02957)
+- [IUPAC Gold Book: Schiff bases](https://goldbook.iupac.org/terms/view/S05498)
+- [IUPAC Gold Book: denticity](https://goldbook.iupac.org/terms/view/D01594)
+- [IUPAC Gold Book: chelation](https://doi.org/10.1351/goldbook.C01012)
+- [CCDC ConQuest User Guide and Tutorials](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf)
+- [CCDC Python API: substructure searching](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/substructure_searching.html)
+- [OpenStax Organic Chemistry: imine formation from aldehydes and ketones](https://openstax.org/books/organic-chemistry/pages/19-8-nucleophilic-addition-of-amines-imine-and-enamine-formation)

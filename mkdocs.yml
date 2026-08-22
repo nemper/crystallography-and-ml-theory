@@ -1,0 +1,118 @@
+site_name: 2CDC - hemijske osnove
+site_description: Projektno usmerena hemija, kristalografija i cheminformatika za dve 2CDC aplikacije
+site_url: https://nemper.github.io/2cdc-chemistry-foundations/
+repo_url: https://github.com/nemper/2cdc-chemistry-foundations
+repo_name: nemper/2cdc-chemistry-foundations
+edit_uri: ""
+strict: true
+
+theme:
+  name: material
+  language: sr
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - content.code.copy
+    - content.tooltips
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Tamna tema
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Svetla tema
+
+plugins:
+  - search:
+      lang: en
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Početak:
+      - Naslovna: index.md
+      - Kako se koristi knjiga: pocetak/kako-koristiti.md
+      - Šta projekat zapravo traži: pocetak/mapa-projekta.md
+      - Plan učenja: pocetak/plan-ucenja.md
+      - Dijagnostika i kriterijumi prolaza: pocetak/dijagnostika.md
+  - I. Hemijski jezik:
+      - 1. Atomi, elementi, joni i formule: osnove/01-atomi-joni-formule.md
+      - 2. Elektroni i hemijske veze: osnove/02-veze.md
+      - 3. Molekulska geometrija i konformacija: osnove/03-geometrija.md
+      - 4. Organska hemija koja nam treba: osnove/04-organska.md
+  - II. Koordinaciona hemija:
+      - 5. Metali, ligandi i kompleksi: koordinaciona/05-kompleksi.md
+      - 6. DAP Schiff-base motiv u ovom skupu: koordinaciona/06-dap-schiff.md
+  - III. Od molekula do kristala:
+      - 7. Intermolekulske interakcije: kristali/07-interakcije.md
+      - 8. Kristal, rešetka i jedinična ćelija: kristali/08-celija.md
+      - 9. Simetrija, prostorne grupe i periodičnost: kristali/09-simetrija.md
+      - 10. Difrakcija, refiniranje i kvalitet: kristali/10-difrakcija-kvalitet.md
+      - 11. Polimorfi i druge čvrste forme: kristali/11-cvrste-forme.md
+  - IV. Digitalna hemija:
+      - 12. CIF, MOL, MOL2, SDF i SMILES: podaci/12-formati.md
+      - 13. Standardizacija bez gubitka značenja: podaci/13-standardizacija.md
+      - 14. Molekul kao graf i skup deskriptora: podaci/14-reprezentacije.md
+      - 15. Sličnost nije jedna veličina: podaci/15-slicnost.md
+  - V. Prevod u dve aplikacije:
+      - 16. CSD i ConQuest tok podataka: projekat/16-csd-conquest.md
+      - 17. Forenzika dostavljenog skupa: projekat/17-lokalni-skup.md
+      - 18. Globalna pretraga: projekat/18-globalna-pretraga.md
+      - 19. Precizno poređenje parova: projekat/19-parovi.md
+      - 20. Evaluacija i naučna validacija: projekat/20-evaluacija.md
+      - 21. Licence, FAIR i poreklo podataka: projekat/21-licence-fair.md
+  - Praktikum:
+      - Laboratorijske vežbe: praktikum/laboratorije.md
+      - Završni mini-projekat: praktikum/zavrsni-projekat.md
+      - Rešenja i rubrike: praktikum/resenja.md
+  - Referenca:
+      - Brzi podsetnik: referenca/podsetnik.md
+      - Rečnik pojmova: referenca/recnik.md
+      - Opasne zablude: referenca/zablude.md
+      - Registar ključnih tvrdnji: referenca/registar-tvrdnji.md
+      - Izvori i metod validacije: referenca/izvori.md

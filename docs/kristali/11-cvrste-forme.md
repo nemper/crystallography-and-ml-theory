@@ -1,0 +1,378 @@
+# 11. Polimorfi i druge čvrste forme
+
+## Šta treba da umeš posle ovog poglavlja
+
+Posle ovog poglavlja treba da možeš da:
+
+- razlikuješ hemijski entitet, čvrstu formu, kristalnu strukturu i pojedinačno eksperimentalno određivanje;
+- razdvojiš polimorf od soli, hidrata, solvata i kokristala;
+- objasniš zašto ista aktivna supstanca može imati različitu solubilnost, melting point i stabilnost;
+- koristiš Gibbsovu slobodnu energiju kao minimalni termodinamički model;
+- objasniš zašto kinetika kristalizacije može dati metastabilnu formu;
+- formiraš solid-form familije bez oslanjanja samo na SMILES, formulu ili CSD refcode;
+- prevedeš čvrstu formu u filtere, reprezentacije i ground truth za obe aplikacije.
+
+## Intuicija: isti molekul, drugačiji materijal
+
+Zamisli jednake kockice koje možeš da složiš u više stabilnih zidova. Kockice su iste, ali raspored kontakata, gustina i način na koji se zid lomi nisu isti. Kod molekulskih kristala „kockice“ mogu i da promene konformaciju, pa različiti kristalni rasporedi imaju različite intermolekulske interakcije i slobodne energije.
+
+Zbog toga isti molekulski graf ne određuje jedinstven čvrsti materijal. Promena forme može promeniti:
+
+- equilibrium solubility i brzinu rastvaranja;
+- melting point i toplotu topljenja;
+- fizičku i hemijsku stabilnost;
+- higroskopnost;
+- gustinu, tvrdoću i crystal habit;
+- tok praha, filtraciju, mlevenje i druge proizvodne osobine.
+
+[IUPAC definicija polymorph-a](https://goldbook.iupac.org/terms/view/15225) upravo naglašava različite kristalne vrste istog solidnog materijala i mogućnost različitih fizičkih svojstava.
+
+## Četiri nivoa identiteta
+
+| Nivo | Pitanje | Primer identifikatora |
+|---|---|---|
+| hemijski entitet | koji su povezanost atoma, stereokemija i protonaciono stanje? | InChI, standardizovani molekulski graf |
+| sastav čvrste forme | koje su komponente, naboji i stehiometrija? | API:HCl:H2O = 1:1:1 |
+| faza/polimorf | kako su komponente konformisane i periodično upakovane? | forma I, forma II |
+| određivanje | kojim uzorkom, metodom, temperaturom i publikacijom je model izmeren? | jedan CIF/deposition/refcode |
+
+Jedan hemijski entitet može imati više formi. Jedna forma može imati više redeterminations pri različitim temperaturama. Jedan CIF data block može sadržati jednu određenu strukturu, ali to nije dokaz da je ona jedina moguća forma.
+
+## Precizne definicije
+
+### Polimorf
+
+Polimorfi imaju isti hemijski sastav, ali različitu kristalnu strukturu. Razlika može biti:
+
+- samo u pakovanju gotovo iste konformacije;
+- u molekulskoj konformaciji i pakovanju;
+- u mreži vodoničnih i drugih interakcija;
+- u space group, jediničnoj ćeliji ili broju nezavisnih molekula.
+
+Uska kristalografska definicija zahteva isti sastav. Zato dodavanje vode, rastvarača, counterion-a ili koformera stvara drugu vrstu čvrste forme, ne samo novi polimorf originalne bezvodne neutralne supstance.
+
+### So
+
+So je višekomponentna jonska forma. U farmaceutskom primeru proton se može preneti sa kiseline na bazni API, pa kristal sadrži kation i anion. „API hydrochloride“ nije isti hemijski sastav kao neutralni API.
+
+Granica između soli i kokristala ponekad nije potpuno oštra samo iz formalnog 2D crteža: položaj protona može zahtevati kvalitetne strukturne i spektroskopske podatke. Razlika pKa može biti koristan trag, ali nije nepogrešiva presuda.
+
+### Hidrat
+
+[IUPAC hydrate](https://goldbook.iupac.org/terms/view/15195) u ovom kontekstu definiše kao kristalnu formu u kojoj su molekuli vode deo kristalne strukture. Voda može biti stehiometrijska, parcijalno zauzeta ili podložna gubitku pri promeni temperature i relativne vlažnosti.
+
+### Solvat
+
+[IUPAC solvate](https://goldbook.iupac.org/terms/view/15234) je kristalna forma u kojoj su jedan ili više molekula rastvarača deo strukture. Hidrat je poseban slučaj u kome je taj rastvarač voda.
+
+Solvent u kristalnoj šupljini, kanalima ili kao deo mreže interakcija može biti teško modelovan. Desolvacija može ostaviti novu fazu, kolaps rešetke ili amorfni materijal.
+
+### Kokristal
+
+[IUCr Online Dictionary](https://dictionary.iucr.org/Co-crystal) opisuje kokristal kao jednofazni kristalni materijal sa dva ili više različitih molekulskih i/ili jonskih jedinjenja u uglavnom stehiometrijskom odnosu, koji nije prost solvat ili so. U farmaceutskom kontekstu često su to neutralni API i neutralni koformer u istoj rešetki.
+
+[FDA guidance za farmaceutske kokristale](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/regulatory-classification-pharmaceutical-co-crystals) koristi regulatornu definiciju i zahteva dokaz da klasifikacija zaista odgovara materijalu. Terminologija zato mora biti verzionisana i vezana za naučni/regulatorni kontekst. Klasična stručna diskusija je [Aitipamula et al., “Polymorphs, Salts, and Cocrystals: What’s in a Name?”](https://doi.org/10.1021/cg3002948).
+
+## Kategorije mogu da se kombinuju
+
+Nazivi nisu uvek međusobno isključivi:
+
+- so može biti hidrat;
+- so može biti solvat;
+- kokristal može imati vodu ili drugi solvent;
+- jedna konkretna so ili kokristal može imati sopstvene polimorfe;
+- višekomponentna forma može sadržati i neutralne i jonske komponente.
+
+Zato jedan enum sa vrednostima <code>POLYMORPH | SALT | HYDRATE | SOLVATE | COCRYSTAL</code> nije dovoljan. Razumniji model čuva:
+
+1. listu komponenti;
+2. formalne naboje i protonaciona stanja;
+3. stehiometriju;
+4. uloge: API, counterion, water, solvent, coformer;
+5. fazni identitet unutar istog sastava;
+6. dokaz i confidence ljudske klasifikacije.
+
+## Primer iz projekta: šta znamo iz cu_n14_a.cif
+
+Lokalni CIF navodi:
+
+- <code>_chemical_formula_moiety 'C25 H20 N3 O2 P'</code>;
+- istu sumarnu formulu;
+- \(Z=4\);
+- jednu potpuno zauzetu listu atomskih mesta;
+- nema eksplicitne water/solvent komponente;
+- nema deklarisanih disorder grupa;
+- <code>_chemical_melting_point ?</code>.
+
+Najoprezniji zaključak glasi:
+
+> Fajl modeluje jednu, naizgled jednokomponentnu kristalnu strukturu sastava C25H20N3O2P, izmerenu na 100 K, bez eksplicitno modelovanog kristalnog solvata ili hidrata.
+
+!!! example "Ime fajla nije hemijski dokaz"
+    Prefiks <code>cu</code> u nazivu fajla ne znači da struktura sadrži bakar: navedena formula nema Cu. Kompoziciju izvodi iz validiranog sadržaja i provenance-a, ne iz korisničkog imena fajla.
+
+Iz tog fajla ne smeš zaključiti:
+
+- da jedinjenje ne može stvarati hidrate ili solvate;
+- da nema drugi polimorf;
+- da je prikazana forma termodinamički najstabilnija;
+- da je ista forma prisutna na sobnoj temperaturi;
+- koliki joj je melting point;
+- da je odsustvo solventa dokazano svim drugim analitičkim metodama.
+
+Jedan SCXRD CIF je posmatranje jedne forme jednog uzorka pod jednim skupom uslova.
+
+## Primer iz white paper-a
+
+CCDC white paper na stranama 3 i 10 koristi melting point da pokaže zašto property mora biti vezan za konkretnu čvrstu formu. Vrednost „150 °C“ vezana samo za molekulski identitet može pomešati:
+
+- polimorf I i polimorf II;
+- anhidrat i hidrat;
+- neutralnu formu i so;
+- različite metode i brzine zagrevanja;
+- početak topljenja, opseg ili raspad.
+
+Na stranama 17–18 white paper opisuje polymorph-risk workflow: Mogul za konformacionu geometriju, packing comparison i hydrogen-bond propensity. To su izvori dokaza i prioriteta za eksperimente; nisu dokaz da neotkrivena forma sigurno postoji niti da je poznata forma najstabilnija.
+
+[GSK/CCDC analiza](https://pubs.rsc.org/en/content/articlehtml/2021/ce/d1ce00665g) dodatno pokazuje koliko se interni i javni skupovi razlikuju po raspodeli solidnih formi. Autori su morali ručno da pregledaju strukture jer canonical SMILES, stereokemija i bond-order dodele nisu bili dovoljni za pouzdano grupisanje.
+
+## Termodinamički minimum
+
+Pri konstantnoj temperaturi i pritisku, ravnotežno stabilna forma ima najnižu Gibbsovu slobodnu energiju:
+
+\[
+G = H - TS
+\]
+
+Za dve forme A i B:
+
+\[
+\Delta G_{B-A}(T)=\Delta H_{B-A}-T\Delta S_{B-A}
+\]
+
+- ako je \(\Delta G_{B-A}>0\), A ima niži \(G\) i termodinamički je stabilnija;
+- ako je \(\Delta G_{B-A}<0\), B je stabilnija;
+- ako je \(\Delta G_{B-A}=0\), forme su u ravnoteži pri datim uslovima.
+
+### Numerički primer
+
+Pretpostavi, samo za ovaj idealizovani račun, da su \(\Delta H_{B-A}\) i
+\(\Delta S_{B-A}\) konstantni u posmatranom temperaturnom opsegu. Time
+zanemarujemo razliku toplotnih kapaciteta \(\Delta C_p\), kao i topljenje,
+raspad i sve druge fazne prelaze koji bi se mogli javiti pre izračunatog
+preseka:
+
+\[
+\Delta H_{B-A}=1.0\ \text{kJ mol}^{-1}
+\]
+
+\[
+\Delta S_{B-A}=4.0\ \text{J mol}^{-1}\text{K}^{-1}
+\]
+
+Tada:
+
+\[
+\Delta G_{B-A}=1000-4T\quad \text{J mol}^{-1}
+\]
+
+- na 100 K, \(\Delta G=+600\ \text{J mol}^{-1}\): A je stabilnija;
+- na 298 K, \(\Delta G=-192\ \text{J mol}^{-1}\): B je stabilnija;
+- linearno ekstrapolirani presek je na 250 K.
+
+U ovom modelu redosled stabilnosti menja se sa temperaturom, što je obrazac
+**kompatibilan** sa enantiotropijom. Sam presek dve aproksimirane prave nije
+dokaz enantiotropnog odnosa: treba pokazati da obe faze postoje u relevantnom
+opsegu i potvrditi fazni odnos eksperimentima, uz \(\Delta C_p\), topljenje,
+raspad i druge prelaze. U monotropnom odnosu jedna forma ostaje stabilnija u
+čitavom fizički relevantnom opsegu ispod topljenja.
+
+!!! warning "Melting point nije slobodna energija"
+    Viši melting point može biti važan trag, ali sam ne određuje stabilnost na svim temperaturama. Potrebni su entalpija/entropija, fazni prelazi, toplotni kapaciteti i eksperimentalni kontekst.
+
+## Kinetika: zašto se prvo pojavi „pogrešna“ forma
+
+Termodinamika kaže koja forma ima najniži \(G\) u ravnoteži. Kinetika određuje koliko brzo faza nukleira, raste ili prelazi u drugu fazu.
+
+Kristalizacija zavisi od:
+
+- supersaturacije;
+- solventa i aktivnosti vode;
+- temperature i brzine hlađenja;
+- brzine isparavanja;
+- mešanja;
+- nečistoća i površina;
+- seeding-a;
+- koncentracije i pH;
+- vremena.
+
+Metastabilna forma je lokalni minimum slobodne energije odvojen kinetičkom barijerom. Može nastati brže i opstati dovoljno dugo da bude izolovana, iako druga forma ima niži \(G\). „Metastabilno“ ne znači „trenutno se raspada“ niti „loš podatak“.
+
+Nukleacija i rast takođe stvaraju selection bias baze: u bazi vidimo ono što je pokušano, kristalisalo, bilo merljivo i sačuvano, ne ceo prostor mogućih formi.
+
+## Solubilnost i fazna stabilnost
+
+Pri istoj temperaturi, rastvaraču i hemijskom stanju, metastabilna kristalna
+forma često daje višu **solubilnost u odnosu na tu fazu** nego stabilna forma,
+jer je izlazak iz njene rešetke termodinamički povoljniji. Ako se zasićenje
+uspostavi dok ta faza ostaje nepromenjena, rezultat se može opisati kao
+**metastabilna, fazno-uslovljena solubilnost** — ravnoteža rastvor–metastabilna
+faza pod kinetičkim ograničenjem. Strogo govoreći, globalna ravnoteža ne
+zadržava metastabilnu čvrstu fazu ako je prelaz u stabilnu fazu dostupan;
+dugotrajnu zasićenu ravnotežu tada određuje stabilna faza. Vrednost se zato
+može pripisati metastabilnoj fazi samo ako je njen identitet potvrđen tokom
+merenja i ako se na vremenskoj skali eksperimenta uspostavio reproduktivan
+odnos čvrsta faza–rastvor. Ako se faza transformiše ili zasićenje nije
+dostignuto, izmereni plato može biti samo kinetički ili prividan. Pored toga:
+
+- dissolution rate nije isto što i equilibrium solubility;
+- veličina čestice, površina i habit utiču na brzinu;
+- forma se tokom merenja može transformisati;
+- pH i jonizacija mogu dominirati;
+- hidrat/solvat može menjati aktivnost i sastav;
+- rezultat mora biti vezan za fazu koja je stvarno prisutna pre i posle merenja.
+
+Zato property tabela mora imati najmanje: form ID, temperaturu, solvent/pH, metodu, jedinicu, uzorak, vreme, neizvesnost i dokaz faznog identiteta.
+
+## Kako se forme eksperimentalno razlikuju
+
+Nijedna pojedina metoda nije univerzalno dovoljna:
+
+| Metoda | Primarni doprinos |
+|---|---|
+| SCXRD | atomski i periodični model jednog pogodnog kristala |
+| PXRD | fazni fingerprint bulk uzorka i mešavine |
+| DSC | endotermni/egzotermni događaji, topljenje i prelazi |
+| TGA | gubitak mase, npr. desolvacija/dehidratacija |
+| DVS | odgovor na relativnu vlažnost |
+| IR/Raman/solid-state NMR | lokalno hemijsko okruženje i komponente |
+| hot-stage microscopy | vizuelno praćenje faznih događaja |
+
+„Isti SMILES“ ne razlikuje polimorfe. „Različita ćelija“ je jak trag, ali redetermination, temperatura, druga postavka ćelije ili pogrešna simetrija mogu napraviti prividnu razliku. Potrebno je kombinovati sastav, strukturu, uslove i eksperimentalne obrasce.
+
+## Data model koji ne meša nivoe
+
+Minimalni entiteti su:
+
+| Entitet | Ključne veze |
+|---|---|
+| Compound | standardizovani graf, stereokemija, tautomer/protomer politika |
+| Component | compound, formalni naboj, uloga |
+| Form composition | komponente i stehiometrija |
+| Phase/Form | sastav, polymorph label, fazni odnosi |
+| Determination | CIF, temperatura, pritisak, metoda, publikacija |
+| Sample | batch, priprema, istorija, čistoća |
+| Measurement | property, vrednost, jedinica, uslovi, uncertainty |
+| Evidence | PXRD/SCXRD/DSC/TGA izvor i quality status |
+
+Ne koristi naziv „Form I“ kao globalni identifikator: različite organizacije mogu različito numerisati forme. Label mora biti namespaced i vezan za izvor.
+
+## Posledice za dve aplikacije
+
+### Globalna pretraga
+
+Pretraživač treba da dozvoli najmanje tri različite namere:
+
+1. sličan hemijski entitet bez obzira na formu;
+2. ista/kompatibilna kompoziciona klasa;
+3. slično kristalno pakovanje unutar uporedivih formi.
+
+Pre brzog vektorskog dohvata ili tokom re-ranking-a treba ponuditi filtere:
+
+- neutral/free form, salt, hydrate, solvate, cocrystal;
+- broj komponenti i stehiometrija;
+- charge state;
+- prisustvo vode/solventa;
+- ista formula ili isti parent compound;
+- temperatura i quality profil određivanja.
+
+Rezultat mora objasniti da li je pogodak sličan po molekulu, sastavu ili periodičnom pakovanju. Jedan zbirni skor bez te dekompozicije može visoko rangirati hemijski sličnu, ali razvojno nerelevantnu formu.
+
+### Poređenje svih parova
+
+Poređenje prvo treba da klasifikuje odnos:
+
+- isto određivanje/duplikat;
+- redetermination iste faze;
+- kandidat za polimorf;
+- salt/solvate/hydrate/cocrystal odnos;
+- drugačiji hemijski entitet.
+
+Tek zatim treba računati odgovarajuće metrike. Packing RMSD između anhidrata i hidrata može biti koristan kao parcijalna analiza zajedničkog API okruženja, ali nije isto pitanje kao dokaz polimorfnosti.
+
+Izlaz para treba da sadrži:
+
+- mapiranje komponenti i atoma;
+- razliku sastava i naboja;
+- konformacionu razliku;
+- packing/interakcioni profil;
+- uslove merenja;
+- quality/uncertainty;
+- klasifikaciju odnosa sa obrazloženjem.
+
+## Tipične zamke
+
+1. Nazvati svaki različit CIF polimorfom.
+2. Nazvati hidrat polimorfom anhidrata bez označavanja promene sastava.
+3. Tretirati so i neutralni API kao isti graf posle uklanjanja counterion-a.
+4. Zaključiti „nema solventa“ samo zato što ga 2D reprezentacija ne prikazuje.
+5. Koristiti InChIKey kao identifikator kristalne faze.
+6. Zaključiti stabilnost iz jedne neobične torzije.
+7. Izjednačiti thermodynamic stability, chemical stability i shelf-life.
+8. Izjednačiti equilibrium solubility i dissolution rate.
+9. Ignorisati temperaturu SCXRD merenja.
+10. Napraviti train/test split u kome redeterminations ili forme istog parent compound-a cure na obe strane.
+
+## Mini-vežbe
+
+### 1. Isto ili različito?
+
+Dva kristala imaju isti neutralni molekul i istu sumarnu formulu, ali različito pakovanje. Kako ih klasifikuješ?
+
+??? success "Odgovor"
+    Kao kandidate za polimorfe. Potrebno je isključiti trivijalnu promenu postavke ćelije, temperaturnu ekspanziju, redetermination i grešku modela.
+
+### 2. API, HCl i voda
+
+Jedna forma sadrži protonovani API, hlorid i jednu vodu po API. Koje oznake su relevantne?
+
+??? success "Odgovor"
+    To je so i hidrat. Kategorije se kombinuju; nije dovoljno izabrati samo jednu.
+
+### 3. Šta dokazuje lokalni CIF?
+
+Da li <code>cu_n14_a.cif</code> dokazuje da C25H20N3O2P nema polimorfe?
+
+??? success "Odgovor"
+    Ne. Dokazuje samo da je za jedan uzorak pod navedenim uslovima modelovana jedna konkretna kristalna struktura.
+
+### 4. Termodinamički prelaz
+
+Za \(\Delta H_{B-A}=1.0\ \text{kJ mol}^{-1}\) i \(\Delta S_{B-A}=4.0\ \text{J mol}^{-1}\text{K}^{-1}\), pri kojoj temperaturi su A i B približno u ravnoteži?
+
+??? success "Odgovor"
+    Uz pretpostavku konstantnih \(\Delta H\) i \(\Delta S\), i uz zanemarene
+    \(\Delta C_p\), topljenje, raspad i druge fazne prelaze, \(\Delta G=0\)
+    daje \(T=\Delta H/\Delta S=1000/4=250\ \text{K}\). To je presek
+    idealizovanog modela, ne samostalan dokaz enantiotropije.
+
+### 5. Dizajn split-a
+
+Zašto nasumični split po CIF redovima može dati lažno dobru ML metriku za klasifikaciju formi?
+
+??? success "Odgovor"
+    Redeterminations, skoro identične strukture i više formi istog parent compound-a mogu završiti u treningu i testu. Model tada prepoznaje familiju ili eksperimentalni izvor umesto da generalizuje. Split treba grupisati najmanje po parent compound-u i povezanim određivanjima, a po potrebi i po scaffold-u ili vremenu.
+
+## Kriterijum prolaza
+
+Poglavlje si savladao kada za proizvoljan par CIF-ova možeš prvo da postaviš pitanje o sastavu i faznom identitetu, zatim izabereš prikladno strukturno poređenje i objasniš koje dodatne eksperimente treba tražiti pre tvrdnje o polimorfnosti ili stabilnosti.
+
+## Primarni i autoritativni izvori
+
+- [IUPAC Gold Book: polymorph](https://goldbook.iupac.org/terms/view/15225)
+- [IUPAC Gold Book: solvate](https://goldbook.iupac.org/terms/view/15234)
+- [IUPAC Gold Book: hydrate](https://goldbook.iupac.org/terms/view/15195)
+- [IUCr Online Dictionary: co-crystal](https://dictionary.iucr.org/Co-crystal)
+- [FDA: Regulatory Classification of Pharmaceutical Co-Crystals](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/regulatory-classification-pharmaceutical-co-crystals)
+- [Aitipamula et al. 2012, DOI 10.1021/cg3002948](https://doi.org/10.1021/cg3002948)
+- [Kalash et al. 2021, GSK/CCDC solid-form analiza](https://doi.org/10.1039/D1CE00665G)
