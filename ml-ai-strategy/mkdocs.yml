@@ -54,3 +54,4 @@ nav:
       - Spoljni LLM API i bezbednost: language/08-api-llm-security.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md
+      - Završni validacioni audit: reference/final-validation-2026-08-23.md

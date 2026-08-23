@@ -32,3 +32,5 @@ Modul [spoljnih LLM API-ja i bezbednosti](language/08-api-llm-security.md) uvodi
 Centralni [cross-format i lifecycle eligibility ugovor](data/09-cross-format-eligibility.md) sprečava da CIF/MOL/MOL2/SDF/SMILES gubici, missingness ili `NeedsReview/Released/Withdrawn` prelazi tiho promene fingerprint, graf, indeks, trening skup ili evaluation denominator.
 
 [Konačna optimalna matrica i fazni roadmap](roadmap/10-optimal-stack-roadmap.md) spajaju sve module u jedan izvršni redosled: deterministički MVP, klasični ML turnir, exact→ANN gate, deep challengere, lokalni SLM/RAG, opcioni API i jasne stop/defer uslove.
+
+[Završni validacioni audit](reference/final-validation-2026-08-23.md) beleži nezavisne glasove, sve materijalne korekcije, pokrivenost lokalnih izvora, build/link/browser kontrole i granice onoga što bez CSD pristupa još nije moguće potvrditi.
