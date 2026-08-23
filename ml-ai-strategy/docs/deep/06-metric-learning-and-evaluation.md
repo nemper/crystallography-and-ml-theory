@@ -11,6 +11,8 @@ Najbolji neural dizajn zavisi od mesta u pipeline-u:
 
 Nijedan model ne dobija naziv „crystal similarity model“ bez suffix-a koji kaže koju relaciju uči. `same_parent`, `same_coordination_motif`, `same_conformer`, `packing_related` i `useful_search_result` nisu ista relacija.
 
+Dataset i pair builder najpre prolaze [cross-format i lifecycle eligibility ugovor](../data/09-cross-format-eligibility.md): svi source pogledi istog entry-ja grupišu se pre split-a, representation availability ulazi u denominator/slice metrike, a state transition invalidira pogođene labele, embedding-e, indekse i model lineage.
+
 ```mermaid
 flowchart LR
     A[Validirani crystal view A] --> E[Shared periodic encoder]

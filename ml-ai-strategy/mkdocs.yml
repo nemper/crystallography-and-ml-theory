@@ -20,6 +20,8 @@ nav:
   - Početna: index.md
   - Scope i odluke: 00-scope.md
   - Pipeline i decision gates: 01-pipeline-decision-map.md
+  - Ugovori podataka:
+      - Cross-format i lifecycle eligibility: data/09-cross-format-eligibility.md
   - Klasični ML:
       - Modeli i eksperimenti: classical/02-classical-ml.md
   - Globalna pretraga:

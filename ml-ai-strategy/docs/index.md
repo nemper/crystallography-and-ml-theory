@@ -28,3 +28,5 @@ Modul [metric learning-a i pair modela](deep/06-metric-learning-and-evaluation.m
 Modul [lokalnih SLM-ova i RAG-a](language/07-local-slm-rag.md) definiše bezbedan NL→DSL tok, granicu determinističkog naučnog jezgra, aktuelni model shortlist, hibridni retrieval, fine-tuning lestvicu i production evaluaciju.
 
 Modul [spoljnih LLM API-ja i bezbednosti](language/08-api-llm-security.md) uvodi C0–C4 klasifikaciju, centralni egress broker, minimalne evidence payload-e, proverene provider/retention matrice, prompt-injection odbrane i vendor-neutral tournament.
+
+Centralni [cross-format i lifecycle eligibility ugovor](data/09-cross-format-eligibility.md) sprečava da CIF/MOL/MOL2/SDF/SMILES gubici, missingness ili `NeedsReview/Released/Withdrawn` prelazi tiho promene fingerprint, graf, indeks, trening skup ili evaluation denominator.

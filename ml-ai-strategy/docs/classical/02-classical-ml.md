@@ -17,6 +17,8 @@ Najvažniji production kandidati su:
 
 Nijedan od njih nije CIF parser, exact substructure matcher, dokaz packing identiteta niti univerzalna mera sličnosti.
 
+Pre formiranja bilo koje supervised matrice obavezan je centralni [cross-format i lifecycle eligibility ugovor](../data/09-cross-format-eligibility.md): svi pogledi istog entry-ja ostaju u istoj split grupi, missing format se ne briše tihim `inner join`-om, a training/calibration/final-test primaju samo eksplicitno dozvoljena lifecycle stanja i rights scope.
+
 ## 2.1 Data contract pre algoritma
 
 Supervised model se ne bira dok svaki red trening skupa nema:

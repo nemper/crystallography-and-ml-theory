@@ -30,6 +30,9 @@ Svaki sloj ima različit zadatak:
 
 **Granica prema tekstualnom RAG-u:** svaki „dense embedding“ u ovom poglavlju znači validiranu reprezentaciju molekula, koordinacionog okruženja, 3D oblika ili periodične strukture. Dokumentacioni RAG, BM25, sentence embeddings i jezički rerankeri imaju drugi korpus, drugi relevance contract i drugi indeks. Generic text embedding CIF teksta nije crystal-similarity reprezentacija.
 
+!!! warning "Prerequisite korpusa"
+    Nijedan kanal ne indeksira „redove koji imaju odgovarajući format“ bez accounting-a. [Cross-format i lifecycle eligibility ugovor](../data/09-cross-format-eligibility.md) određuje purpose-specific canonical view, fallback za entry bez SMILES/2D/3D pogleda, lifecycle inclusion politiku, denominatore i invalidaciju `retrieval_generation_id`-a.
+
 ## 3.1 Četiri odvojena ugovora
 
 ### Ugovor reprezentacije

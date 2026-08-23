@@ -21,6 +21,8 @@ Preporučeni redosled eksperimenata je:
 
 Ovo je izbor početnog turnira, ne tvrdnja da je Matformer već produkcioni pobednik.
 
+Pre encoder-a mora proći [cross-format i lifecycle eligibility ugovor](../data/09-cross-format-eligibility.md). Zapis bez validnog periodic view-a ne dobija zero-filled pseudo-kristal, lossy MOL/MOL2 ne prepisuje bogatiji izvor, a corpus/training manifest uključuje reconciliation, lifecycle inclusion i rights-policy generaciju.
+
 ## 5.1 Tri različita neuronska posla
 
 ```mermaid
