@@ -5,7 +5,7 @@ Privatna, evidence-driven dokumentacija za izbor ML/AI algoritama u dve 2CDC apl
 1. globalna pretraga CSD struktura na osnovu jednog CIF-a;
 2. precizno poređenje uploadovanog skupa CIF fajlova, svaki sa svakim.
 
-Ovaj repozitorijum je odvojen od kursa hemije. Ne sadrži fakultetske fajlove, CSD izvode ni white paper.
+Ovaj poddirektorijum je poseban dokumentacioni deo istog repozitorijuma u kojem se nalazi i kurs hemije. Ne sadrži fakultetske fajlove, CSD izvode ni white paper.
 
 ## Lokalno pokretanje
 
