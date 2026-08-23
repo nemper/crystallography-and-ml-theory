@@ -13,4 +13,4 @@ Dokumentacija će za svaki kandidat jasno razdvojiti:
 - baseline, challenger i uslov pod kojim se bira pobednik;
 - failure modes, abstention i licencne granice.
 
-Počni od [scope-a i pravila odlučivanja](00-scope.md).
+Počni od [scope-a i pravila odlučivanja](00-scope.md), a zatim koristi [mapu pipeline-a](01-pipeline-decision-map.md) da vidiš gde pripada svaka porodica algoritama.

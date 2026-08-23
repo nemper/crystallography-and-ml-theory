@@ -19,5 +19,6 @@ markdown_extensions:
 nav:
   - Početna: index.md
   - Scope i odluke: 00-scope.md
+  - Pipeline i decision gates: 01-pipeline-decision-map.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md
