@@ -2,7 +2,7 @@
 
 Ova dokumentacija odgovara na praktično pitanje: **koji algoritam ili kombinacija algoritama je najbolji za svaku fazu dve 2CDC aplikacije, pod kojim uslovima i na osnovu kog dokaza?**
 
-Ne tražimo jedan univerzalni model. Globalni retrieval, precizno poređenje kristala, procena svojstava, objašnjenje rezultata i razgovorni interfejs imaju različite ciljeve, greške, podatke i acceptance kriterijume.
+Ne tražimo jedan univerzalni model. Globalni retrieval, precizno poređenje kristala, procena svojstava, objašnjenje rezultata i eventualni jezički interfejs imaju različite ciljeve, greške, podatke i acceptance kriterijume. Jezički model nije zahtev izvornog brief-a; ispituje se kao opcioni UX sloj nad potpunim determinističkim Tier 0 sistemom.
 
 Dokumentacija će za svaki kandidat jasno razdvojiti:
 
@@ -24,3 +24,5 @@ Modul [preciznog pairwise poređenja](pairs/04-precise-pairwise.md) opisuje comp
 Modul [periodičnih crystal encodera](deep/05-periodic-crystal-encoders.md) proverava CGCNN, SchNet, DimeNet, MEGNet, ALIGNN, Matformer i equivariant modele, sa eksplicitnim periodic-invariance i stereo gate-ovima.
 
 Modul [metric learning-a i pair modela](deep/06-metric-learning-and-evaluation.md) određuje loss-eve, positive/negative protokol, dual/cross-encoder uloge, splitove, kalibraciju i production gate.
+
+Modul [lokalnih SLM-ova i RAG-a](language/07-local-slm-rag.md) definiše bezbedan NL→DSL tok, granicu determinističkog naučnog jezgra, aktuelni model shortlist, hibridni retrieval, fine-tuning lestvicu i production evaluaciju.

@@ -29,5 +29,7 @@ nav:
   - Deep crystal modeli:
       - Periodični encoderi: deep/05-periodic-crystal-encoders.md
       - Metric learning i evaluacija: deep/06-metric-learning-and-evaluation.md
+  - Jezički modeli:
+      - Lokalni SLM, DSL i RAG: language/07-local-slm-rag.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md
