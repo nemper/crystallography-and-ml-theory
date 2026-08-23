@@ -24,5 +24,7 @@ nav:
       - Modeli i eksperimenti: classical/02-classical-ml.md
   - Globalna pretraga:
       - Retrieval, ANN i rangiranje: retrieval/03-global-retrieval-ann-ranking.md
+  - Precizno poređenje parova:
+      - Algoritmi i evidence: pairs/04-precise-pairwise.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md

@@ -18,3 +18,5 @@ Počni od [scope-a i pravila odlučivanja](00-scope.md), a zatim koristi [mapu p
 Prvi detaljni modul obrađuje [klasični ML](classical/02-classical-ml.md): od linearnih baseline-a i Random Forest-a do boosting-a, SVM-a, GPR-a, kalibracije i conformal abstention-a.
 
 Modul [globalne pretrage](retrieval/03-global-retrieval-ann-ranking.md) razdvaja hard filtere, hemijske reprezentacije, exact/ANN candidate generation, filter-aware indeksiranje i learning-to-rank.
+
+Modul [preciznog pairwise poređenja](pairs/04-precise-pairwise.md) opisuje component assignment, VF2/MCS, Kabsch, koordinacionu geometriju, COMPACK/PAC, SOAP–REMatch, PXRD i interaction networks.
