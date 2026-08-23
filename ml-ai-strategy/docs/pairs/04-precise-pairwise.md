@@ -73,7 +73,7 @@ Svaka grana vraća jedan od statusa:
 
 | Status | Značenje |
 |---|---|
-| `valid` | metod je primenjen na dovoljan input |
+| `assessed` | metod je završen nad dovoljnim inputom i evidence je raspoloživ |
 | `ambiguous` | više legitimnih mapiranja/neighbor modela menja zaključak |
 | `not_applicable` | grana nema smisla za izabrani objekat |
 | `missing_input` | potreban CIF podatak ne postoji |
@@ -81,7 +81,9 @@ Svaka grana vraća jedan od statusa:
 | `timeout` | tačno definisan compute limit je istekao |
 | `failed` | implementaciona/numerička greška |
 
-`missing_input`, `timeout` i `failed` nisu score 0. Nula tvrdi da je validno poređenje našlo potpunu nepodudarnost; ostali statusi tvrde da merenje nije dobijeno.
+Ovo je jedini `branch_status_v1` enum. Odvojen nullable `relation_label` koristi isključivo verzionisani target enum; na primer `packing_relation_v1 = same | related | different`. `ambiguous`, `not_applicable`, `missing_input`, `quality_blocked`, `timeout` i `failed` nisu naučne klase i zato uz njih važi `relation_label: null`. `partial` takođe nije packing klasa: parcijalnost se čuva kao `evidence_coverage`, `matched_N`, coverage po strani i failure/warning evidence.
+
+`missing_input`, `timeout` i `failed` nisu score 0. Nula tvrdi da je završeno validno poređenje našlo minimalnu sličnost; non-assessed status tvrdi da merenje nije dobijeno. Display zbir poput „not assessed“ sme agregirati više statusa, ali se literalni `not_assessed` ne upisuje ni u `branch_status` ni u `relation_label`.
 
 ## 4.3 All-pairs računanje
 
@@ -187,7 +189,7 @@ Edge constraints mogu uključiti bond type/order, aromaticity i coordination-edg
 
 Promena periodičnog predstavnika jednog čvora dodaje/oduzima njegov integer gauge shift labelama incidentnih ivica. Dve reprezentacije su zato ekvivalentne tek ako postoji zajednička basis transformacija **i vertex-wise gauge transform**; invariantni cycle/path-sum odnosi se zatim mogu porediti. Samo basis transformacija ne rešava wrapping razliku.
 
-Stereo nije običan lokalni string atribut: tetrahedral parity zavisi od permutacije mapiranih suseda. Exact matcher posle candidate bijekcije proverava tetrahedral parity, double-bond `E/Z`, relevantne enhanced stereo groups i unknown/unspecified stanje prema verzionisanoj politici. Unsupported metal/coordination stereochemistry ne postaje „same“ zato što toolkit nema tag; vraća `ambiguous/not_assessed`. Korisne formalne reference su [OpenSMILES stereochemistry pravila](http://opensmiles.org/opensmiles.html#stereochemistry) i [RDKit stereochemistry dokumentacija](https://www.rdkit.org/docs/RDKit_Book.html#stereochemistry).
+Stereo nije običan lokalni string atribut: tetrahedral parity zavisi od permutacije mapiranih suseda. Exact matcher posle candidate bijekcije proverava tetrahedral parity, double-bond `E/Z`, relevantne enhanced stereo groups i unknown/unspecified stanje prema verzionisanoj politici. Unsupported metal/coordination stereochemistry ne postaje „same“ zato što toolkit nema tag; vraća `branch_status: ambiguous` i `relation_label: null`. Korisne formalne reference su [OpenSMILES stereochemistry pravila](http://opensmiles.org/opensmiles.html#stereochemistry) i [RDKit stereochemistry dokumentacija](https://www.rdkit.org/docs/RDKit_Book.html#stereochemistry).
 
 ### Subgraph relation
 
@@ -541,7 +543,7 @@ graph exact?
 
 ### Sa labelama za jedan use case
 
-Target, na primer `same_coordination_motif_v1`, može dobiti:
+Target, na primer `coordination_relation_v1`, može dobiti:
 
 1. logistički/ordinalni baseline;
 2. RF/ExtraTrees;
@@ -557,15 +559,30 @@ Model/preprocessing/hyperparameter izbor radi se u inner grouped CV-u, a procena
 Mogući targets:
 
 ```yaml
-same_parent_graph: true | false | ambiguous
-coordination_relation: same | related | different | not_assessed
-conformer_relation: same_like | different | not_assessed
-packing_relation: same | partial | different | not_assessed
-interaction_relation: ...
-overall_usefulness_for_profile: 0 | 1 | 2
+branch_status_v1:
+  [assessed, ambiguous, not_applicable, missing_input, quality_blocked, timeout, failed]
+relation_targets:
+  same_parent_graph_v1:
+    relation_label_enum: [same, different]
+  coordination_relation_v1:
+    relation_label_enum: [same, related, different]
+  conformer_similarity_v1:
+    relation_label_enum: [same_like, different]
+  packing_relation_v1:
+    relation_label_enum: [same, related, different]
+    evidence_coverage_enum: [complete, partial, none]
+  interaction_relation_v1:
+    relation_label_enum: target_specific_versioned_enum
+  overall_usefulness_for_profile_v1:
+    relation_label_enum: [0, 1, 2]
+sample_branch_output:
+  target: packing_relation_v1
+  branch_status: assessed
+  relation_label: related
+  evidence_coverage: partial
 ```
 
-Svaki target ima sopstveni label guide, calibrator i slice metrike. `overall` ostaje `null` ako ključna grana nije ocenjena i target contract ne dozvoljava odluku.
+Svaki target ima sopstveni label guide, calibrator i slice metrike. Relation loss se računa samo tamo gde je `branch_status: assessed` i gold `relation_label` nije `null`; non-assessed slučajevi ulaze u coverage/failure/abstention metrike, ne postaju dodatna klasa. `overall` ostaje `null` ako ključna grana nije ocenjena i target contract ne dozvoljava odluku.
 
 ## 4.15 Četiri ilustrativna para
 
@@ -630,10 +647,10 @@ Glavni, production-relevant **2D cold/cold** estimand koristi disjunktne endpoin
 | atom mapping | mapped-pair precision/recall, coverage, exact graph decision |
 | 3D | numerical invariance tolerance, RMSD error prema reference mapi |
 | coordination | donor-edge precision/recall, CN accuracy, CSM/label agreement |
-| packing | same/partial/different confusion, matched-N/RMSD agreement, expert disagreement |
+| packing | same/related/different confusion za `packing_relation_v1`, zasebno matched-N/coverage/RMSD agreement i expert disagreement |
 | interactions | typed-edge/motif precision/recall, topology agreement |
 | meta-model | grouped ROC/PR, calibration, coverage–risk, worst slice |
-| sistem | p50/p95, peak RAM, timeout/failure/not-assessed rates |
+| sistem | p50/p95, peak RAM i stopa svakog non-assessed `branch_status_v1` statusa |
 
 Continuous threshold-i se biraju samo na training/calibration grupama. Test izveštaj čuva paired interval po structure-family grupi i sve neuporedive parove.
 
@@ -718,7 +735,7 @@ Cheap vectorized scores mogu se računati u blokovima, ali graph/packing jobs im
 - ista cell/space group proglašena istim packingom;
 - simulated PXRD iz CIF-a predstavljen kao nezavisna potvrda tog CIF-a;
 - SOAP score preimenovan u packing identity;
-- `not_assessed` zamenjen nulom;
+- bilo koji non-assessed branch status zamenjen nulom ili naučnom klasom;
 - all-pairs label za candidate-pruned posao;
 - pair-random split;
 - canonical ID ordering korišćen kao zamena za simetričnu pair-model arhitekturu;
@@ -728,7 +745,7 @@ Cheap vectorized scores mogu se računati u blokovima, ali graph/packing jobs im
 
 Pairwise jezgro je spremno kada:
 
-1. svaki branch ima input contract, status state machine i method version;
+1. svaki branch ima input contract, `branch_status_v1`, nullable target-specific `relation_label`, evidence coverage i method version;
 2. component/atom mapping su reproduktivni i čuvaju alternative;
 3. Kabsch rezultat je invariant na order/rigid transform i ne koristi reflection po default-u;
 4. DAP coordination tvrdnja navodi isti konkretan metal i sva tri mapirana donor atoma;

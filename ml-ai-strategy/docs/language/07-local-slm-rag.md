@@ -180,7 +180,7 @@ DSL treba da bude manji od internog API-ja. SLM vidi samo operacije koje korisni
 - jedinice se parsiraju i konvertuju deterministički; SLM ne računa konverziju;
 - negacija koristi eksplicitnu open/closed-world politiku: `not observed` nije automatski `proven absent`;
 - missing, unknown, not-measured i not-applicable imaju odvojenu troslojnu/višestanjsku semantiku;
-- `unknown`, `not_applicable` i `not_comparable` nisu `false` ili score 0;
+- `unknown`, `not_applicable` i korisnički iskaz „not comparable“ nisu `false` ili score 0; „not comparable“ je presentation claim izveden iz konkretnog `branch_status_v1` + `relation_label: null`, ne dodatna relation klasa ili status;
 - bulk/export operacije nisu deo istog read-only search DSL-a;
 - limit, timeout i resource budget imaju server-side maksimum koji model ne može povećati;
 - izostavljeno polje ima eksplicitnu default semantiku u verziji DSL-a;
@@ -363,16 +363,30 @@ Minimalni report contract:
       "pair_result_id": "hash(pair-id,run-id)",
       "left_artifact_version_id": "artifact-A@sha256:...",
       "right_artifact_version_id": "artifact-B@sha256:...",
-      "status": "partial",
-      "available_profiles": ["graph"],
-      "missing_profiles": ["coordination", "packing"],
+      "pair_assessment_summary": "partially_assessed",
       "profile_results": {
         "graph": {
-          "applicability": "applicable|not_applicable|unknown",
+          "relation_target": "same_parent_graph_v1",
+          "branch_status": "assessed",
+          "relation_label": "same",
           "score": 0.83,
           "calibrated_probability": null,
-          "label": "similar",
           "reason_codes": [],
+          "evidence_ids": []
+        },
+        "coordination": {
+          "relation_target": "coordination_relation_v1",
+          "branch_status": "missing_input",
+          "relation_label": null,
+          "reason_codes": ["required_donor_mapping_absent"],
+          "evidence_ids": []
+        },
+        "packing": {
+          "relation_target": "packing_relation_v1",
+          "branch_status": "missing_input",
+          "relation_label": null,
+          "evidence_coverage": "none",
+          "reason_codes": ["cell_or_symmetry_absent"],
           "evidence_ids": []
         }
       }
@@ -387,7 +401,7 @@ Gate blokira završni narativ ako:
 - `reported_pair_count != expected_pair_count`;
 - pair ID nije jedinstven;
 - par nedostaje, dupliran je ili koristi pogrešnu input verziju;
-- `failed` ili `not_comparable` nestane iz sažetka;
+- konkretan `branch_status: failed`/reason ili iz njega izveden „not comparable“ korisnički claim nestane iz sažetka;
 - broj „uspešnih“ parova koristi svih `n(n-1)/2` kao denominator bez objašnjenja;
 - jedan neuspeh obori sve ostale parove bez dokumentovanog razloga;
 - report ne navede `pair_universe_policy`, comparison spec ili stereo profil.
@@ -759,7 +773,7 @@ Generator dobija ograničen objekat:
 
 Dozvoljen odgovor:
 
-> Packing nije upoređen jer ulaz B nema validnu ćeliju i simetriju; packing rezultat je `not_comparable` [pair-17-input-b-qc-3].
+> Packing nije moglo biti upoređeno jer ulaz B nema validnu ćeliju i simetriju; grana zato nema naučnu relation labelu [pair-17-input-b-qc-3].
 
 Nedozvoljen dodatak:
 

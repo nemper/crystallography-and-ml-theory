@@ -108,7 +108,7 @@ Razvoj tada sme da nastavi samo nad sintetičkim, otvoreno licenciranim ili eksp
 
 **MVP/default:** rights, tenant, purpose, lifecycle i hard chemical filteri se izvršavaju pre pretrage. Exact uslovi ostaju exact: sastav, element, charge/stoichiometry politika, imenovan motif/subgraph, quality state i odobrene property granice.
 
-**Gate:** svaki query report rekonstruiše `snapshot → rights/lifecycle eligible → hard-filter eligible → retrievable/not retrievable/execution failure`. Filter-aware recall se meri prema exact-after-filter oracle-u.
+**Gate:** svaki query report rekonstruiše `snapshot → rights/lifecycle eligible → hard-filter eligible → retrievable/not retrievable/execution failure`. Pre retrieval-a nezavisno anotirani fixture-i zahtevaju `actual_eligible_ids == expected_eligible_ids`, FP = 0 i FN = 0, uključujući non-vacuous positive, legitimni zero-hit, boundary i missing/unknown/invalid/failure slučaj. Tek potom se filter-aware recall meri prema exact-after-filter oracle-u.
 
 **Stop:** ako se nedozvoljeni kandidat uopšte distance-score-uje ili ako oversampling bez oracle testa tvrdi kompletan filtered top-k, arhitektura se vraća na pre-filter particiju/exact put.
 
@@ -181,7 +181,7 @@ Za `n` prihvaćenih upload-a full režim obrađuje tačno `n(n−1)/2` neuređen
 | rigid molecular 3D | Kabsch po svim hemijski dozvoljenim mapama | poseban flexible alignment profil | RMSD + mapped atom coverage + reflection/stereo policy |
 | coordination | više distance/radii/Voronoi candidate setova + exact metal/donor mapping | ChemEnv-like/ALIGNN signal | CN, donor identitet, CSM vector, ambiguity/sensitivity |
 | lattice/periodic equivalence | explicit basis/origin/symmetry/lattice-image transform candidates | nezavisna comparator implementacija | origin/wrap/setting/basis/supercell metamorphic pass |
-| packing | validiran/licenciran COMPACK/Packing Similarity kao referenca kada postoji | objavljeni PAC kao nezavisni challenger; CrystalCMP samo species-specific cross-check | matched cluster coverage, RMSD i failure reason; CrystalCMP čuva `selected_molecular_species/fragment_mapping`, inače `ambiguous/not_applicable`, posebno za coordination networks |
+| packing | validiran/licenciran COMPACK/Packing Similarity kao referenca kada postoji | objavljeni PAC kao nezavisni challenger; CrystalCMP samo species-specific cross-check | matched cluster coverage, RMSD i failure reason; CrystalCMP čuva `selected_molecular_species/fragment_mapping`, inače `branch_status: ambiguous/not_applicable` i `relation_label: null`, posebno za coordination networks |
 | soft local/crystal similarity | deterministic descriptors | chemically constrained SOAP–REMatch | exact atom/component constraints, finite-molecule/domain i stereo/reflection gate; tolerance sensitivity; ne naziva se identity dokazom |
 | diffraction complement | parametrizovan simulated PXRD/VC-PWDF-like signal | learned PXRD samo uz nezavisne measured labels | potpuni simulation/measurement manifest iz teksta ispod; simulated nije nezavisan dokaz source CIF-a |
 | interaction network | typed exact motif/fingerprint | WL kernel, graph model ili optimal transport | mapped interaction types, network coverage i directionality |
@@ -195,22 +195,36 @@ MVP vraća **vektor dokaza**, na primer:
 ```yaml
 pair_id: ...
 comparison_profile: coordination_motif_v1
-component_relation: partial_match
-graph_relation: related
+component:
+  relation_target: component_relation_v1
+  branch_status: assessed
+  relation_label: partial_match
+  evidence_coverage: partial
+graph:
+  relation_target: same_parent_graph_v1
+  branch_status: assessed
+  relation_label: different
+  evidence_coverage: partial
 mapped_3d:
-  status: assessed
+  branch_status: assessed
+  relation_label: null
   rmsd_angstrom: ...
   mapped_coverage_a: ...
   mapped_coverage_b: ...
 coordination:
-  status: ambiguous
+  branch_status: ambiguous
+  relation_label: null
   same_metal: true
   mapped_donors: ...
 packing:
-  status: missing_input
+  branch_status: missing_input
+  relation_label: null
+  evidence_coverage: none
 warnings: [...]
 method_manifest_ids: [...]
 ```
+
+Sve grane koriste jedinstveni `branch_status_v1`; `relation_label` je zaseban nullable target enum. Za `packing_relation_v1` jedine naučne klase su `same | related | different`; parcijalna pokrivenost ostaje evidence, ne četvrta klasa. Relation loss se maskira za svaki status osim `assessed`.
 
 Bez ciljanih labela nema univerzalnih pondera. Uz dovoljne ekspertske labele prvo se porede logistic/ordinal, RF, ExtraTrees i calibrated GBDT nad branch evidence/status poljima. Model ne sme da preglasa exact hard constraint niti da sakrije `ambiguous`, `missing_input`, `quality_blocked`, timeout ili low coverage.
 
@@ -266,7 +280,7 @@ RF nije automatski pobednik zato što je robustan, niti je GBDT automatski pobed
 Matformer, ALIGNN i CGCNN radovi prvenstveno validiraju property zadatke, ne 2CDC CSD-like similarity. Zbog toga model prolazi tek kada:
 
 - deterministički periodic graph builder prolazi atom-order, origin/wrap, setting/basis, primitive/conventional, supercell, boundary-tie i stereo/reflection testove;
-- target ima tačno ime: `same_parent`, `same_coordination_motif`, `packing_related`, `useful_precedent`, property itd.;
+- target ima tačno verzionisano ime iz relation/target registry-ja, na primer `same_parent_graph_v1`, `coordination_relation_v1`, `packing_relation_v1`, `useful_precedent_v1` ili konkretni property target;
 - metric loss se koristi samo za relaciju kompatibilnu sa globalnim prostorom; netranzitivno `related` dobija pair comparator/ranker;
 - exact Flat meri embedding susedstvo pre ANN-a;
 - grouped cold/cold i prospective split, pretraining-overlap i false-negative audit prolaze;
@@ -427,7 +441,7 @@ Faze su evidence gate-ovi, ne kalendarsko obećanje. Mogu se delimično paraleli
 - parsirani declared/curated/geometry-candidate view-i;
 - coordinate, symmetry, cell, atom/site mapping i cross-format reconciliation;
 - identity/version/family graph, lifecycle state machine i derived invalidation;
-- D01–D27 data regression suite i source/denominator report.
+- D01–D29 data regression suite, uključujući nezavisni hard-filter set-equality gate i rhombohedral→trigonal schema normalizaciju, plus source/denominator report.
 
 **Exit:** isti source snapshot daje isti canonical/purpose view; nema silent overwrite/join drop/leakage.
 

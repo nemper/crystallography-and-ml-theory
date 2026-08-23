@@ -9,7 +9,7 @@ Najbolji neural dizajn zavisi od mesta u pipeline-u:
 - cross-graph attention/matching model: samo za top-M parove ili kada obim App 2 staje u budžet;
 - za finalnu odluku: kalibrisan target-specific classifier/ordinal model sa abstention-om, ne sirovi cosine ili InfoNCE score.
 
-Nijedan model ne dobija naziv „crystal similarity model“ bez suffix-a koji kaže koju relaciju uči. `same_parent`, `same_coordination_motif`, `same_conformer`, `packing_related` i `useful_search_result` nisu ista relacija.
+Nijedan model ne dobija naziv „crystal similarity model“ bez suffix-a koji kaže koju relaciju uči. `same_parent_graph_v1`, `coordination_relation_v1`, `conformer_similarity_v1`, `packing_relation_v1` i `useful_precedent_v1` nisu ista relacija.
 
 Dataset i pair builder najpre prolaze [cross-format i lifecycle eligibility ugovor](../data/09-cross-format-eligibility.md): svi source pogledi istog entry-ja grupišu se pre split-a, representation availability ulazi u denominator/slice metrike, a state transition invalidira pogođene labele, embedding-e, indekse i model lineage.
 
@@ -34,12 +34,14 @@ Minimalni relation registry:
 
 | Target | Simetrija | Tip labele | Primarni posao |
 |---|---|---|---|
-| `same_parent_graph_v1` | simetričan | true/false/ambiguous | filter/pair odluka |
-| `coordination_relation_v1` | simetričan | same/related/different/not_assessed | retrieval + pair |
+| `same_parent_graph_v1` | simetričan | same/different | filter/pair odluka |
+| `coordination_relation_v1` | simetričan | same/related/different | retrieval + pair |
 | `conformer_similarity_v1` | simetričan | graded ili continuous uz mapping | pair/rerank |
-| `packing_relation_v1` | simetričan | same/related/different/ambiguous | pair/rerank |
+| `packing_relation_v1` | simetričan | same/related/different | pair/rerank |
 | `useful_precedent_v1` | query-conditional | grade 0/1/2 + reason | App 1 ranking |
-| `contains_motif_v1(A,B)` | **asimetričan** | A contains B / B contains A / both-or-equal / neither / ambiguous | substructure posao |
+| `contains_motif_v1(A,B)` | **asimetričan** | A contains B / B contains A / both-or-equal / neither | substructure posao |
+
+Ovo su isključivo naučne labele. Izvršenje svake grane zasebno koristi `branch_status_v1 = assessed | ambiguous | not_applicable | missing_input | quality_blocked | timeout | failed` iz pair contract-a. `relation_label` je nullable i relation loss dobija masku `branch_status == assessed AND relation_label != null`; nijedan non-assessed status ne postaje klasa. `packing_relation_v1` svuda koristi isti enum `same | related | different`, dok se parcijalni matched cluster čuva kroz `evidence_coverage`, `matched_N` i RMSD.
 
 Jedan positive u `same_parent_graph_v1` može biti negative u `packing_relation_v1`. Zato se koriste odvojeni modeli/head-ovi ili eksplicitno multi-task učenje sa zasebnim loss-om, maskom dostupnih labela i slice metrikom za svaki target.
 
@@ -207,11 +209,11 @@ Svaki hard negative nosi `target` polje. Isti par može biti negative za packing
 - isti cell/space group, različit packing;
 - enantiomer/enantiomorph u stereo-sensitive profilu;
 - solvent/counterion razlika;
-- disorder/quality slučaj koji treba `not_assessed`, ne `different`.
+- disorder/quality slučaj sa `branch_status: quality_blocked` i `relation_label: null`, ne `different`.
 
 ## 6.6 Self-supervised pretraining
 
-[Crystal Twins](https://arxiv.org/abs/2205.01893) koristi 428.275 neoznačenih struktura, CGCNN encoder, Barlow Twins objective i random perturbation/atom/edge masking; rezultat validira fine-tuned **property prediction** na sedam skupova. [CrysGNN](https://openreview.net/forum?id=Y33JsvNrn1o) pretrenira na približno 800.000 crystal graph-ova i takođe pokazuje property-prediction transfer. Njegovi node reconstruction zadaci jesu self-supervised, ali graph-level deo rekonstruiše space group i bira contrastive positive/negative preko crystal-system informacije; zato je preciznije reći **symmetry-metadata-informed pretraining**, ne potpuno label-free graph SSL. Space-group/crystal-system polja ulaze u shortcut, split i pretraining-overlap audit. Nijedan rad sam po sebi ne dokazuje 2CDC retrieval metricu.
+[Crystal Twins](https://arxiv.org/abs/2205.01893) koristi 428.275 neoznačenih struktura, CGCNN encoder, Barlow Twins objective i random perturbation/atom/edge masking; rezultat validira fine-tuned **property prediction** na sedam skupova. [CrysGNN](https://openreview.net/forum?id=Y33JsvNrn1o) pretrenira na približno 800.000 crystal graph-ova i takođe pokazuje property-prediction transfer. Njegovi node reconstruction zadaci jesu self-supervised, ali graph-level deo rekonstruiše space group i bira contrastive positive/negative preko crystal-system informacije; zato je preciznije reći **symmetry-metadata-informed pretraining**, ne potpuno label-free graph SSL. Space-group i `normalized_crystal_system` polja ulaze u shortcut, split i pretraining-overlap audit; raw export label i reported/coordinate setting ostaju zasebni provenance, ne paralelne klase. Nijedan rad sam po sebi ne dokazuje 2CDC retrieval metricu.
 
 ### Augmentation contract je target-specific
 
@@ -265,20 +267,25 @@ Bezbedne opcije su cross-match nad profile-invariantnim node/local-environment f
 - App 1: top-M posle visok-recall candidate unije;
 - App 2 full mode: svi parovi samo ako \(n(n-1)/2\) i strukturalne veličine staju u kapacitet;
 - App 2 pruned mode: kandidat-pruning ima zaseban recall gate;
-- timeout/OOM daje `not_assessed`, ne similarity 0.
+- timeout daje `branch_status: timeout`, a OOM `branch_status: failed` sa `reason_code: resource_exhausted`; u oba slučaja `relation_label: null`, ne similarity 0.
 
 ### Multi-output umesto jednog procenta
 
 ```yaml
-same_parent_graph:
+same_parent_graph_v1:
+  branch_status: assessed
+  relation_label: same
   probability: 0.99
   exact_evidence: matched
-coordination_relation:
-  class: different
+coordination_relation_v1:
+  branch_status: assessed
+  relation_label: different
   probability: 0.93
   reason_codes: [different_mapped_donor_set]
-packing_relation:
-  class: not_assessed
+packing_relation_v1:
+  branch_status: quality_blocked
+  relation_label: null
+  evidence_coverage: none
   reason_codes: [disorder_unresolved]
 overall:
   decision: abstain
@@ -288,7 +295,7 @@ Jedan overall model ne sme prosekom sakriti hard mismatch ili neocenjenu ključn
 
 ## 6.8 Split bez endpoint leakage-a
 
-Strukture se prvo grupišu po stable identity/redetermination, a dodatni cold key — parent, compound, scaffold, solid form, publication ili vreme — bira se prema konkretnoj generalization tvrdnji. Tek zatim se generišu parovi i augmentations. Nije bezbedno blanket grupisati po svim ključevima: za `same_parent` target parent-disjoint query/corpus split može po definiciji ukloniti svaki mogući positive.
+Strukture se prvo grupišu po stable identity/redetermination, a dodatni cold key — parent, compound, scaffold, solid form, publication ili vreme — bira se prema konkretnoj generalization tvrdnji. Tek zatim se generišu parovi i augmentations. Nije bezbedno blanket grupisati po svim ključevima: za `same_parent_graph_v1` target parent-disjoint query/corpus split može po definiciji ukloniti svaki mogući positive.
 
 Pre konačnog splita report prikazuje broj i masu labela/positives po targetu i slice-u koji su dodeljivi, odbačeni ili postali cross-partition. Ako cold definicija znači da relevantan corpus item ne može postojati, taj slice je open-set **no-match/abstention** test, ne Recall@C retrieval test.
 
@@ -425,7 +432,7 @@ Conformal sloj dobija claim samo pod odgovarajućom exchangeability pretpostavko
 - polymorph, solvate/co-crystal i \(Z'\);
 - coordination polymer;
 - disorder/occupancy/missing H;
-- space group/crystal system i cell veličina;
+- space group/`normalized_crystal_system`, zasebno raw-label i lattice/axes-setting slice, te cell veličina;
 - vreme/publication/source;
 - mali i veoma veliki graph/pair.
 
@@ -435,7 +442,7 @@ Bez autorizovanog reprezentativnog CSD snapshot-a model može biti research chal
 
 Sledeće vrednosti su **2CDC inženjerski početni predlog**, ne univerzalne konstante iz literature. Zaključavaju se u ADR-u pre outer testa i menjaju samo kroz novu verziju eksperimenta.
 
-Svaki gate pre merenja definiše: estimand, jedinicu agregacije (`query-macro`, micro ili pair), minimum nezavisnih grupa i minimum positive događaja, paired interval/LCB sa estimand-ispravnim resampling-om i non-inferiority margin. Slice koji ne dostigne unapred zadatu efektivnu veličinu nije „pass“; vraća `not_assessed/underpowered`. Isto pravilo važi za ukupni skup i za poređenje label budžeta.
+Svaki gate pre merenja definiše: estimand, jedinicu agregacije (`query-macro`, micro ili pair), minimum nezavisnih grupa i minimum positive događaja, paired interval/LCB sa estimand-ispravnim resampling-om i non-inferiority margin. Slice koji ne dostigne unapred zadatu efektivnu veličinu nije „pass“; evaluator vraća `evaluation_status: underpowered`. To je status evaluacije, ne branch status niti relation label. Isto pravilo važi za ukupni skup i za poređenje label budžeta.
 
 | Gate | Početni kriterijum |
 |---|---|
@@ -524,7 +531,7 @@ Za kontrolisanu reranker ablation svi rankeri dobijaju isti zamrznuti upstream c
 
 ### Polymorph pair u aplikaciji 2
 
-Molecular head daje visoku sličnost; packing head predviđa `related/different`. Ako COMPACK/PAC nije primenljiv zbog disorder-a, packing output je `not_assessed`, a model abstain-uje. Ne uči se implicitno da missing packing znači negative.
+Molecular head daje visoku sličnost; packing head predviđa `related/different`. Ako COMPACK/PAC nije primenljiv zbog disorder-a, packing output ima `branch_status: quality_blocked`, `relation_label: null` i reason code, a model abstain-uje. Ne uči se implicitno da missing packing znači negative.
 
 ### False-negative slučaj
 

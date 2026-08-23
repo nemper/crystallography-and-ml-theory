@@ -42,7 +42,7 @@ Jednu periodičnu strukturu pretvara u vektor \(z=f_\theta(C)\). Vektor se može
 
 ### Pair model
 
-Prima dva crystal prikaza i predviđa eksplicitne odnose, na primer `same_coordination_motif`, `packing_related` ili `different`. Može koristiti dva nezavisna encoding-a i simetričan head ili zajedničko cross-graph poređenje. Druga opcija je skuplja, ali može učiti lokalna correspondence pravila.
+Prima dva crystal prikaza i za tačno imenovan target, na primer `coordination_relation_v1` ili `packing_relation_v1`, predviđa `relation_label` iz njegovog verzionisanog enum-a. Može koristiti dva nezavisna encoding-a i simetričan head ili zajedničko cross-graph poređenje. Druga opcija je skuplja, ali može učiti lokalna correspondence pravila.
 
 Za simetričnu relaciju obavezno važi \(S(A,B)=S(B,A)\). Još jači, često previđen uslov jeste **nezavisna frame invariance**: ako su \(g_A\in G_A\) i \(g_B\in G_B\) dozvoljene transformacije svojih ulaza, mora važiti
 
@@ -123,7 +123,7 @@ Bezbedan početni skup:
 - formal charge/oxidation state **samo** kada je eksplicitno poznat ili kada se čuva `unknown/inferred` provenance;
 - occupancy i disorder status;
 - finite-component membership i role odnosi izvedeni deterministički;
-- donor/metal/covalent-role flags sa statusom `known/ambiguous/not_assessed`;
+- donor/metal/covalent-role flags sa data statusom `known/ambiguous/unresolved` (odvojeno od pair `branch_status_v1`);
 - eventualne standardne atomske osobine, verzionisane i bez target leakage-a.
 
 Refcode, autor, laboratorija, publication ID i datum nisu chemistry features. Mogu napraviti impresivan test rezultat preko provenance leakage-a.

@@ -10,7 +10,7 @@ Zato se „optimalan AI“ bira **po čvoru pipeline-a**, ne za projekat u celin
 |---|---|---|---|---|
 | 0. ingest | bezbedno i verno pročitati CIF | dictionary-aware deterministički parser | nema ML zamene | fixture pass rate, tačnost polja, failure coverage |
 | 1. standardizacija | napraviti verzionisane hemijske/kristalne prikaze | eksplicitna pravila + provenance | ML samo kao označen predlog za review | invariance i round-trip/loss testovi |
-| 2. hard filter | sprovesti element/formula/quality/licence uslove | inverted/relational index | nema razloga za generativni model | precision = 1 za semantiku filtera |
+| 2. hard filter | sprovesti element/formula/quality/licence uslove | inverted/relational index | nema razloga za generativni model | tačna jednakost sa nezavisnim expected skupom: FP = 0 i FN = 0 |
 | 3. candidate retrieval | brzo sačuvati relevantne kandidate | ECFP/count fingerprint + exact Tanimoto | validirani learned embedding + ANN | candidate recall@N, latency, memory |
 | 4. reranking | poređati mali candidate set po izabranom značenju sličnosti | rastavljivi ručno definisani score-ovi | supervised learning-to-rank | nDCG@k, MAP, recall@k, slice rezultati |
 | 5. precizno poređenje | dokazati gde su dva CIF-a ista/različita | graph mapping, RMSD, packing i interaction algoritmi | metric/deep model samo kao dodatni signal | ekspertna pair odluka + evidence coverage |
@@ -32,6 +32,8 @@ Normalizacija komponenti, naboja, tautomerije, aromatičnosti, disorder-a, setti
 ### Hard filteri
 
 Upit „Cu direktno koordinisan mapiranom DAP N3 mestu“ je graph predicate, ne verovatnoća koju treba približno pogađati. Inverted indeksi, range indeksi i exact graph provera imaju prednost kada je uslov egzaktan. ML služi tek kada je cilj fuzzy ranking ili kada stručni label zaista opisuje verovatnoću.
+
+Sam `precision = 1` nije dovoljan: neispravan filter koji vrati prazan skup nema false positive, ali može izgubiti sve validne rezultate. Filter evaluator zato pre retrieval testa poredi **ceo skup ID-jeva** sa nezavisno anotiranim očekivanim skupom: `actual_eligible_ids == expected_eligible_ids`, odnosno FP = 0 i FN = 0. Fixture-i obavezno pokrivaju najmanje jedan stvarni positive, legitimni zero-hit upit, granične vrednosti i missing/unknown/invalid/failure statuse. Tek posle ovog gate-a exact-after-filter oracle ocenjuje ANN nad dokazano ispravnim filtriranim skupom.
 
 ## Faza 3: visok-recall candidate retrieval
 

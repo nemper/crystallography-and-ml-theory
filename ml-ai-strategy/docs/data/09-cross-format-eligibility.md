@@ -30,7 +30,7 @@ Format menja ono što algoritam vidi:
 | Cartesian koordinate postoje, ali nema validne ćelije/simetrije | isolated molecular 3D/Kabsch može ostati primenljiv; samo periodic/packing/PXRD daje `missing_input` ili `quality_blocked` |
 | `Du`/suppressed disorder atom | broj atoma, komponente, neighbors i stoichiometry nisu obična hemijska činjenica |
 | različiti charge/aromaticity/stereo zapisi | menja standardizaciju, mapping, similarity i label semantics |
-| matching problem ili parser conflict | rezultat mora biti `ambiguous/not_assessed`, ne tiha imputacija |
+| matching problem ili parser conflict | `branch_status: ambiguous`, `relation_label: null`; nema tihe imputacije |
 | lifecycle state je zastareo | indeks/model može sadržati povučenu, superseded ili nereviewed strukturu |
 
 Zato se model ne evaluira samo na redovima koji su preživeli izabrani format. Mora se meriti i **representation coverage**, abstention i kvalitet po source-format/missingness slice-u.
@@ -138,6 +138,12 @@ views:
     availability: present
     parse_status: complete_or_partial_or_failed
     capabilities: [formula, cell, symmetry, fractional_coordinates]
+    crystal_classification:
+      raw_export_label: rhombohedral
+      normalized_crystal_system: trigonal
+      reported_lattice_setting: rhombohedral
+      coordinate_axes_setting: rhombohedral_or_hexagonal_or_unknown
+      normalization_rule_id: cell-setting-normalization-v1
     coordinate_contract:
       frame: fractional_or_cartesian_or_none
       unit: angstrom_or_fractional_or_none
@@ -171,6 +177,12 @@ derivation_lineage_id: ...
 ```
 
 Top-level rights/lifecycle je trenutna entry projekcija za brzo filtriranje, ali nije autorizaciona prečica. Prvi prikazani view je šablon: **svaki** prisutan view, canonical field/fact i derivat čuva sopstveni source, rights, tenant, time, lifecycle/trust i lineage binding. Mixed-provenance kombinacija nasleđuje strože klase/prava dok eksplicitni trusted regrading ne odobri uži output. Jedna licenca za CIF ne preliva se automatski na MOL2, property tabelu ili kasnije spojeni interni zapis.
+
+### Crystal system nije isto što i raw cell-setting etiketa
+
+Lokalni `search2` sadrži 12 doslovnih `_symmetry_cell_setting = rhombohedral` vrednosti. One se ne smeju koristiti kao osma crystal-system klasa: normalizuju se u `normalized_crystal_system: trigonal`, dok `raw_export_label: rhombohedral` i `reported_lattice_setting: rhombohedral` ostaju sačuvani. `coordinate_axes_setting` se zasebno izvodi iz proverenog space-group/cell konteksta i može ostati `unknown`; sama raw etiketa nije dovoljan dokaz da su koordinate zapisane u rhombohedral, a ne hexagonal axes setting-u.
+
+Modeli, stratifikacija i crystal-system slice koriste normalizovano polje. Raw label, reported lattice setting i coordinate axes setting ostaju odvojeni provenance/sensitivity slice-ovi. Regression test proverava da normalizacija nikada ne prepiše source vrednost niti spoji trigonal crystal system sa setting/axes semantikom.
 
 ### Availability nije boolean
 
@@ -240,7 +252,7 @@ Nije dozvoljeno pretvoriti `unresolved` u `single` samo zato što fingerprint bi
 - izračunati jasno označen bond-perception kandidat i poslati na review;
 - koristiti representation koja eksplicitno podržava unknown edge;
 - preskočiti samo neprimenljivi kanal i zadržati entry u drugim kanalima;
-- vratiti `not_assessed`.
+- vratiti odgovarajući `branch_status_v1` (`ambiguous`, `missing_input` ili `quality_blocked`) uz `relation_label: null`.
 
 ## Purpose-specific canonical view
 
@@ -250,14 +262,14 @@ Canonical nije jedna tabela za sve zadatke:
 |---|---|---|
 | composition hard filter | validirana composition mapa sa decimalnom stoichiometry | field unavailable; ne čitaj iz filename-a |
 | ECFP/Tanimoto | odobren 2D graph + atom/bond/stereo/charge policy | ne računaj fingerprint; uključi fallback kanal |
-| exact graph/MCS | profile-specific curated/declared graph sa unknown pravilima | `not_comparable` ili bounded partial view |
-| coordination | mapirani donor graph + više geometry neighbor kandidata | `ambiguous/not_assessed`, ne formula-based CN |
+| exact graph/MCS | profile-specific curated/declared graph sa unknown pravilima | `branch_status: quality_blocked` ili bounded evidence sa `evidence_coverage: partial`; relation label ostaje `null` ako target guide ne podržava zaključak |
+| coordination | mapirani donor graph + više geometry neighbor kandidata | `branch_status: ambiguous`, `relation_label: null`; ne formula-based CN |
 | mapped 3D/Kabsch | atom mapping + koordinate za iste mapirane atome | bez RMSD claim-a |
 | packing/PXRD | validna ćelija, simetrija, coordinate model i disorder policy | `missing_input` ako je profil traži, `quality_blocked` ako je view prisutan ali nevalidan |
 | periodic GNN | versioned periodic graph + image offsets + occupancy/disorder contract | ne šalji zero-filled pseudo-kristal |
 | property model | material/solid-form identitet + target uslovi/metoda/uncertainty | red nije validan supervised primer |
 
-Statusi prate zajednički pair contract: `not_applicable` znači da metoda konceptualno nema smisla za izabrani objekat/profil; `missing_input` znači da bi bila relevantna, ali neophodan podatak nedostaje; `quality_blocked` znači da podatak postoji, ali ne prolazi quality/applicability gate. Ove kategorije se ne sabiraju u isti denominator.
+Statusi prate zajednički `branch_status_v1` pair contract: `assessed | ambiguous | not_applicable | missing_input | quality_blocked | timeout | failed`. `relation_label` je odvojen nullable target enum; non-assessed status nikada nije klasa za relation loss. `not_applicable` znači da metoda konceptualno nema smisla za izabrani objekat/profil; `missing_input` znači da bi bila relevantna, ali neophodan podatak nedostaje; `quality_blocked` znači da podatak postoji, ali ne prolazi quality/applicability gate. Ove kategorije se ne sabiraju u isti denominator.
 
 ## App 1: routing bez tihog gubitka entry-ja
 
@@ -282,6 +294,9 @@ Za svaki query/slice beleži:
 snapshot_corpus_total
 eligible_after_rights_lifecycle
 eligible_after_query_hard_filters
+hard_filter_expected_eligible_total
+hard_filter_false_positive_total
+hard_filter_false_negative_total
 eligible_with_2d_graph
 eligible_with_coordination_view
 eligible_with_periodic_view
@@ -316,6 +331,8 @@ eligible_after_query_hard_filters
 
 `retrievable_by_at_least_one_route` je disjunktna union populacija: obuhvata chemical kanal ili eksplicitni metadata fallback. `representation_limited` je non-exclusive flag unutar te populacije, ne dodatni član sume. Membership po 2D/coordination/periodic/fallback kanalu takođe se preklapa i služi za slice/ablation, ne za conservation zbir. Brojevi judged/unjudged su treća osa i ne smeju se sabirati sa eligibility exclusion-ima.
 
+Conservation računovodstvo dokazuje da nijedan entry nije nestao iz tabele, ali ne dokazuje da je dobio **ispravan** membership. Zato zasebni filter evaluator koristi nezavisno anotirane expected ID skupove i zahteva set equality: `actual_eligible_ids == expected_eligible_ids`, `hard_filter_false_positive_total = 0` i `hard_filter_false_negative_total = 0`. U skupu moraju postojati non-vacuous positive, legitimni zero-hit, boundary i missing/unknown/invalid/failure fixture-i. Ovaj test prethodi exact-after-filter ANN oracle-u; ANN evaluator ne sme sam sebi napraviti denominator pogrešnim filterom.
+
 Pored marginalnih brojeva čuva se i sparse joint cube po unapred zamrznutim kategorijama `eligibility × representation/status × labeled/unjudged × lifecycle × source/release/time`. To otkriva, na primer, da su gotovo svi bez-SMILES entry-ji istovremeno unjudged ili iz jedne release generacije — signal koji odvojene margine mogu sakriti. Male ćelije se u korisničkom report-u suppress/aggregate-uju prema privacy politici, dok audit assert ostaje u kontrolisanom data-plane-u.
 
 ## App 2: availability je deo pair rezultata
@@ -327,15 +344,21 @@ pair_id: stable-unordered-id
 input_a_version: ...
 input_b_version: ...
 profile: coordination_motif_v1
-available_branches:
-  composition: true
-  graph: partial
-  mapped_3d: false
-  packing: false
-branch_reasons:
-  mapped_3d: input_b_coordinates_absent
-  packing: input_b_cell_or_symmetry_absent
-comparison_status: partial
+branches:
+  graph:
+    branch_status: assessed
+    relation_label: null
+    evidence_coverage: partial
+  mapped_3d:
+    branch_status: missing_input
+    relation_label: null
+    reason_codes: [input_b_coordinates_absent]
+  packing:
+    branch_status: missing_input
+    relation_label: null
+    evidence_coverage: none
+    reason_codes: [input_b_cell_or_symmetry_absent]
+pair_assessment_summary: partially_assessed
 ```
 
 Par se ne briše zato što jedna grana nije dostupna. Output čuva:
@@ -552,6 +575,12 @@ source_snapshot_id: ...
 source_entries_total: ...
 eligible_after_rights_lifecycle: ...
 eligible_after_query_hard_filters: ...
+hard_filter_evaluator:
+  expected_set_fixture_version: ...
+  expected_eligible_total: ...
+  false_positive_total: 0
+  false_negative_total: 0
+  exact_set_equality_passed: true
 excluded_by_reason:
   accounting_mode: exclusive_primary_stage_plus_nonexclusive_reason_set
   primary_stage_counts:
@@ -639,6 +668,8 @@ Dobitak koji nestane bez source/missingness polja ili pod novim source/release/t
 | D25 | pre-review zapis dobije labelu `expert_review_needed`, pa review popravi graph i prebaci state u `Curated` | feature red ostaje byte-identičan pre-review snapshot-u; post-review state/status/diff/view ne ulaze u input, labela sme u kasniji trening/evaluator |
 | D26 | relevance labele su češće prisutne za entry-je sa SMILES-om ili iz jedne release/source generacije | joint cube i source/status-only baseline otkrivaju selection; ablation i leave-source/release-out odlučuju da li signal sme u scientific score |
 | D27 | model pobeđuje samo na complete-case/judged pool-u, ali gubi na union production populaciji ili prospective shift-u | promotion se zaustavlja; rezultat se prijavljuje kao uslovljen podskupom, ne kao production dobitak |
+| D28 | independently annotated hard-filter fixture suite: non-vacuous positive, legitimate zero-hit, boundary i missing/unknown/invalid/failure | `actual_eligible_ids == expected_eligible_ids`; FP = 0 i FN = 0; ANN test ne počinje ako membership nije tačan |
+| D29 | 12 lokalnih raw `rhombohedral` cell-setting vrednosti | raw label ostaje byte-veran; `normalized_crystal_system = trigonal`; `reported_lattice_setting = rhombohedral`; coordinate axes setting se čuva zasebno i ne izmišlja se kada nije dokaziv |
 
 ## Promotion gate
 
@@ -648,7 +679,7 @@ Nijedan ML/AI eksperiment ne počinje na production-like podacima dok:
 2. identity/join pravila nemaju neobjašnjena dupliranja ili gubitke;
 3. purpose-specific canonical view i conflict policy su verzionisani;
 4. lifecycle i rights inclusion policy su mašinski proverljivi;
-5. D01–D27 regression skup prolazi;
+5. D01–D29 regression skup prolazi, uključujući nezavisni hard-filter set-equality gate pre ANN evaluacije i izvršivu rhombohedral→trigonal normalizaciju;
 6. representation availability i denominator report nastaju automatski;
 7. split grupiše sve povezane view-e i porodice pre fit-a;
 8. transition test invalidira sve pogođene derived lineage grane;

@@ -342,6 +342,8 @@ Dozvoljene strategije uključuju:
 
 Oversampling ima maksimalni compute budget. Dobijanje `k` rezultata ne dokazuje da su to najbližih `k` unutar filtriranog skupa. Kada budget istekne, planner prelazi na exact scan/particiju ili rezultat označava `incomplete` i abstain-uje od tvrdnje o kompletnom top-k.
 
+Ovde postoje **dva različita oracle-a**. Pre ANN merenja, hard-filter evaluator na nezavisno anotiranim fixture-ima zahteva `actual_eligible_ids == expected_eligible_ids` (FP = 0 i FN = 0), uz non-vacuous positive, legitimni zero-hit, boundary i missing/unknown/invalid/failure slučaj. Tek zatim exact-after-filter oracle poredi približnu i exact pretragu **unutar tog već validiranog skupa**. Waterfall conservation i visoka precision sami ne dokazuju da filter nije izgubio dozvoljene entry-je.
+
 Filtered recall se meri prema exact top-`K'` **unutar istog filtriranog skupa**, gde je `K' = min(K, broj dozvoljenih zapisa posle self/duplicate politike)`:
 
 \[
@@ -420,7 +422,7 @@ Nad deduplikovanom unijom računaju se dokazi koji su preskupi za ceo korpus:
 
 ANN score nikada nije dovoljan kao finalni naučni score. Ako je candidate vector bio PQ-kompresovan, finalni model dobija full-precision ili deterministički ponovo izračunate features.
 
-[COMPACK](https://doi.org/10.1107/S0021889804027074) i [PAC](https://doi.org/10.1107/S1600576722009670) nisu generičke etikete za proizvoljan crystal embedding. Packing poređenje zahteva pouzdanu molekulsku dekompoziciju, koordinate, ćeliju/simetrijsku ekspanziju i eksplicitnu politiku za višekomponentne, polimerne i disordered strukture. Izlaz čuva najmanje matched-molecule coverage i RMSD; PAC dodatno koristi oblik klastera, uključujući radius of gyration. PXRD/periodični embedding može biti candidate signal, ali sam ne dokazuje identičan packing. Neprimenljivo poređenje je `not_assessed`, ne nula.
+[COMPACK](https://doi.org/10.1107/S0021889804027074) i [PAC](https://doi.org/10.1107/S1600576722009670) nisu generičke etikete za proizvoljan crystal embedding. Packing poređenje zahteva pouzdanu molekulsku dekompoziciju, koordinate, ćeliju/simetrijsku ekspanziju i eksplicitnu politiku za višekomponentne, polimerne i disordered strukture. Izlaz čuva najmanje matched-molecule coverage i RMSD; PAC dodatno koristi oblik klastera, uključujući radius of gyration. PXRD/periodični embedding može biti candidate signal, ali sam ne dokazuje identičan packing. Neprimenljivo poređenje ima `branch_status: not_applicable` i `relation_label: null`, ne nulu.
 
 ## 3.13 Learning-to-rank: kada i koji model
 
@@ -481,7 +483,7 @@ Minimalne porodice:
 | interakcije | H-bond/coordination motif overlap, network topology |
 | kvalitet | disorder, occupancy, missing H, temperature/R flags |
 | retrieval | kanal, originalni rank/score, candidate multiplicity |
-| status | `not_assessed`, `ambiguous`, `failed`, `not_applicable` indikatori |
+| status | one-hot `branch_status_v1`: `assessed`, `ambiguous`, `not_applicable`, `missing_input`, `quality_blocked`, `timeout`, `failed` |
 
 Ne davati modelu refcode, publication ID, laboratoriju ili release kao slobodan feature osim ako je cilj eksplicitno provenance/risk i postoji dokaz da proxy nije leakage. Missing nije broj nula; status se čuva odvojeno od vrednosti.
 
@@ -597,7 +599,7 @@ Manifest nDCG-a čuva gain funkciju, discount, cutoff, unjudged politiku i tretm
 - Brier/log-loss/reliability za zaseban pointwise probability target, ako se rezultat prikazuje kao verovatnoća;
 - p50/p95/p99 latency;
 - throughput, RAM, index build/update vreme;
-- procenat `not_assessed`, grešaka i abstention-a.
+- procenat svakog non-assessed branch statusa, grešaka i abstention-a.
 
 Ranking score nije automatski verovatnoća. nDCG pobednik može i dalje imati neprihvatljiv recall za retku metalnu podgrupu, pa release gate uključuje worst-slice rezultat.
 
@@ -788,15 +790,16 @@ Ranker features poput originalnog ranka, kanala i candidate multiplicity menjaju
 
 Sloj je spreman kada:
 
-1. svaki ANN kandidat se poredi sa exact oracle-om iste reprezentacije/metrike i istog zamrznutog corpus/filter contract-a;
-2. candidate recall, ekspertni recall i finalni ranking imaju odvojene izveštaje;
-3. critical slice ne pada ispod unapred dogovorenog praga;
-4. filtered ANN prelazi unapred definisan tie-aware recall prag prema exact-after-filter oracle-u, ukupno i u worst selectivity/correlation slice-u;
-5. svaki rezultat ima poreklo kanala i ponovo izračunate exact features;
-6. ranker nije treniran na kružnim pseudo-labelama;
-7. p95 latencija, RAM, build/update vreme i cena su unutar SLO-a;
-8. stvarni checksumovani indeks i ranker mogu da se reprodukuju/audituju kroz jedan `retrieval_generation_id`;
-9. kvar jedne grane daje `not_assessed`/abstention, ne izmišljenu nulu;
-10. licencni i ACL filter važe pre distance/candidate search-a i ponovo pri prikazu rezultata;
-11. qrels coverage i unjudged politika omogućavaju fer poređenje svih kandidata;
-12. training-serving feature parity test prolazi posle svake promene retrievera ili candidate politike.
+1. hard-filter evaluator pre ANN-a daje tačnu jednakost sa nezavisnim expected-ID skupom, FP = 0 i FN = 0, na positive, zero-hit, boundary i missing/status fixture-ima;
+2. svaki ANN kandidat se poredi sa exact oracle-om iste reprezentacije/metrike i istog zamrznutog corpus/filter contract-a;
+3. candidate recall, ekspertni recall i finalni ranking imaju odvojene izveštaje;
+4. critical slice ne pada ispod unapred dogovorenog praga;
+5. filtered ANN prelazi unapred definisan tie-aware recall prag prema exact-after-filter oracle-u, ukupno i u worst selectivity/correlation slice-u;
+6. svaki rezultat ima poreklo kanala i ponovo izračunate exact features;
+7. ranker nije treniran na kružnim pseudo-labelama;
+8. p95 latencija, RAM, build/update vreme i cena su unutar SLO-a;
+9. stvarni checksumovani indeks i ranker mogu da se reprodukuju/audituju kroz jedan `retrieval_generation_id`;
+10. kvar jedne grane daje tačan `branch_status_v1`, `relation_label: null` i abstention kada je potreban, ne izmišljenu nulu;
+11. licencni i ACL filter važe pre distance/candidate search-a i ponovo pri prikazu rezultata;
+12. qrels coverage i unjudged politika omogućavaju fer poređenje svih kandidata;
+13. training-serving feature parity test prolazi posle svake promene retrievera ili candidate politike.
