@@ -34,6 +34,7 @@ extra_css:
 
 nav:
   - Početna: index.md
+  - Plan učenja za ML inženjera: learning/11-ml-ai-plan-ucenja.md
   - Scope i odluke: 00-scope.md
   - Pipeline i decision gates: 01-pipeline-decision-map.md
   - Ugovori podataka:

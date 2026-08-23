@@ -1,5 +1,7 @@
 # Plan učenja
 
+Ovo je redosled hemijskog i kristalografskog gradiva. Za paralelni ML/AI tok — sa prioritetima dokumentacije, praktičnim vežbama, proverama znanja, projektnim artefaktima i mapiranjem na R0–R10 — koristi [plan učenja ML/AI dela za 2CDC](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/ml-ai-strategy/docs/learning/11-ml-ai-plan-ucenja.md).
+
 ## Preporučena putanja od 15 nedelja
 
 | Nedelja | Fokus | Ishod koji moraš demonstrirati | Sati |
