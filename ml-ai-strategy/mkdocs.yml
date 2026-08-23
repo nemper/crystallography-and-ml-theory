@@ -1,0 +1,23 @@
+site_name: 2CDC ML/AI Strategy
+site_description: Evidence-driven izbor algoritama za dve 2CDC aplikacije
+theme:
+  name: material
+  language: sr
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+nav:
+  - Početna: index.md
+  - Scope i odluke: 00-scope.md
+  - Referenca:
+      - Metod dokaza: reference/evidence-method.md
