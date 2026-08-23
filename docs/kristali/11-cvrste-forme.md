@@ -134,6 +134,8 @@ CCDC white paper na stranama 3 i 10 koristi melting point da pokaže zašto prop
 
 Na stranama 17–18 white paper opisuje polymorph-risk workflow: Mogul za konformacionu geometriju, packing comparison i hydrogen-bond propensity. To su izvori dokaza i prioriteta za eksperimente; nisu dokaz da neotkrivena forma sigurno postoji niti da je poznata forma najstabilnija.
 
+Kako se gradi i tumači referentna geometrijska raspodela, zašto su torzije kružne i kako HBP razlikuje propensity, observed vezu, grouping i coordination score obrađeno je u [lekciji 11A](11a-referentne-raspodele-hbp.md).
+
 [GSK/CCDC analiza](https://pubs.rsc.org/en/content/articlehtml/2021/ce/d1ce00665g) dodatno pokazuje koliko se interni i javni skupovi razlikuju po raspodeli solidnih formi. Autori su morali ručno da pregledaju strukture jer canonical SMILES, stereokemija i bond-order dodele nisu bili dovoljni za pouzdano grupisanje.
 
 ## Termodinamički minimum

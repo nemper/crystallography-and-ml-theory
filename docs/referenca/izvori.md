@@ -213,6 +213,9 @@ IUPAC izvori određuju hemijsku nomenklaturu i preporučene definicije. Online G
 | [Ligands, L03518](https://goldbook.iupac.org/terms/view/L03518) | značenje liganda u koordinacionoj hemiji |
 | [Coordination entity, C01330](https://goldbook.iupac.org/terms/view/C01330) | centralni atom + ligands kao jedinka |
 | [Crystal field, CT06770](https://goldbook.iupac.org/terms/view/CT06770) | razdvajanje crystal-field i ligand-field pojma |
+| [Ligand-field splitting, L03517](https://goldbook.iupac.org/terms/view/L03517) | termin za cepanje orbitalnih energetskih nivoa |
+| [High-/low-spin, LT06788](https://doi.org/10.1351/goldbook.LT06788) | precizna razlika načina popunjavanja split \(d\)-orbitala |
+| [Jahn–Teller effect, J03361](https://goldbook.iupac.org/terms/view/J03361) | veza elektronske degeneracije i strukturne distorzije |
 | [Unit cell, U06562](https://goldbook.iupac.org/terms/view/U06562) | hemijsko-terminološka definicija ćelije; IUCr ostaje detaljniji kristalografski izvor |
 | [Standard uncertainty, S05928](https://goldbook.iupac.org/terms/view/S05928) | s.u. kao jedna standardna devijacija |
 
@@ -238,6 +241,9 @@ IUPAC izvori određuju hemijsku nomenklaturu i preporučene definicije. Online G
 | [Unit cell](https://dictionary.iucr.org/Unit_cell) | ćelija i njena translaciona uloga |
 | [Asymmetric unit](https://dictionary.iucr.org/Asymmetric_unit) | minimalni nezavisni deo space-group prostora |
 | [Space group](https://dictionary.iucr.org/Space_group) | grupa operacija periodične simetrije |
+| [Lattice system](https://dictionary.iucr.org/Lattice_system) | razlika lattice-system i crystal-system klasifikacije |
+| [Miller indices](https://dictionary.iucr.org/Miller_indices) | značenje \((hkl)\) ravni/refleksije |
+| [Reciprocal lattice](https://dictionary.iucr.org/Reciprocal_lattice) | operativni real-space/reciprocal-space most |
 | [Bragg's law](https://dictionary.iucr.org/Bragg%27s_law) | `2d sin θ = nλ` i difrakcioni uslov |
 | [Refinement](https://dictionary.iucr.org/Refinement) | razlika structure solution/refinement i cilj optimizacije |
 | [Statistical descriptors](https://dictionary.iucr.org/Statistical_descriptors) | residuals, uncertainty i tumačenje statistike |
@@ -254,9 +260,12 @@ IUPAC izvori određuju hemijsku nomenklaturu i preporučene definicije. Online G
 | [checkCIF](https://checkcif.iucr.org/) | strukturisana validacija CIF-a; za poverljive podatke prethodno proveriti policy slanja |
 | [checkCIF FAQ](https://journals.iucr.org/services/cif/checking/checkfaq.html) | alerts i Validation Response tumačenje |
 | [PLAT076 primer](https://journals.iucr.org/services/cif/checking/PLAT076.html) | occupancy/site multiplicity zamka |
+| [Teaching pamphlet 2](https://www.iucr.org/education/pamphlets/2/full-text) | početnička mapa sistema i 14 Bravaisovih rešetki |
+| [IUCr Bravais nomenklatura](https://www.iucr.org/resources/commissions/crystallographic-nomenclature/bravais) | standardne oznake `aP`–`cF` i trigonal/rhombohedral nijansa |
 | [Teaching pamphlet 9](https://www.iucr.org/education/pamphlets/9) | matrice, translacije i transformacije |
 | [Teaching pamphlet 10](https://www.iucr.org/education/pamphlets/10) | metric tensor i ćelijska geometrija |
 | [Teaching pamphlet 21](https://www.iucr.org/education/pamphlets/21) | crystal packing |
+| [Powder CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/browse/cif_pd) | measured/calculated powder data, radiation, instrument i profile metadata |
 
 ## Autoritativni izvori: CCDC/CSD
 
@@ -287,6 +296,7 @@ Ovi linkovi su autoritativni za CCDC proizvode i njihove javne uslove, ali su **
 | [Molecular geometry analysis](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/molecular_geometry_analysis.html) | CSD-based bond/angle/torsion distribucije i standardizacija |
 | [Crystal objects, packing i contacts](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/crystal.html) | symmetry expansion i crystal-level funkcije |
 | [Packing similarity](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/packing_similarity.html) | CCDC implementation parameters/results; vezati na tačnu verziju |
+| [Hydrogen-bond propensities](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/hbond_propensities.html) | fitting evidence, logistic model, propensities, uncertainty i grouping/coordination output |
 | [Disorder](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/disorder.html) | CCDC representation/obrada disorder-a |
 | [Descriptors](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/descriptors.html) | definicije dostupnih descriptor objekata |
 | [ConQuest User Guide](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf) | semantika `4M` i query UI; sačuvati verziju uz `.cqs` manifest |
@@ -302,6 +312,7 @@ Ovi linkovi su autoritativni za CCDC proizvode i njihove javne uslove, ali su **
 |---|---|
 | [Etter, MacDonald & Bernstein 1990: Graph-set analysis of hydrogen-bond patterns in organic crystals](https://doi.org/10.1107/S0108768189012929) | originalna graph-set sistematika za H-bond motive |
 | [Bernstein et al. 1995: Graph-set analysis of hydrogen-bond patterns in organic crystals](https://doi.org/10.1002/anie.199515551) | proširenje/praktična primena graph-set jezika |
+| [Galek et al. 2007: Knowledge-based model of hydrogen-bonding propensity](https://doi.org/10.1107/S0108768107030996) | primarni HBP metod; statistički output nije energetski ili polymorph oracle |
 | [Chisholm & Motherwell 2005: COMPACK](https://doi.org/10.1107/S0021889804027074) | originalni pristup za prepoznavanje crystal-structure/packing sličnosti |
 
 ### Cheminformatika i reprezentacije

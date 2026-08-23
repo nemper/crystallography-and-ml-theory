@@ -155,6 +155,38 @@ To je distordovana/intermedijarna petokoordinaciona geometrija, bliža kvadratno
 **Za model:** čuvaj sirove M–D distance i D–M–D uglove, mapping atoma, CN i verzionisanu geometrijsku meru. Tekstualna etiketa „square pyramidal“ je izvedena i može biti neizvesna.
 </div>
 
+### Minimalni ligand-field most: zašto elektroni utiču na geometriju
+
+VSEPR i sam koordinacioni broj nisu dovoljni za prelazne metale. Pet \(d\)-orbitala izolovanog jona imaju isti energetski nivo u idealizovanom sfernom okruženju, ali ligandi dolaze iz određenih pravaca. Njihove elektrostatičke i kovalentne interakcije zato **cepaju** te nivoe. Crystal-field model je korisna elektrostatička aproksimacija; ligand-field opis je širi i uključuje kovalentno mešanje orbitala. Ovde nam ne trebaju multipleti ni spektroskopske derivacije — samo strukturne posledice.
+
+Prvi korak je približan \(d^n\) broj. Za uobičajene komplekse \(d\)-bloka:
+
+\[
+n_d \approx \text{broj grupe metala}-\text{oksidaciono stanje}.
+\]
+
+Zato su Fe(II) približno \(d^6\), Cu(II) \(d^9\), a Zn(II) \(d^{10}\). Ovo koristi prethodno **nezavisno** određen oxidation state; ne čita se iz MOL2 charge kolone i ne prenosi se mehanički na \(f\)-elemente ili složeno organometalno electron counting.
+
+| Idealizovana geometrija | Kvalitativno cepanje \(d\)-orbitala | Projektno važna posledica |
+|---|---|---|
+| octahedral | \(t_{2g}=(d_{xy},d_{xz},d_{yz})\) niže; \(e_g=(d_{z^2},d_{x^2-y^2})\) više | za neke \(d^4\)–\(d^7\) konfiguracije odnos splitting-a \(\Delta_o\) i pairing energije daje high- ili low-spin stanje |
+| tetrahedral | \(e=(d_{z^2},d_{x^2-y^2})\) niže; \(t_2=(d_{xy},d_{xz},d_{yz})\) više | splitting je obično manji nego u odgovarajućem octahedral slučaju, pa su mnogi 3d tetrahedral kompleksi high spin |
+| square planar | \(d_{x^2-y^2}\), usmeren pravo ka četiri liganda, obično je najviši | česta je jaka stabilizacija square-planar \(d^8\) konfiguracije, naročito kod 4d/5d metala; to nije pravilo iz samog CN=4 |
+
+**High spin** znači da se, kada je izbor moguć, više orbitala popunjava nesparenim elektronima pre dodatnog sparivanja; **low spin** daje više sparivanja u nižim orbitalama. Odluku menjaju metal, oxidation state, donor-atomi, geometrija i ligandno polje. Spin može promeniti M–donor distance — na primer, popunjavanje orbitala sa izraženim antibonding karakterom često produžava veze — ali se spin stanje ne sme retroaktivno „dokazati“ samo jednom dužinom.
+
+**Jahn–Teller efekat** kaže da nelinearan sistem sa orbitalno degenerisanim elektronskim osnovnim stanjem može sniziti energiju distorzijom koja uklanja degeneraciju. Klasičan strukturni obrazac je pseudo-octahedral Cu(II), \(d^9\), sa četiri kraće približno ekvatorijalne i dve duže aksijalne veze. Međutim:
+
+- nije svaka aksijalna elongacija dokaz Jahn–Teller efekta;
+- različiti ligandi, helatni strain, packing, disorder i temperatura mogu dati sličnu distorziju;
+- dinamička i statička distorzija ne moraju izgledati isto u jednom prosečnom kristalnom modelu.
+
+CAPHEK sadrži Zn(II), približno \(d^{10}\). Njegovu intermedijarnu petokoordinisanu geometriju zato ne treba automatski nazvati spin- ili first-order Jahn–Teller efektom; ligandna arhitektura, sterika, koordinacione veze i packing ostaju stvarni uzroci koje treba proveriti.
+
+<div class="project-link">
+**Za similarity model:** metal, oxidation state/\(d^n\), spin kada je eksperimentalno ili pouzdano anotiran, donor set, CN, continuous-shape mera i pojedinačne distance moraju biti odvojeni feature-i. Elektronski očekivana distorzija nije „šum koji treba ispeglati“. Za lanthanide/actinide centre, hapticitet i metalne klastere aktiviraj poseban applicability flag umesto nasilnog primenjivanja ovog jednostavnog \(d\)-orbitalnog modela.
+</div>
+
 ## 5.6 Denticitet i helatacija
 
 **Denticitet** je broj donor-grupa jednog liganda koje su vezane za isti centralni atom ([IUPAC](https://goldbook.iupac.org/terms/view/D01594)).
@@ -298,6 +330,13 @@ MOL2 kolona za metal ima vrednost `+2.0`. Da li je to dovoljan dokaz da je oksid
 ??? success "Odgovor"
     Ne. To može biti formalni ili modelom dodeljen atom charge. Oksidaciono stanje se određuje hemijskim electron-counting pravilima i bilansom celog koordinacionog entiteta, uz proveru identiteta liganada i njihovih naboja.
 
+### 6. Elektronska distorzija
+
+Pseudo-octahedral Cu(II) ima četiri Cu–N/O distance oko 2,0 Å i dve oko 2,35 Å. Šta je opravdan, a šta neopravdan zaključak?
+
+??? success "Odgovor"
+    Obrazac je kompatibilan sa Jahn–Teller elongacijom karakterističnom za mnoge \(d^9\) Cu(II) centre i zaslužuje ciljanu proveru. Nije samostalan dokaz mehanizma: prvo proveri oxidation state, donor identitete, simetriju, disorder, s.u., temperaturu i alternativne steričke/packing uzroke.
+
 ## 5.11 Kriterijum prolaza
 
 Poglavlje si savladao kada za proizvoljan zapis možeš da:
@@ -306,6 +345,7 @@ Poglavlje si savladao kada za proizvoljan zapis možeš da:
 - navedeš metal, neposredne donore, CN, denticitet i moguću geometriju;
 - pokažeš dokaz za svaku M–donor vezu i prijaviš neizvesnost;
 - odvojeno izračunaš formalne naboje, ukupni naboj i oksidaciono stanje;
+- iz oxidation state-a izvedeš približan \(d^n\) broj i objasniš kako ligandno polje, spin i Jahn–Teller efekat mogu — ali ne moraju — uticati na geometriju;
 - objasniš zašto metal presence nije DAP coordination ground truth.
 
 ## Primarni i autoritativni izvori
@@ -317,4 +357,8 @@ Poglavlje si savladao kada za proizvoljan zapis možeš da:
 - [IUPAC Gold Book: chelation](https://doi.org/10.1351/goldbook.C01012)
 - [IUPAC Gold Book: formal charge](https://goldbook.iupac.org/terms/view/08169)
 - [IUPAC Gold Book: oxidation state](https://goldbook.iupac.org/terms/view/O04365)
+- [IUPAC Gold Book: ligand-field splitting](https://goldbook.iupac.org/terms/view/L03517)
+- [IUPAC Gold Book: high-spin i low-spin](https://doi.org/10.1351/goldbook.LT06788)
+- [IUPAC Gold Book: Jahn–Teller effect](https://goldbook.iupac.org/terms/view/J03361)
+- [CSD pregled strukturnih raspodela i koordinacionih geometrija](https://doi.org/10.1021/acs.chemrev.9b00155)
 - [OpenStax Chemistry 2e: Coordination Chemistry of Transition Metals](https://openstax.org/books/chemistry-2e/pages/19-2-coordination-chemistry-of-transition-metals)

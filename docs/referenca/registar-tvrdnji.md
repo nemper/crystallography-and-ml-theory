@@ -1,6 +1,6 @@
 # Registar ključnih tvrdnji
 
-Ovo je audit sloj knjige: najvažnije projektne tvrdnje povezane su sa tačnim lokalnim snapshot-om, načinom provere, confidence-om i granicom važenja. Datum poslednje provere ovog registra je **2026-08-22**.
+Ovo je audit sloj knjige: najvažnije projektne tvrdnje povezane su sa tačnim lokalnim snapshot-om, načinom provere, confidence-om i granicom važenja. Datum poslednje provere ovog registra je **2026-08-23**. Metod, tri nezavisna pregleda, glasovi i remediation odluke nalaze se u [validacionom auditu](validacioni-audit-2026-08-23.md).
 
 ## Kako se čita
 
@@ -36,6 +36,8 @@ Raw fajlovi nisu u ovom repou. Hash omogućava proveru da vežba koristi iste ba
 | `search2.sd` | `DFF75F66F43827FC5D08E453DFB2C1FF86C7945C7B8B5CB1D0A5C67914D48781` |
 | `search2.smi` | `49F89091D28DAEE5102CE771316EA1AB4204A01FF91F9CD5B350B15800745F4D` |
 
+Repo-generated `docs/assets/open/tutorial-minimal.cif` nije jedan od 15 izvora. Njegov SHA-256 je `A6EEDB8582B90E8A2652DE76394169C506EEA4D06FC1819FB3EF757291D9E7C9`; to je sintetički CC0 teaching fixture čiji je sadržaj u celini pregledljiv.
+
 ## Kritične lokalne tvrdnje
 
 | ID | Tvrdnja | Tip | Dokaz/provera | Confidence | Granica |
@@ -59,6 +61,8 @@ Raw fajlovi nisu u ovom repou. Hash omogućava proveru da vežba koristi iste ba
 | L-17 | CAPHAG je metal-free DAP-derived ligand; CAPHEK je ZnN3Cl2 positive coordination primer sa solventima | O/A | formula, graph/components i local geometry | high za navedeni export | full chemical review i dalje poželjan |
 | L-18 | postoje `search2` kontraprimeri gde metal nije vezan za ciljni DAP N3 džep | D/A | component/metal–N graph i geometry review | high za jasan exported graph | ambiguous cases ostaju odvojeni |
 | L-19 | PDF embedded-text ekstrakcija na stranama 1–2 sadrži nevidljivi, tematski nepodudarni docking tekst | O/D | text extraction naspram rendera svih 22 strana | high | parser/PDF snapshot; poreklo teksta ostaje inferencija |
+| L-20 | među 1.954 neprazna `search2.sd` record-a atom count ima median/prosek/max 92/108,61/646, a connected components 2/2,93/36 | D | V2000 counts i connected components iz bond tabele; tri auditorske provere | high | ne mešati sa statistikama svih 2.038 record-a, gde 84 prazna menjaju prosek/medijanu |
+| L-21 | sintetički CIF ima 1 block, 25 items i atom loop od 6 kolona × 2 reda; \(V=179.406144\ \text{Å}^3\) i \(\rho\approx2.164\ \text{g cm}^{-3}\) | O/D | SHA-256 + dva CIF parsera + ručni račun | high | teaching model, nije eksperiment ni CSD zapis |
 
 ## Ključne eksterne tvrdnje
 
@@ -71,6 +75,9 @@ Raw fajlovi nisu u ovom repou. Hash omogućava proveru da vežba koristi iste ba
 | E-05 | CCDC packing comparison vraća matched molecules i RMSD pod zadatim parametrima | CCDC API docs + COMPACK rad | verified 2026-08-22 | licenca/product availability; nije univerzalni metric |
 | E-06 | CSD Portfolio i izvedeni podskupovi podležu CCDC uslovima/licenci | zvanični CCDC Conditions of Use | verified 2026-08-22 | konkretni institucijski ugovor je merodavan |
 | E-07 | 2026 CCDC summary navodi 1.431.347 CSD entries | zvanični 2026 statistics PDF | verified 2026-08-22 | dinamička snapshot vrednost, ne konstanta |
+| E-08 | razlikuje se sedam kristalnih i sedam rešetkastih sistema; 14 Bravaisovih tipova imaju standardne IUCr oznake | IUCr nomenklatura i Online Dictionary | verified 2026-08-23 | metrics same ne dokazuje crystal system; trigonal/rhombohedral razlika je bitna |
+| E-09 | CCDC HBP tok koristi fitting data/evidence, logističku regresiju, individual propensity i zasebne grouping/coordination rezultate | CCDC API docs + Galek et al. 2007 | verified 2026-08-23 | output zavisi od baze, settings-a, coverage-a i licence; nije polymorph oracle |
+| E-10 | powder-diffraction metadata razlikuje merenje od izračunatog obrasca i čuva radiation/instrument/profile podatke | IUCr pdCIF dictionary + CCDC simulation docs | verified 2026-08-23 | simulacija iz istog CIF-a nije nezavisna potvrda modela |
 
 ## Tvrdnje koje namerno nisu potvrđene
 

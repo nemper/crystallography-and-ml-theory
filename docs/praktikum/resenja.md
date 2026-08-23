@@ -21,6 +21,17 @@ Za multi-record eksport očekuj:
 
 SMI nije potpuna record lista. Razlika 233 u oba skupa je signal konverzije/representability, ne dozvola da se rows izbrišu.
 
+## L0A — ceo sintetički CIF
+
+- SHA-256 je `A6EEDB8582B90E8A2652DE76394169C506EEA4D06FC1819FB3EF757291D9E7C9`;
+- očekuje se jedan data block, 25 data items i atom-site loop sa šest kolona i dva reda, `Na1`/`Cl1`;
+- `5.6400(10)` znači \(5.6400\pm0.0010\ \text{Å}\) na nivou standardne neizvesnosti zapisa;
+- `?` znači unknown, a `.` not applicable/inapplicable u datom kontekstu;
+- \(V=a^3=179.406144\ \text{Å}^3\), što se slaže sa zaokruženih 179,41 Å³;
+- NaCl, \(Z=4\), formula mass 58,44 i ta zapremina daju približno \(2.164\ \text{g cm}^{-3}\).
+
+Parser koji prihvati nepotpun loop red bez jasnog warning-a nije dovoljan za produkcioni ingest test.
+
 ## L1 — gustina i Cu zamka
 
 Iz CIF-a:
@@ -28,10 +39,20 @@ Iz CIF-a:
 - formula \(\mathrm{C_{25}H_{20}N_3O_2P}\);
 - formula mass \(M=425.41\ \mathrm{g\,mol^{-1}}\);
 - \(Z=4\);
-- \(V=2073.51\ \text{Å}^3=2.07351\times10^{-21}\ \mathrm{cm^3}\).
+- \(V=2073.51\ \text{Å}^3\);
+- ista zapremina je \(2.07351\times10^{-21}\ \text{cm}^3\).
+
+Najpre masa jedne jedinične ćelije:
 
 \[
-\rho=\frac{4\times425.41}{6.02214076\times10^{23}\times2.07351\times10^{-21}}
+m_{\mathrm{cell}}=
+\frac{4(425.41)}{6.02214076\times10^{23}}
+=2.82564\times10^{-21}\ \mathrm{g}.
+\]
+
+\[
+\rho=
+\frac{2.82564\times10^{-21}}{2.07351\times10^{-21}}
 \approx1.363\ \mathrm{g\ cm^{-3}}.
 \]
 
@@ -105,6 +126,18 @@ Tačne counts po svakoj error kategoriji zavise od precizne parser definicije. U
 | conclusion | universal scalar | component scores | task claim + confidence + abstention where needed |
 
 Maksimum je 16. Za prolaz treba najmanje 13 i nijedna nula u component, coordination, packing ili quality redu kada su ti nivoi deo claim-a.
+
+## L11 — referenca i PXRD kontrola
+
+- empirical percentile je \(100(247/250)=98.8\);
+- robustni imenilac je (1.4826\cdot0.012=0.0177912), pa je
+  (z_\mathrm{robust}=(1.390-1.340)/0.0177912\approx2.81);
+- kružna udaljenost između \(-179^\circ\) i \(+179^\circ\) je \(2^\circ\);
+- \(d(200)=5.6400/2=2.8200\ \text{Å}\);
+- za \(\lambda=1.5406\ \text{Å}\), \(2\theta\approx31.7^\circ\);
+- dozvoljen claim: „model predviđa pik oko 31,7° pod navedenim simulation settings-ima“;
+- claim „bulk uzorak je ova faza“ zahteva nezavisno izmeren PXRD, metadata/protokol i kontekst mešavine/texture/background-a;
+- individual HBP propensity, observed status, grouping i coordination score moraju ostati odvojeni, uz fitting counts i applicability.
 
 ## Najvažniji kriterijum
 

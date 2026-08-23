@@ -59,7 +59,7 @@ markdown_extensions:
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
-          class: mermaid
+          class: mermaid-course
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
@@ -67,6 +67,8 @@ markdown_extensions:
       custom_checkbox: true
 
 extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js
+  - javascripts/mermaid.js
   - javascripts/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
@@ -94,8 +96,10 @@ nav:
       - 9. Simetrija, prostorne grupe i periodičnost: kristali/09-simetrija.md
       - 10. Difrakcija, refiniranje i kvalitet: kristali/10-difrakcija-kvalitet.md
       - 11. Polimorfi i druge čvrste forme: kristali/11-cvrste-forme.md
+      - 11A. Referentne raspodele, Mogul i HBP: kristali/11a-referentne-raspodele-hbp.md
   - IV. Digitalna hemija:
       - 12. CIF, MOL, MOL2, SDF i SMILES: podaci/12-formati.md
+      - 12A. Anatomija jednog CIF fajla: podaci/12a-anatomija-cif.md
       - 13. Standardizacija bez gubitka značenja: podaci/13-standardizacija.md
       - 14. Molekul kao graf i skup deskriptora: podaci/14-reprezentacije.md
       - 15. Sličnost nije jedna veličina: podaci/15-slicnost.md
@@ -106,6 +110,7 @@ nav:
       - 19. Precizno poređenje parova: projekat/19-parovi.md
       - 20. Evaluacija i naučna validacija: projekat/20-evaluacija.md
       - 21. Licence, FAIR i poreklo podataka: projekat/21-licence-fair.md
+      - 22. White paper tokovi i federativno učenje: projekat/22-whitepaper-tokovi-fl.md
   - Praktikum:
       - Laboratorijske vežbe: praktikum/laboratorije.md
       - Završni mini-projekat: praktikum/zavrsni-projekat.md
@@ -115,4 +120,5 @@ nav:
       - Rečnik pojmova: referenca/recnik.md
       - Opasne zablude: referenca/zablude.md
       - Registar ključnih tvrdnji: referenca/registar-tvrdnji.md
+      - Validacioni audit 2026-08-23: referenca/validacioni-audit-2026-08-23.md
       - Izvori i metod validacije: referenca/izvori.md

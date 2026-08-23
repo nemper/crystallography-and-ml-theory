@@ -146,6 +146,11 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 | 101 | „Open fajl je automatski FAIR.“ | Bez stabilnog ID-a, metadata, semantike, provenance-a i licence javni dump može biti slabo reusable. | FAIR checklist je odvojen od visibility/licence statusa. |
 | 102 | „FAIR je potvrda naučnog kvaliteta.“ | FAIR opisuje upravljanje/pristup/semantiku; ne garantuje tačan crystal model, property ili unbiased labels. | FAIR, scientific QA, security i licence su odvojene kapije. |
 | 103 | „Brisanje raw fajla briše njegov uticaj.“ | Cache, fingerprints, embeddings, modeli, pair reports i backup-i mogu ostati derivative. | Lineage graf i deletion/review propagation preko svih potomaka. |
+| 104 | „Izduženi pseudo-octahedral Cu(II) automatski dokazuje Jahn–Teller efekat.“ | Obrazac je kompatibilan sa \(d^9\) efektom, ali ligandna nejednakost, strain, packing, disorder i model mogu dati sličnu geometriju. | Prijavi hipotezu uz oxidation state/\(d^n\), donor mapping, s.u., quality i alternativne uzroke. |
+| 105 | „Mogul outlier ili 99. percentil znači visoku energiju/nestabilnost.“ | To je neuobičajenost u konkretnoj query/filter/release populaciji, ne energetski račun. | Čuvaj referentni manifest/support/applicability; energiju i fazu testiraj odvojenim modelom/eksperimentom. |
+| 106 | „HBP propensity 0,8 znači da je H-veza opažena ili da polimorf postoji.“ | Propensity je output fitting/logistic modela za kandidatni par; observed status, grouping, coordination i realna faza su druga pitanja. | Prikaži output-e odvojeno sa evidence counts, uncertainty i applicability. |
+| 107 | „Simulirani PXRD iz CIF-a potvrđuje taj CIF i bulk uzorak.“ | Simulacija je derivat istog modela i zato kružni dokaz; nema informacije iz realnog bulk merenja. | Za fazni evidence koristi measured PXRD sa radiation/instrument/sample metadata i unapred definisanim poređenjem. |
+| 108 | „`parser_ok` znači `Curated`.“ | Sintaksno parsiranje i verzionisana automatska validacija nisu isto što i završena stručna/policy kuracija. | Posebna stanja `Parsed`, `Validated`, `Curated` i `Released` sa owner-om, evidence-om i SOP-om. |
 
 ## Brzi test za novu tvrdnju
 
@@ -201,7 +206,7 @@ Weights ne sadrže lako čitljiv CIF. Da li mogu u javni repo?
 
 - hemijski identitet i veze: [poglavlja 1–4](../osnove/01-atomi-joni-formule.md);
 - interakcije, ćelija i kvalitet: [interakcije](../kristali/07-interakcije.md), [ćelija](../kristali/08-celija.md), [difrakcija](../kristali/10-difrakcija-kvalitet.md);
-- forme i stabilnost: [čvrste forme](../kristali/11-cvrste-forme.md);
+- forme, referentne raspodele i stabilnost: [čvrste forme](../kristali/11-cvrste-forme.md), [Mogul/HBP](../kristali/11a-referentne-raspodele-hbp.md);
 - konverzija i standardizacija: [formati](../podaci/12-formati.md), [standardizacija](../podaci/13-standardizacija.md);
 - reprezentacije i score: [reprezentacije](../podaci/14-reprezentacije.md), [sličnost](../podaci/15-slicnost.md);
 - evaluacija, licence i FAIR: [evaluacija](../projekat/20-evaluacija.md), [licence i provenance](../projekat/21-licence-fair.md).

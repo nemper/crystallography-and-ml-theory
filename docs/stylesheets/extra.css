@@ -25,3 +25,22 @@
   margin: 0.8rem 0;
 }
 
+.md-typeset .mermaid-course {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.md-typeset .mermaid-course svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.md-typeset mjx-container[jax="CHTML"][display="true"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}

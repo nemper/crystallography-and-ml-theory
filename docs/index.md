@@ -33,6 +33,10 @@ Lokalni CSD izvozi dodatno pokazuju stvarni domen: DAP/Schiff-base motiv i velik
 4. **Digitalna hemija** - šta CIF/MOL/MOL2/SDF/SMILES čuvaju, šta gube i zašto konverzija nije neutralna.
 5. **Sličnost i aplikacije** - grafovi, otisci, deskriptori, poravnanje, pakovanje, evaluacija i dvofazna pretraga.
 
+Ako želiš prvo da vidiš format nad kojim ćeš raditi, otvori [pun, anotiran i parsabilan CIF primer](podaci/12a-anatomija-cif.md). Za statistički deo polymorph-risk toka koristi [referentne raspodele, Mogul i HBP](kristali/11a-referentne-raspodele-hbp.md). Ako želiš da proveriš da nijedna tema dostavljenog dokumenta nije izgubljena, koristi [mapu svih 22 strane white paper-a](projekat/22-whitepaper-tokovi-fl.md).
+
+Detaljan trag validacije — sva 34 baseline poglavlja, svih 15 artefakata, glasovi, korekcije i otvorena pitanja — nalazi se u [validacionom auditu od 23. avgusta 2026](referenca/validacioni-audit-2026-08-23.md).
+
 Svako poglavlje ima isti ritam: intuitivna slika, precizna definicija, primer iz projekta, zamka, mini-vežba i kriterijum prolaza. Linkovi vode ka izvorima samo kada je korisno pročitati standard, videti interaktivnu ilustraciju ili ući u detalj koji bi nepotrebno produžio ovu knjigu.
 
 ## Brza slika lokalnih dokaza
@@ -45,6 +49,7 @@ Svako poglavlje ima isti ritam: intuitivna slika, precizna definicija, primer iz
 | `N14.mol` / `N14.mol2` | ista hemijska jedinka u dve molekulske reprezentacije sa različitom semantikom tipova veza i atoma |
 | `search1.*` | 2.110 CSD zapisa iz lokalnog CSD 5.43/2022 snapshot-a koji zadovoljavaju 18-atomski DAP/Schiff-base podstrukturni upit |
 | `search2.*` | 2.038 od tih zapisa uz nepovezani `4M` uslov: metal je negde u entry-ju, ali query ne dokazuje metal–DAP koordinaciju |
+| `tutorial-minimal.cif` | sintetički, redistributabilan CIF 1.1 primer za učenje sintakse; nije eksperiment ni CSD zapis |
 
 !!! warning "Bitna granica"
     Repo ne sadrži CSD izvoze. [CCDC uslovi korišćenja](https://downloads.ccdc.cam.ac.uk/documentation/API/conditions_of_use.html) navode da su CSD komponente i izvedeni podskupovi vlasnički i da se ne redistribuiraju bez odgovarajućeg odobrenja. Sam prijem lokalnih fajlova ne dokazuje njihovu licencu ni dozvoljenu namenu: do potvrde vlasnika/controller-a, dozvoljenih operacija i odobrenog data-plane-a tretiraju se kao **restricted**.

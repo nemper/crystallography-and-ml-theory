@@ -237,7 +237,13 @@ Periodična struktura u kojoj coordination veze šire jedinku u 1D, 2D ili 3D. �
 Široka kategorija struktura sa metalom i organskim delom. Ne znači nužno organometalno u užem smislu sa direktnom metal–ugljenik vezom.
 
 **Ligandno polje**  
-Model cepanja energija metalnih orbitala usled okruženja liganada. Važno za boju, magnetizam i reaktivnost, ali nije potrebno izračunavati za osnovni similarity MVP bez property claim-a.
+Model cepanja energija metalnih orbitala usled usmerenog okruženja liganada. U ovom kursu koristi se kvalitativno da bi se razumeli spin-zavisne distance, square-planar/tetrahedral grananje i elektronske distorzije; duboki multipletni/spektroskopski račun nije MVP zahtev.
+
+**High-spin / low-spin**
+Različiti načini popunjavanja split \(d\)-orbitala kada se nadmeću ligand-field splitting i pairing energija. Etiketa se ne izvodi samo iz coordination number-a ili jedne distance.
+
+**Jahn–Teller efekat**
+Distorzija nelinearnog sistema koja uklanja elektronsku degeneraciju i može sniziti energiju. Pseudo-octahedral Cu(II), \(d^9\), često pokazuje aksijalnu elongaciju; isti geometrijski obrazac sam nije dokaz uzroka.
 
 ## Kristal, ćelija i simetrija
 
@@ -266,7 +272,7 @@ Primitivna ima jednu rešetkastu tačku po ćeliji; konvencionalna je standardno
 Kanonskiji opis metrike dobijen definisanim algoritmom, koristan za candidate search. Rezultat zavisi od tolerancija i ne dokazuje strukturni identitet.
 
 **Kristalni sistem / Bravaisova rešetka**  
-Sedam kristalnih sistema grupišu space groups po simetriji; 14 Bravaisovih rešetki kombinuju sistem i centriranje. To su kategorije, ne similarity score.
+Sedam kristalnih sistema grupišu space groups po point-group simetriji. Sedam rešetkastih sistema razlikuju se u hexagonal familiji: koriste rhombohedral umesto trigonal kategorije. Četrnaest Bravaisovih tipova (`aP`–`cF`) klasifikuju translacione rešetke i centriranje; to nisu similarity score-evi. Trigonalni kristal može imati `hP` ili `hR` rešetku.
 
 **Frakciona koordinata**  
 Koeficijenti \((x,y,z)\) u osnovi ćelije: \(\mathbf r=x\mathbf a+y\mathbf b+z\mathbf c\). Vrednosti koje se razlikuju za ceo broj predstavljaju periodično ekvivalentne položaje.
@@ -319,13 +325,19 @@ Elastično rasipanje rendgenskih talasa na elektronskoj gustini kristala. Meri s
 Uslov konstruktivne difrakcije \(2d\sin\theta=n\lambda\), gde je \(d\) razmak familije ravni, \(\theta\) ugao, \(\lambda\) talasna dužina, a \(n\) red.
 
 **Recipročna rešetka**  
-Matematički prostor u kome se periodične ravni i difrakcione refleksije prirodno opisuju. Vektor refleksije označen je \((hkl)\).
+Matematički prostor u kome se periodične ravni i difrakcione refleksije prirodno opisuju. U konvenciji bez \(2\pi\), \(\mathbf g_{hkl}=h\mathbf a^*+k\mathbf b^*+l\mathbf c^*\) i \(d(hkl)=1/\lVert\mathbf g_{hkl}\rVert\).
 
 **Millerovi indeksi \((hkl)\)**  
 Celobrojne oznake familija rešetkastih ravni/refleksija. Nisu atomske koordinate.
 
 **Refleksija**  
 Jedna tačka/meren intenzitet u difrakcionom skupu vezan za \((hkl)\). Symmetry-equivalent merenja mogu se spojiti u jedinstvenu refleksiju.
+
+**Systematic absence / extinction**
+Refleksija zabranjena translacionim delom space-group simetrije, npr. centriranjem, screw ili glide operacijom. Razlikuje se od dozvoljene, ali slabe/neopažene refleksije.
+
+**Simulirani / izmereni PXRD**
+Simulirani pattern je deterministički derivat crystal model-a pod navedenim wavelength/profile settings-ima. Izmereni PXRD dolazi iz bulk uzorka i instrumenta; može podržati fazni identitet ili mešavinu, ali sam ne potvrđuje svaki SCXRD atom/refinement detalj.
 
 **Strukturni faktor \(F_{hkl}\)**  
 Kompleksna amplituda izračunata kao zbir rasipanja svih atoma sa fazama određenim položajima. Intenzitet je približno proporcionalan \(\lvert F\rvert^2\).
@@ -504,6 +516,9 @@ CCDC alat za strukturne i metadata upite; `.cqs` je binarni query/session objeka
 
 **Mercury / Mogul / CSD Python API**  
 CCDC alati: vizuelizacija/analiza kristala; distribucije geometrije iz CSD-a; programski pristup funkcijama i podacima u granicama licence. „API“ ovde znači application programming interface, ne active pharmaceutical ingredient.
+
+**Hydrogen-bond propensity (HBP)**
+Statistički model zasnovan na funkcionalnim grupama, fitting evidence-u i logističkoj regresiji za potencijalne donor–acceptor ishode. Individual propensity, observed H-veza, network grouping i coordination score su različiti output-i; nijedan sam nije polymorph probability ili lattice energy.
 
 **API (active pharmaceutical ingredient)**  
 Farmaceutski aktivna supstanca. U dokumentaciji uvek razjasni da li `API` znači aktivni sastojak ili programski interfejs.

@@ -6,6 +6,7 @@ Posle ovog poglavlja treba da možeš da:
 
 - razlikuješ kristalnu strukturu, rešetku, motiv i jediničnu ćeliju;
 - protumačiš parametre \(a,b,c,\alpha,\beta,\gamma\) i zapreminu ćelije;
+- razlikuješ sedam kristalnih od sedam rešetkastih sistema i mapiraš 14 Bravaisovih tipova bez mešanja trigonal/rhombohedral pojmova;
 - pretvaraš frakcione koordinate u Cartesian koordinate i obrnuto;
 - računaš fizičke udaljenosti pomoću matrice ćelije ili metric tensor-a;
 - pronađeš najkraću periodičnu sliku umesto da veruješ koordinatama unutar jednog nacrtanog okvira;
@@ -60,6 +61,38 @@ Sedam kristalnih sistema postavljaju ograničenja na ove parametre. Na primer, u
 \]
 
 Ne treba memorisati 230 prostornih grupa da bi se koristila ćelija. Treba razumeti da ograničenja dolaze iz simetrije i da zaobljavanje ugla bliskog \(90^\circ\) nije dokaz više simetrije.
+
+## Sedam sistema i 14 Bravaisovih tipova bez taksonomske zamke
+
+Ovde se često pomešaju **crystal system** i **lattice system**. Sedam kristalnih sistema su triclinic, monoclinic, orthorhombic, tetragonal, trigonal, hexagonal i cubic. Sedam rešetkastih sistema imaju istu listu osim što se **rhombohedral** pojavljuje umesto **trigonal**. Trigonalni kristal može imati rhombohedral (`hR`) ili hexagonal (`hP`) tip rešetke; zato `trigonal`, `rhombohedral` i `hexagonal setting` nisu sinonimi.
+
+Sledeća tabela zato klasifikuje svih 14 Bravaisovih tipova po **rešetkastom sistemu**. Ograničenja su za uobičajenu konvencionalnu ćeliju i predstavljaju simetrijski zahtev, ne test koji sam dokazuje space group.
+
+| Rešetkasti sistem | Konvencionalna metrička ograničenja | Bravaisovi tipovi |
+|---|---|---|
+| triclinic | nema simetrijski nametnutih jednakosti; uglovi su opšti | `aP` |
+| monoclinic, unique-\(b\) | \(\alpha=\gamma=90^\circ\); \(\beta\) je opšti ugao | `mP`, `mS` |
+| orthorhombic | \(\alpha=\beta=\gamma=90^\circ\); dužine su nezavisne | `oP`, `oS`, `oI`, `oF` |
+| tetragonal | \(a=b\), \(c\) nezavisno; svi uglovi \(90^\circ\) | `tP`, `tI` |
+| rhombohedral, primitive axes | \(a=b=c\); \(\alpha=\beta=\gamma\), opšti jednaki ugao | `hR` |
+| hexagonal axes | \(a=b\), \(c\) nezavisno; \(\alpha=\beta=90^\circ,\ \gamma=120^\circ\) | `hP` |
+| cubic | \(a=b=c\); \(\alpha=\beta=\gamma=90^\circ\) | `cP`, `cI`, `cF` |
+
+`P` je primitive, `I` body-centred, `F` all-face-centred, a IUCr oznaka `S` znači single-face-centred nezavisno od konkretnog `A`, `B` ili `C` setting-a. U CIF space-group simbolu ćeš češće videti konkretno slovo centriranja, na primer `C 2/c` ili `F m -3 m`.
+
+!!! warning "Metrika može slučajno imati višu simetriju"
+    Monoklinična ili orthorhombic ćelija može slučajno imati dve gotovo jednake ivice. To je **metric specialization**, ne automatski dokaz tetragonalne ili cubic simetrije. Crystal system se određuje iz point/space-group simetrije uz tolerancije i validaciju, ne samo poređenjem šest zaokruženih brojeva.
+
+Lokalni `search2` eksport sadrži svih sedam raw cell-setting etiketa. Pri normalizaciji čuvaj raw vrednost, space-group identifikator i transformaciju. Posebno:
+
+```text
+raw_cell_setting = "rhombohedral"
+→ lattice_system = "rhombohedral"
+→ crystal_system = "trigonal"
+→ setting/provenance ostaju eksplicitni
+```
+
+Sama hexagonal metrika ne razdvaja trigonalni `hP` od hexagonalnog kristalnog sistema; za to je potreban space group/point group. Standardna lista i nomenklatura su u [IUCr tabeli sedam sistema i 14 rešetki](https://www.iucr.org/education/pamphlets/2/full-text) i [IUCr nomenklaturi Bravaisovih tipova](https://www.iucr.org/resources/commissions/crystallographic-nomenclature/bravais).
 
 ## Zapremina jedinične ćelije
 
@@ -524,9 +557,16 @@ Dve strukture imaju gotovo iste reduced-cell parametre. Šta još moraš proveri
 ??? success "Odgovor"
     Hemijski sastav i komponente, symmetry/setting transformaciju, periodično atomsko mapiranje, konformaciju i packing, kao i temperaturu, pritisak i kvalitet određivanja.
 
+### 7. Raw `rhombohedral` etiketa
+
+Eksport ima `_cell_setting = rhombohedral`. Koja tri odvojena polja treba sačuvati?
+
+??? success "Odgovor"
+    Sačuvaj originalnu raw etiketu, normalizuj `lattice_system = rhombohedral` i `crystal_system = trigonal`, pa odvojeno sačuvaj space group, setting i svaku primenjenu transformaciju. Sama metrika nije dovoljna za potpunu klasifikaciju simetrije.
+
 ## Kriterijum prolaza
 
-Poglavlje si savladao kada možeš da iz <code>cu_n14_a.cif</code> konstruišeš cell matrix, reprodukuješ zapreminu, C1 Cartesian koordinatu i gustinu, zatim objasniš kako bi comparator prepoznao isti kristal zapisan drugim origin-om, bazom ili supercell-om.
+Poglavlje si savladao kada možeš da iz <code>cu_n14_a.cif</code> konstruišeš cell matrix, reprodukuješ zapreminu, C1 Cartesian koordinatu i gustinu, mapiraš svih 14 Bravaisovih tipova na rešetkaste sisteme bez učenja napamet i objasniš kako bi comparator prepoznao isti kristal zapisan drugim origin-om, bazom ili supercell-om.
 
 ## Primarni i autoritativni izvori
 

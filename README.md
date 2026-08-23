@@ -7,7 +7,7 @@ Privatna, projektno usmerena knjiga za ML inženjera koji kreće od nule i treba
 
 Knjiga objašnjava samo hemiju, kristalografiju i cheminformatiku koje utiču na te zadatke. Svaka celina sadrži intuitivni model, formalnu definiciju, primer vezan za dostavljene fajlove, tipičnu zamku, praktičnu vežbu i proveru znanja.
 
-Plan obuhvata približno 106 sati rada kroz 14 nedelja. Posebno razdvaja sastav, molekulski graf, koordinaciono okruženje, konformaciju, kristalno pakovanje i intermolekulske interakcije, jer ne postoji jedna univerzalna strukturna sličnost.
+Plan obuhvata približno 122 sata rada kroz 15 nedelja. Posebno razdvaja sastav, molekulski graf, koordinaciono okruženje, konformaciju, kristalno pakovanje i intermolekulske interakcije, jer ne postoji jedna univerzalna strukturna sličnost.
 
 ## Lokalno pokretanje
 
@@ -21,8 +21,8 @@ Zatim otvoriti adresu koju prikaže MkDocs, podrazumevano `http://127.0.0.1:8000
 
 ## Važno o izvornim podacima
 
-Repozitorijum namerno ne sadrži white paper, CSD izvoze, ConQuest `.cqs` upite niti dostavljene CIF/MOL/MOL2 fajlove. CSD Portfolio i iz njega izvedeni podskupovi podležu CCDC licenci i ne smeju se redistribuirati bez odgovarajućeg odobrenja. Dostavljene lokalne kopije tretiraju se kao restricted dok se sa fakultetom ne potvrde owner/controller, dozvoljene operacije i odobreni data plane.
+Repozitorijum namerno ne sadrži white paper, CSD izvoze, ConQuest `.cqs` upite niti dostavljene CIF/MOL/MOL2 fajlove. Jedini verzionisani `.cif` je ručno napisan, sintetički teaching fixture u `docs/assets/open/tutorial-minimal.cif`; ne sadrži eksperimentalne ni CSD podatke. CSD Portfolio i iz njega izvedeni podskupovi podležu CCDC licenci i ne smeju se redistribuirati bez odgovarajućeg odobrenja. Dostavljene lokalne kopije tretiraju se kao restricted dok se sa fakultetom ne potvrde owner/controller, dozvoljene operacije i odobreni data plane.
 
 ## Status validacije
 
-Sadržaj je izveden iz lokalnih projektnih artefakata i proveravan prvenstveno prema IUCr, IUPAC i CCDC dokumentaciji, standardima i originalnim radovima. Stranica `Izvori i metod validacije` razdvaja normativne izvore, primarne radove i didaktičke udžbenike.
+Sadržaj je izveden iz lokalnih projektnih artefakata i proveravan prvenstveno prema IUCr, IUPAC i CCDC dokumentaciji, standardima i originalnim radovima. [Validacioni audit](docs/referenca/validacioni-audit-2026-08-23.md) beleži tri nezavisna pregleda, anonimizovano glasanje, jedinu brojčanu korekciju, zatvorene rupe i preostale neizvesnosti. Stranica `Izvori i metod validacije` razdvaja normativne izvore, primarne radove i didaktičke udžbenike.

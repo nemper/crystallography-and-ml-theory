@@ -371,8 +371,8 @@ Brojevi se preklapaju: jedan entry može sadržati više elemenata, a 264 entry-
 U 1.954 coordinate-bearing `search2` record-a:
 
 - ima 4.070 eksplicitnih 4M centara nakon isključivanja `Du`; izbor elemenata prati ConQuest legacy grupu `4M`, uključujući Ge i Sb;
-- median broja non-`Du` atoma po record-u je 89, prosek 104,13, maksimum 646;
-- median broja povezanih komponenti je 2, prosek 2,81, maksimum 36;
+- median broja non-`Du` atoma po record-u je 92, prosek 108,61, maksimum 646;
+- median broja povezanih komponenti je 2, prosek 2,93, maksimum 36;
 - 1.425/1.954, odnosno 72,9%, ima više od jedne povezane komponente;
 - 6 record-a nema nijednu metal–N ivicu;
 - 35 nema metal sa najmanje tri N suseda;

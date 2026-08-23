@@ -5,6 +5,8 @@
 Posle ovog poglavlja treba da možeš da:
 
 - objasniš kako od difrakcionih intenziteta nastaje atomski model;
+- povežeš Millerove indekse, reciprocal lattice, \(d(hkl)\) i položaj pika \(2\theta\);
+- razlikuješ simulirani powder pattern izveden iz CIF modela od izmerenog PXRD bulk uzorka;
 - razlikuješ merenje, izračunati model i deskriptore slaganja između njih;
 - protumačiš R, wR, goodness of fit, occupancy, disorder i standardnu neizvesnost;
 - pročitaš ključna polja iz <code>cu_n14_a.cif</code> bez proglašavanja jednog broja za presudu o kvalitetu;
@@ -61,6 +63,101 @@ U <code>cu_n14_a.cif</code> piše:
 Odnos 4.237 refleksija prema 284 parametra je približno 14,9. To je korisna informacija o količini podataka u odnosu na složenost modela, ali ni taj odnos sam ne dokazuje da je model hemijski ispravan.
 
 Za širi uvod vidi [IUCr definiciju refiniranja](https://dictionary.iucr.org/Refinement), a za formalna značenja CIF polja [IUCr Core CIF dictionary](https://www.iucr.org/resources/cif/dictionaries).
+
+## Reciprocal space: operativni most \(hkl\rightarrow d\rightarrow2\theta\)
+
+Real-space ćeliju opisuju \(\mathbf a,\mathbf b,\mathbf c\). Uz konvenciju bez faktora \(2\pi\), recipročna baza je:
+
+\[
+\mathbf a^*=\frac{\mathbf b\times\mathbf c}{V},\qquad
+\mathbf b^*=\frac{\mathbf c\times\mathbf a}{V},\qquad
+\mathbf c^*=\frac{\mathbf a\times\mathbf b}{V}.
+\]
+
+Refleksiju označenu celobrojnim Millerovim indeksima \((hkl)\) predstavlja reciprocal-lattice vektor:
+
+\[
+\mathbf g_{hkl}=h\mathbf a^*+k\mathbf b^*+l\mathbf c^*,
+\qquad
+d(hkl)=\frac{1}{\lVert\mathbf g_{hkl}\rVert}.
+\]
+
+Za cubic ćeliju ivice \(a\):
+
+\[
+d(hkl)=\frac{a}{\sqrt{h^2+k^2+l^2}}.
+\]
+
+Sintetički CIF iz lekcije 12A ima cubic NaCl teaching ćeliju \(a=5.6400\ \text{Å}\). Za refleksiju \((200)\):
+
+\[
+d(200)=\frac{5.6400}{2}=2.8200\ \text{Å}.
+\]
+
+Ako se simulira Cu K\(\alpha\) obrazac sa \(\lambda=1.5406\ \text{Å}\) i uzme prvi red \(n=1\):
+
+\[
+2\theta
+=2\arcsin\left(\frac{\lambda}{2d}\right)
+\approx31.7^\circ.
+\]
+
+To je deterministički položaj idealizovanog pika za zadatu ćeliju i talasnu dužinu. Promena ćelije pomera \(d\) i \(2\theta\); promena atomskih položaja/vrsta pre svega menja structure factor i intenzitet.
+
+U single-crystal radu „rezolucija“ se često prijavljuje najmanjim dosegnutim razmakom:
+
+\[
+d_{\min}=\frac{\lambda}{2\sin\theta_{\max}}.
+\]
+
+Veći \(\theta_{\max}\) daje manji \(d_{\min}\), odnosno višu prostornu rezoluciju. Nemoj pomešati „viša rezolucija“ sa numerički većim \(d_{\min}\): smer je obrnut.
+
+## Sistematska odsustva: nedostajući pik može biti zahtev simetrije
+
+Translacioni deo space group-a može učiniti da se doprinosi refleksiji tačno ponište. To daje **systematic absence** ili extinction. Primer je `F` centriranje sintetičke `F m -3 m` ćelije. Doprinos četiri rešetkaste tačke sadrži faktor:
+
+\[
+1+e^{\pi i(k+l)}+e^{\pi i(h+l)}+e^{\pi i(h+k)}.
+\]
+
+On je nenula samo kada su \(h,k,l\) svi parni ili svi neparni. Zato su `100` i `110` zabranjeni samim `F` centriranjem, dok su `111` i `200` dozvoljeni. Njihovi stvarni intenziteti i dalje zavise od Na/Cl basis-a, atomskih scattering faktora, occupancy-ja, displacement parametara i eksperimentalnih efekata.
+
+!!! warning "Odsustvo nije isto što i slab pik"
+    Systematic absence je tačno selection rule svojstvo idealne simetrije. Dozvoljena refleksija može biti veoma slaba ili se slučajno poništiti zbog konkretnog motiva. Izmereni pik može izostati zbog limita detekcije, preferred orientation-a ili preklapanja. Zato se space group ne određuje jednim „ima/nema“ pravilom.
+
+## Measured, unique, merged i refined nisu isti brojevi
+
+| Broj | Šta broji |
+|---|---|
+| measured reflections | sva zabeležena opažanja, uključujući ponavljanja i symmetry-equivalent merenja |
+| unique reflections | ekvivalentna opažanja svedena na jedinstvene \(hkl\) indekse pod usvojenom simetrijom |
+| merged data | agregirane intenzitete i neizvesnosti posle skaliranja/kombinovanja ekvivalenata |
+| reflections used in refinement | konkretan skup koji ulazi u least-squares model; kriterijum mora biti naveden |
+
+Lokalnih 87.254 measured i 4.237 unique/refinement refleksija zato nisu konflikt. Redundancy, simetrija i merging objašnjavaju razliku; \(R_\mathrm{int}\) opisuje slaganje ekvivalentnih opažanja pre finalnog modela.
+
+## Simulirani naspram izmerenog PXRD-a
+
+| Pitanje | Simulirani pattern iz CIF-a | Izmereni PXRD |
+|---|---|---|
+| ulaz | ćelija, space group, atomski model, wavelength i simulation settings | bulk uzorak, instrument i eksperimentalni protokol |
+| šta daje | očekivane položaje i relativne intenzitete idealizovanog modela | stvarne counts/intensity kroz \(2\theta\), \(q\) ili \(d\) osu |
+| šta utiče | radiation, range, profile broadening, occupancy/ADP tretman, software/version | kalibracija, pozadina, K\(\alpha_1/\alpha_2\), veličina/strain, texture, mešavine, amorfni sadržaj, priprema i temperatura |
+| epistemološka uloga | koristan fingerprint i predikcija onoga što bi model trebalo da daje | bulk-phase evidence i mogući dokaz mešavine/fazne promene |
+| granica | izveden je iz istog CIF-a, pa nije nezavisna potvrda tog modela | dobro slaganje podržava fazni identitet, ali samo ne potvrđuje svaki atom ili refinement detalj SCXRD modela |
+
+Ako aplikacija poredi pattern-e, minimalni manifest čuva:
+
+- `pattern_type = simulated | measured` i izvorni fajl/hash;
+- probe/radiation; wavelength(s) gde je primenljivo; tip i kalibraciju ose (\(2\theta\), \(q\) ili \(d\));
+- opseg, korak/binning, intensity scale i background/preprocessing;
+- instrument/profile parametrizaciju, temperaturu, pritisak i sample preparation;
+- preferred-orientation, mixture/phase i amorphous-status anotacije kada su poznate;
+- software/verziju i sve simulation settings;
+- comparison metric, peak-matching toleranciju i razlog svake isključene regije.
+
+!!! danger "Ne pravi kružni dokaz"
+    „Simulirao sam PXRD iz CIF-a i simulacija se slaže sa istim CIF-om“ proverava implementaciju, ne fazni identitet uzorka. Nezavisan evidence nastaje tek poređenjem sa stvarno izmerenim bulk podatkom, uz unapred definisan protokol i granice zaključka.
 
 ## R faktor: koliko se amplitude ne slažu
 
@@ -319,9 +416,16 @@ Globalni indeks dobija CIF sa R = 0,09, occupancy disorder-om i validnim checkCI
 ??? success "Odgovor"
     Ne na osnovu tih podataka. Struktura ide kroz kontekstualnu validaciju. Može biti legitimna, ali geometrijski i packing deskriptori treba da nose quality/uncertainty oznaku, a korisnik može zahtevati stroži filter.
 
+### 6. Jedan cubic pik
+
+Za cubic ćeliju \(a=5.6400\ \text{Å}\) i Cu K\(\alpha\), \(\lambda=1.5406\ \text{Å}\), izračunaj \(d(200)\) i približan \(2\theta\). Da li je taj simulirani pik dokaz da NaCl uzorak postoji u laboratoriji?
+
+??? success "Odgovor"
+    \(d(200)=a/2=2.8200\ \text{Å}\), a \(2\theta\approx31.7^\circ\). To je predikcija sintetičkog modela pod zadatim settings-ima, ne dokaz postojanja uzorka. Za bulk evidence potreban je nezavisno izmeren PXRD i definisan protokol poređenja.
+
 ## Kriterijum prolaza
 
-Poglavlje si savladao kada možeš da uzmeš <code>cu_n14_a.cif</code>, napraviš tabelu svih navedenih quality polja, protumačiš ih bez univerzalnog praga i objasniš kako bi svako polje uticalo na globalni dohvat i precizno poređenje parova.
+Poglavlje si savladao kada možeš da uzmeš <code>cu_n14_a.cif</code>, napraviš tabelu svih navedenih quality polja, protumačiš ih bez univerzalnog praga, izvedeš \(hkl\rightarrow d\rightarrow2\theta\) za jednostavnu ćeliju i jasno odvojiš simulirani pattern od izmerenog PXRD bulk dokaza.
 
 ## Primarni i autoritativni izvori
 
@@ -331,3 +435,7 @@ Poglavlje si savladao kada možeš da uzmeš <code>cu_n14_a.cif</code>, napravi�
 - [IUCr checkCIF FAQ](https://journals.iucr.org/services/cif/checking/checkfaq.html)
 - [IUCr Statistical descriptors in crystallography](https://dictionary.iucr.org/Statistical_descriptors)
 - [IUCr definition of CIF](https://dictionary.iucr.org/CIF)
+- [IUCr Online Dictionary: Miller indices](https://dictionary.iucr.org/Miller_indices)
+- [IUCr Online Dictionary: reciprocal lattice](https://dictionary.iucr.org/Reciprocal_lattice)
+- [IUCr powder CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/browse/cif_pd)
+- [CCDC API: powder-pattern simulation settings](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/descriptors.html)

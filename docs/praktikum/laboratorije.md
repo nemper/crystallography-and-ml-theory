@@ -32,6 +32,20 @@ Za programski rad preporučeni su [Gemmi](https://gemmi.readthedocs.io/en/stable
 
 **Isporuka:** `source-manifest.local.csv`, van Git repoa.
 
+## L0A — Anatomija celog bezbednog CIF-a (1 h)
+
+**Ulaz:** repo fixture [`tutorial-minimal.cif`](../assets/open/tutorial-minimal.cif). Ovo je jedini CIF u praktikumu koji sme da se deli javno: ručno je napravljen i sintetički.
+
+1. Otvori fajl kao običan tekst i označi komentar, `data_` blok, scalar data items, quoted value, semicolon text field i `loop_`.
+2. Za svaki atom-site red poveži šest vrednosti sa šest loop kolona.
+3. Pronađi standard uncertainty zapis, nepoznatu vrednost `?` i neprimenljivu vrednost `.`.
+4. Parserom pročitaj broj blokova/items/atom rows; uporedi sa ručnim brojanjem.
+5. Iz \(a=b=c=5.6400\ \text{Å}\) reprodukuj zapreminu.
+6. Iz formule NaCl, \(Z=4\), formule mase i zapremine proveri gustinu.
+7. U privatnoj privremenoj kopiji ukloni jednu vrednost iz atom loop reda i zabeleži kako parser prijavljuje cardinality grešku; original ne menjaj.
+
+**Kontrola:** parser i ručno čitanje moraju dati isti atom-column mapping. `?` i `.` ostaju različiti tokeni, a sintetički model se ne opisuje kao eksperimentalni dokaz.
+
 ## L1 — Formula, molarna masa i kristalna gustina (1,5 h)
 
 **Ulaz:** `cu_n14_a.cif`.
@@ -216,6 +230,19 @@ Napravi kontrolisane varijante jednog fixture-a:
 Za svaku unapred napiši koje score komponente moraju ostati iste, koje se smeju promeniti i gde sistem mora da upozori.
 
 **Kontrola:** očekivanja se pišu pre gledanja izlaza algoritma.
+
+## L11 — Referentni signal i diffraction evidence (2 h)
+
+**Ulazi:** sintetički brojevi iz [lekcije 11A](../kristali/11a-referentne-raspodele-hbp.md) i `tutorial-minimal.cif`.
+
+1. Reprodukuj empirical percentile \(247/250\) i robustni \(z\) za 1,390 Å, medijanu 1,340 Å i MAD 0,012 Å.
+2. Napiši četiri alternativna objašnjenja outlier-a koja ne tvrde energiju.
+3. Izračunaj kružnu udaljenost između \(-179^\circ\) i \(+179^\circ\).
+4. Za sintetički HBP primer napravi odvojena polja za individual propensity, uncertainty, observed status, grouping score, coordination score i fitting support.
+5. Za cubic ćeliju \(a=5.6400\ \text{Å}\) izračunaj \(d(200)\) i \(2\theta\) za \(\lambda=1.5406\ \text{Å}\).
+6. Napiši dva različita claim-a: jedan koji podržava simulated pattern i jedan koji bi zahtevao measured PXRD.
+
+**Kontrola:** nijedan output ne sme da kaže „outlier = nestabilan“, „propensity = opažena veza“ ili „simulacija = potvrđen bulk uzorak“.
 
 ## Završna evidencija
 
