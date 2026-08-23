@@ -28,5 +28,6 @@ nav:
       - Algoritmi i evidence: pairs/04-precise-pairwise.md
   - Deep crystal modeli:
       - Periodični encoderi: deep/05-periodic-crystal-encoders.md
+      - Metric learning i evaluacija: deep/06-metric-learning-and-evaluation.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md

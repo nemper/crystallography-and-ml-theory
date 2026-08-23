@@ -22,3 +22,5 @@ Modul [globalne pretrage](retrieval/03-global-retrieval-ann-ranking.md) razdvaja
 Modul [preciznog pairwise poređenja](pairs/04-precise-pairwise.md) opisuje component assignment, VF2/MCS, Kabsch, koordinacionu geometriju, COMPACK/PAC, SOAP–REMatch, PXRD i interaction networks.
 
 Modul [periodičnih crystal encodera](deep/05-periodic-crystal-encoders.md) proverava CGCNN, SchNet, DimeNet, MEGNet, ALIGNN, Matformer i equivariant modele, sa eksplicitnim periodic-invariance i stereo gate-ovima.
+
+Modul [metric learning-a i pair modela](deep/06-metric-learning-and-evaluation.md) određuje loss-eve, positive/negative protokol, dual/cross-encoder uloge, splitove, kalibraciju i production gate.
