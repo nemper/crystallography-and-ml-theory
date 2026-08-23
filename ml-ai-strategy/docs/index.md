@@ -16,3 +16,5 @@ Dokumentacija će za svaki kandidat jasno razdvojiti:
 Počni od [scope-a i pravila odlučivanja](00-scope.md), a zatim koristi [mapu pipeline-a](01-pipeline-decision-map.md) da vidiš gde pripada svaka porodica algoritama.
 
 Prvi detaljni modul obrađuje [klasični ML](classical/02-classical-ml.md): od linearnih baseline-a i Random Forest-a do boosting-a, SVM-a, GPR-a, kalibracije i conformal abstention-a.
+
+Modul [globalne pretrage](retrieval/03-global-retrieval-ann-ranking.md) razdvaja hard filtere, hemijske reprezentacije, exact/ANN candidate generation, filter-aware indeksiranje i learning-to-rank.

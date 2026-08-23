@@ -22,5 +22,7 @@ nav:
   - Pipeline i decision gates: 01-pipeline-decision-map.md
   - Klasični ML:
       - Modeli i eksperimenti: classical/02-classical-ml.md
+  - Globalna pretraga:
+      - Retrieval, ANN i rangiranje: retrieval/03-global-retrieval-ann-ranking.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md
