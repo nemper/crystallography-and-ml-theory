@@ -20,5 +20,7 @@ nav:
   - Početna: index.md
   - Scope i odluke: 00-scope.md
   - Pipeline i decision gates: 01-pipeline-decision-map.md
+  - Klasični ML:
+      - Modeli i eksperimenti: classical/02-classical-ml.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md
