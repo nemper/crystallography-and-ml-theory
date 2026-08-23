@@ -38,6 +38,8 @@ Minimalni relation registry:
 | `coordination_relation_v1` | simetričan | same/related/different | retrieval + pair |
 | `conformer_similarity_v1` | simetričan | graded ili continuous uz mapping | pair/rerank |
 | `packing_relation_v1` | simetričan | same/related/different | pair/rerank |
+| `molecular_stereo_relation_v1` | simetričan | same/mismatch | exact pair gate; ne similarity score |
+| `crystal_handedness_relation_v1` | simetričan | same/mismatch | enantiomorph/handedness gate kada je primenljiv |
 | `useful_precedent_v1` | query-conditional | grade 0/1/2 + reason | App 1 ranking |
 | `contains_motif_v1(A,B)` | **asimetričan** | A contains B / B contains A / both-or-equal / neither | substructure posao |
 

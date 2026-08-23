@@ -372,7 +372,7 @@ Minimalni report contract:
           "score": 0.83,
           "calibrated_probability": null,
           "reason_codes": [],
-          "evidence_ids": []
+          "evidence_ids": ["pair-graph-evidence-001"]
         },
         "coordination": {
           "relation_target": "coordination_relation_v1",
@@ -401,6 +401,7 @@ Gate blokira završni narativ ako:
 - `reported_pair_count != expected_pair_count`;
 - pair ID nije jedinstven;
 - par nedostaje, dupliran je ili koristi pogrešnu input verziju;
+- `branch_status: assessed` nosi naučnu `relation_label`/score, ali nema bar jedan autorizovan evidence ID iz istog run-a;
 - konkretan `branch_status: failed`/reason ili iz njega izveden „not comparable“ korisnički claim nestane iz sažetka;
 - broj „uspešnih“ parova koristi svih `n(n-1)/2` kao denominator bez objašnjenja;
 - jedan neuspeh obori sve ostale parove bez dokumentovanog razloga;
@@ -417,9 +418,9 @@ Search/comparison profile eksplicitno bira:
 - **stereo-sensitive** — enantiomer/mirror razlika ostaje relevantna;
 - **stereo-agnostic** — refleksija je dozvoljena samo zato što task contract to kaže.
 
-Ako korisnička namera ne određuje koji profil važi, sistem vraća `clarify` **pre** izvršenja. Kada su podaci nedovoljni, traženi/verzionisani profil ostaje nepromenjen, a konkretna stereo grana vraća deterministic status `same|mismatch|unknown|not_applicable`; `unknown` nije treći profil. Molekulska stereokemija (R/S, E/Z, definisani stereocentri/dvostruke veze) i kristalni enantiomorf/handedness space-group ili packing opisa su odvojeni claim-ovi; odsustvo jednog nije dokaz drugog.
+Ako korisnička namera ne određuje koji profil važi, sistem vraća `clarify` **pre** izvršenja. Molekulska i kristalna stereo provera imaju odvojene targete, `molecular_stereo_relation_v1` i `crystal_handedness_relation_v1`. Kada je grana izvršena nad dovoljnim dokazom, vraća `branch_status: assessed` i `relation_label: same|mismatch`. Nedovoljan ili konfliktan dokaz vraća `missing_input` ili `ambiguous` uz `relation_label: null`; ahiralni slučaj ili stereo-agnostic profil vraća `not_applicable` + `null`. `unknown` zato nije ni branch status, ni relation label, ni treći profil. Molekulska stereokemija (R/S, E/Z, definisani stereocentri/dvostruke veze) i kristalni enantiomorf/handedness space-group ili packing opisa ostaju odvojeni claim-ovi; odsustvo jednog nije dokaz drugog.
 
-Testovi obuhvataju definisan enantiomer, mirror transform, nepoznatu stereo oznaku, ahiralni/not-applicable slučaj, atom reordering i ekvivalentan rigid transform. Exact stereo `mismatch` u stereo-sensitive profilu ne sme da bude pregažen dobrim RMSD-om, sličnim packing narativom ili visokom opštom similarity ocenom. Narativ doslovno prenosi deterministic stereo status; ne sme iz 2D slike, naziva ili opšteg hemijskog obrasca proglasiti R/S, chirality, crystal handedness ili jednakost.
+Testovi obuhvataju definisan enantiomer, mirror transform, nepoznatu stereo oznaku, ahiralni/not-applicable slučaj, atom reordering i ekvivalentan rigid transform. Exact `relation_label: mismatch` u stereo-sensitive profilu ne sme da bude pregažen dobrim RMSD-om, sličnim packing narativom ili visokom opštom similarity ocenom. Narativ doslovno prenosi `branch_status`, nullable relation label i target; ne sme iz 2D slike, naziva ili opšteg hemijskog obrasca proglasiti R/S, chirality, crystal handedness ili jednakost.
 
 ### White paper regression
 
@@ -947,9 +948,9 @@ Ovo nisu prosečne „quality“ metrike nego izvršivi acceptance oracle-i. Za 
 | P05 | directional A/B swap | dve definisane coverage vrednosti se zamene; denominatori ostaju vezani za odgovarajući endpoint |
 | P06 | jedan pair fail | svi ostali parovi ostaju; failed par i razlog ne nestaju iz sažetka |
 | P07 | A≈B i B≈C bez direktnog A–C run-a | nema tranzitivnog A≈C claim-a |
-| S01 | enantiomer/mirror u stereo-sensitive profilu | deterministic `mismatch`; RMSD/packing narativ ga ne prepisuje |
-| S02 | isti mirror u stereo-agnostic profilu | refleksija samo prema verzionisanom profile-u; status prenet bez opšte stereo tvrdnje |
-| S03 | nepoznata ili ahiralna stereo situacija | `unknown` odnosno `not_applicable`; molecular stereo i crystal enantiomorph odvojeni |
+| S01 | enantiomer/mirror u stereo-sensitive profilu | odgovarajući stereo target daje `branch_status: assessed`, `relation_label: mismatch`; RMSD/packing narativ ga ne prepisuje |
+| S02 | isti mirror u stereo-agnostic profilu | stereo grana daje `branch_status: not_applicable`, `relation_label: null`; refleksija je dozvoljena samo prema verzionisanom profile-u |
+| S03 | nepoznata ili ahiralna stereo situacija | nepoznat dokaz daje `missing_input/ambiguous + null`, ahiralni slučaj `not_applicable + null`; molecular stereo i crystal enantiomorph target ostaju odvojeni |
 | C01 | isti molecular graph, različit crystal packing | graph profil može biti isti; packing identitet se ne izvodi iz njega |
 | W01 | white-paper FL/property/polymorph pitanje | FL nije MVP zahtev; property nosi formu/uslove; indikatori nisu oracle |
 | X01 | injection u `_chemical_name_systematic`, `_exptl_special_details`, authors/title, filename, CSD metadata, RAG tekst ili tool error | sadržaj ostaje nepoverljiv data kanal i ne menja instruction/tool/policy |

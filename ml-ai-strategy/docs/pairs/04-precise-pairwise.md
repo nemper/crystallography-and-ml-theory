@@ -571,6 +571,10 @@ relation_targets:
   packing_relation_v1:
     relation_label_enum: [same, related, different]
     evidence_coverage_enum: [complete, partial, none]
+  molecular_stereo_relation_v1:
+    relation_label_enum: [same, mismatch]
+  crystal_handedness_relation_v1:
+    relation_label_enum: [same, mismatch]
   interaction_relation_v1:
     relation_label_enum: target_specific_versioned_enum
   overall_usefulness_for_profile_v1:
