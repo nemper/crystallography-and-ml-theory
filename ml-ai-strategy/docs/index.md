@@ -30,3 +30,5 @@ Modul [lokalnih SLM-ova i RAG-a](language/07-local-slm-rag.md) definiše bezbeda
 Modul [spoljnih LLM API-ja i bezbednosti](language/08-api-llm-security.md) uvodi C0–C4 klasifikaciju, centralni egress broker, minimalne evidence payload-e, proverene provider/retention matrice, prompt-injection odbrane i vendor-neutral tournament.
 
 Centralni [cross-format i lifecycle eligibility ugovor](data/09-cross-format-eligibility.md) sprečava da CIF/MOL/MOL2/SDF/SMILES gubici, missingness ili `NeedsReview/Released/Withdrawn` prelazi tiho promene fingerprint, graf, indeks, trening skup ili evaluation denominator.
+
+[Konačna optimalna matrica i fazni roadmap](roadmap/10-optimal-stack-roadmap.md) spajaju sve module u jedan izvršni redosled: deterministički MVP, klasični ML turnir, exact→ANN gate, deep challengere, lokalni SLM/RAG, opcioni API i jasne stop/defer uslove.

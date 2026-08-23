@@ -22,6 +22,8 @@ nav:
   - Pipeline i decision gates: 01-pipeline-decision-map.md
   - Ugovori podataka:
       - Cross-format i lifecycle eligibility: data/09-cross-format-eligibility.md
+  - Konačna odluka:
+      - Optimalni stack i fazni roadmap: roadmap/10-optimal-stack-roadmap.md
   - Klasični ML:
       - Modeli i eksperimenti: classical/02-classical-ml.md
   - Globalna pretraga:
