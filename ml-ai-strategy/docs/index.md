@@ -26,3 +26,5 @@ Modul [periodičnih crystal encodera](deep/05-periodic-crystal-encoders.md) prov
 Modul [metric learning-a i pair modela](deep/06-metric-learning-and-evaluation.md) određuje loss-eve, positive/negative protokol, dual/cross-encoder uloge, splitove, kalibraciju i production gate.
 
 Modul [lokalnih SLM-ova i RAG-a](language/07-local-slm-rag.md) definiše bezbedan NL→DSL tok, granicu determinističkog naučnog jezgra, aktuelni model shortlist, hibridni retrieval, fine-tuning lestvicu i production evaluaciju.
+
+Modul [spoljnih LLM API-ja i bezbednosti](language/08-api-llm-security.md) uvodi C0–C4 klasifikaciju, centralni egress broker, minimalne evidence payload-e, proverene provider/retention matrice, prompt-injection odbrane i vendor-neutral tournament.

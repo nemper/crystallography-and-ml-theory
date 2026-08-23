@@ -31,5 +31,6 @@ nav:
       - Metric learning i evaluacija: deep/06-metric-learning-and-evaluation.md
   - Jezički modeli:
       - Lokalni SLM, DSL i RAG: language/07-local-slm-rag.md
+      - Spoljni LLM API i bezbednost: language/08-api-llm-security.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md

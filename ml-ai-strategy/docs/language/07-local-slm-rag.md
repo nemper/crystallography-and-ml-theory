@@ -595,7 +595,7 @@ Slučaj CCDC white paper-a je obavezan regression test: tematski nepodudaran, ne
   "visibility": "internal",
   "tenant_id": "tenant-or-public",
   "project_id": "project-or-shared-approved",
-  "data_class": "C0|C1|C2|C3",
+  "data_class": "C0|C1|C2|C3|C4",
   "allowed_purposes": ["documentation_qa"],
   "acl_policy_id": "versioned-policy",
   "license_id": "policy reference",
