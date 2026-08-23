@@ -20,3 +20,5 @@ Prvi detaljni modul obrađuje [klasični ML](classical/02-classical-ml.md): od l
 Modul [globalne pretrage](retrieval/03-global-retrieval-ann-ranking.md) razdvaja hard filtere, hemijske reprezentacije, exact/ANN candidate generation, filter-aware indeksiranje i learning-to-rank.
 
 Modul [preciznog pairwise poređenja](pairs/04-precise-pairwise.md) opisuje component assignment, VF2/MCS, Kabsch, koordinacionu geometriju, COMPACK/PAC, SOAP–REMatch, PXRD i interaction networks.
+
+Modul [periodičnih crystal encodera](deep/05-periodic-crystal-encoders.md) proverava CGCNN, SchNet, DimeNet, MEGNet, ALIGNN, Matformer i equivariant modele, sa eksplicitnim periodic-invariance i stereo gate-ovima.

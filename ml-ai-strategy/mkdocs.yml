@@ -26,5 +26,7 @@ nav:
       - Retrieval, ANN i rangiranje: retrieval/03-global-retrieval-ann-ranking.md
   - Precizno poređenje parova:
       - Algoritmi i evidence: pairs/04-precise-pairwise.md
+  - Deep crystal modeli:
+      - Periodični encoderi: deep/05-periodic-crystal-encoders.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md
