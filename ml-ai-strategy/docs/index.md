@@ -2,7 +2,7 @@
 
 Ova dokumentacija odgovara na praktično pitanje: **koji algoritam ili kombinacija algoritama je najbolji za svaku fazu dve 2CDC aplikacije, pod kojim uslovima i na osnovu kog dokaza?**
 
-Ako dokumentaciju koristiš kao put učenja, a ne samo kao arhitektonsku referencu, prati [16-nedeljni plan za ML inženjera](learning/11-ml-ai-plan-ucenja.md). On povezuje tačan redosled ovih modula sa hemijskim preduslovima, vežbama, kapijama znanja, artefaktima i fazama R0–R10.
+Ako dokumentaciju koristiš kao put učenja, a ne samo kao arhitektonsku referencu, prati [plan za ML inženjera](learning/11-ml-ai-plan-ucenja.md). On povezuje tačan redosled ovih modula sa hemijskim preduslovima, proverama razumevanja i budućim fazama R0–R10, bez implementiranja aplikacija tokom učenja.
 
 Ne tražimo jedan univerzalni model. Globalni retrieval, precizno poređenje kristala, procena svojstava, objašnjenje rezultata i eventualni jezički interfejs imaju različite ciljeve, greške, podatke i acceptance kriterijume. Jezički model nije zahtev izvornog brief-a; ispituje se kao opcioni UX sloj nad potpunim determinističkim Tier 0 sistemom.
 

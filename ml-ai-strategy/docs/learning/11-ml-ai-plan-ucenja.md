@@ -1,10 +1,13 @@
 # Plan učenja ML/AI dela za 2CDC
 
-Ovo je operativna putanja kroz postojeći kurs hemije i ML/AI strategiju za inženjera koji već zna da trenira, validira i isporuči ML sistem, ali tek gradi domensko znanje iz hemije i kristalografije. Plan ne ponavlja teoriju iz postojećih poglavlja. On određuje **redosled, preduslove, vežbe, dokaze prolaza i projektne artefakte**.
+Ovo je putanja kroz postojeći kurs hemije i ML/AI strategiju za inženjera koji već zna da trenira, validira i isporuči ML sistem, ali tek gradi domensko znanje iz hemije i kristalografije. Plan ne ponavlja teoriju iz postojećih poglavlja. On određuje **redosled, preduslove, projektantske vežbe i dokaze razumevanja**.
 
-Osnovna putanja traje približno **16 nedelja i 157 fokusiranih sati**. Vreme uključuje navedeno čitanje, beleške i praktične zadatke, ali ne i kompletno čitanje svake spoljne reference. Ako radiš najviše osam sati nedeljno, istu putanju rastegni na oko 20 nedelja; kapije i redosled ostaju isti.
+Osnovna putanja ima 16 nastavnih blokova i približno **178 fokusiranih sati**: oko 122 sata postojećeg kursa hemije i oko 56 sati projektno usmerene ML/AI nadogradnje. Ne uključuje implementiranje dve aplikacije, treniranje modela niti kompletno čitanje svake spoljne reference. Blokovi mogu stati u 16 intenzivnih nedelja samo uz približno 10–13 sati rada nedeljno; pri održivih osam sati računaj oko 22–23 nedelje. Kapije i redosled ostaju isti.
 
-Ovaj plan dopunjuje [postojeći 15-nedeljni plan hemije](https://nemper.github.io/2cdc-chemistry-foundations/pocetak/plan-ucenja/). Hemijski plan daje redosled domenskog gradiva; ova strana govori kada je to gradivo dovoljno savladano za određenu ML/AI odluku.
+Ovaj plan dopunjuje [postojeći 15-nedeljni plan hemije](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/docs/pocetak/plan-ucenja.md). Hemijski plan daje redosled domenskog gradiva; ova strana govori kada je to gradivo dovoljno savladano za određenu ML/AI odluku.
+
+!!! info "Granica ovog plana"
+    Tokom učenja pišeš kratke obrazložene skice, tabele odluka i očekivane ishode na ilustrativnim primerima. Konkretne šeme, fixture fajlovi, kod, benchmark run-ovi, treniranje, deployment i produkcioni artefakti ovde se samo navode kao buduće obaveze razvojne faze — ne izrađuju se u okviru plana učenja.
 
 ## Pravila rada
 
@@ -47,265 +50,254 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 
 ## Hemijski preduslovi po ML/AI temi
 
-| ML/AI odluka | Hemija koju moraš završiti | Dokaz da je preduslov stvarno savladan |
+| ML/AI odluka | Hemija koju moraš završiti | Šta treba da razumeš pre kasnije realizacije |
 |---|---|---|
-| CIF ingest i field extraction | 1–2, 8–10, 12 i 12A | Parser razlikuje `?`, `.`, `0`, s.u., ASU, ćeliju i symmetry; filename ne postaje sastav. |
-| Molekulski graf, ECFP i Tanimoto | 1–6, 12–15 | Možeš navesti uticaj bond order-a, aromatičnosti, naboja, tautomera, stereo i component politike na fingerprint i rang. |
-| Exact graph, subgraph, VF2/MCS | 2, 4–6, 11–15 | Napišeš node/edge constraint-e, smer containment-a, coverage obe strane, timeout i ambiguity politiku. |
-| Component assignment | 4–6, 11–13 | Ne biraš „najveći fragment“; razlikuješ ligand, coordination entity, counterion, solvent, coformer i multiplicity. |
-| Kabsch, mapped 3D i stereo | 3–4, 8–9, 12–15 | Atom mapping prethodi RMSD-u; refleksija je zabranjena u stereo-sensitive profilu; coverage stoji uz RMSD. |
-| Koordinacioni deskriptori/graf | 5–10, 12–15 | Razlikuješ metal presence od direktnog donor mapping-a; vraćaš CN, donor set, geometry/CSM i ambiguity. |
-| Periodični graf i crystal encoder | 7–10, 12A–14 | Isti rezultat dobijaš posle wrap-a, origin/setting/basis promene i dozvoljenog supercell zapisa; image provenance nije izgubljen. |
-| Packing, polymorph i interaction modeli | 7–11A, 13–15 | Isti molecular graph ne proglašavaš istom formom; packing, PXRD, HBP i Mogul ostaju odvojeni signali sa granicama. |
-| Retrieval, reranking i qrels | 5–6, 11–18, 20 | Razlikuješ exact-neighbor ANN recall, expert candidate recall i end-to-end ranking; `search2` nije positive gold. |
-| Kalibracija, abstention i error analysis | 10–15 i 20 | Raw cosine/Tanimoto/LambdaMART score ne zoveš verovatnoćom; kalibraciju fituješ van finalnog testa i prikazuješ risk–coverage. |
-| Structure–property ili polymorph-risk target | 10–11A, 20–22 | Target vezuješ za material/solid form, uslove, metod, vreme i uncertainty; indikator ne postaje oracle. |
-| Federativno učenje | 21–22 | Možeš nacrtati threat model i dokazati zašto FL nije ni licenca ni automatska privatnost; bez multi-site targeta odluka je `DEFER`. |
+| CIF ingest i izdvajanje polja | 1–2, 8–10, 12 i 12A | Razliku između ?, ., 0, standardne neizvesnosti, ASU, ćelije i simetrijskih operacija; filename nije hemijski sastav. |
+| Molekulski graf, ECFP i Tanimoto | 1–6, 12–15 | Kako bond order, aromatičnost, naboj, tautomerija, stereohemija i politika komponenti menjaju fingerprint i rang. |
+| Exact graph, subgraph, VF2 i MCS | 2, 4–6, 11–15 | Node/edge ograničenja, smer containment-a, coverage obe strane, timeout i ambiguity politiku. |
+| Dodela komponenti | 4–6, 11–13 | Razliku između liganda, coordination entity-ja, counterion-a, solventa i coformer-a; pravilo „najveći fragment“ nije dovoljno. |
+| Kabsch, mapirani 3D i stereo | 3–4, 8–9, 12–15 | Atom mapping prethodi RMSD-u, refleksija zavisi od stereo profila, a coverage mora stajati uz RMSD. |
+| Koordinacioni deskriptori i graf | 5–10, 12–15 | Prisustvo metala nije isto što i direktno donor mapiranje; CN, donor set, geometrija/CSM i neodređenost su različiti izlazi. |
+| Periodični graf i crystal encoder | 7–10, 12A–14 | Koje fizički ekvivalentne promene zapisa ne smeju promeniti rezultat i zašto se čuva provenance periodične slike. |
+| Packing, polimorfi i interakcije | 7–11A, 13–15 | Isti molekulski graf nije nužno ista čvrsta forma; packing, PXRD, HBP i Mogul su odvojeni signali sa ograničenjima. |
+| Retrieval, reranking i qrels | 5–6, 11–18, 20 | Razliku između hard filtera, candidate recall-a, semantic recall-a i finalnog ranga; postojeće search grupe nisu automatski gold. |
+| Kalibracija, abstention i analiza grešaka | 10–15 i 20 | Raw score nije verovatnoća, kalibracija ne koristi finalni test, a risk–coverage opisuje cenu abstention-a. |
+| Structure–property i polymorph-risk target | 10–11A, 20–22 | Target se vezuje za material/solid form, uslove, metod, vreme i neizvesnost; indikator nije oracle. |
+| Federativno učenje | 21–22 | FL nije zamena za licencu niti automatska privatnost; bez opravdanog multi-site targeta odluka je **DEFER**. |
 
-## Faze, vreme, roadmap i završni artefakt
+## Faze, vreme, roadmap i završni dokaz razumevanja
 
-| Faza | Nedelje | Sati | Primarni roadmap domet | Projektni artefakt na izlazu |
+| Faza | Blokovi | Sati | Primarni roadmap domet | Dokaz razumevanja |
 |---|---:|---:|---|---|
-| F0 — scope, claims i prava | 1 | 6 | R0 | `claims-rights-brief-v1.md`: dva product claim-a, comparison/search profili, permission pitanja i stop uslovi. |
-| F1 — hemijski graf, stereo i koordinacija | 2–3 | 16 | R0 → R1 | `chemical-object-contract-v1.md` + hash-ovan DAP motif/donor manifest i pozitivni/negativni/ambiguous primeri. |
-| F2 — 3D kristal i periodičnost | 4–6 | 27 | R1 | `periodic-invariance-contract-v1.md` + sintetički metamorphic fixture manifest sa očekivanim ishodima. |
-| F3 — formati, reprezentacije i data contract | 7–8 | 18 | R1 | `entry-inventory-schema-v1.yaml`, cross-format loss matrix i denominator/eligibility report. |
-| F4 — determinističko poređenje parova | 9–10 | 20 | R2; osnova R4 App 2 | `pair-evidence-schema-v1.json`, full all-pairs mini-run i branch-status/error report. |
-| F5 — retrieval, exact oracle i reranking | 11–12 | 20 | R2 App 1; osnova R4 i R6 | `retrieval-benchmark-v1.md`, qrels protocol, exact→candidate→rerank trace i recall/latency/memory tabela. |
-| F6 — gold, split, klasični ML i kalibracija | 13 | 10 | R3 → R5 | `evaluation-protocol-v1.md`, split manifest, baseline tournament card, calibration i error-analysis izveštaj. |
-| F7 — periodic deep i metric learning challenger | 14–15 | 22 | R7 | `periodic-challenger-report-v1.md` ili obrazložen `DEFER` ADR, sa ablation-ima i production gate odlukom. |
-| F8 — governance, white paper i naredne faze | 16 | 18 | R8–R10 odluka, ne automatska implementacija | `governance-and-next-stages-v1.md`: provenance/repro checklist, SLM/API granica i FL go/defer odluka. |
+| F0 — scope, claims i prava | 1 | 8 | R0 | Kratka beleška o dva proizvoda, profilima poređenja/pretrage, pravima, nepoznanicama i stop-uslovima. |
+| F1 — hemijski graf, stereo i koordinacija | 2–3 | 16 | R0 → R1 | Mapa pojmova i ručno obrazloženi pozitivni, negativni i neodređeni DAP/donor primeri. |
+| F2 — 3D kristal i periodičnost | 4–6 | 27 | R1 | Checklist invarijansi i očekivanih ishoda fizički ekvivalentnih i stvarno različitih transformacija. |
+| F3 — formati, reprezentacije i data contract | 7–8 | 21 | R1 | Checklist polja, matrica gubitaka među formatima i zamišljen denominator/eligibility primer. |
+| F4 — determinističko poređenje parova | 9–10 | 24 | R2; osnova R4 App 2 | Predložak pair izveštaja i nekoliko ručno razrađenih slučajeva sa statusima i evidence-om. |
+| F5 — retrieval, exact oracle i reranking | 11–12 | 24 | R2 App 1; osnova R4 i R6 | Beleška o dizajnu benchmarka, anotaciji i toku exact → candidate → rerank. |
+| F6 — gold, split, klasični ML i kalibracija | 13 | 12 | R3 → R5 | Dizajn evaluacije, skica leakage-safe split-a i tumačenje hipotetičkih rezultata. |
+| F7 — periodic deep i metric learning challenger | 14–15 | 26 | R7 | Uporedna projektantska tabela i obrazloženi budući **GO** ili **DEFER** kriterijumi. |
+| F8 — governance, white paper i naredne faze | 16 | 20 | Odluke za R8–R10 | Završni memorandum o provenance-u, reproduktivnosti, SLM/API granici i FL odluci. |
 
-Ukupno je oko **157 h**. F8 uključuje osam sati osnovne nedelje i do deset sati ciljane završne sinteze/odbrane; ta sinteza se može prebaciti u 17. nedelju ako radiš održivim tempom.
+Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI nadogradnje. Redovni blokovi sabiraju 168 h; poslednjih do 10 h služi za završnu sintezu i usmenu samoproveru. To je 16 intenzivnih nedelja pri 10–13 h rada, odnosno oko 22–23 nedelje pri tempu od 8 h.
 
 ## Nedelja po nedelja
 
-### Nedelja 1 — problem pre algoritma (6 h)
+### Nedelja 1 — problem pre algoritma (8 h)
 
-**Čitaj:** početne strane oba sajta, hemijsku mapu projekta i dijagnostiku; zatim ML/AI scope, pipeline mapu i samo izvršni deo roadmapa do R2.
+**Čitaj:** početne strane oba dela dokumentacije, hemijsku mapu projekta i dijagnostiku; zatim ML/AI scope, pipeline mapu i izvršni deo roadmapa do R2.
 
-**Moraš postići:** za oba proizvoda napiši objekat, korisničku odluku, target, failure cenu, evidence i šta je trenutno blokirano bez CSD prava/gold-a.
+**Fokus:** za oba proizvoda odredi objekat, korisničku odluku, target, cenu greške, evidence i ono što ostaje blokirano bez CSD prava ili gold podataka.
 
-**Vežba:** uzmi frazu „sličan kristal“ i razloži je na najmanje pet odvojenih claim-ova. Za svaki napiši koji input je dovoljan i kada rezultat mora biti `UNKNOWN`/`not_applicable`.
+**Projektantska vežba:** frazu „sličan kristal“ razloži na najmanje pet različitih claim-ova. Uz svaki napiši dovoljan input i uslov za **UNKNOWN** ili **not_applicable**.
 
-**Provera:** bez dokumentacije objasni zašto App 1 nije klasifikator, zašto App 2 nije jedna matrica univerzalnog score-a i zašto LLM nije parser. Predaj F0 artefakt.
+**Kapija:** umeš da objasniš zašto App 1 nije samo klasifikator, App 2 nije jedna univerzalna matrica score-a i LLM nije parser.
 
 ### Nedelja 2 — od atoma do stereo-svesnog grafa (8 h)
 
 **Čitaj:** hemija 1–4.
 
-**Moraš postići:** razlikuj formulu od grafa, formalni naboj od parcijalnog naboja/oxidation state-a, konfiguraciju od konformacije i nepoznatu stereo oznaku od ahiralnog slučaja.
+**Fokus:** formula naspram grafa, formalni/parcijalni naboj i oksidaciono stanje, konfiguracija naspram konformacije, nepoznata stereo oznaka naspram ahiralnosti.
 
-**Vežba:** za pet malih primera ručno napravi node/edge tabelu, zatim variraj aromaticity, tautomer, protonation i stereo politiku. Zapiši koje ECFP bitove/rang očekuješ da se promene, bez potrebe da unapred znaš konkretne hash vrednosti.
+**Projektantska vežba:** na pet malih nacrtanih primera napravi node/edge tabelu i obrazloži očekivani uticaj promene aromatičnosti, tautomerije, protonacije i stereo politike na fingerprint.
 
-**Provera:** hemijska Kapija A iz kursa i kratka specifikacija `graph-policy-v1`; nijedno polje `unknown` ne sme biti prepisano podrazumevanom vrednošću.
+**Kapija:** prolaziš hemijsku Kapiju A i ne pretvaraš nepoznato polje u podrazumevanu vrednost.
 
 ### Nedelja 3 — DAP, metali i koordinaciona semantika (8 h)
 
 **Čitaj:** hemija 5–6.
 
-**Moraš postići:** mapiraj tri DAP N donora, odvoji potential od observed denticity, metal u entry-ju od metala u istoj komponenti i direktne N3 koordinacije.
+**Fokus:** tri DAP N donora, potential naspram observed denticity, metal u entry-ju naspram metala u istoj komponenti i direktne N3 koordinacije.
 
-**Vežba:** reprodukuj logiku laboratorije L6 kao mašinski query manifest. Dodaj najmanje po jedan positive, hard negative i `AMBIGUOUS_REPRESENTATION` slučaj. Ne koristi `search1/search2` članstvo kao labelu.
+**Projektantska vežba:** napiši kriterijume za pozitivan, težak negativan i reprezentaciono neodređen slučaj; posebno objasni tvrdnju „isti metal je direktno vezan za sva tri mapirana DAP N“.
 
-**Provera:** napiši exact predicate „isti metal direktno koordinira sva tri mapirana DAP N“. Ako se predicate svodi na formulu, filename ili SMILES tačku, kapija nije prošla. Predaj F1 artefakt.
+**Kapija:** nijedan kriterijum se ne svodi samo na formulu, filename, SMILES tačku ili pripadnost staroj search grupi.
 
 ### Nedelja 4 — 3D, ćelija i periodični susedi (9 h)
 
 **Čitaj:** hemija 7–8.
 
-**Moraš postići:** pređi iz frakcionih u Cartesian koordinate, koristi metric tensor/PBC i objasni zašto atom/molekul ne završava na ivici nacrtane ćelije.
+**Fokus:** frakcione i Cartesian koordinate, metric tensor, PBC i činjenica da fizički objekat ne prestaje na ivici nacrtane ćelije.
 
-**Vežba:** uradi L3 i početak L4 na sintetičkom ili eksplicitno dozvoljenom fixture-u. Sačuvaj symmetry operation i lattice image uz svaki periodični kontakt.
+**Projektantska vežba:** ručno prođi kroz ilustrativan proračun iz L3/L4 i u tabeli zabeleži očekivano ponašanje kontakta pri wrap-u, translaciji, rotaciji i promeni redosleda atoma.
 
-**Provera:** distance moraju ostati iste posle wrap-a, rigidne rotacije/translacije i promene redosleda atoma.
+**Kapija:** umeš da obrazložiš koje udaljenosti moraju ostati iste i koji podaci o simetrijskoj operaciji i periodičnoj slici bi se kasnije čuvali.
 
 ### Nedelja 5 — simetrija, kvalitet i neizvesnost (9 h)
 
 **Čitaj:** hemija 9–10.
 
-**Moraš postići:** razlikuj ASU, ćeliju i supercell; setting/origin promenu od fizičke razlike; measured od simulated PXRD-a; profil kvaliteta od jednog R praga.
+**Fokus:** ASU, ćelija i supercell; setting/origin promena naspram fizičke razlike; measured naspram simulated PXRD; profil kvaliteta naspram jednog R praga.
 
-**Vežba:** završi L4 i napravi dve vrste fixture-a: invarijantnu promenu zapisa i stvarnu promenu strukture. Za bar jedan quality problem odredi `missing_input` naspram `quality_blocked`.
+**Projektantska vežba:** opiši jednu ekvivalentnu promenu zapisa i jednu stvarnu promenu strukture, pa za nekoliko problema kvaliteta odredi očekivani status.
 
-**Provera:** isti kristal u ekvivalentnom setting-u prolazi, mirror/stereo ponašanje prati profil, a loš/odsutan input ne daje score 0.
+**Kapija:** ekvivalentan zapis ne tretiraš kao novi kristal, a odsutan ili loš input ne pretvaraš u score 0.
 
 ### Nedelja 6 — polimorfi, packing i referentni signali (9 h)
 
 **Čitaj:** hemija 11 i 11A.
 
-**Moraš postići:** razlikuj parent compound, solid form, polymorph, solvate/hydrate/co-crystal i redetermination. Mogul outlier, HBP, packing score i simulated PXRD ne smeju postati termodinamički oracle.
+**Fokus:** parent compound, solid form, polymorph, solvate/hydrate/co-crystal i redetermination; granice Mogul, HBP, packing i PXRD signala.
 
-**Vežba:** uradi L5 i L11; zatim napravi par sa istim molecular graph-om i različitim packing očekivanjem. Napiši koju nezavisnu eksperimentalnu potvrdu bi zahtevao jači claim.
+**Projektantska vežba:** obrazloži slučaj sa istim molekulskim grafom i različitim packing-om i navedi kakva bi nezavisna potvrda bila potrebna za jaču tvrdnju.
 
-**Provera:** prolaz kroz hemijsku Kapiju C i predat F2 artefakt sa origin/wrap/setting/basis/supercell, stereo i disorder očekivanjima.
+**Kapija:** prolaziš hemijsku Kapiju C i umeš da predvidiš očekivanja za origin, wrap, setting/basis, supercell, stereo i disorder slučajeve.
 
-### Nedelja 7 — formati i loss-aware ingest (9 h)
+### Nedelja 7 — formati i loss-aware ingest (10 h)
 
-**Čitaj:** hemija 12, 12A i 13; zatim prvu polovinu cross-format/lifecycle modula do purpose-specific canonical view-a.
+**Čitaj:** hemija 12, 12A i 13; zatim prvi deo cross-format/lifecycle modula.
 
-**Moraš postići:** za CIF/MOL/MOL2/SDF/SMILES navedi očuvano, izgubljeno, dodeljeno i nepoznato; original i purpose-specific view ostaju odvojeni.
+**Fokus:** šta CIF, MOL, MOL2, SDF i SMILES čuvaju, gube, dodeljuju ili ostavljaju nepoznatim; original i purpose-specific view nisu isto.
 
-**Vežba:** uradi L0A i L2. Implementacioni nacrt mora čuvati byte hash, parser/verziju, field-level source binding, conflict/loss/status i transformacioni lineage.
+**Projektantska vežba:** napravi matricu gubitaka i checklist podataka koje bi budući sistem morao čuvati: izvor, hash, parser/verziju, field-level poreklo, konflikt, status i transformacioni lineage.
 
-**Provera:** lossy format ne prepisuje bogatiji source, uspešan parse nije automatski validan crystal model, a `inner join` ne briše entry bez accounting-a.
+**Kapija:** lossy format ne prepisuje bogatiji izvor, uspešan parse nije isto što i validan crystal model i nijedan entry ne nestaje bez accounting-a.
 
-### Nedelja 8 — eligibility, reprezentacije i lokalni bias (9 h)
+### Nedelja 8 — eligibility, reprezentacije i lokalni bias (11 h)
 
-**Čitaj:** hemija 14–17 i 21; dovrši [cross-format/lifecycle ugovor](../data/09-cross-format-eligibility.md).
+**Čitaj:** hemija 14–17 i 21; dovrši cross-format/lifecycle ugovor.
 
-**Moraš postići:** odvoji declared, curated i geometry-neighbor graf; objasni granice 2D, isolated-3D i periodic reprezentacije; definiši identity/family/lifecycle/rights pre splita.
+**Fokus:** declared, curated i geometry-neighbor graf; granice 2D, isolated-3D i periodic reprezentacije; identity, family, lifecycle i rights pre splita.
 
-**Vežba:** uradi L7 nad dozvoljenim lokalnim data-plane-om ili napravi sintetički ekvivalent sa istim vrstama missingness-a. Proizvedi union inventar, channel coverage, međusobno isključiv exclusion waterfall i conservation assert.
+**Projektantska vežba:** na malom zamišljenom primeru nacrtaj union inventar, channel coverage, međusobno isključiv exclusion waterfall i proveru očuvanja broja zapisa.
 
-**Provera:** isti entry u svim formatima/verzijama ide u istu split grupu; missing SMILES ne znači missing graph ni negative label; predaj F3 artefakt. Ovo je R1 learning gate.
+**Kapija:** isti entry u svim formatima/verzijama pripada istoj split grupi, a missing SMILES nije ni missing graph ni negativna labela.
 
-### Nedelja 9 — deterministički App 2: mapping i 3D (10 h)
+### Nedelja 9 — deterministički App 2: mapping i 3D (12 h)
 
 **Čitaj:** hemija 19 i pairwise modul 4.1–4.9.
 
-**Moraš postići:** definiši comparison profile, component assignment sa unmatched opcijom, exact/subgraph/MCS semantiku, automorphism politiku, Kabsch posle mapping-a i coordination evidence.
+**Fokus:** comparison profile, dodela komponenti sa unmatched opcijom, exact/subgraph/MCS semantika, automorfizmi, Kabsch posle mapping-a i koordinacioni evidence.
 
-**Vežba:** na 6–10 sintetičkih/otvorenih struktura izračunaj full `n(n-1)/2` universe. Ubrizgaj timeout, unknown bond, missing cell i ambiguous donor assignment. Proveri A↔B symmetry i directional coverage.
+**Projektantska vežba:** za 4–6 ilustrativnih struktura ručno odredi broj parova i očekivano ponašanje grana pri timeout-u, unknown bond-u, missing cell-u i neodređenom donor assignment-u. Ne gradi engine.
 
-**Provera:** svaki pair i svaka grana postoje u long-form rezultatu; timeout/failure se ne gube i ne pretvaraju u score.
+**Kapija:** razumeš zašto svaki par i svaka grana moraju imati stanje i zašto smer A→B može menjati coverage, ali ne i simetrične veličine.
 
-### Nedelja 10 — deterministički App 2: packing i evidence (10 h)
+### Nedelja 10 — deterministički App 2: packing i evidence (12 h)
 
 **Čitaj:** dovrši pairwise modul 4.10–4.21.
 
-**Moraš postići:** razumeš uloge i granice COMPACK/PAC, CrystalCMP, SOAP–REMatch, PXRD i interaction networks; znaš kada metoda nije primenljiva ili licencno dostupna.
+**Fokus:** uloge i granice COMPACK/PAC, CrystalCMP, SOAP–REMatch, PXRD i interaction networks; primenljivost i licencna dostupnost.
 
-**Vežba:** uradi L9 i L10. Napravi evidence-rich report bez obaveznog overall score-a i najmanje pet failure/ambiguous slučajeva. Ako nema validirane packing implementacije, vrati tačan status i dokumentuj gap; ne improvizuj referencu.
+**Projektantska vežba:** skiciraj predložak evidence-rich izveštaja i ručno popuni nekoliko normalnih, failure i ambiguous slučajeva. Ako metoda nije dostupna ili validirana, predviđeni izlaz je precizan status, ne improvizovani rezultat.
 
-**Provera:** drugi inženjer iz manifesta može reprodukovati pair universe, mapping, parametre, statuse i evidence. Predaj F4 artefakt. Ovo dokazuje R2 App 2 spremnost i priprema R4.
+**Kapija:** drugi inženjer iz tvoje skice može nedvosmisleno razumeti budući pair universe, mapping, parametre, statuse i evidence.
 
-### Nedelja 11 — App 1: exact i višekanalni candidate retrieval (10 h)
+### Nedelja 11 — App 1: exact i višekanalni candidate retrieval (12 h)
 
 **Čitaj:** hemija 18 i retrieval modul 3.1–3.12.
 
-**Moraš postići:** odvoji eligibility/hard filter, 2D/coordination/shape/periodic kanal, exact ECFP/Tanimoto baseline, exact Flat oracle i ANN kao infrastrukturnu optimizaciju.
+**Fokus:** eligibility/hard filter, 2D, coordination, shape i periodic kanal; exact ECFP/Tanimoto baseline, exact Flat oracle i ANN kao infrastrukturna optimizacija.
 
-**Vežba:** uradi L8. Napravi exact binary i count fingerprint rangiranje sa pinovanim standardization/stereo parametrima. Dodaj exact DAP predicate i kanal provenance. Izmeri promenu ranga posle jedne dozvoljene promene reprezentacije.
+**Projektantska vežba:** na jednostavnim bit-vektorima ručno izračunaj Tanimoto za nekoliko kandidata i nacrtaj trag hard filter → kanali → unija kandidata. Zabeleži koje parametre i provenance bi budući sistem morao vezati za rang.
 
-**Provera:** hard filter daje set equality prema nezavisnom expected-ID fixture-u, FP=0 i FN=0; nijedan ANN test ne počinje pre exact oracle-a iste reprezentacije/metrike.
+**Kapija:** umeš da objasniš set-equality zahtev za hard filter i zašto ANN evaluacija mora imati exact oracle iste reprezentacije i metrike.
 
-### Nedelja 12 — reranking, qrels i retrieval evaluacija (10 h)
+### Nedelja 12 — reranking, qrels i retrieval evaluacija (12 h)
 
-**Čitaj:** retrieval modul 3.13–3.22 i hemiju 20 sa fokusom na claim, gold, split i metrike.
+**Čitaj:** retrieval modul 3.13–3.22 i hemiju 20, sa fokusom na claim, gold, split i metrike.
 
-**Moraš postići:** razlikuj infrastructure Recall@N, expert candidate Recall@N i end-to-end nDCG/Recall; razumeš pool, `unjudged`, hard negative i candidate/reranker error boundary.
+**Fokus:** infrastructure Recall@N, expert candidate Recall@N i end-to-end nDCG/Recall; pool, unjudged primeri, hard negatives i granica candidate/reranker greške.
 
-**Vežba:** napravi mali qrels protokol: duboka unija različitih baseline-a, slepa randomizovana anotacija, graded relevance, `unjudged`, confidence i version. Uporedi transparentno pravilo sa jednim pointwise baseline-om na istom candidate set-u. Napravi exact→candidate→rerank trace za svaki poznati positive.
+**Projektantska vežba:** na malom zamišljenom skupu napravi vodič za slepu graded-relevance anotaciju i ručno obrazloži jedan tok exact → candidate → rerank, uključujući izgubljen relevantan kandidat.
 
-**Provera:** relevantan kandidat izgubljen u candidate fazi ne pripisuje se rerankeru; `search2` i stari ranking nisu gold; novi retriever sa mnogo novih unjudged top rezultata pokreće dopunu pool-a. Predaj F5 artefakt.
+**Kapija:** candidate miss ne pripisuješ rerankeru, stare search grupe nisu gold i novi neocenjeni vrh rezultata zahteva dopunu pool-a.
 
-### Nedelja 13 — split, baseline turnir, kalibracija i error analysis (10 h)
+### Nedelja 13 — split, baseline-i, kalibracija i analiza grešaka (12 h)
 
-**Čitaj:** dovrši hemiju 20, zatim [klasični ML](../classical/02-classical-ml.md) i sekcije 6.8–6.12 metric-learning modula.
+**Čitaj:** dovrši hemiju 20, zatim klasični ML i sekcije 6.8–6.12 metric-learning modula.
 
-**Moraš postići:** definiši estimand pre splita; razlikuj query/family grouping, 1D warm/cold, 2D cold/cold i temporal holdout; broj nezavisnih grupa ne zamenjuj brojem parova.
+**Fokus:** estimand pre splita; query/family grouping, 1D warm/cold, 2D cold/cold i temporal holdout; nezavisne grupe naspram broja parova.
 
-**Vežba:** zamrzni train/validation/calibration/test manifest. Pokreni samo relevantan turnir: dummy/rule → logistic/ordinal → RF → ExtraTrees → GBDT. Prijavi paired interval, worst-slice, Brier/NLL/reliability i risk–coverage. Uradi error analysis po najmanje: parser/representation, candidate miss, rerank, stereo, polymorph/packing, metal/coordination, missing/quality, source/time i OOD.
+**Projektantska vežba:** nacrtaj leakage-safe train/validation/calibration/test podelu, tabelu budućih baseline-a i odluka, pa protumači zamišljene rezultate za intervale, worst slice, kalibraciju i risk–coverage. Ne treniraš modele.
 
-**Provera:** prag, model i calibrator nisu birani na finalnom testu; raw similarity/ranking score nije probability; abstention smanjuje risk na unapred dogovorenoj coverage tački. Predaj F6 artefakt. Ako model nema praktičan dobitak, ispravan izlaz je da R4 ostane optimum.
+**Kapija:** model, prag i calibrator se ne biraju na finalnom testu, raw score nije verovatnoća i **KEEP BASELINE** je ispravan ishod kada nema praktičnog dobitka.
 
-### Nedelja 14 — periodični graf i encoder contract (11 h)
+### Nedelja 14 — periodični graf i encoder contract (13 h)
 
-**Čitaj:** [periodični crystal encoderi](../deep/05-periodic-crystal-encoders.md).
+**Čitaj:** periodične crystal encodere.
 
-**Moraš postići:** definiši site features, edge vrste, image/lattice podatke, cell/global state, occupancy/disorder i invariance/equivariance ugovor. Razlikuj crystal encoder, pair model i property model.
+**Fokus:** site features, edge vrste, image/lattice podaci, cell/global state, occupancy/disorder i invariance/equivariance ugovor; crystal encoder, pair model i property model nisu isto.
 
-**Vežba:** napravi jedan `crystal_view` i metamorphic suite pre treninga. Na istim fixtures proveri CGCNN kontrolni baseline i najmanje jedan periodic challenger samo ako input contract prolazi. Beleži representation coverage, embedding collapse/hubness i sve non-assessed slučajeve.
+**Projektantska vežba:** uporedi input i invariance zahteve nekoliko opisanih encoder porodica i napiši očekivane metamorphic provere koje bi prethodile bilo kakvom treningu.
 
-**Provera:** atom order, wrap, origin, setting/basis i dozvoljeni supercell zapis ne menjaju target-semantiku; chirality/reflection ponašanje prati profil; nevalidan periodic input nije zero-filled pseudo-kristal.
+**Kapija:** znaš koje transformacije ne menjaju target semantiku, kako stereo profil utiče na refleksiju i zašto nevalidan periodic input nije zero-filled pseudo-kristal.
 
-### Nedelja 15 — metric learning bez lažnih parova (11 h)
+### Nedelja 15 — metric learning bez lažnih parova (13 h)
 
-**Čitaj:** ceo [metric learning i production gate](../deep/06-metric-learning-and-evaluation.md).
+**Čitaj:** ceo metric learning i production-gate modul.
 
-**Moraš postići:** razlikuj equivalence, relation i query-conditioned relevantnost; znaš kada contrastive/triplet/InfoNCE nisu usklađeni sa targetom; dual encoder ne zamenjuje exact evidence niti cross-graph comparator.
+**Fokus:** equivalence, relation i query-conditioned relevantnost; granice contrastive/triplet/InfoNCE pristupa; dual encoder naspram exact evidence-a i cross-graph comparator-a.
 
-**Vežba:** zamrzni positive/negative/augmentation/mining ugovor. Poredi descriptor+GBDT, CGCNN i odabrani Matformer/ALIGNN kandidat na istom targetu, splitu i budžetu. Exact Flat je oracle za isti embedding; ANN dolazi samo zbog SLO-a. Uradi minus-one ablation, false-negative audit, najmanje pet label-budget tačaka i više seed-ova ako podaci to omogućavaju.
+**Projektantska vežba:** napravi uporednu tabelu descriptor+GBDT, CGCNN i izabranog Matformer/ALIGNN kandidata, kao i plan budućih kontrola: isti target/split/budžet, ablation, false-negative audit, više label-budget tačaka i seed-ova.
 
-**Provera:** challenger prolazi invariance, semantic recall/pair metric, critical-slice non-inferiority, kalibraciju, abstention, SLO, licence i reproducibility gate. U suprotnom predaj obrazložen `DEFER`. To je validan F7 artefakt, ne neuspeh.
+**Kapija:** umeš da definišeš unapred šta bi značili praktična pobeda, critical-slice non-inferiority, kalibracija, abstention, SLO, licence i reproduktivnost; inače je odluka **DEFER**.
 
-### Nedelja 16 — governance, white paper i odluka o narednim fazama (8 h + do 10 h odbrane)
+### Nedelja 16 — governance, white paper i naredne faze (10 h + do 10 h sinteze)
 
-**Čitaj:** hemija 22, ceo optimalni roadmap po drugi put, reference/audite; lokalni SLM/RAG samo na nivou odluke. API modul ostaje referenca osim ako je R9 stvarno aktiviran.
+**Čitaj:** hemija 22, ceo roadmap po drugi put i referentne audite; lokalni SLM/RAG samo na nivou odluke, a API modul samo ako se razmatra R9.
 
-**Moraš postići:** mapiraj white-paper pojmove na state, property i evidence ugovore; odvoji polymorph-risk indikator od tvrdnje; objasni kada R8/R9/R10 imaju poslovni i naučni razlog.
+**Fokus:** white-paper pojmovi naspram state, property i evidence ugovora; polymorph-risk indikator naspram tvrdnje; poslovni i naučni uslovi za R8/R9/R10.
 
-**Vežba:** uradi završnu odbranu jednog search query-ja, jednog pair rezultata, jednog `UNKNOWN` slučaja, jednog leakage incidenta i jednog licence stop-a. Za FL popuni osam preduslova iz roadmapa i nacrtaj threat model: client, coordinator, update, endpoint i final-model leakage.
+**Projektantska vežba:** usmeno odbrani jedan search query, pair rezultat, **UNKNOWN** slučaj, leakage incident i licence stop. Za FL prođi preduslove i nacrtaj threat model na konceptualnom nivou.
 
-**Provera:** predaj F8 artefakt. FL je `DEFER` ako ne postoji zajednički multi-site supervised target koji se zakonito ne može centralizovati. SLM/API su `DEFER` ako Tier 0 nema dokazanu UX rupu.
+**Kapija:** FL je **DEFER** bez zakonitog, zajedničkog multi-site supervised targeta koji se ne može centralizovati; SLM/API su **DEFER** bez dokazane UX rupe.
 
 ## Kapije prelaza
 
-| Kapija | Prelaziš kada možeš da dokažeš | Ne prolazi ako |
+| Kapija | Prelaziš kada razumeš i možeš da obrazložiš | Ne prolazi ako |
 |---|---|---|
-| G0 — claim i prava | svaki output ima objekat, target, scope, evidence, rights i abstention pravilo | ključna operacija ili licenca je `unknown`, a plan ipak pretpostavlja produkciju |
-| G1 — hemijski graf/koordinacija | DAP motif, stereo, charge, component i donor mapping su izvršivi i verzionisani | formula/filename/metal presence glume povezanost ili koordinaciju |
-| G2 — crystal/3D | PBC/symmetry/setting/basis i stereo metamorphic testovi prolaze | RMSD prethodi atom mapping-u ili cell/space group glume packing dokaz |
-| G3 — data core | union inventar, lineage, purpose view, lifecycle i denominator accounting se reprodukuju | silent overwrite, `inner join` drop ili missing status postaje vrednost |
-| G4 — deterministic App 2 | full pair universe, branch state machine, evidence i swap/directionality testovi prolaze | non-assessed grana nestane, postane nula ili dobije relation labelu |
-| G5 — App 1 retrieval | exact filter/oracle, multichannel coverage i tri nivoa retrieval evaluacije su odvojeni | ANN brzina glumi hemijsku tačnost ili reranker skriva candidate miss |
-| G6 — supervised evaluation | gold/qrels, split, calibration i error analysis su zamrznuti i leakage-safe | `search1/search2`, duplicates ili test-set odluke procure u trening/tuning |
-| G7 — deep challenger | pobeda je praktična, intervalno podržana i prolazi critical slice/invariance/SLO/licence | rezultat je bolji samo na random split-u, jednom seed-u ili najvećem label budžetu |
-| G8 — sledeća faza | R8/R9/R10 ima merljivu rupu, odobren data flow, baseline i stop uslov | „AI/FL/LLM“ je razlog sam po sebi |
+| G0 — claim i prava | objekat, target, scope, evidence, rights pitanja, abstention i stop-uslov za svaki output | nepoznata licenca se prećutno tretira kao dozvola |
+| G1 — hemijski graf i koordinacija | DAP motif, stereo, charge, component i donor mapping na ilustrativnom primeru | formula, filename ili samo prisustvo metala glume povezanost |
+| G2 — crystal i 3D | očekivano PBC/symmetry/setting/basis i stereo ponašanje | RMSD prethodi atom mapping-u ili cell/space group glume packing dokaz |
+| G3 — data core | union inventar, lineage, purpose view, lifecycle i denominator accounting na malom primeru | silent overwrite, inner-join drop ili missing status postaje vrednost |
+| G4 — deterministički App 2 | pair universe, branch state, evidence, simetriju i usmereni coverage | non-assessed grana nestaje, postaje nula ili dobija relation labelu |
+| G5 — App 1 retrieval | exact filter/oracle, multichannel coverage i tri nivoa retrieval evaluacije | ANN brzina glumi hemijsku tačnost ili reranker skriva candidate miss |
+| G6 — supervised evaluacija | leakage-safe gold/qrels, split, kalibraciju i error-analysis plan | stare grupe, duplikati ili finalni test utiču na trening i tuning |
+| G7 — deep challenger | fer poređenje i budući GO/DEFER kriterijum za critical slice, invarijanse, SLO i licence | jedan random split, seed ili label budžet se smatra dovoljnim dokazom |
+| G8 — sledeća faza | merljivu rupu, odobren budući data flow, baseline i stop-uslov za R8/R9/R10 | sama oznaka „AI“, „LLM“ ili „FL“ služi kao opravdanje |
 
-## Minimalni dokazni paket svake faze
+## Minimalni paket beležaka svake faze
 
-Svaki predati artefakt treba da sadrži:
+Za učenje je dovoljno da beleška sadrži:
 
-- claim/target i populaciju na koju se odnosi;
-- source, rights, lifecycle i purpose odluku;
-- verzije reprezentacije, parsera, pravila, koda i podataka;
-- input/output schema-u i značenje svakog missing/non-assessed statusa;
-- fixture-e i očekivane rezultate pre pokretanja;
-- split/qrels/gold verziju kada postoji evaluacija;
-- baseline, challenger, tuning budžet i stop uslov;
-- overall i worst-slice rezultate sa odgovarajućim intervalima;
-- failure accounting, error taxonomy, calibration/coverage–risk kada postoji probability output;
-- latenciju, memoriju, build/rebuild trošak i checksum izvršenog artefakta;
-- poznate granice, rollback/invalidation pravilo i sledeću odluku `PROMOTE`, `KEEP BASELINE` ili `DEFER`.
+- pitanje ili claim i populaciju na koju se odnosi;
+- hemijski objekat, target i relevantnu reprezentaciju;
+- relevantne izvore, status prava i ono što još nije poznato;
+- ilustrativan primer i očekivani ishod;
+- missing, ambiguous, not-applicable i failure slučajeve;
+- buduće zahteve za validaciju, metrike i stop-uslov;
+- poznate granice i odluku šta treba čitati ili proveravati sledeće;
+- vezu sa rečnikom i čestim zabludama iz hemijskog dela.
 
-## Uslovni nastavak posle osnovnih 16 nedelja
+Egzaktne šeme, manifesti, fixture fajlovi, kod, benchmark merenja, trenirani modeli, deployment i produkcioni izveštaji pripadaju kasnijoj razvojnoj fazi. Plan učenja treba samo da objasni **šta** će tada morati da postoji i **zašto**.
+
+## Uslovni nastavak posle osnovnih blokova
 
 Ovo nisu automatske obaveze osnovnog 2CDC scope-a.
 
-### R8 — lokalni SLM i dokumentacioni RAG (još 2 nedelje, oko 16 h)
+### R8 — lokalni SLM i dokumentacioni RAG (oko 16 h teorijske nadogradnje)
 
-Pročitaj u celosti [lokalni SLM/RAG modul](../language/07-local-slm-rag.md). Prvo napravi Tier 0 form/DSL/template baseline i field-aware BM25. Tek zatim testiraj constrained NL→DSL, dense retrieval, RRF i mali reranker. Gold grupiši po intent/paraphrase i source/topic familiji. Gate je bolji task completion/UX uz nula promene deterministic scientific rezultata i nula policy bypass-a.
+Pročitaj lokalni SLM/RAG modul i uporedi uloge Tier 0 form/DSL/template pristupa, field-aware BM25, constrained NL→DSL, dense retrieval, RRF i malog reranker-a. Osmisli kako bi se kasnije proveravali intent/paraphrase grupe, multilingual i rare-token slučajevi, bez menjanja determinističkog naučnog rezultata.
 
-**Artefakt:** `local-language-layer-evaluation-v1.md` sa NL→DSL gold-om, RAG qrels-om, multilingual/rare-token/security slice-ovima, latency/RAM i tested Tier 0 fallback-om.
+**Ishod učenja:** plan buduće evaluacije lokalnog jezičkog sloja, sa fallback-om, bez implementiranja ili testiranja sistema.
 
-### R9 — spoljni API (još 1 nedelja za odluku, oko 8 h)
+### R9 — spoljni API (oko 8 h za odluku)
 
-Pročitaj [API/security modul](../language/08-api-llm-security.md). Ne šalji projektne podatke radi „probnog poziva“. Najpre zamrzni `C0` offline tournament, minimalni payload, centralni broker, retention/region/processor odluke, content-free audit, circuit breaker i local fallback. Bez pisanog `C1` odobrenja nema shadow/canary faze.
+Pročitaj API/security modul. Odredi šta bi pre bilo kakvog poziva moralo biti formalno odobreno: klasa podataka, minimalni payload, broker, retention/region/processor uslovi, audit, circuit breaker i lokalni fallback. Projektni podaci se ne šalju radi probe.
 
-**Artefakt:** `external-api-go-no-go-v1.md`; podrazumevani rezultat je `NO-GO` dok lokalni Pareto baseline nema dokazanu rupu i rights/security gate nije pozitivan.
+**Ishod učenja:** obrazložen budući **GO/NO-GO** okvir; podrazumevani odgovor je **NO-GO** dok lokalni baseline nema dokazanu rupu i rights/security gate nije pozitivan.
 
-### R10 — federativno učenje (oko 6 h za odluku; implementacija nije planirana)
+### R10 — federativno učenje (oko 6 h za odluku)
 
-Ponovo pročitaj samo FL delove hemijskog poglavlja 22 i roadmapa. Uporedi local-only, shared-public-pretraining i dozvoljeni centralni baseline. Secure aggregation, DP i robust aggregation biraju se prema konkretnom threat model-u, ne kao checklist dekoracija.
+Ponovo pročitaj FL delove hemijskog poglavlja 22 i roadmapa. Uporedi local-only, shared-public-pretraining i dozvoljeni centralni baseline, pa objasni kako threat model određuje secure aggregation, diferencijalnu privatnost i robust aggregation.
 
-**Artefakt:** `federated-learning-decision-v1.md` sa target/schema/split ugovorom, pravima za update i finalni model, per-site/worst-site evaluacijom i jasnim `GO` ili `DEFER`. Bez stvarnog multi-site, non-centralizable targeta rezultat mora biti `DEFER`.
+**Ishod učenja:** konceptualna **GO/DEFER** odluka. Bez stvarnog multi-site targeta koji se zakonito ne može centralizovati rezultat mora biti **DEFER**; implementacija nije deo plana.
 
 ## Završni kriterijum spremnosti
 
-Spreman si da vodiš ML/AI deo 2CDC-a kada možeš da odbraniš ceo lanac:
+Spreman si za prelazak na zasebno planiranje realizacije kada možeš da odbraniš ceo lanac:
 
-```text
-odobren source
-→ loss-aware purpose view
-→ hemijski i periodični objekat
-→ deterministički exact evidence
-→ candidate retrieval i/ili pair comparison
-→ leakage-safe gold/qrels i split
-→ kalibrisan target-specific challenger sa abstention-om
-→ reproduktivan, licencno dozvoljen artefakt
-→ objašnjiv rezultat ili precizan UNKNOWN
-```
+**odobren izvor → loss-aware purpose view → hemijski i periodični objekat → deterministički exact evidence → candidate retrieval i/ili pair comparison → leakage-safe gold/qrels i split → kalibrisan target-specific challenger sa abstention-om → reproduktivnost i licencna dozvoljenost → objašnjiv rezultat ili precizan UNKNOWN**
 
-Ako bilo koja strelica nema izvršiv ugovor i dokaz, sledeći složeniji model još nije sledeća faza učenja ni implementacije.
+Ako bilo koja strelica nema jasno značenje, teorijsko opravdanje i plan buduće provere, složeniji model još nije sledeći korak.
