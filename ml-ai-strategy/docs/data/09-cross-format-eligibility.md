@@ -73,110 +73,19 @@ Complete-case skup zato nije neutralan podskup. Primarna App 1 recall metrika ne
 
 ## Autoritativni per-entry inventar
 
-Minimalni zapis je vezan za stabilan entry/version identitet, ne za redni broj u eksportu:
+Za svaki entry buduća implementacija mora čuvati dovoljno informacija da se poreklo, dozvole i raspoložive reprezentacije mogu rekonstruisati bez oslanjanja na redni broj u eksportu.
 
-```yaml
-entry_version_id: internal-entry@version
-identity_bindings:
-  entry_lineage_root_id: stable-all-versions-id
-  source_system: controlled-source-id
-  source_entry_id: opaque-or-authorized-id
-  base_family_id: derived-or-reviewed-family-id
-  material_id: optional-material-id
-  solid_form_id: optional-solid-form-id
-source_snapshot:
-  database_release: exact-or-not-applicable
-  query_tool_version: exact-or-not-applicable
-  exported_at: timestamp-or-unknown
-  ingested_at: timestamp
-  source_valid_from: timestamp-or-unknown
-  source_valid_to: timestamp-or-null
-  available_to_2cdc_at: timestamp-or-unknown
-rights_and_scope:
-  semantics: current_entry_projection_not_view_override
-  confidentiality_class: C0_to_C4
-  source_license_id: exact-policy-reference
-  rights_status: unknown_or_allowed_or_denied_or_expired
-  repository_distribution_decision_id: ...
-  tenant_id: ...
-  project_id: ...
-  allowed_purposes: [...]
-lifecycle:
-  state: Received_or_Quarantined_or_Parsed_or_Validated_or_NeedsReview_or_Curated_or_Released_or_Superseded_or_Withdrawn
-  lifecycle_policy_id: ...
-  ruleset_version: ...
-  sop_version: ...
-  review_status: ...
-  state_event_id: ...
-  release_scope_id: null_or_exact_scope
-  allowed_lifecycle_purposes: [...]
-  release_expires_at: null_or_timestamp
-  release_approver_id: null_or_controlled_identity
-  decided_at: ...
-  effective_at: ...
-  recorded_at: ...
-views:
-  - view_id: source-cif@hash
-    format: cif
-    byte_hash: sha256:...
-    source_binding:
-      source_snapshot_id: ...
-      parent_artifact_or_derivation_id: ...
-      source_valid_from: ...
-      available_to_2cdc_at: ...
-    rights_and_scope:
-      confidentiality_class: C0_to_C4
-      source_license_id: ...
-      rights_status: ...
-      allowed_purposes: [...]
-      tenant_id: ...
-      project_id: ...
-      repository_distribution_decision_id: ...
-    lifecycle_binding_id: ...
-    view_trust_state: received_or_parsed_or_validated_or_needs_review_or_curated
-    parser_and_version: ...
-    availability: present
-    parse_status: complete_or_partial_or_failed
-    capabilities: [formula, cell, symmetry, fractional_coordinates]
-    crystal_classification:
-      raw_export_label: rhombohedral
-      normalized_crystal_system: trigonal
-      reported_lattice_setting: rhombohedral
-      coordinate_axes_setting: rhombohedral_or_hexagonal_or_unknown
-      normalization_rule_id: cell-setting-normalization-v1
-    coordinate_contract:
-      frame: fractional_or_cartesian_or_none
-      unit: angstrom_or_fractional_or_none
-      coordinate_set: asymmetric_unit_or_expanded_or_isolated
-      cell_version_id: ...
-      space_group_setting_and_origin: ...
-      symmetry_operation_ids: [...]
-      lattice_image_offsets: [...]
-      fractional_cartesian_transform_id: ...
-      atom_site_mapping_id: ...
-    losses: [bond_loop_absent]
-    conflicts: []
-  - view_id: source-sdf@hash
-    format: sdf
-    byte_hash: sha256:...
-    parser_and_version: ...
-    availability: absent
-    parse_status: not_run
-    capabilities: []
-    losses: []
-    conflicts: []
-reconciliation:
-  policy_id: cross-format-v1
-  decision_id: ...
-  decided_at: ...
-  effective_at: ...
-  recorded_at: ...
-  canonical_view_ids: [...]
-  unresolved_conflicts: [...]
-derivation_lineage_id: ...
-```
+| Oblast | Šta treba zabeležiti |
+|---|---|
+| identitet | stabilan entry/version identitet i veze ka istoj porodici, materijalu i čvrstoj formi kada su poznate |
+| izvor | baza ili fajl, verzija/release, vreme izvoza i ingest-a |
+| prava | licenca, dozvoljene svrhe, tenant/projekat i status dozvole |
+| lifecycle | trenutno stanje, odluka/revizija i scope u kojem zapis sme da se koristi |
+| reprezentacije | dostupni CIF/MOL/MOL2/SDF/SMILES pogledi, parser/verzija, hash i poznati gubici |
+| koordinate | tip koordinata, jedinica, ćelija/simetrija i mapiranje atoma kada postoje |
+| konflikti | neslaganja između pogleda i odluka koja reprezentacija važi za konkretnu svrhu |
 
-Top-level rights/lifecycle je trenutna entry projekcija za brzo filtriranje, ali nije autorizaciona prečica. Prvi prikazani view je šablon: **svaki** prisutan view, canonical field/fact i derivat čuva sopstveni source, rights, tenant, time, lifecycle/trust i lineage binding. Mixed-provenance kombinacija nasleđuje strože klase/prava dok eksplicitni trusted regrading ne odobri uži output. Jedna licenca za CIF ne preliva se automatski na MOL2, property tabelu ili kasnije spojeni interni zapis.
+Tačna šema, nazivi polja i storage tehnologija pripadaju razvojnoj fazi. Bitan teorijski zahtev je da se različiti pogledi ne prepisuju jedan preko drugog i da svaka odluka ostane proverljiva.
 
 ### Crystal system nije isto što i raw cell-setting etiketa
 
@@ -337,87 +246,16 @@ Pored marginalnih brojeva čuva se i sparse joint cube po unapred zamrznutim kat
 
 ## App 2: availability je deo pair rezultata
 
-Za svaki od `n(n-1)/2` parova formira se `pair_view_manifest`:
+Za svaki par treba sačuvati koje su grane poređenja mogle da se izvrše, koje nisu i zašto. Nedostajući CIF podatak, neprimenljiva metoda, problem kvaliteta i tehnička greška nisu isto što i nizak similarity score.
 
-```yaml
-pair_id: stable-unordered-id
-input_a_version: ...
-input_b_version: ...
-profile: coordination_motif_v1
-branches:
-  graph:
-    branch_status: assessed
-    relation_label: null
-    evidence_coverage: partial
-  mapped_3d:
-    branch_status: missing_input
-    relation_label: null
-    reason_codes: [input_b_coordinates_absent]
-  packing:
-    branch_status: missing_input
-    relation_label: null
-    evidence_coverage: none
-    reason_codes: [input_b_cell_or_symmetry_absent]
-pair_assessment_summary: partially_assessed
-```
+Buduća implementacija zato treba da razdvoji:
 
-Par se ne briše zato što jedna grana nije dostupna. Output čuva:
+- status izvršenja svake grane;
+- naučni rezultat samo kada je grana zaista ocenjena;
+- pokrivenost i korišćenu reprezentaciju;
+- upozorenja, verziju metode i poreklo dokaza.
 
-- koji upload-i su accepted/rejected i zašto;
-- očekivani i izvršeni broj parova;
-- status svake grane;
-- source/reconciliation verzije oba ulaza;
-- warnings i abstention;
-- koje se tvrdnje i dalje mogu dati.
-
-Po `comparison_profile`-u se objavljuje disjunktni primary-outcome accounting:
-
-```text
-all_accepted_pairs
-profile_applicable_pairs
-not_applicable_pairs
-
-primary_pair_outcome inside profile_applicable:
-  fully_assessed
-  partially_assessed
-  no_assessment_missing_input
-  no_assessment_quality_blocked
-  no_assessment_timeout_or_failed
-  no_assessment_explicit_abstain_other
-
-separate branch-reason axis:
-  missing_input | quality_blocked | timeout | other
-
-separate label axis:
-  label_scope_definition
-  label_scope_total
-  labeled
-  unjudged
-```
-
-Važe formule:
-
-```text
-all_accepted_pairs
-= profile_applicable_pairs
-+ not_applicable_pairs
-
-profile_applicable_pairs
-= fully_assessed
-+ partially_assessed
-+ no_assessment_missing_input
-+ no_assessment_quality_blocked
-+ no_assessment_timeout_or_failed
-+ no_assessment_explicit_abstain_other
-
-label_scope_total
-= labeled
-+ unjudged
-```
-
-Primary outcome je jedan po paru. Parcijalno procenjen par može nositi više branch-level `missing_input/quality_blocked` razloga, ali se u zbiru pojavljuje samo kao `partially_assessed`; zato reason axis nije conservation suma. `no_assessment_explicit_abstain_other` se koristi samo kada razlog nije missing, quality ili failure. Label scope navodi da li obuhvata sve accepted, profile-applicable ili assessed parove. Coverage–risk i failure stopa prijavljuju se odvojeno; dobar score na assessed parovima ne sme sakriti veliki blocked sloj.
-
-N14 regression posebno zahteva da tri pogleda istog entry-ja ne postanu lažni train/test negativi i da bond-order conflict bude vidljiv u graph branch-u.
+Tačan format rezultata i nazivi polja određuju se tokom razvoja.
 
 ## Lifecycle state je odvojen od licence i quality score-a
 
@@ -639,59 +477,32 @@ Dobitak koji nestane bez source/missingness polja ili pod novim source/release/t
 
 ## Obavezni regression skup
 
-| ID | Fixture | Obavezni ishod |
-|---|---|---|
-| D01 | N14 CIF/MOL/MOL2 | jedan identity group; tri view-a; bond-order loss/conflict vidljiv; nema overwrite-a |
-| D02 | filename sadrži `cu`, formula nema Cu | composition ne čita filename; Cu Kα nije elementarni sastav |
-| D03 | CSD-like CIF bez bond loop-a | graph nije izmišljen kao declared CIF graph; koristi drugi odobren view ili abstain |
-| D04 | MOL2 sa `Du`/`SUP*` | `Du` nije element; disorder/suppressed status ostaje u lineage-u |
-| D05 | SDF fixed-width `121150` | parsira se kao 121 atom/150 veza prema formatu, ne jednim `split()` tokenom |
-| D06 | entry bez SMILES-a, sa validnim graph view-om | ne ispada iz corpusa; fingerprint se gradi iz canonical graph-a ako policy dozvoljava |
-| D07 | entry bez validnog 2D grafa, sa koordinatama | ECFP kanal abstain; drugi dozvoljeni kanali ostaju aktivni |
-| D08 | 84-like zapis bez coordinate model-a | relevantne packing/periodic grane su `missing_input`; metadata/2D ostaju prema dostupnosti |
-| D09 | eksporti različitog redosleda + preskočeni SMILES redovi | join po stabilnom ID-ju; nema row-position uparivanja |
-| D10 | drugi view ili corrected/superseded version istog entry lineage-a u train/test kandidatu | transitive group splitter ih drži na jednoj strani, osim eksplicitnog point-in-time `future_revision` estimand-a |
-| D11 | `NeedsReview` broad retrieval | rezultat samo ako policy dozvoljava, sa vidljivim warning-om; nije gold automatski |
-| D12 | transition `Released → Superseded` | stari embedding/index/report deny; nova eligibility generation/rebuild |
-| D13 | transition `Released → Withdrawn` tokom job-a | queued/in-flight rezultat se ne objavljuje; current gate pobeđuje rollback |
-| D14 | lifecycle dozvoljen, rights denied | sve downstream putanje deny; lifecycle nije autorizacija |
-| D15 | property broj bez solid-form/uslova/metode | nije supervised target; nema imputirane univerzalne „stabilnosti“ |
-| D16 | SMILES/bogatiji view ili curation odluka dodati posle prospective cutoff-a | pre-cutoff build ih ne vidi; nepoznat availability timestamp blokira prospective claim |
-| D17 | broad serving uključuje `NeedsReview`, calibration je samo `Released` | manifest/estimand mismatch; learned calibrated score se ne služi izvan validiranog scope-a |
-| D18 | pooled qrels sa mnogo unjudged eligible entry-ja | report navodi pool/qrels verziju, judged coverage i pooled recall; ne tvrdi corpus-complete recall |
-| D19 | prospective predikcija je zaključana, gold ishod/review stiže kasnije | kasna labela ulazi samo u evaluator; feature, threshold, calibration i model selection ostaju byte-identični |
-| D20 | hitni incident nad `Validated`, `NeedsReview`, `Curated` ili `Released` zapisom | svaki aktivni state može u quarantine/withdraw putanju; current gate odmah blokira read/serve/index/train/eval i invalidira derivate |
-| D21 | `Released` zapis se traži za drugi purpose/audience ili posle isteka scope-a | lifecycle gate odbija zahtev iako je state string i dalje `Released`; novi odobreni scope zahteva recorded decision/event |
-| D22 | isti mapirani atom ima CIF fractional i MOL2 Cartesian koordinatu | poređenje koristi pinovanu cell matricu, jedinicu i atom/site map; round-trip prolazi, nema raw-coordinate poređenja |
-| D23 | isti kristal u drugom setting-u/origin-u ili sa wrapped atomima | kandidat-ekvivalencija se proverava eksplicitnim basis/origin, symmetry i lattice-offset transformom; brojčano različite koordinate nisu lažan negativ |
-| D24 | dva mapirana izolovana Cartesian molekula, jedan ili oba bez ćelije/simetrije | molecular Kabsch grana može biti `assessed`; packing/periodic/PXRD grane su `missing_input`, bez prenosa 3D zaključka na kristalno pakovanje |
-| D25 | pre-review zapis dobije labelu `expert_review_needed`, pa review popravi graph i prebaci state u `Curated` | feature red ostaje byte-identičan pre-review snapshot-u; post-review state/status/diff/view ne ulaze u input, labela sme u kasniji trening/evaluator |
-| D26 | relevance labele su češće prisutne za entry-je sa SMILES-om ili iz jedne release/source generacije | joint cube i source/status-only baseline otkrivaju selection; ablation i leave-source/release-out odlučuju da li signal sme u scientific score |
-| D27 | model pobeđuje samo na complete-case/judged pool-u, ali gubi na union production populaciji ili prospective shift-u | promotion se zaustavlja; rezultat se prijavljuje kao uslovljen podskupom, ne kao production dobitak |
-| D28 | independently annotated hard-filter fixture suite: non-vacuous positive, legitimate zero-hit, boundary i missing/unknown/invalid/failure | `actual_eligible_ids == expected_eligible_ids`; FP = 0 i FN = 0; ANN test ne počinje ako membership nije tačan |
-| D29 | 12 lokalnih raw `rhombohedral` cell-setting vrednosti | raw label ostaje byte-veran; `normalized_crystal_system = trigonal`; `reported_lattice_setting = rhombohedral`; coordinate axes setting se čuva zasebno i ne izmišlja se kada nije dokaziv |
+Pre produkcione upotrebe treba napraviti mali, kontrolisani regression skup koji pokriva sledeće porodice slučajeva:
+
+| Grupa | Šta mora da proveri |
+|---|---|
+| D01–D10 | cross-format identitet, parsing, odsutne reprezentacije, stabilno spajanje i sprečavanje curenja između splitova |
+| D11–D21 | lifecycle, prava, promene statusa, vremenske granice i povlačenje izvedenih artefakata |
+| D22–D24 | koordinatni sistemi, setting/origin/wrapping ekvivalencija i granica između molekulske 3D i kristalnog packinga |
+| D25–D27 | post-review leakage, selection bias i razliku između judged podskupa i produkcione populacije |
+| D28 | tačnost hard-filter membership-a pre bilo kakvog ANN merenja |
+| D29 | čuvanje raw `rhombohedral` etikete uz normalizaciju crystal system-a na trigonal |
+
+Konkretni fixture fajlovi, očekivani izlazi i automatizacija ovih testova projektuju se u razvojnoj fazi.
 
 ## Promotion gate
 
-Nijedan ML/AI eksperiment ne počinje na production-like podacima dok:
+Pre rada nad production-like podacima treba potvrditi:
 
-1. per-entry union inventory prolazi source accounting;
-2. identity/join pravila nemaju neobjašnjena dupliranja ili gubitke;
-3. purpose-specific canonical view i conflict policy su verzionisani;
-4. lifecycle i rights inclusion policy su mašinski proverljivi;
-5. D01–D29 regression skup prolazi, uključujući nezavisni hard-filter set-equality gate pre ANN evaluacije i izvršivu rhombohedral→trigonal normalizaciju;
-6. representation availability i denominator report nastaju automatski;
-7. split grupiše sve povezane view-e i porodice pre fit-a;
-8. transition test invalidira sve pogođene derived lineage grane;
-9. serving, training, calibration i final-test manifest imaju isti mode-specific lifecycle estimand;
-10. temporalni claim razdvaja training/model-selection cutoff, `prediction_as_of` i kasnije otkriven gold; post-cutoff view/curation ne ulazi u input, a post-prediction labela samo u evaluator;
-11. App 1/App 2 accounting waterfall prolazi conservation assert i objavljuje qrels/judgment coverage;
-12. naučni/data owner odobri šta `Curated`, `Released` i `NeedsReview` znače u konkretnoj instituciji, uključujući release purpose/audience/expiry i emergency transition politiku;
-13. raw/licencirani fajlovi ostaju u kontrolisanom data-plane-u, van repoa i eksternih LLM payload-a.
-14. prognostički redovi imaju per-example pre-outcome feature snapshot i target-specific post-outcome denylist;
-15. availability/source/status signal prolazi source-only baseline, ablation, joint selection audit i nezavisni source/release/time shift; inače ostaje samo routing/risk signal.
+1. da su prava, svrha upotrebe i lifecycle pravila odobreni;
+2. da identity/join i canonical-view pravila ne gube niti dupliraju zapise;
+3. da splitovi i vremenski preseci sprečavaju view, review i label leakage;
+4. da je regression plan D01–D29 definisan i da obuhvata hard-filter, koordinatne i lifecycle slučajeve;
+5. da izveštaji jasno prikazuju denominatore, raspoloživost reprezentacija i qrels/judgment coverage;
+6. da serving, trening i evaluacija koriste dosledno definisanu populaciju;
+7. da stručni i data owner odobre značenje stanja i postupak za povučene ili sporne zapise.
 
-Ako ovaj gate ne prolazi, sofisticiraniji model ne rešava problem: samo uči trenutnu export, missingness i curation politiku kao skrivenu prečicu.
+Ako ovo nije rešeno, sofisticiraniji model će uglavnom učiti export, missingness i curation politiku kao skrivenu prečicu.
 
 ## Veza sa izvornim materijalom
 

@@ -24,10 +24,10 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
 
 extra_javascript:
-  - https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js
+  - assets/vendor/mermaid-11.17.0/mermaid.min.js
   - javascripts/mermaid.js
   - javascripts/mathjax.js
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - assets/vendor/mathjax-3.2.2/tex-mml-chtml.js
 
 extra_css:
   - stylesheets/extra.css

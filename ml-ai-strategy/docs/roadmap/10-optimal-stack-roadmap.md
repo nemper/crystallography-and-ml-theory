@@ -421,6 +421,8 @@ Ako ijedan preduslov nedostaje, status je `DEFER`, ne „budući must-have“.
 
 Faze su evidence gate-ovi, ne kalendarsko obećanje. Mogu se delimično paralelizovati, ali se nijedna ne promoviše preko zavisnosti.
 
+Ovaj roadmap navodi buduće poslove i kriterijume redosleda. Ne propisuje gotove šeme, fixture fajlove, API payload-e, kod niti infrastrukturnu konfiguraciju; to se projektuje i realizuje u odgovarajućoj razvojnoj fazi.
+
 ### R0 — claims, prava i acceptance ugovori
 
 **Isporuke:**
@@ -561,7 +563,7 @@ Najvažnija praktična posledica sadašnjeg ograničenja je: bez CSD pristupa mo
 | API nema korist nad lokalnim Pareto baseline-om | provider se ne uvodi |
 | nema stvarnog multi-site non-centralizable target-a | FL ostaje odložen |
 
-## Obavezni artefakti svakog prihvaćenog modela
+## Šta će kasnije morati da prati prihvaćeni model
 
 Bez obzira na porodicu, release paket sadrži:
 
@@ -581,7 +583,7 @@ Bez obzira na porodicu, release paket sadrži:
 
 Ako tim sutra počinje implementaciju, redosled nije „prvo treniraj model“:
 
-1. formalizovati R0 i završiti R1 executable ugovore;
+1. formalizovati R0 i dogovoriti šta R1 data core mora da obezbedi;
 2. izgraditi App 2 deterministički MVP, jer se može najviše validirati nad dostavljenim/sintetičkim fixture-ima bez pune baze;
 3. paralelno napraviti App 1 exact multichannel harness i Tier 0 UI, bez lažnog corpus claim-a;
 4. obezbediti licencirani data-plane i stručni gold/qrels;

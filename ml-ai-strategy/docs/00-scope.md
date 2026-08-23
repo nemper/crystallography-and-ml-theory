@@ -33,6 +33,12 @@ Zato će svaka preporuka imati najmanje tri uloge:
 - **production candidate**: trenutno najbolji odnos kvaliteta, troška i rizika;
 - **challenger**: složeniji metod koji ulazi tek ako unapred definisan eksperiment pokaže materijalnu korist.
 
+## Granica između strategije i implementacije
+
+Ova dokumentacija objašnjava **šta** sistem treba da uradi, **zašto** je to naučno potrebno i **kako se proverava** da je odluka opravdana. Ona nije implementaciona specifikacija gotovog proizvoda.
+
+Zato se buduće šeme podataka, testni skupovi, API payload-i, deployment manifesti i infrastrukturni poslovi navode samo kao obaveze naredne razvojne faze. Njihova konkretna polja, kod, konfiguracija i izvršenje projektuju se tek kada počne razvoj i budu poznati odobreni podaci, alati, licence i operativno okruženje.
+
 ## Granice
 
 - Nemamo pristup punom CSD-u, pa se globalni coverage i performanse ne mogu proglasiti potvrđenim.

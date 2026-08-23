@@ -105,22 +105,7 @@ Ne nazivati candidate-pruned matricu „svim precizno upoređenim parovima“.
 
 ### Compute plan
 
-1. parse/standardize i per-structure features jednom;
-2. izračunaj cheap composition/fingerprint matrice u blokovima;
-3. napravi canonical pair key;
-4. component i graph mapping cache-uj;
-5. geometry/coordination koristi isti atom-map artefakt;
-6. packing/interactions računaj samo u odgovarajućem profilu;
-7. čuvaj long-form rezultat, a simetrične matrice generiši kao view.
-
-Pair cache key:
-
-```text
-(min(structure_version_id_A, structure_version_id_B),
- max(structure_version_id_A, structure_version_id_B),
- comparison_profile_version,
- branch_method_versions)
-```
+Pri implementaciji treba jednom izračunati per-structure podatke, formirati svaki neuređeni par tačno jednom, ponovo koristiti skupe mapping rezultate i čuvati rezultate po odvojenim granama. Tačan scheduler, cache ključ i storage format biraju se tek kada budu poznati obim podataka i ciljni hardver.
 
 ### Pair-order symmetry
 
@@ -691,22 +676,9 @@ Svaki test navodi očekivane branch statuse i brojeve/tolerance, ne samo overall
 
 ## 4.18 Scheduler, paralelizacija i storage
 
-Za 2.224.995 parova, grana od 0,5 s bi na jednom worker-u idealizovano trajala približno 12,9 dana. Sa 32 worker-a idealna donja granica je oko 9,7 sati, pre I/O, imbalance-a, retry-ja i koordinacije.
+All-pairs broj raste kvadratno, a graph i packing poređenja imaju veoma neujednačenu cenu. Buduća realizacija zato treba da podrži blokovsku podelu posla, ponovno korišćenje per-structure rezultata, ograničenje vremena/memorije po grani, bezbedan retry i vidljiv parcijalni napredak.
 
-Production zahtevi:
-
-- deterministic block/upper-triangle partitioning;
-- idempotent tasks i retry samo failed branch-a;
-- per-structure precompute sharing;
-- work stealing zbog teških MCS/packing outliera;
-- timeout i memory budget po branch-u;
-- symmetric cache i deduplikacija identical inputs;
-- immutable result rows sa method/version hash-om;
-- partial progress po grani;
-- cancellation bez korumpiranog „complete“ statusa;
-- long-form Parquet/relational export plus izvedene matrice.
-
-Cheap vectorized scores mogu se računati u blokovima, ali graph/packing jobs imaju neujednačenu cenu. Average latency ne određuje queue kapacitet; potrebni su p95/p99 i tail-size slice.
+Tačan queue sistem, broj worker-a, cache i export format određuju se tek posle benchmarka na stvarnom dozvoljenom obimu. Capacity plan treba da koristi p95/p99 vreme i memoriju, ne samo prosek.
 
 ## 4.19 Optimalna matrica algoritama
 

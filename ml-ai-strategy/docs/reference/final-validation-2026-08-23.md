@@ -134,6 +134,9 @@ Spot-check izvora ponovo je potvrdio 2.110 `search1` i 2.038 `search2` CIF/MOL2/
 
 Jedini build ispis van regularnog loga je opšte upozorenje Material for MkDocs projekta o budućem MkDocs 2.0; trenutni strict build nije prijavio dokumentacionu grešku.
 
+!!! note "Naknadna urednička provera"
+    Implementacioni primeri su potom sažeti na zahteve visokog nivoa, a Mermaid 11.17.0 i MathJax 3.2.2 smešteni su lokalno u repo. Ponovljeni strict build oba sajta, provera lokalnih linkova/fragmenata i lokalno HTTP učitavanje obe biblioteke i MathJax fontova prošli su bez greške. Brojčani redovi u tabeli iznad ostaju zapis prvobitnog audit snapshot-a, pre ovog uredničkog skraćivanja.
+
 ## Spoljni linkovi
 
 Iz izgrađenog ML sajta izdvojena su 184 jedinstvena spoljna URL-a:
