@@ -2,7 +2,7 @@
 
 ## Glavni zaključak
 
-Za drugu 2CDC aplikaciju optimalno naučno jezgro nije neuralni model. Prvi production kandidat je deterministička, višeslojna kaskada:
+Za precizno poređenje parova naučno jezgro nije jedan neuralni score, već deterministička mreža zavisnih dokaza:
 
 ```mermaid
 flowchart TD
@@ -22,50 +22,46 @@ flowchart TD
     R --> S[Opcioni target-specific ML sloj]
 ```
 
-Preporučeni algoritmi su:
+Relevantne algoritamske porodice su:
 
 - globalni component assignment: deterministički candidate pairing + Hungarian algoritam;
 - exact graph/subgraph: VF2-like matcher sa hemijskim constraint-ima;
 - partial graph: bounded MCS sa timeout-om i dvostranom coverage vrednošću;
 - rigidno 3D poravnanje: Kabsch tek posle atom mapping-a;
 - coordination: više candidate neighbor setova + donor mapping + continuous shape measures;
-- packing: validirana COMPACK/Packing Similarity implementacija kao referenca kada je dostupna/licencirana; PAC kao važan challenger;
-- soft local/crystal similarity: chemically constrained SOAP–REMatch kao challenger;
+- packing: validirana COMPACK/Packing Similarity implementacija kao moguća referenca kada je dostupna/licencirana; PAC kao nezavisna metoda poređenja;
+- soft local/crystal similarity: chemically constrained SOAP–REMatch kada domen primenljivosti prolazi;
 - powder signal: jasno parametrizovan simulated-PXRD/VC-PWDF-like komplement, ne jedini dokaz;
-- interaction networks: exact motif/fingerprint baseline, WL/graph/optimal-transport challenger;
-- ML meta-model: logistic/RF/GBDT tek uz ciljane ekspertske labele i branch-status features.
+- interaction networks: exact motif/fingerprint referenca i složenije WL/graph/optimal-transport alternative;
+- ML meta-model: logistic/RF/GBDT tek uz ciljane ekspertske labele i odvojene indikatore ishoda svake grane.
 
 Rezultat je vektor dokaza sa statusima, ne jedan „84% isto“ broj.
 
 ## 4.1 Šta je jedinica poređenja
 
-Pre algoritma bira se `comparison_profile`:
+Pre algoritma definiše se profil poređenja:
 
 | Profil | Objekat A/B | Primarne grane |
 |---|---|---|
-| `parent_scaffold_v1` | standardizovani parent graph | graph, MCS, optional 3D core |
-| `coordination_motif_v1` | metal + mapirani donor atoms/ligands | graph, donor mapping, CN, shape |
-| `molecular_conformer_v1` | jedan eksplicitni molekulski conformer | exact mapping, torsions, RMSD/shape |
-| `solid_form_v1` | puni kristalni sastav i periodični raspored | components, packing, interactions, PXRD |
-| `redetermination_v1` | pojedinačno kristalografsko određivanje | cell/model/quality/provenance + packing |
+| parent scaffold | standardizovani parent graph | graph, MCS, optional 3D core |
+| koordinacioni motiv | metal + mapirani donor atoms/ligands | graph, donor mapping, CN, shape |
+| molekulski konformer | jedan eksplicitni molekulski conformer | exact mapping, torsions, RMSD/shape |
+| čvrsta forma | puni kristalni sastav i periodični raspored | components, packing, interactions, PXRD |
+| ponovno kristalografsko određivanje | pojedinačno kristalografsko određivanje | cell/model/quality/provenance + packing |
 
 Jedan CIF može imati više nezavisnih molekula, counterions, solvente, disorder alternative ili coordination polymer. Zato „najveći fragment“ nije bezbedan implicitni objekat.
 
-Minimalni comparison plan:
+Minimalni plan konceptualno određuje:
 
-```yaml
-profile: solid_form_v1
-objects:
-  a: crystal-view-hash-A
-  b: crystal-view-hash-B
-component_policy: full_composition_with_roles_v2
-graph_policy: charge_stereo_bond_v3
-hydrogen_policy: observed_and_modeled_separate
-disorder_policy: alternatives_not_simultaneous_v1
-periodic_policy: symmetry_expanded_multigraph_v2
-branches_requested:
-  [composition, graph, coordination, geometry, packing, interactions, pxrd]
-```
+| Kategorija | Šta razjašnjava |
+|---|---|
+| profil i objekti A/B | da li se porede parent graph, coordination entity, conformer, crystal form ili redetermination |
+| component i graph politika | sastav/uloge, naboj, stereo i bond semantiku |
+| H i disorder politika | razdvaja observed/modelled H i međusobno isključive alternative |
+| periodic politika | definiše symmetry-expanded multigraph i tretman lattice slika |
+| tražene grane | composition, graph, coordination, geometry, packing, interactions i/ili PXRD |
+
+Tačan zapis ovog plana pripada implementaciji; semantičke odluke moraju biti deklarisane pre poređenja.
 
 ## 4.2 State machine svake grane
 
@@ -73,17 +69,17 @@ Svaka grana vraća jedan od statusa:
 
 | Status | Značenje |
 |---|---|
-| `assessed` | metod je završen nad dovoljnim inputom i evidence je raspoloživ |
-| `ambiguous` | više legitimnih mapiranja/neighbor modela menja zaključak |
-| `not_applicable` | grana nema smisla za izabrani objekat |
-| `missing_input` | potreban CIF podatak ne postoji |
-| `quality_blocked` | podatak postoji, ali ne podržava claim |
-| `timeout` | tačno definisan compute limit je istekao |
-| `failed` | implementaciona/numerička greška |
+| ocenjeno (assessed) | metod je završen nad dovoljnim inputom i evidence je raspoloživ |
+| dvosmisleno (ambiguous) | više legitimnih mapiranja/neighbor modela menja zaključak |
+| nije primenljivo (not applicable) | grana nema smisla za izabrani objekat |
+| nedostaje ulaz (missing input) | potreban CIF podatak ne postoji |
+| blokirano kvalitetom | podatak postoji, ali ne podržava claim |
+| istek vremena | tačno definisan compute limit je istekao |
+| neuspeh (failure) | implementaciona/numerička greška |
 
-Ovo je jedini `branch_status_v1` enum. Odvojen nullable `relation_label` koristi isključivo verzionisani target enum; na primer `packing_relation_v1 = same | related | different`. `ambiguous`, `not_applicable`, `missing_input`, `quality_blocked`, `timeout` i `failed` nisu naučne klase i zato uz njih važi `relation_label: null`. `partial` takođe nije packing klasa: parcijalnost se čuva kao `evidence_coverage`, `matched_N`, coverage po strani i failure/warning evidence.
+Ove kategorije opisuju ishod izvršenja grane, ne naučnu klasu relacije. Naučna labela postoji samo kada je grana ocenjena; packing relacija, na primer, može biti ista, povezana ili različita. Dvosmislenost, neprimenljivost, nedostajući ulaz, blokada kvalitetom, istek vremena i neuspeh ostaju bez naučne labele. Parcijalnost takođe nije packing klasa: opisuje se coverage-om obe strane, brojem poklopljenih molekula, RMSD-om i evidence-om o ograničenju ili upozorenju.
 
-`missing_input`, `timeout` i `failed` nisu score 0. Nula tvrdi da je završeno validno poređenje našlo minimalnu sličnost; non-assessed status tvrdi da merenje nije dobijeno. Display zbir poput „not assessed“ sme agregirati više statusa, ali se literalni `not_assessed` ne upisuje ni u `branch_status` ni u `relation_label`.
+Nedostajući ulaz, istek vremena i neuspeh nisu score 0. Nula tvrdi da je završeno validno poređenje našlo minimalnu sličnost; neocenjen ishod tvrdi da merenje nije dobijeno. Prikaz sme objediniti više takvih ishoda kao „nije ocenjeno“, ali izvorne kategorije i odsustvo naučne labele moraju ostati razlučivi.
 
 ## 4.3 All-pairs računanje
 
@@ -97,21 +93,21 @@ neuređenih parova. Za 2.110 struktura to je 2.224.995 parova.
 
 ### Dva eksplicitno različita moda
 
-**Full all-pairs:** svaka primenljiva tražena grana računa se za svaki par. Dozvoljeno je preskočiti samo granu čiji state contract kaže da nije primenljiva ili nema input.
+**Full all-pairs:** svaka primenljiva tražena grana računa se za svaki par. Dozvoljeno je preskočiti samo granu koja po unapred definisanim uslovima nije primenljiva ili nema potreban input.
 
 **Candidate-pruned:** jeftin prefilter bira parove za skupu granu. To je aproksimacija; UI i export prikazuju da neke kombinacije nisu analizirane, a prefilter mora imati recall benchmark prema full referenci.
 
 Ne nazivati candidate-pruned matricu „svim precizno upoređenim parovima“.
 
-### Compute plan
+### Računske posledice
 
-Pri implementaciji treba jednom izračunati per-structure podatke, formirati svaki neuređeni par tačno jednom, ponovo koristiti skupe mapping rezultate i čuvati rezultate po odvojenim granama. Tačan scheduler, cache ključ i storage format biraju se tek kada budu poznati obim podataka i ciljni hardver.
+Per-structure podatke i skupe mapping rezultate moguće je ponovo koristiti, a svaki neuređeni par treba matematički računati jednom. Način raspodele posla i čuvanja rezultata zavisi od obima i hardvera i nije deo algoritamske specifikacije.
 
 ### Pair-order symmetry
 
-App 2 poredi neuređene parove. Cache artefakt uvek ima `canonical_left_id=min(id_A,id_B)`, `canonical_right_id=max(...)`, eksplicitni `left_to_right` component/atom map i provereni inverse. Subgraph containment čuva oba smera. Mapping hash uključuje canonical orientation; reversed API request dobija izvedeni view koji menja directional polja i koristi inverse mapu, ne isti payload sa promenjenim labelama.
+Neuređeni par može interno dobiti kanonsku orijentaciju radi izbegavanja duplog računanja, ali component/atom map mora imati provereni inverse, a asimetričan subgraph containment mora čuvati oba smera.
 
-Zamena `A ↔ B` mora dati iste simetrične score-ove i statuse, dok se directional polja samo zamene, na primer `coverage_A ↔ coverage_B` i `unmatched_in_A ↔ unmatched_in_B`. Za simetričan target model koristi symmetric pair transforms/set architecture ili eksplicitno prosečava/vezuje `f(A,B)` i `f(B,A)`. Canonical ID ordering je isključivo storage/cache ugovor: left/right slot ne sme dozvoliti različite model težine koje uče hronologiju/source kroz ID redosled. `swap(A,B)` i ID-relabel/reingest su obavezni metamorphic testovi.
+Zamena \(A \leftrightarrow B\) mora dati iste simetrične score-ove i statuse, dok se usmereni coverage i skupovi neuparenih objekata samo zamene između dve strane. Za simetričan target model koristi symmetric pair transforms/set architecture ili eksplicitno prosečava/vezuje \(f(A,B)\) i \(f(B,A)\). Kanonski ID redosled je eventualna tehnička optimizacija, ne simetrija modela: left/right slot ne sme dozvoliti različite težine koje uče hronologiju/source kroz ID redosled. Zamena A/B i ID-relabel/reingest su nužni metamorphic testovi.
 
 ## 4.4 Component assignment
 
@@ -142,7 +138,7 @@ Težine nisu univerzalna hemijska istina. Pre labela je sigurniji lexicographic 
 
 Stoichiometric multiplicities se ili razvijaju u eksplicitne instance ili rešavaju capacity-aware min-cost-flow formulacijom. Jedan Hungarian run vraća samo jedno optimalno rešenje; za ambiguity se enumerišu svi optima/[k-best assignments](https://doi.org/10.1287/opre.16.3.682) unutar definisanog delta-a, uz deterministic ordering.
 
-Enumeration zapis ima `enumeration_complete`, `truncated`, `k_returned`, cost lower/upper granice i delta. Permutacije kopija smeju se quotient-ovati u istu equivalence klasu **samo** kada su dokazano ekvivalentne po svim atributima relevantnim za izabrani profil i kada svaka takva permutacija garantovano daje isti downstream rezultat. Sama jednakost hemijskog grafa ili formule nije dovoljna: kod \(Z' > 1\) hemijski iste komponente mogu biti kristalografski nezavisne, imati različite konformacije, koordinaciona okruženja ili packing uloge. Za njih se čuvaju assignment orbite/permutacije i ocenjuju njihove posledice. Ovo ograničenje sprečava i factorial duplikate i lažno uklanjanje stvarne mapping neizvesnosti; kontekst daju [Desirajuova analiza struktura sa \(Z' > 1\)](https://doi.org/10.1039/B614933B) i [CCDC ConQuest vodič](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf).
+Izveštaj o enumeraciji navodi da li je pretraga kompletna ili prekinuta, koliko je rešenja vraćeno, poznate donje i gornje granice troška i korišćenu toleranciju delta. Permutacije kopija smeju se quotient-ovati u istu equivalence klasu **samo** kada su dokazano ekvivalentne po svim atributima relevantnim za izabrani profil i kada svaka takva permutacija garantovano daje isti downstream rezultat. Sama jednakost hemijskog grafa ili formule nije dovoljna: kod \(Z' > 1\) hemijski iste komponente mogu biti kristalografski nezavisne, imati različite konformacije, koordinaciona okruženja ili packing uloge. Za njih se čuvaju assignment orbite/permutacije i ocenjuju njihove posledice. Ovo ograničenje sprečava i factorial duplikate i lažno uklanjanje stvarne mapping neizvesnosti; kontekst daju [Desirajuova analiza struktura sa \(Z' > 1\)](https://doi.org/10.1039/B614933B) i [CCDC ConQuest vodič](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf).
 
 ### Šta Hungarian ne rešava
 
@@ -174,7 +170,7 @@ Edge constraints mogu uključiti bond type/order, aromaticity i coordination-edg
 
 Promena periodičnog predstavnika jednog čvora dodaje/oduzima njegov integer gauge shift labelama incidentnih ivica. Dve reprezentacije su zato ekvivalentne tek ako postoji zajednička basis transformacija **i vertex-wise gauge transform**; invariantni cycle/path-sum odnosi se zatim mogu porediti. Samo basis transformacija ne rešava wrapping razliku.
 
-Stereo nije običan lokalni string atribut: tetrahedral parity zavisi od permutacije mapiranih suseda. Exact matcher posle candidate bijekcije proverava tetrahedral parity, double-bond `E/Z`, relevantne enhanced stereo groups i unknown/unspecified stanje prema verzionisanoj politici. Unsupported metal/coordination stereochemistry ne postaje „same“ zato što toolkit nema tag; vraća `branch_status: ambiguous` i `relation_label: null`. Korisne formalne reference su [OpenSMILES stereochemistry pravila](http://opensmiles.org/opensmiles.html#stereochemistry) i [RDKit stereochemistry dokumentacija](https://www.rdkit.org/docs/RDKit_Book.html#stereochemistry).
+Stereo nije običan lokalni string atribut: tetrahedral parity zavisi od permutacije mapiranih suseda. Exact matcher posle candidate bijekcije proverava tetrahedral parity, double-bond `E/Z`, relevantne enhanced stereo groups i unknown/unspecified stanje prema verzionisanoj politici. Nepodržana metalna ili koordinaciona stereokemija ne postaje „ista“ zato što toolkit nema tag; rezultat ostaje dvosmislen i bez naučne relacione labele. Korisne formalne reference su [OpenSMILES stereochemistry pravila](http://opensmiles.org/opensmiles.html#stereochemistry) i [RDKit stereochemistry dokumentacija](https://www.rdkit.org/docs/RDKit_Book.html#stereochemistry).
 
 ### Subgraph relation
 
@@ -191,7 +187,7 @@ coverage^{bond}_A=\frac{N_{mapped\ bonds}}{N_{eligible\ bonds,A}},
 
 uz analogne vrednosti za B.
 
-MCS/subgraph search može imati eksponencijalan worst case. Production ugovor zato ima:
+MCS/subgraph search može imati eksponencijalan worst case. Definicija metode zato navodi:
 
 - maksimalno vreme i broj states;
 - minimalni atom/bond coverage;
@@ -199,11 +195,11 @@ MCS/subgraph search može imati eksponencijalan worst case. Production ugovor za
 - induced naspram non-induced i connected naspram disconnected MCS;
 - objective/tie-break, na primer prvo broj mapiranih heavy atoma, zatim broj veza i ring completeness;
 - stereo/charge/metal pravila;
-- `timeout` status, nikada lažnu nulu;
+- status isteka vremena, nikada lažnu nulu;
 - svi optimalni non-automorphic mappings ili unapred ograničen k-best/ambiguity set;
 - deterministic tie-break i hash svakog prihvaćenog atom mapping-a.
 
-MCS rezultat dodatno nosi `optimality_proven`, najbolji incumbent, poznatu upper bound vrednost i termination reason. Ako timeout prekine dokaz optimalnosti, prijavljeni mapping/coverage je lower-bound kandidat, ne „the maximum common subgraph“. Enumeration optima ima isti `complete/truncated` ugovor kao component assignment.
+MCS rezultat dodatno navodi da li je optimalnost dokazana, najbolji pronađeni incumbent, poznatu gornju granicu i razlog završetka. Ako istek vremena prekine dokaz optimalnosti, prijavljeni mapping/coverage je lower-bound kandidat, ne „the maximum common subgraph“. Enumeracija optimuma isto razlikuje kompletan od prekinutog ishoda kao component assignment.
 
 ### Automorphisms
 
@@ -233,7 +229,7 @@ Default su uniformne težine. Ako profil opravdano koristi \(w_i\), centroids, r
 RMSD_w=\sqrt{\frac{\sum_i w_i\|R\mathbf{x}_i+\mathbf t-\mathbf y_i\|^2}{\sum_i w_i}}.
 \]
 
-Manifest navodi:
+Reproduktivna definicija poređenja navodi:
 
 - mapping hash i broj mapiranih/eligible atoma;
 - heavy-only ili eksplicitnu H policy;
@@ -254,7 +250,7 @@ Default koristi proper rotation sa determinant-om `+1`; mirror reflection nije d
 
 ### Degenerate point sets
 
-Jedinstvena 3D rotacija nije identifikovana sa manje od tri nekolinearne mapirane tačke. Izlaz čuva rank/singular values centered coordinate skupa i `rotation_identifiable`. Za jednu, dve ili kolinearne tačke može se prijaviti ograničen distance residual, ali ne jedinstvena orientation, torsion ili geometry tvrdnja; status je `ambiguous` za takve claims.
+Jedinstvena 3D rotacija nije identifikovana sa manje od tri nekolinearne mapirane tačke. Izlaz čuva rank i singular values centriranog koordinatnog skupa i izričito navodi da li je rotacija identifikovana. Za jednu, dve ili kolinearne tačke može se prijaviti ograničen distance residual, ali ne jedinstvena orientation, torsion ili geometry tvrdnja; takav zaključak ostaje dvosmislen.
 
 ### Coverage pre lepog RMSD-a
 
@@ -306,7 +302,7 @@ tri veze direct / ambiguous / absent?
 metal je u istoj komponenti ili samo counterion?
 ```
 
-`entry contains Cu` i `Cu coordinates all three DAP N` ostaju odvojena polja. Oxidation state se ne izmišlja iz formule; navodi se observed/assigned/inferred status i evidence.
+Tvrdnje „entry sadrži Cu“ i „Cu koordinira sva tri DAP N atoma“ ostaju odvojene. Oxidation state se ne izmišlja iz formule; navode se način njegovog utvrđivanja i prateći evidence.
 
 ### Pair comparison
 
@@ -324,17 +320,7 @@ Hungarian assignment može upariti isto-tipne donore po minimalnom geometrijskom
 
 ## 4.8 Periodični model pre crystal poređenja
 
-Kristal nije samo asimetrična jedinica. Svaka periodična ivica čuva:
-
-```yaml
-source_atom: ...
-target_atom: ...
-symmetry_operation: ...
-lattice_image: [i, j, k]
-distance_angstrom: ...
-edge_type: contact | hbond_candidate | coordination
-rule_version: ...
-```
+Kristal nije samo asimetrična jedinica. Periodična ivica konceptualno povezuje source i target atom i navodi symmetry operation, lattice image, rastojanje, fizičku ulogu kontakta i provenance pravila kojim je izvedena. Tačan tehnički format nije deo teorijske specifikacije.
 
 Crystal branch mora biti invariant/equivariant prema:
 
@@ -367,7 +353,7 @@ Bez toga se dupliraju susedi, coordination number, kontakti i occupancy doprinos
 Deterministički lattice branch:
 
 1. validira ćeliju i gradi metric tensor;
-2. pravi standardizovanu/reduced reprezentaciju uz tolerance manifest;
+2. pravi standardizovanu/reduced reprezentaciju uz deklarisanu toleranciju;
 3. po potrebi enumeriše dozvoljene unimodularne integer basis/setting transformacije;
 4. poredi lengths/angles, volume i volume po formula unit-u;
 5. vraća candidate mappings, ne packing presudu;
@@ -381,7 +367,7 @@ Niggli/reduced-cell rezultat blizu degenerate granice može biti numerički nest
 
 [COMPACK](https://doi.org/10.1107/S0021889804027074) opisuje molecular packing okruženje relativnim položajima/orijentacijama molekula kroz interatomske distance, bez oslanjanja na identične cell/space-group zapise. CCDC-ov [Packing Similarity API](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/packing_similarity.html) tipično vraća broj matched molecules i RMSD za definisan cluster/tolerances.
 
-Obavezni parametri:
+Parametri koji definišu poređenje:
 
 - referentna komponenta/molecule matching;
 - shell/cluster veličina;
@@ -391,7 +377,7 @@ Obavezni parametri:
 - minimalan broj matched molecules;
 - višekomponentni/disorder/polimer policy.
 
-Method paper ne daje automatski pravo korišćenja CCDC implementacije ili podataka. Produkcioni izbor zavisi od konkretnog fakultetskog/CCDC ugovora.
+Method paper ne daje automatski pravo korišćenja CCDC implementacije ili podataka. Primenljivost konkretne implementacije zavisi od odgovarajućih prava i ugovora.
 
 ### PAC
 
@@ -399,15 +385,11 @@ Method paper ne daje automatski pravo korišćenja CCDC implementacije ili podat
 
 ### CrystalCMP
 
-[CrystalCMP](https://doi.org/10.1107/S1600576720003787) automatski bira fragmente i poredi molecular packing; representative clusters u objavljenoj metodologiji sadrže jedan izabrani tip molekula. Zato rezultat mora čuvati `selected_molecular_species/fragment_mapping` i nazvati se species-specific packing comparison, ne automatski poređenjem cele soli/solvata/co-crystal forme. Bez legitimnog izbora vraća `ambiguous`/`not_applicable`; za beskonačni coordination polymer finite-molecule metod može biti neprimenljiv. Objavljeni threshold-i zavise od settings-a i evaluiranog skupa, pa je metod research challenger/cross-check, ne izvor univerzalnog „identical packing“ praga.
+[CrystalCMP](https://doi.org/10.1107/S1600576720003787) automatski bira fragmente i poredi molecular packing; representative clusters u objavljenoj metodologiji sadrže jedan izabrani tip molekula. Zato rezultat mora navesti izabranu molekulsku vrstu i njeno mapiranje fragmenata i nazvati se species-specific packing comparison, ne automatski poređenjem cele soli/solvata/co-crystal forme. Bez legitimnog izbora rezultat je dvosmislen ili metod nije primenljiv; za beskonačni coordination polymer finite-molecule metod može biti neprimenljiv. Objavljeni threshold-i zavise od settings-a i evaluiranog skupa, pa je metod istraživačka alternativa/cross-check, ne izvor univerzalnog „identical packing“ praga.
 
-### Trenutna odluka
+### Poređenje uloga
 
-1. ako licenca i integracija dopuštaju, COMPACK/Packing Similarity je referentni baseline zbog direktne povezanosti sa CSD praksom;
-2. PAC je obavezni reproducibility/speed challenger;
-3. disagreement set ide na slepi ekspertni review;
-4. nijedan threshold se ne prenosi bez 2CDC calibration skupa;
-5. output čuva matched \(N\), RMSD, cluster shape/coverage, parametre i failure reason.
+Kada prava i domen primenljivosti to dopuštaju, COMPACK/Packing Similarity može biti referentna metoda zbog direktne veze sa CSD praksom. PAC pruža nezavisno poređenje sa drugačijim cluster-shape informacijama. Njihova neslaganja su informativan skup za slepo stručno ocenjivanje, ali objavljeni threshold-i nisu univerzalni i ne prenose se bez target-specifične kalibracije. Svaki metod treba da prijavi matched \(N\), RMSD, cluster shape/coverage, parametre i failure reason.
 
 ## 4.10 SOAP–REMatch i optimal transport
 
@@ -428,7 +410,7 @@ SOAP–REMatch je privlačan jer daje soft similarity i kernel za GPR/clustering
 
 Običan globalni assignment može i upariti lokalna okruženja koja nisu isti atom underlying molekula. Noviji [chemically constrained molecular-crystal SOAP rad](https://doi.org/10.1021/acs.cgd.5c01220) uvodi ograničenja na analogous atoms istog underlying molekula, ali je validiran u užem organic molecular-crystal domenu. Pre upotrebe se proveravaju chemical identity, finite-molecule status, \(Z'\), molecular symmetry i dokumentovani uslovi positive-semidefinite kernel-a. Salts, co-crystals, metal complexes, promenljivi \(Z'\) i coordination networks zahtevaju zasebnu validaciju.
 
-**2CDC odluka:** koristiti kao challenger samo kada applicability gate prolazi i uz hemijski constraint iz exact atom/component mapping-a. Ne proglašavati SOAP score packing identitetom pre benchmarka prema COMPACK/PAC i ekspertima. Za ostale domene rezultat je `not_applicable` ili eksperimentalni signal bez kernel-validity claim-a.
+SOAP–REMatch je primenljiv samo kada applicability uslovi prolaze i kada hemijska ograničenja potiču iz exact atom/component mapping-a. SOAP score nije packing identitet bez poređenja prema nezavisnim packing metodama i ekspertima. Za ostale domene metod nije primenljiv ili daje samo eksperimentalni signal bez kernel-validity claim-a.
 
 ## 4.11 PXRD kao komplementarna grana
 
@@ -441,18 +423,18 @@ Simulirani powder pattern iz CIF-a može se porediti preko:
 
 [VC-PWDF studija](https://doi.org/10.1039/D2CE01080A) poredi powder-based metod sa COMPACK-om na desetinama hiljada parova i nalazi komplementarne failure modes; metod ne pretvara PXRD u jedinstven dokaz atomskog packinga.
 
-Reproduktivni manifest čuva najmanje:
+Reproduktivna definicija poređenja navodi najmanje:
 
-- `probe_type` (`X-ray`, neutron ili electron) i geometriju eksperimenta/simulacije;
+- vrstu probe — X-ray, neutron ili electron — i geometriju eksperimenta/simulacije;
 - sve radiation komponente sa wavelength vrednostima i težinama, ne samo jednu nominalnu talasnu dužinu;
 - izvor/verziju scattering factor-a ili scattering length-a i anomalous-scattering politiku;
 - politike za occupancy, disorder alternative, H atome i ADP/Debye–Waller faktor;
 - Lorentz–polarization, multiplicity i ostale uključene corrections;
 - \(2\theta/q/d\) osu, range, step/binning, peak profile, intensity/background normalization i temperaturu;
-- simulator, verziju, numeričke tolerancije i status `simulated`/`measured`;
+- simulator, verziju, numeričke tolerancije i razliku između simuliranog i izmerenog obrasca;
 - za measured pattern: instrument geometry, kalibraciju/zero shift i poznate sample corrections.
 
-Bez ovih polja intensity-based cosine/correlation score nije nužno reproduktivan: različite probe i korekcije daju različite intenzitete i kada je strukturni model isti. Polja se mapiraju na zvanične [IUCr pdCIF definicije](https://www.iucr.org/resources/cif/dictionaries/cif_pd) i [IUCr Core CIF scattering kategorije](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core1); konkretna implementacija mora navesti korišćeni simulator i fizički model.
+Bez ovih informacija intensity-based cosine/correlation score nije nužno reproduktivan: različite probe i korekcije daju različite intenzitete i kada je strukturni model isti. Kategorije se oslanjaju na zvanične [IUCr pdCIF definicije](https://www.iucr.org/resources/cif/dictionaries/cif_pd) i [IUCr Core CIF scattering kategorije](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core1); svaka reprodukcija mora navesti korišćeni simulator i fizički model.
 
 Važne granice:
 
@@ -484,9 +466,9 @@ Običan cycle detector nad jednom ćelijom nije dovoljan. Za orijentisanu putanj
 
 Ciklus u finite quotient grafu sa nenultim translation sum-om u beskonačnom lift-u nije prsten već nastavlja periodični put. Ova definicija čini dimensionality nezavisnom od proizvoljne supercell veličine; formalni okvir daju [periodic labelled quotient graphs](https://doi.org/10.1107/S2053273325008253) i [quotient-graph dimensionality algoritam](https://doi.org/10.1038/s41524-020-00409-0).
 
-### Baseline
+### Transparentne reference
 
-Prvo koriste:
+Relevantne su:
 
 - exact motif presence;
 - count fingerprint typed edges/motifs;
@@ -494,11 +476,11 @@ Prvo koriste:
 - donor/acceptor/metal coverage;
 - dimensionality/topology flags.
 
-### Challengers
+### Složenije alternative
 
 [Weisfeiler–Lehman subtree kernel](https://www.jmlr.org/papers/v12/shervashidze11a.html) je efikasan način poređenja discrete-labeled graph neighborhoods, ali nije potpuni graph-isomorphism dokaz i može imati collisions/ograničenu diskriminaciju. Graph edit distance je intuitivan, ali exact račun može biti nepraktičan; svaka aproksimacija mora čuvati edit-cost semantiku. Optimal transport nad motif/local-environment features može dati soft poređenje, ali regularization i cost matrica postaju deo metode.
 
-H-bond rezultat je posebno osetljiv na H positions, protonation, disorder i temperature. `No detected edge` nije isto što i dokaz da interakcija fizički ne postoji.
+H-bond rezultat je posebno osetljiv na H positions, protonation, disorder i temperature. Ishod u kojem veza nije detektovana nije isto što i dokaz da interakcija fizički ne postoji.
 
 ## 4.13 Disorder, occupancy i multiple models
 
@@ -528,12 +510,12 @@ graph exact?
 
 ### Sa labelama za jedan use case
 
-Target, na primer `coordination_relation_v1`, može dobiti:
+Target, na primer relacija koordinacionih okruženja, može dobiti:
 
-1. logistički/ordinalni baseline;
-2. RF/ExtraTrees;
-3. GBDT;
-4. calibrated/conformal abstention sloj.
+- logistički ili ordinalni transparentni model;
+- RF/ExtraTrees ili drugi tree ensemble za nelinearne odnose;
+- GBDT kada kapacitet i tuning odgovaraju količini nezavisnih grupa;
+- calibrated/conformal abstention sloj uz odgovarajuće pretpostavke.
 
 Features su isključivo rastavljivi branch output-i i statusi. Model ne dobija raw ID/source proxy. Strukture se dodeljuju foldovima pre pravljenja parova.
 
@@ -541,37 +523,21 @@ Model/preprocessing/hyperparameter izbor radi se u inner grouped CV-u, a procena
 
 ### Multi-output je bolji od univerzalnog score-a
 
-Mogući targets:
+Moguće target porodice uključuju:
 
-```yaml
-branch_status_v1:
-  [assessed, ambiguous, not_applicable, missing_input, quality_blocked, timeout, failed]
-relation_targets:
-  same_parent_graph_v1:
-    relation_label_enum: [same, different]
-  coordination_relation_v1:
-    relation_label_enum: [same, related, different]
-  conformer_similarity_v1:
-    relation_label_enum: [same_like, different]
-  packing_relation_v1:
-    relation_label_enum: [same, related, different]
-    evidence_coverage_enum: [complete, partial, none]
-  molecular_stereo_relation_v1:
-    relation_label_enum: [same, mismatch]
-  crystal_handedness_relation_v1:
-    relation_label_enum: [same, mismatch]
-  interaction_relation_v1:
-    relation_label_enum: target_specific_versioned_enum
-  overall_usefulness_for_profile_v1:
-    relation_label_enum: [0, 1, 2]
-sample_branch_output:
-  target: packing_relation_v1
-  branch_status: assessed
-  relation_label: related
-  evidence_coverage: partial
-```
+| Target | Primer relacije | Dodatna informacija |
+|---|---|---|
+| parent graph | same / different | exact graph evidence |
+| coordination | same / related / different | donor mapping, CN i geometry evidence |
+| conformer | same-like / different | mapped coverage i RMSD |
+| packing | same / related / different | complete/partial/none evidence coverage |
+| molecular stereo i crystal handedness | same / mismatch | odgovarajući stereo ili enantiomorph dokaz |
+| interaction odnos | target-specific kategorije relacije | typed-edge/motif/network evidence |
+| korisnost za profil | graded relevance | samo uz eksplicitan label guide |
 
-Svaki target ima sopstveni label guide, calibrator i slice metrike. Relation loss se računa samo tamo gde je `branch_status: assessed` i gold `relation_label` nije `null`; non-assessed slučajevi ulaze u coverage/failure/abstention metrike, ne postaju dodatna klasa. `overall` ostaje `null` ako ključna grana nije ocenjena i target contract ne dozvoljava odluku.
+Svaki od ovih target-a ostaje odvojen od ishoda izvršenja grane: ocenjeno, dvosmisleno, neprimenljivo, nedostaje ulaz, blokirano kvalitetom, istekao je vremenski limit ili je metod neuspešan. Tačan tehnički zapis nije deo konceptualnog modela.
+
+Svaki target ima sopstveni label guide, calibrator i slice metrike. Relation loss se računa samo za ocenjene slučajeve sa poznatom gold relacionom labelom; neocenjeni slučajevi ulaze u coverage, failure i abstention metrike, ne postaju dodatna klasa. Agregatna odluka izostaje ako ključna grana nije ocenjena i semantika targeta ne dopušta zaključak.
 
 ## 4.15 Četiri ilustrativna para
 
@@ -597,7 +563,7 @@ Ako RMSD zavisi od reda redova u CIF-u, implementacija je pogrešna.
 - entry element filter: Cu=true;
 - DAP graph: možda exact;
 - coordination donor mapping: sva tri N→isti Cu=false/ambiguous;
-- CSM: `not_applicable` za traženi DAP–Cu centar;
+- CSM: nije primenljiv za traženi DAP–Cu centar;
 - zaključak: nije pozitivan coordination-motif primer samo zato što formula sadrži Cu.
 
 ### D — isti molekul, dva polymorph-a
@@ -618,7 +584,7 @@ Ako RMSD zavisi od reda redova u CIF-u, implementacija je pogrešna.
 3. **representative grouped test:** random ili unapred design-weighted uzorak iz ciljane all-pairs populacije za prevalence, calibration i risk;
 4. **expert pair labels:** slepo ocenjeni stvarni parovi po jednom profilu;
 5. **method challenge:** posebno označen COMPACK/PAC/CrystalCMP/SOAP/PXRD disagreement/candidate-enriched pool;
-6. **future authorized CSD pilot:** tek kada ugovor dozvoli pristup i evaluaciju.
+6. **authorized CSD evaluation:** primenljiva samo kada ugovor dozvoli pristup i evaluaciju.
 
 Disagreement pool je odličan za nalaženje failure modes, ali nije reprezentativan za punu populaciju i ne procenjuje prevalence, calibration ni prosečni risk. Aktivno biranje test primera uvodi selection bias; koristi se poznat design/importance-weighted estimator ili odvojeni representative test ([Active Testing](https://proceedings.mlr.press/v139/kossen21a.html)). Neoznačeni parovi nisu automatski negativni.
 
@@ -626,7 +592,7 @@ Disagreement pool je odličan za nalaženje failure modes, ali nije reprezentati
 
 Strukture/compound/scaffold/solid-form/publication/time grupe se dele pre generisanja parova. `A–B` u train-u i `A–C` u testu nije nezavisna procena. Za metamorphic varijante svi derivati originala ostaju u istoj particiji.
 
-Glavni, production-relevant **2D cold/cold** estimand koristi disjunktne endpoint grupe: ako su particije struktura (T,V,E), train sadrži samo (T\times T), validation samo (V\times V), a test samo (E\times E). Cross-partition parovi poput (T\times E) se iz ovog estimanda izostavljaju. Ako je buduća produkciona situacija „nov query naspram poznatog korpusa“, (T\times E) se meri kao zasebno imenovan **1D warm/cold** režim, sa sopstvenim metrikama; nikad se ne meša u glavni cold/cold test. [DataSAIL](https://doi.org/10.1038/s41467-025-58606-8) daje formalni okvir za razlikovanje 1D i 2D splitova. Manifest navodi ciljnu deployment distribuciju, pravilo za cross-partition parove i tačan estimand pre bilo kakvog model-selection rada.
+**2D cold/cold** estimand koristi disjunktne endpoint grupe: ako su particije struktura (T,V,E), train sadrži samo (T\times T), validation samo (V\times V), a test samo (E\times E). Cross-partition parovi poput (T\times E) se iz ovog estimanda izostavljaju. Ako je cilj „nov query naspram poznatog korpusa“, (T\times E) se meri kao zasebno imenovan **1D warm/cold** režim, sa sopstvenim metrikama; nikad se ne meša u cold/cold test. [DataSAIL](https://doi.org/10.1038/s41467-025-58606-8) daje formalni okvir za razlikovanje 1D i 2D splitova. Evaluaciona definicija navodi ciljnu distribuciju, pravilo za cross-partition parove i tačan estimand pre model-selection rada.
 
 ### Metrike po grani
 
@@ -636,10 +602,10 @@ Glavni, production-relevant **2D cold/cold** estimand koristi disjunktne endpoin
 | atom mapping | mapped-pair precision/recall, coverage, exact graph decision |
 | 3D | numerical invariance tolerance, RMSD error prema reference mapi |
 | coordination | donor-edge precision/recall, CN accuracy, CSM/label agreement |
-| packing | same/related/different confusion za `packing_relation_v1`, zasebno matched-N/coverage/RMSD agreement i expert disagreement |
+| packing | confusion za klase isto/povezano/različito, zasebno slaganje matched-N/coverage/RMSD i neslaganje eksperata |
 | interactions | typed-edge/motif precision/recall, topology agreement |
 | meta-model | grouped ROC/PR, calibration, coverage–risk, worst slice |
-| sistem | p50/p95, peak RAM i stopa svakog non-assessed `branch_status_v1` statusa |
+| sistem | p50/p95, peak RAM i stopa svake kategorije neocenjenog ishoda |
 
 Continuous threshold-i se biraju samo na training/calibration grupama. Test izveštaj čuva paired interval po structure-family grupi i sve neuporedive parove.
 
@@ -654,7 +620,7 @@ Continuous threshold-i se biraju samo na training/calibration grupama. Test izve
 - \(P2_1/c\leftrightarrow P2_1/n\) ekvivalentan setting;
 - unimodularna primitive-basis promena;
 - primitive/conventional opis i zasebno validiran supercell + replicated-motif opis kada profil poredi isti beskonačni kristal;
-- zamena `A ↔ B` uz zamenu directional evidence polja;
+- zamena \(A \leftrightarrow B\) uz zamenu usmerenog evidence-a;
 - relabel/reingest struktura novim immutable ID-jevima bez promene sadržaja;
 - validan drugačiji SMILES atom ordering;
 - različit red loop kolona/rows u CIF-u.
@@ -674,29 +640,27 @@ Continuous threshold-i se biraju samo na training/calibration grupama. Test izve
 
 Svaki test navodi očekivane branch statuse i brojeve/tolerance, ne samo overall pass.
 
-## 4.18 Scheduler, paralelizacija i storage
+## 4.18 Računska složenost i capacity trade-off
 
-All-pairs broj raste kvadratno, a graph i packing poređenja imaju veoma neujednačenu cenu. Buduća realizacija zato treba da podrži blokovsku podelu posla, ponovno korišćenje per-structure rezultata, ograničenje vremena/memorije po grani, bezbedan retry i vidljiv parcijalni napredak.
+All-pairs broj raste kvadratno, a graph i packing poređenja imaju veoma neujednačenu cenu. Blokovska dekompozicija, ponovno korišćenje per-structure rezultata i ograničenje vremena/memorije po grani predstavljaju opšte načine kontrole tog troška. Nepotpuno računanje mora ostati vidljivo u statusima i coverage-u.
 
-Tačan queue sistem, broj worker-a, cache i export format određuju se tek posle benchmarka na stvarnom dozvoljenom obimu. Capacity plan treba da koristi p95/p99 vreme i memoriju, ne samo prosek.
+Capacity procena treba da koristi rep distribucije vremena i memorije, ne samo prosek. Queue sistem, broj worker-a, cache i export format nisu algoritamski zahtevi ovog poglavlja.
 
-## 4.19 Optimalna matrica algoritama
+## 4.19 Matrica algoritamskih uloga
 
-| Pitanje | Baseline | Production kandidat | Challenger / razlog |
+| Pitanje | Transparentna referenca | Preciznija ili skuplja alternativa | Uslov ili ograničenje |
 |---|---|---|---|
-| component pairing | ručno/lexicographic | constrained Hungarian + ambiguity set | learned cost samo uz labels |
-| exact molecular identity | canonical hash + exact graph | VF2-like exact matcher | drugi toolkit cross-check |
-| partial common core | fingerprint prefilter | bounded MCS + timeout | learned mapping nije prvi izbor |
-| rigid conformation | fixed mapping RMSD | Kabsch po svim ekvivalentnim mapama | flexible alignment samo za poseban target |
-| metal neighbor set | distance/radii candidates | multi-policy sensitivity + expert-calibrated rule | ChemEnv-like strategy |
-| geometry label | angles/distances | CSM vector + ambiguity | supervised geometry classifier |
-| packing | cell candidate signal | licensed/validated COMPACK reference | PAC; CrystalCMP cross-check |
-| soft crystal metric | simple periodic descriptors | domain-gated, chemically constrained SOAP–REMatch challenger | periodic GNN embedding |
-| powder signal | fixed-bin cosine/correlation | validated VC-PWDF-like complement | learned PXRD model tek uz data |
-| interactions | typed motif fingerprint | exact mapping + motif/network comparison | WL/OT/graph model |
-| combined decision | branch report | target-specific calibrated RF/GBDT ako labels postoje | multi-task deep pair model kasnije |
-
-**PROPOSAL:** MVP aplikacije 2 implementira component assignment, exact graph/MCS, Kabsch, explicit DAP–metal donor mapping i rastavljivu result schemu. Packing se dodaje čim postoji pravno i tehnički validirana COMPACK/PAC putanja. SOAP, PXRD, graph kernels i learned pair models ulaze kao challengers iza disagreement benchmarka, ne kao zamena za deterministički evidence.
+| component pairing | ručno/lexicographic | constrained Hungarian + ambiguity set | learned cost zahteva labele |
+| exact molecular identity | canonical hash + exact graph | VF2-like exact matcher ili drugi toolkit cross-check | hemijska semantika grafa mora biti ista |
+| partial common core | fingerprint prefilter | bounded MCS + timeout | istek vremena ostaje status, ne score |
+| rigid conformation | fixed mapping RMSD | Kabsch po svim ekvivalentnim mapama | mapping mora prethoditi RMSD-u; flexible alignment je drugi target |
+| metal neighbor set | distance/radii candidates | multi-policy sensitivity, expert-calibrated ili ChemEnv-like pravilo | cutoff i oxidation/donor pretpostavke moraju biti eksplicitne |
+| geometry label | angles/distances | CSM vector + ambiguity ili supervised classifier | classifier zahteva ciljane labele |
+| packing | cell candidate signal | licenciran/validiran COMPACK, PAC ili CrystalCMP | finite-molecule/domain i rights uslovi se razlikuju |
+| soft crystal metric | simple periodic descriptors | domain-gated, chemically constrained SOAP–REMatch ili periodic GNN | score nije packing identitet bez spoljne validacije |
+| powder signal | fixed-bin cosine/correlation | validiran VC-PWDF-like ili learned model | fizička simulaciona definicija i odgovarajući podaci su obavezni |
+| interactions | typed motif fingerprint | exact mapping + motif/network, WL/OT ili graph model | tipovi ivica i protonation/disorder politika menjaju značenje |
+| combined decision | branch report | target-specific kalibrisan tree ili deep pair model | zahteva ekspertske labele i ne sme sakriti branch statuse |
 
 ## 4.20 Anti-patterni
 
@@ -707,21 +671,21 @@ Tačan queue sistem, broj worker-a, cache i export format određuju se tek posle
 - najniži RMSD iz hemijski nedozvoljenih atom permutations;
 - reflection dozvoljen bez stereo profile-a;
 - jedan distance cutoff za sve metal–donor parove;
-- `metal in entry` poistovećen sa `metal coordinates DAP`;
+- poistovećivanje prisustva metala u zapisu sa dokazom da metal koordiniše DAP;
 - ista cell/space group proglašena istim packingom;
 - simulated PXRD iz CIF-a predstavljen kao nezavisna potvrda tog CIF-a;
 - SOAP score preimenovan u packing identity;
-- bilo koji non-assessed branch status zamenjen nulom ili naučnom klasom;
+- bilo koji neocenjen ishod grane zamenjen nulom ili naučnom klasom;
 - all-pairs label za candidate-pruned posao;
 - pair-random split;
 - canonical ID ordering korišćen kao zamena za simetričnu pair-model arhitekturu;
 - overall score bez target-a i expert label guide-a.
 
-## 4.21 Kriterijum prihvatanja
+## 4.21 Kriterijumi validnosti
 
-Pairwise jezgro je spremno kada:
+Pairwise tvrdnja je validna kada:
 
-1. svaki branch ima input contract, `branch_status_v1`, nullable target-specific `relation_label`, evidence coverage i method version;
+1. svaka grana ima definisane ulaze, odvojen ishod izvršenja, target-specific naučnu labelu samo kada je ocenjiva, evidence coverage i verziju metode;
 2. component/atom mapping su reproduktivni i čuvaju alternative;
 3. Kabsch rezultat je invariant na order/rigid transform i ne koristi reflection po default-u;
 4. DAP coordination tvrdnja navodi isti konkretan metal i sva tri mapirana donor atoma;
@@ -730,6 +694,6 @@ Pairwise jezgro je spremno kada:
 7. COMPACK/PAC/SOAP/PXRD disagreement set je stručno pregledan pre threshold claim-a;
 8. full i candidate-pruned režimi su jasno razdvojeni i potonji ima recall gate;
 9. structure-family split prethodi pair generation-u;
-10. svi statusi i evidence ostaju dostupni u long-form exportu;
-11. p95/p99, timeout i peak-memory ulaze u capacity plan;
-12. nijedan overall model ne može sakriti `ambiguous`, `missing_input` ili `quality_blocked` ključnu granu.
+10. svi statusi i evidence ostaju dostupni za proveru;
+11. relevantni repovi latency distribucije, timeout i peak-memory ulaze u deklarisani computational scope;
+12. nijedan overall model ne može sakriti dvosmislenu ključnu granu, nedostajući ulaz ili zaključak blokiran kvalitetom.

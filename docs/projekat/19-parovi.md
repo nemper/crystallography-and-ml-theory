@@ -13,7 +13,7 @@ Jedan upload može sadržati:
 - disorder alternatives;
 - polymeric coordination network.
 
-Pre pair scoring-a, aplikacija pravi **comparison plan**: koje komponente se mapiraju, da li je objekat ligand, ceo entity ili crystal, i koji nivoi su validni za oba zapisa.
+Pre bilo kakvog score-a mora biti jasno koje se komponente porede, da li je objekat ligand, ceo entity ili crystal i koji nivoi imaju dovoljno podataka u oba zapisa. Ovde je **comparison plan** naziv za tu semantičku odluku, ne specifikacija softverskog objekta.
 
 ## 19.2 Kvadratna složenost
 
@@ -30,16 +30,11 @@ N_{pairs}=\frac{n(n-1)}{2}.
 | 1.000 | 499.500 |
 | 2.110 | 2.224.995 |
 
-Zato je obavezno:
-
-- precompute per-structure features samo jednom;
-- kanonski pair key `(min(structure_version_id), max(...), metric_version)`;
-- symmetric cache;
-- task queue sa retry/idempotency;
-- chunked output i progres po nivou;
-- odvojiti „svi parovi exact“ od „candidate-pruned“ moda u UI-ju i izveštaju.
+Kvadratni rast objašnjava nekoliko opštih principa skaliranja: veličine koje zavise samo od jedne strukture mogu se ponovo koristiti, simetrično poređenje ne treba računati u oba smera bez naučnog razloga, a exhaustive all-pairs analiza nije isto što i candidate-pruned aproksimacija. Ako se koristi aproksimacija, njena propuštenost mora biti merena; način izvršavanja i skladištenja nije deo ovog teorijskog poglavlja.
 
 ## 19.3 Pair pipeline
+
+Sledeći dijagram je **nenormativna ilustracija** zavisnosti između vrsta poređenja, a ne propis redosleda ili komponenti konkretnog sistema.
 
 ```mermaid
 flowchart TD
@@ -59,7 +54,7 @@ flowchart TD
     I --> R
 ```
 
-Svaka grana može dati `valid`, `ambiguous`, `not-applicable`, `missing-input` ili `failed`, uz razlog.
+Pojedina grana može dati validno merenje, ostati neodređena, biti neprimenljiva, nemati potreban ulaz ili ne uspeti. Te situacije imaju različito značenje i ne smeju se sve pretvoriti u score nula.
 
 ## 19.4 Component mapping
 
@@ -75,7 +70,7 @@ Pre atom mapping-a rešava se problem komponenti:
 
 ## 19.5 Molekulski graf i atom mapping
 
-Izveštaj sadrži:
+Za tumačenje graph poređenja relevantni su:
 
 - exact/substructure/MCS status;
 - broj i procenat mapiranih heavy atoms;
@@ -89,7 +84,7 @@ Za DAP use case posebno se mapiraju centralni pyridine N, dva imine N i scaffold
 
 ## 19.6 Koordinaciono okruženje
 
-Za svaki relevantni metal:
+Za svaki relevantni metal naučno poređenje razmatra:
 
 - element i formal/oxidation-state evidence;
 - koordinacioni broj pod eksplicitnim neighbor modelom;
@@ -103,7 +98,7 @@ Ne koristi jedan globalni distance cutoff za sve elemente i oxidation states. Ne
 
 ## 19.7 Konformaciono/3D poređenje
 
-Za svaki validni common core navesti:
+Za svaki validni common core važno je razmotriti:
 
 - alignment policy;
 - RMSD i maksimalno odstupanje;
@@ -124,11 +119,11 @@ Cell grana može porediti:
 - volume per formula unit;
 - density i temperature.
 
-Packing grana mora nezavisno porediti periodični raspored mapiranih molekula/komponenti, uz shell size, tolerancije, matched molecules i RMSD. Slična reduced cell je candidate signal, ne packing proof.
+Packing poređenje se odnosi na periodični raspored mapiranih molekula/komponenti i zavisi od obima okruženja, tolerancija, broja poklopljenih molekula i geometrijskog odstupanja. Slična reduced cell je candidate signal, ne packing proof.
 
 ## 19.9 Interakcije
 
-Izgradi periodične contact networks, pa poredi:
+Periodični contact networks omogućavaju poređenje:
 
 - H-bond donor/acceptor pairs i geometriju;
 - halogen/π i druge definisane kontakte;
@@ -137,52 +132,15 @@ Izgradi periodične contact networks, pa poredi:
 - solvent-mediated veze;
 - coverage i uncertainty zbog H/disorder-a.
 
-Interakcioni rezultat uvek navodi definiciju i cutoff/angle parametre.
+Tumačenje interakcionog rezultata zavisi od definicije kontakta i korišćenih geometrijskih parametara.
 
-## 19.10 Predložena schema rezultata
+## 19.10 Zašto rezultat mora ostati rastavljiv
 
-```yaml
-pair:
-  a: structure-version-A
-  b: structure-version-B
-  comparison_profile: dap-crystal-v1
-quality_compatibility:
-  status: medium
-  reasons: ["B has unresolved disorder"]
-composition:
-  exact: false
-  unmatched_components: ["water in B"]
-graph:
-  status: valid
-  similarity: 0.84
-  mapped_heavy_atoms: 28
-  coverage: 0.82
-coordination:
-  status: ambiguous
-  reason: "two plausible metal-neighbor assignments in B"
-geometry:
-  rmsd_angstrom: 0.62
-  policy: heavy-atom-rigid-v2
-packing:
-  status: missing-input
-  reason: "A has no valid unit cell"
-overall:
-  score: null
-  decision: human-review
-```
-
-`null` je tačniji od izmišljenog overall score-a kada ključna grana nije pouzdana.
+Razmotrimo nenormativan primer: dva zapisa mogu imati visok 2D graph score i dobro mapiran common core, ali različite komponente, neodređenu metalnu povezanost i nedostupno packing poređenje zato što jedan zapis nema validnu ćeliju. Jedan ukupni broj bi sakrio upravo razliku koju stručnjak treba da vidi. U takvom slučaju je naučno tačnije reći da pojedini nivoi nisu ocenjeni nego izmišljati univerzalni overall score. Primer ilustruje semantiku parcijalnog rezultata, ne predlaže result schema-u.
 
 ## 19.11 Matrice i klasteri
 
-UI može ponuditi:
-
-- heatmap za pojedinačnu metric component;
-- sort/filter po confidence-u i data-quality statusu;
-- drill-down na evidence za jednu ćeliju;
-- hierarchical clustering uz jasno navedenu distance/linkage definiciju;
-- mrežu samo iznad validiranog threshold-a;
-- eksport long-form tabele, ne samo screenshot matrice.
+Matrica ima smisla samo za jasno imenovanu metric component. Heatmap, hijerarhijsko klasterovanje ili mreža mogu pomoći istraživanju, ali njihovo značenje zavisi od definicije distance, linkage-a, threshold-a, missing vrednosti i populacije. Vizuelni obrazac nije zamena za atomski ili periodični dokaz pojedinačnog para.
 
 Ne mešati `not comparable` sa score 0: prvo znači da odgovor nije poznat/primenljiv, drugo da je validno poređenje pokazalo odsustvo sličnosti.
 

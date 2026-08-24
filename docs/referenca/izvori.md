@@ -129,11 +129,11 @@ Za ML:
 
 Confidence (`high/medium/low`) nikad ne zamenjuje status ni dokaz.
 
-## Claim ledger: obavezna šema
+## Claim ledger: potrebne kategorije dokaza
 
-Minimalni red sadrži:
+Format nije propisan, ali svaki proverljiv zapis treba da odgovori na sledeće:
 
-| Polje | Obavezno značenje |
+| Kategorija | Značenje |
 |---|---|
 | `claim_id` | stabilan interni ID, npr. `CLM-CIF-0042` |
 | `claim_text` | atomarna, proverljiva rečenica bez skrivene generalizacije |
@@ -147,31 +147,11 @@ Minimalni red sadrži:
 | `status` | draft/verified/qualified/disputed/superseded/blocked |
 | `confidence` | high/medium/low sa razlogom |
 | `verified_by` | osoba/uloga; za critical claim poželjna dva reviewera |
-| `verified_on` | ISO datum, ovde najkasnije `2026-08-22` |
+| `verified_on` | datum provere |
 | `revalidate_on` | datum ili event trigger |
 | `supersedes` | prethodni claim/version ID, ako postoji |
 
-Primer mašinski čitljivog zapisa:
-
-```yaml
-claim_id: CLM-CSD-STAT-2026-001
-claim_text: >-
-  CCDC CSD Entries Summary Statistics, datiran 1 January 2026,
-  navodi 1,431,347 ukupnih struktura.
-claim_class: dynamic-statistic
-scope: "samo navedeni CCDC snapshot; ne budući release"
-source_id: "https://www.ccdc.cam.ac.uk/media/CSD-Entries-Summary-Statistics-2026.pdf"
-support_location: "page 1, Total No. of structures"
-support_type: direct
-local_evidence: "pending: sačuvati lokalni snapshot i SHA-256 u source manifestu"
-counterevidence: "none; očekuje se promena u sledećem snapshot-u"
-status: qualified
-confidence: medium
-verification_method: "ručni pregled strane 1 zvaničnog PDF-a; lokalni hash još nije evidentiran"
-verified_by: "Codex documentation QA (automated; human sign-off pending)"
-verified_on: "2026-08-22"
-revalidate_on: "on every CSD release or publication"
-```
+Ovo su evidencione kategorije, ne buduća YAML schema, baza ili review workflow. Ista informacija može živeti u tabeli, registru ili drugom odobrenom formatu.
 
 ## Primeri claim ledger-a za 2CDC
 
@@ -398,16 +378,17 @@ Svaki lokalni claim mora navesti hash konkretnog izvora. Ako fajl ne sme u repo,
 - jedan globalni prosek bez relevantnih slices;
 - `private`, `academic` ili `FAIR` kao zamena za licencu.
 
-## Ritam revalidacije
+## Kada dokaz može da zastari
 
-| Učestalost/događaj | Šta se proverava |
+| Promena/događaj | Koji deo tvrdnje može izgubiti važenje |
 |---|---|
-| pre svakog merge/release-a | interni linkovi, claim IDs, test manifests i da kod ne prelazi dozvoljenu data-plane granicu |
-| pre svakog deployment-a ili novog partnera | ugovor, users/location/purpose, eksterni servisi, cache, eksport, retention i derivative policy |
-| pri svakom CSD/API release-u | statistics, API signatures/behavior, product availability, query reproducibility i representation versions |
-| pre svakog rada/disertacione teze | svi critical claims, DOI metadata, tačan dataset/model freeze, novija literatura i limitations |
-| najmanje godišnje | IUPAC/IUCr terminološke verzije, regulatorna uputstva i web linkovi |
-| odmah po incidentu | svi downstream claims i derivati povezani lineage grafom |
+| novi CSD/API release | statistike, product behavior, query rezultat i representation kontekst |
+| novi partner, lokacija ili svrha | ugovor, dozvoljene operacije, primaoci, retention i derivati |
+| nova publikacija/disertaciona tvrdnja | scope, DOI metadata, dataset/model snapshot, novija literatura i limitations |
+| nova IUPAC/IUCr/regulatorna verzija | terminologija, standard i regulatorni kontekst |
+| incident ili promenjen source hash | svi povezani downstream nalazi i zaključci |
+
+Tačan raspored, odgovorne uloge i procedure održavanja nisu deo plana učenja.
 
 ## Završna kontrolna lista izvora
 

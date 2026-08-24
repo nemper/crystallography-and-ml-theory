@@ -98,7 +98,7 @@ Donorska sposobnost može da se promeni kada:
 - konkurentni anjoni/rastvarači zauzmu koordinaciona mesta.
 
 <div class="project-link">
-**Data-model posledica:** u katalogu liganda čuvaj `potential_donors = 3`; u konkretnom kompleksu čuvaj `observed_denticity`, mapirane M–N veze i confidence. Jedno polje `denticity=3` izgubilo bi razliku između dizajna liganda i opažene strukture.
+**Semantička posledica:** potencijalna tri donorska mesta liganda moraju se razlikovati od stvarno opažene dentatnosti i mapiranih M–N odnosa u konkretnom kompleksu. Jedna neobjašnjena etiketa „denticity = 3“ izgubila bi razliku između dizajna liganda i opažene strukture.
 </div>
 
 ## 6.5 CAPHEK: kada se potencijalni džep zaista koristi
@@ -133,7 +133,7 @@ Forenzičko čitanje fajla `1 - Sifove baze DAP.cqs` pokazuje jedan 2D connectiv
 Dve ruke su na položajima 2 i 6 centralnog piridinskog prstena i svaka sadrži `ring-C–C(=N)–CH3` deo. Eksplicitnih šest H pripada dvema metil-grupama.
 
 !!! note "Query graf nije hemijsko ime"
-    Naziv fajla kaže „DAP Schiff bases“, ali izvršiva semantika je skup atomskih, veznih i opcionalnih constraints. Produkcioni sistem mora čuvati oba: ljudsku nameru i mašinski query manifest. Kada se ne slažu, rezultat se klasifikuje prema constraints, a razlika ide na stručnu reviziju.
+    Naziv fajla kaže „DAP Schiff bases“, ali izvršiva semantika je skup atomskih, veznih i opcionalnih constraints. Naučno tumačenje mora razlikovati ljudsku nameru od mašinskog query-ja. Kada se ne slažu, constraints opisuju šta je stvarno pretraženo, a nameru treba posebno potvrditi sa stručnim timom.
 
 Prvi upit **ne zabranjuje metal**. On samo nema dodatni metalni uslov. Zato `search1` sadrži i metal-free ligande i entry-je sa metalima.
 
@@ -185,36 +185,21 @@ Oni su korisni **hard negatives** za model: veoma liče po scaffold-u i composit
 !!! danger "SMILES tačka je signal, ne konačna presuda"
     Tačka u SMILES-u označava odvojene graf komponente u tom eksportu. Kod kristala ipak treba proveriti CIF koordinate, simetriju, periodične slike i provenance percepcije veza. Zaključak `not coordinated` treba da nosi dokaz i confidence, naročito kada je izvor lossy.
 
-## 6.9 Precizna ontologija etiketa za projekat
+## 6.9 Evidence ladder za DAP i metal
 
-Umesto jednog booleana `is_complex`, koristi hijerarhiju:
+Jedan boolean „jeste/nije kompleks“ skriva više različitih pitanja:
 
-```text
-dap_motif_present
-├── metal_present_in_entry
-│   ├── metal_connected_in_exported_graph
-│   ├── metal_in_same_component_as_mapped_dap
-│   ├── any_metal_to_nitrogen_contact
-│   └── same_metal_bound_to_mapped_dap_nitrogens
-│       ├── observed_denticity: 1 / 2 / 3 / other
-│       ├── coordination_number
-│       ├── donor_signature
-│       └── geometry + confidence
-└── representation_sufficient: yes / no / ambiguous
-```
-
-Preporučene klase za ručno validiran skup:
-
-| Klasa | Značenje |
+| Nivo dokaza | Pitanje |
 |---|---|
-| `DAP_N3_COORDINATED` | isti metal potvrđeno vezuje sva tri mapirana DAP N |
-| `DAP_PARTIAL_COORDINATION` | isti metal vezuje samo 1–2 mapirana N |
-| `METAL_PRESENT_NOT_DAP_BOUND` | metal postoji, ali nije vezan za DAP motiv |
-| `MOTIF_PRESENT_METAL_FREE` | DAP motiv postoji, metal nije prisutan |
-| `AMBIGUOUS_REPRESENTATION` | format/quality ne omogućava pouzdanu odluku |
-| `QUERY_FALSE_INTERPRETATION` | naziv/upit pogrešno je korišćen kao jača etiketa |
+| motiv | da li je mapirani DAP-bis(iminski) motiv prisutan? |
+| sastav entry-ja | da li neki metal postoji bilo gde u entry-ju? |
+| komponenta | da li metal i mapirani motiv pripadaju istoj hemijskoj komponenti? |
+| lokalni kontakt | da li postoji hemijski/geometrijski podržan metal–N odnos? |
+| donor mapping | da li isti metal vezuje baš mapirane DAP N atome i sa kojom dentatnošću? |
+| okruženje | koji su CN, ostali donori, geometrija i neizvesnost? |
+| dovoljnost prikaza | da li dostupni format i kvalitet uopšte dopuštaju odluku? |
 
-Ovakva šema omogućava da retrieval bude širok, a hemijska validacija stroga. Ne moraš odbaciti APHZUC iz candidate skupa; moraš sprečiti da postane lažno pozitivan ground truth za N3 koordinaciju.
+Ovo je pojmovna lestvica dokaza, ne propisana label schema. Konačne positive/negative/ambiguous klase mora da odobri fakultet u [Q28–Q32](../referenca/pitanja-za-fakultet.md). APHZUC zato može biti kandidat na nivou scaffold-a, ali ne sme postati lažno pozitivan dokaz N3 koordinacije.
 
 ## 6.10 Varijacije koje model mora da očekuje
 
@@ -232,24 +217,24 @@ Jedan 2D scaffold može dati mnogo struktukturnih varijanti:
 
 To objašnjava zašto „isti DAP motiv“ nije isto što i „ista molekulska struktura“, „isti koordinacioni kompleks“ ili „ista kristalna forma“.
 
-## 6.11 Kako ovo ulazi u dve aplikacije
+## 6.11 Moguće ose relevantne za dve aplikacije
 
 ### Aplikacija 1 — globalna pretraga
 
-Korisniku treba ponuditi odvojene modove:
+Potencijalne, međusobno različite search semantike uključuju:
 
-1. isti/sličan DAP scaffold;
-2. DAP scaffold + metal bilo gde u entry-ju;
-3. DAP ligand i metal u istoj komponenti;
-4. potvrđena koordinacija preko najmanje jednog mapiranog N;
-5. potvrđena N3 koordinacija istom metalu;
-6. slična koordinaciona geometrija i donor-okruženje.
+- isti/sličan DAP scaffold;
+- DAP scaffold + metal bilo gde u entry-ju;
+- DAP ligand i metal u istoj komponenti;
+- koordinacija preko najmanje jednog mapiranog N;
+- N3 koordinacija istom metalu;
+- slična koordinaciona geometrija i donor-okruženje.
 
-Svaki stroži nivo je podskup prethodnog samo ako su podaci dovoljni. Zapisi bez 3D ili pouzdane konektivnosti treba da dobiju `unknown`, a ne da nestanu bez objašnjenja.
+One nisu unapred odobreni product modovi; njihov scope potvrđuje fakultet kroz Q13–Q14. Svaki stroži nivo može biti podskup prethodnog samo ako su podaci dovoljni. Zapis bez 3D ili pouzdane konektivnosti ostavlja nepoznat odgovor na odgovarajuću osu, umesto da postane lažno negativan.
 
 ### Aplikacija 2 — poređenje parova
 
-Za dva ulazna CIF-a report treba da razdvoji:
+Za dva ulazna CIF-a stručna analiza može da razdvoji:
 
 - poklapanje 2D DAP podgrafa i njegov atom mapping;
 - identitet/protonaciju/supstitucije liganda;
@@ -258,7 +243,7 @@ Za dva ulazna CIF-a report treba da razdvoji:
 - CN, ostale donore i geometriju metala;
 - razliku kristalne forme, packing-a, solvata i disorder-a.
 
-Visok ligand-similarity score uz različitu koordinaciju nije greška — to su dve različite ose sličnosti koje report mora prikazati odvojeno.
+Visok ligand-similarity score uz različitu koordinaciju nije greška — to su dve različite ose sličnosti. Koje od njih budući App2 mora da prikazuje ostaje odluka Q21–Q23, ne zaključak ove lekcije.
 
 ## 6.12 Mini-vežbe
 

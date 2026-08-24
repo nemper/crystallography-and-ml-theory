@@ -1,5 +1,5 @@
 site_name: 2CDC ML/AI Strategy
-site_description: Evidence-driven izbor algoritama za dve 2CDC aplikacije
+site_description: Teorijski pregled algoritamskih porodica za dva 2CDC problema
 strict: true
 theme:
   name: material
@@ -35,12 +35,12 @@ extra_css:
 nav:
   - Početna: index.md
   - Plan učenja za ML inženjera: learning/11-ml-ai-plan-ucenja.md
-  - Scope i odluke: 00-scope.md
-  - Pipeline i decision gates: 01-pipeline-decision-map.md
-  - Ugovori podataka:
-      - Cross-format i lifecycle eligibility: data/09-cross-format-eligibility.md
-  - Konačna odluka:
-      - Optimalni stack i fazni roadmap: roadmap/10-optimal-stack-roadmap.md
+  - Scope i teorijska granica: 00-scope.md
+  - Pipeline i teorijska mapa odluka: 01-pipeline-decision-map.md
+  - Podaci i eligibility:
+      - Cross-format reconciliation i eligibility: data/09-cross-format-eligibility.md
+  - Teorijska mapa:
+      - Algoritamske porodice i uslovi primene: roadmap/10-optimal-stack-roadmap.md
   - Klasični ML:
       - Modeli i eksperimenti: classical/02-classical-ml.md
   - Globalna pretraga:
@@ -51,8 +51,8 @@ nav:
       - Periodični encoderi: deep/05-periodic-crystal-encoders.md
       - Metric learning i evaluacija: deep/06-metric-learning-and-evaluation.md
   - Jezički modeli:
-      - Lokalni SLM, DSL i RAG: language/07-local-slm-rag.md
+      - Lokalni SLM, kontrolisana interpretacija i RAG: language/07-local-slm-rag.md
       - Spoljni LLM API i bezbednost: language/08-api-llm-security.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md
-      - Završni validacioni audit: reference/final-validation-2026-08-23.md
+      - Istorijski QA snapshot (2026-08-23): reference/final-validation-2026-08-23.md

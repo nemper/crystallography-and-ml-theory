@@ -1,6 +1,6 @@
 # 16. CSD i ConQuest tok podataka
 
-**Prioritet: MORAŠ.** Ova strana objašnjava šta lokalni izvozi jesu, šta nisu i kako će aplikacije jednog dana bezbedno raditi sa licenciranim CSD pristupom.
+**Prioritet: MORAŠ.** Ova strana objašnjava šta lokalni izvozi jesu, šta nisu i koje semantičke, licencne i provenance obaveze postoje kada se radi sa CSD podacima. Ne propisuje buduću implementaciju.
 
 ## 16.1 CSD, CSD entry i refcode
 
@@ -20,7 +20,7 @@ CSD entry / eksperimentalno određivanje
 
 ConQuest je CCDC alat za crtanje i kombinovanje 2D/3D strukturnih i tekstualno-numeričkih upita. Podstrukturni query definiše atom/bond constraints; opciono se dodaju geometric constraints i entry filters. CCDC dokumentacija objašnjava [search philosophy](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/search_philosophy.html) i [substructure searching](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/substructure_searching.html).
 
-`.cqs` je binarni ConQuest query/session objekat. U dostavljenim lokalnim fajlovima sadrži i sačuvano stanje/rezultate, ali nije obična prenosiva result-lista niti univerzalni javni standard za razmenu. Pre produkcione reprodukcije treba ga otvoriti u kompatibilnoj ConQuest verziji, pregledati vizuelno i izvesti mašinski čitljiv manifest svih constraints/filtera.
+`.cqs` je binarni ConQuest query/session objekat. U dostavljenim lokalnim fajlovima sadrži i sačuvano stanje/rezultate, ali nije obična prenosiva result-lista niti univerzalni javni standard za razmenu. Statička forenzika zato nije zamena za vizuelnu i runtime potvrdu u kompatibilnoj ConQuest verziji, sa eksplicitno zabeleženim constraints/filterima.
 
 ## 16.3 Šta smo utvrdili za dva lokalna upita
 
@@ -69,67 +69,48 @@ Primeri različitih slojeva:
 
 Jedan sloj ne može neopaženo zameniti drugi.
 
-## 16.6 Budući licencirani tok
+## 16.6 Odvojene odgovornosti u licenciranom okruženju
 
-```mermaid
-flowchart LR
-    Q[Verzionisani query manifest] --> S[CSD/ConQuest/API search]
-    S --> E[Entry IDs + dozvoljeni fields]
-    E --> R[Raw licensed cache]
-    R --> V[Validation + provenance]
-    V --> IDX[Task-specific indeksi]
-    IDX --> API[Naše dve aplikacije]
-    API --> AUD[Audit + usage controls]
-```
+Bez obzira na izabranu tehnologiju, nekoliko vrsta odgovornosti ne sme da se pomeša:
 
-Za svaki dataset snapshot sačuvati:
+| Odgovornost | Pitanje koje mora imati odgovor |
+|---|---|
+| izvor i verzija | Koji CSD release, proizvod i snapshot predstavljaju populaciju? |
+| značenje upita | Koji graph/geometric/entry constraints i filteri određuju skup? |
+| prava | Ko sme da čita, obrađuje, čuva, prikazuje ili preuzima raw i izvedene podatke? |
+| transformacija | Koji alat, verzija i pravilo su proizveli svaki izvedeni prikaz? |
+| coverage | Koji zapisi su uspeli, delimični, nepodržani ili neuspešni? |
+| dokaz rezultata | Sa kojom verzijom upita, korpusa i reprezentacije je rezultat dobijen? |
 
-- CSD release i licensed product/API verziju;
-- query definiciju, screenshot/export i hash;
-- sve filtere i njihova default stanja;
-- datum, broj pogodaka i refcode manifest;
-- dozvolu/pravni osnov za storage, processing, rezultat i download;
-- parser/toolkit verzije i transformacije;
-- neuspele ili delimične zapise, ne samo uspešne.
+Ovo su kategorije provenance-a i odgovornosti, ne propisana baza, API, cache, indeks ili redosled realizacije.
 
 ## 16.7 API funkcionalnosti i granica licence
 
 CCDC Python API dokumentuje [IO](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/io.html), [descriptors](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/descriptors.html), [molecular geometry analysis](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/molecular_geometry_analysis.html) i [packing similarity](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/packing_similarity.html). Dostupnost pojedinih funkcija zavisi od licence/proizvoda.
 
-Do dobijanja institucijskog pristupa nije moguće pošteno tvrditi da globalna pretraga radi nad celim CSD-om. Sada se mogu projektovati schema, pipeline, evaluation fixtures i adapter interfejsi, ali coverage i performanse moraju biti potvrđeni nad odobrenim snapshot-om.
+Bez institucijskog pristupa nije moguće pošteno tvrditi da globalna pretraga radi nad celim CSD-om. Coverage, dostupnost funkcija i performanse mogu se potvrditi samo nad odobrenim snapshot-om u stvarnom licencnom okruženju.
 
-## 16.8 Minimalni query manifest
+## 16.8 Reproduktivni opis upita
 
-```yaml
-query_id: dap-bis-imine-plus-any-metal-v1
-source_file_sha256: "065c31c2669bca2fb087a58650e1a9b8c71ea6bb8f87050b8cab6bd79416aaa5"
-source_tool: ConQuest
-source_version: "2022.2.0"
-searched_database: "CSD 5.43 with March/June 2022 updates"
-artifact_temp_path_timestamp: "2026-06-06T18:53:01 (timezone not established)"
-timestamp_semantics: "search-or-save trace; not an authoritative run date"
-atoms: 19
-connected_components: 2
-structural_motif: dap-bis-imine-18-atoms
-extra_atom_type: 4M
-metal_to_motif_constraint: none
-entry_filters:
-  require_3d: false
-  max_r_factor: null
-human_intent: "candidate complexes; requires post-validation"
-review_status: query-decoded_intent-pending-faculty-confirmation
-```
+Reproduktivnost ne zavisi od jedne konkretne YAML šeme, već od toga da opis razdvoji sledeće činjenice:
+
+| Kategorija | Nalaz za drugi lokalni CQS |
+|---|---|
+| identitet izvora | SHA-256 `065c31c2669bca2fb087a58650e1a9b8c71ea6bb8f87050b8cab6bd79416aaa5` |
+| alat i baza | ConQuest 2022.2.0; CSD 5.43 sa March/June 2022 segmentima |
+| izvršivi strukturni uslov | 18-atomski DAP-bis(iminski) motiv plus odvojeni `4M` atom |
+| broj povezanih komponenti query grafa | dve; ne postoji metal–motiv constraint |
+| sačuvani entry filteri | `require_3d=false`; maksimalni R nije zadat |
+| trag vremena | 2026 temp/save trag ne dokazuje da je baza ili run iz 2026. |
+| ljudska namera | naziv sugeriše „komplekse“, ali tačan scope čeka potvrdu fakulteta |
+
+Druga serializacija ili terminologija je prihvatljiva ako čuva iste razlike i ne predstavlja ljudski naziv kao izvršivi constraint.
 
 ## 16.9 Pitanja za naučni tim
 
-Pre definisanja ground truth-a treba dobiti odgovore:
+Šest ranijih pitanja nije dovoljno da zaključa scope, prava, dve aplikacije i evaluaciju. Jedina autoritativna lista sada je [Pitanja i odluke za kolege sa fakulteta](../referenca/pitanja-za-fakultet.md).
 
-1. Da li „DAP“ ovde tačno znači 2,6-diacetylpyridine-derived bis(imine) scaffold?
-2. Da li metal treba da bude direktno koordinisan i kojim donor set-om?
-3. Da li su monodentate/bidentate, bridging, protonated ili decomposed varijante pozitivne?
-4. Da li entry sa metalom samo u counterion-u treba isključiti?
-5. Da li se polymers, disorder i records bez 3D zadržavaju za retrieval, a izuzimaju iz 3D poređenja?
-6. Koja CSD licenca i deployment boundary važe za oba proizvoda?
+Za ovo poglavlje posebno su relevantni paketi Q28–Q32: nameravani DAP scope, značenje koordinacije, status oba CQS-a, runtime reprodukcija i eligibility lokalnih izvoza. Već dokazane činjenice — broj rezultata, odnos podskupa i odsustvo metal–motiv constraint-a — ne postavljaju se ponovo kao otvorena pitanja.
 
 ## 16.10 Provera znanja
 

@@ -1,6 +1,6 @@
 # Rešenja i rubrike
 
-Ne čitaj ovo pre prvog pokušaja. Rešenja daju kontrolne vrednosti, ali ne zamenjuju sopstveni provenance i objašnjenje.
+Ne čitaj ovo pre prvog pokušaja. Rešenja daju kontrolne vrednosti za opcione nastavne vežbe, ali ne zamenjuju sopstveni provenance i objašnjenje. Ona nisu acceptance testovi, fixture specifikacija ili implementacioni zahtevi budućeg projekta.
 
 ## L0 — očekivani inventar
 

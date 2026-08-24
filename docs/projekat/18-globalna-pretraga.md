@@ -1,25 +1,27 @@
-# 18. Globalna pretraga: projektantski nacrt
+# 18. Globalna pretraga: teorijski okvir
 
 **Cilj prve aplikacije:** korisnik učitava jedan CIF, zadaje filtere i dobija rangirane, objašnjene CSD kandidate sa jasno navedenim nivoom sličnosti, kvalitetom i pravima pristupa.
 
 Ovo nije „jedan embedding + vector DB“. Pouzdana pretraga je kaskada hemijskih i kristalografskih prikaza.
 
-## 18.1 Ugovor proizvoda pre modela
+## 18.1 Značenje pre modela
 
-Za svaki search mode eksplicitno definisati:
+Različita značenja pretrage mogu se razložiti kroz sledeća pitanja:
 
-| Polje | Primer |
+| Pitanje | Primer mogućeg odgovora |
 |---|---|
 | objekat pretrage | glavni ligand / ceo coordination entity / puna crystal form |
 | relevantnost | isti scaffold, sličan metal environment, sličan packing… |
 | obavezne razlike | charge, stereo, metal, solid form, disorder |
 | filter semantika | element u formuli vs koordinisan metal |
 | evidence | matched subgraph, atom mapping, score components |
-| abstention | nema pouzdanog grafa; nema 3D; ambiguous disorder |
+| granica zaključka | nema pouzdanog grafa; nema 3D; ambiguous disorder |
 
-Prva verzija treba da ponudi odvojene modove umesto neobjašnjivog univerzalnog dugmeta „similar“.
+Odvojena značenja sličnosti su naučno transparentnija od neobjašnjivog univerzalnog pojma „similar“. Ovo je semantičko razlaganje problema, a ne specifikacija korisničkog interfejsa.
 
-## 18.2 Ingest ulaznog CIF-a
+## 18.2 Šta ingest mora da razjasni
+
+Sledeći dijagram je **nenormativna ilustracija** uloga koje se javljaju između ulaznog CIF-a i pretrage; ne propisuje komponente, tehnologije ni redosled realizacije konkretnog sistema.
 
 ```mermaid
 flowchart TD
@@ -32,20 +34,20 @@ flowchart TD
     R --> Q[Search planner]
 ```
 
-Ingest report mora da pokaže:
+Za naučno tumačenje ulaza važno je znati:
 
 - koji data block je izabran i zašto;
 - formula/atom-site/component konzistentnost;
 - ćeliju, symmetry, occupancy/disorder i coordinate availability;
 - šta je direktno iz CIF-a, šta izvedeno, a šta dodeljeno;
-- warnings i koje search modes oni onemogućavaju;
-- hash i parser/profile verziju.
+- koja upozorenja ograničavaju pojedine vrste zaključka;
+- kojoj verziji izvora i interpretacionih pravila nalaz pripada.
 
 Ako CIF sadrži velike refleksione ili ugrađene text blokove, parser ih ne treba slati u ML prompt/model niti pretvarati u hemijske tokene.
 
 ## 18.3 Filter semantika
 
-UI ne sme imati nejasan filter „metal: Cu“ bez nivoa. Korisnik bira, na primer:
+Filter „metal: Cu“ nema jedno značenje. Može označavati, na primer:
 
 - Cu prisutan u punoj entry formuli;
 - Cu u coordination entity;
@@ -53,34 +55,34 @@ UI ne sme imati nejasan filter „metal: Cu“ bez nivoa. Korisnik bira, na prim
 - Cu kao counterion/odvojena komponenta;
 - exclude/include solvents and coformers;
 - required/forbidden elements u parent graph-u ili punom sastavu;
-- quality/3D/disorder/temperature criteria.
+- kriterijum kvaliteta, 3D dostupnosti, disorder-a ili temperature.
 
-Filter prikazuje i broj kandidata pre/posle svakog koraka, pa je query objašnjiv.
+Objašnjiva pretraga zato mora razlikovati scope uslova i učinak svakog uslova na populaciju kandidata. To je zahtev za značenje rezultata, ne predlog konkretnog UI-ja.
 
-## 18.4 Višeslojni indeks
+## 18.4 Višeslojne reprezentacije
 
-| Sloj | Indeks/ključ | Namena |
+| Sloj informacije | Primer sadržaja | Naučna uloga |
 |---|---|---|
 | provenance | refcode, release, hash, permission | identitet i audit |
 | metadata | elementi, formula, components, quality flags | jeftini exact/range filteri |
 | 2D graph | fingerprint + substructure index | širok candidate recall |
 | coordination | metal, donor set, CN/geometry features | complexes search |
 | 3D molecule | conformer/shape features | geometric rerank |
-| crystal | standardized cell + packing/contact representation | solid-form search |
+| crystal | standardizovana ćelija + packing/contact reprezentacija | solid-form search |
 
-Svaki indeks ima `representation_version`. Promena standardization ili feature pravila pokreće novu generaciju indeksa; stari i novi score-ovi se ne mešaju.
+Promena standardizacije ili feature pravila menja semantiku reprezentacije. Zato rezultat ima smisla samo uz poznatu verziju pravila, a score-ovi izvedeni pod nekompatibilnim pravilima ne treba da se tumače kao ista veličina.
 
 ## 18.5 Candidate generation i reranking
 
-Predložena kaskada:
+Jedna **ilustrativna, nenormativna** kaskada može sadržati sledeće uloge:
 
-1. access-control i hard metadata filter;
-2. exact/substructure provera ako je tražena;
-3. visok-recall fingerprint/ANN candidate generation;
-4. exact graph/MCS reranking;
-5. coordination/geometric reranking;
-6. packing/interaction analysis samo za dovoljno kvalitetne 3D candidates;
-7. score calibration i explanation assembly.
+- ograničavanje dozvoljenog korpusa i exact metadata uslova;
+- exact ili substructure proveru kada je ona deo pitanja;
+- visok-recall candidate generation;
+- preciznije graph, coordination, geometry ili packing poređenje kada su potrebni podaci dostupni;
+- kalibraciju i objašnjenje rezultata.
+
+Konkretan sistem može ove uloge organizovati drugačije. Bitna teorijska razlika je da jeftino generisanje kandidata, precizno poređenje i konačna procena relevantnosti nisu isti zadatak.
 
 ANN candidate generation i konačni proizvod ne mere se istim recall-om:
 
@@ -89,89 +91,29 @@ ANN candidate generation i konačni proizvod ne mere se istim recall-om:
 
 Za obe metrike unapred fiksirati `N`/`k`, korpus, denominator i postupanje sa upitima bez relevantnog zapisa. Brzina bez izmerene propuštenosti nije validacija, ali ni visok ANN candidate recall ne dokazuje da je konačni ranking hemijski relevantan.
 
-## 18.6 Rezultat nije samo lista refcode-ova
+## 18.6 Rezultat nije samo lista identifikatora
 
-Svaki hit treba da ima karticu:
-
-```text
-identitet i sastav
-CSD release / provenance / dozvola
-match mode + rank
-2D matched atoms / common subgraph / coverage
-metal + mapped donors + coordination comparison
-3D mapping + RMSD + policy
-packing/interactions + parameters, ako dostupno
-quality compatibility + missing data
-razlozi za rezultat i warnings
-link/download samo ako licenca dozvoljava
-```
+Stručna interpretacija jednog pogotka zahteva više vrsta konteksta: identitet i sastav, poreklo i dozvoljeni obim, značenje ranga, obim mapiranog grafa, koordinacioni i 3D dokaz kada je primenljiv, packing/interakcione signale, kvalitet ulaza i razloge zbog kojih je neki nivo ostao neocenjen. Ovo su kategorije dokaza, ne fiksna result schema.
 
 Score bez explanation-a ne omogućava stručnjaku da otkrije da je rezultat visok samo zbog velikog zajedničkog aromatičnog dela, a ključni metal environment različit.
 
 ## 18.7 Failure-aware ponašanje
 
-| Problem | Ispravno ponašanje |
+| Problem | Naučna posledica |
 |---|---|
-| nema ćelije/symmetry | dozvoli 2D, onemogući packing uz razlog |
-| nepoznate/`un` veze | ograniči fingerprint/MCS ili koristi low-confidence graph |
-| više komponenti | traži component selection; sačuvaj pun crystal |
-| disorder | prikaži alternative/occupancies; ne dupliraj pune atome |
-| nepoznata stereo | ne tretiraj kao tačno podudaranje definisane stereo |
-| metal connectivity ambiguous | vrati candidate/ambiguous, ne tvrdi coordinated match |
-| out-of-license rezultat | ne izlaži strukturu/download; vrati dozvoljeni metadata odgovor |
+| nema ćelije/symmetry | 2D zaključak može ostati moguć, ali packing nema potreban dokaz |
+| nepoznate/`un` veze | fingerprint/MCS zavise od low-confidence grafa |
+| više komponenti | claim zavisi od izbora komponente i full-crystal konteksta |
+| disorder | alternative i occupancies nisu skup nezavisnih punih atoma |
+| nepoznata stereo | nema dokaza za exact poklapanje definisane stereokemije |
+| metal connectivity ambiguous | postoji kandidat ili neodređenost, ne potvrđen coordinated match |
+| out-of-license rezultat | licenca ograničava koji dokaz i sadržaj sme biti vidljiv |
 
-## 18.8 Skaliranje i skladištenje
+## 18.8 Skaliranje, verzije i poreklo
 
-- raw licensed store ostaje odvojen od derived feature store-a;
-- relational/document metadata i graph/feature objekti imaju zajednički immutable entry/version ID;
-- vector index je izvedeni cache, ne source of truth;
-- batch build je idempotent i može da se nastavi nakon greške;
-- promene CSD release-a daju diff: added/modified/withdrawn i selective reindex;
-- query i result logs ne smeju neovlašćeno iznositi proprietary structures;
-- expensive reranks se cache-uju po `(query_rep_hash, target_version, metric_version)`.
+Na velikom korpusu originalni izvori, standardizovani prikazi, numeričke reprezentacije i indeksi nemaju isti epistemološki status. Indeks je izvedena i potencijalno zastarela projekcija, ne izvor istine. Promena baze, standardizacije ili metrike može promeniti skup kandidata i rang, pa poređenje rezultata zahteva poznato poreklo i kompatibilne verzije. Licencna ograničenja pritom važe i za izvedene reprezentacije i izlaze, ne samo za originalni CIF.
 
-## 18.9 MVP po naučnom riziku
-
-### Faza A — bez CSD pristupa
-
-- parser/validator nad odobrenim i synthetic fixtures;
-- loss-aware representations;
-- query contract, provenance i report UI;
-- exact local filters i testovi invarijansi.
-
-### Faza B — odobreni pilot snapshot
-
-- 2D retrieval baseline;
-- component/metal classification sa expert audit-om;
-- hard-negative evaluation set;
-- latency i recall benchmark.
-
-### Faza C — 3D i crystal reranking
-
-- mapped geometry;
-- coordination environment;
-- licensed packing comparison ili validirana alternativa;
-- missing/quality-aware abstention.
-
-### Faza D — operativna globalna pretraga
-
-- release synchronization;
-- access enforcement;
-- monitoring drift-a, coverage-a i query slice grešaka;
-- stručna change-control procedura.
-
-## 18.10 Acceptance kriterijumi
-
-- 100% ulaza dobija parse status; nijedna greška se ne pretvara u tih prazan rezultat.
-- Originalni hash i sve transformacije su dostupni za audit.
-- Search mode i filter scope su vidljivi korisniku.
-- ANN candidate recall@N prema exact/high-cost candidate skupu dostiže unapred dogovoren infrastrukturni prag.
-- End-to-end recall@k prema ekspertski definisanoj relevantnosti zasebno dostiže prag, uz unapred definisan interval poverenja i prihvatljiv rezultat najlošijeg kritičnog slice-a.
-- Svaki prikazani score ima verziju, parametre i objašnjive evidence.
-- Nema tvrdnje o packing-u bez validne ćelije/symmetry i dovoljnog 3D kvaliteta.
-- License tests blokiraju nedozvoljen bulk export/download.
-
-## 18.11 Provera znanja
+## 18.9 Provera znanja
 
 1. Zašto vector database nije source of truth?
 2. Šta znači Cu filter na četiri različita nivoa?
@@ -186,4 +128,4 @@ Score bez explanation-a ne omogućava stručnjaku da otkrije da je rezultat viso
     4. Recall-om prema exact ili skupljem referentnom retrieval-u, ukupno i po slice-ovima.  
     5. Promena hemijskog modela/parametara menja features i score semantiku.
 
-**Kriterijum prolaza:** možeš da odbraniš data contract i svaku fazu retrieval kaskade pred hemičarem, kristalografom, ML inženjerom i licencnim vlasnikom.
+**Kriterijum prolaza:** možeš da odbraniš značenje ulaza, filtera, candidate-generation-a, preciznog poređenja i konačne relevantnosti pred hemičarem, kristalografom, ML inženjerom i licencnim vlasnikom.

@@ -237,7 +237,7 @@ Periodična struktura u kojoj coordination veze šire jedinku u 1D, 2D ili 3D. �
 Široka kategorija struktura sa metalom i organskim delom. Ne znači nužno organometalno u užem smislu sa direktnom metal–ugljenik vezom.
 
 **Ligandno polje**  
-Model cepanja energija metalnih orbitala usled usmerenog okruženja liganada. U ovom kursu koristi se kvalitativno da bi se razumeli spin-zavisne distance, square-planar/tetrahedral grananje i elektronske distorzije; duboki multipletni/spektroskopski račun nije MVP zahtev.
+Model cepanja energija metalnih orbitala usled usmerenog okruženja liganada. U ovom kursu koristi se kvalitativno da bi se razumeli spin-zavisne distance, square-planar/tetrahedral grananje i elektronske distorzije; duboki multipletni/spektroskopski račun nije deo uvodnog nivoa kursa.
 
 **High-spin / low-spin**
 Različiti načini popunjavanja split \(d\)-orbitala kada se nadmeću ligand-field splitting i pairing energija. Etiketa se ne izvodi samo iz coordination number-a ili jedne distance.

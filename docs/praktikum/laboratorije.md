@@ -1,6 +1,8 @@
-# Laboratorijske vežbe
+# Opcione nastavne laboratorijske vežbe
 
-Ove vežbe pretvaraju teoriju u inženjersku intuiciju. Radi se nad originalnim lokalnim fajlovima, ali **read-only**: ne menjaj ih, ne šalji ih javnim servisima i ne commit-uj ih u ovaj repo.
+Ove male, ograničene vežbe služe isključivo da teoriju pretvore u intuiciju. **Nisu faze, prototipi, backlog niti redosled realizacije budućeg 2CDC projekta.** Mogu se prolaziti konceptualno, ručnim računom ili nad sintetičkim primerom; programsko izvođenje nije uslov za završetak plana učenja.
+
+Ako se koriste originalni lokalni fajlovi, rad je **read-only**: ne menjaj ih, ne šalji ih javnim servisima i ne commit-uj ih u ovaj repo.
 
 ## Pre početka
 
@@ -16,7 +18,7 @@ alat + verzija + parametri
 warnings i nerešena pitanja
 ```
 
-Za programski rad preporučeni su [Gemmi](https://gemmi.readthedocs.io/en/stable/) za CIF/crystallography i [RDKit](https://www.rdkit.org/docs/) za molekulske grafove. Oni su pomoćna sredstva, ne autoritet nad značenjem. Svaki rezultat proveri na malom ručno razumljivom primeru.
+Za opcioni programski rad korisni su [Gemmi](https://gemmi.readthedocs.io/en/stable/) za CIF/crystallography i [RDKit](https://www.rdkit.org/docs/) za molekulske grafove. Oni su pomoćna sredstva, ne propisani projektni stack i ne autoritet nad značenjem. Svaki rezultat proveri na malom ručno razumljivom primeru.
 
 ## L0 — Inventar i dokazni lanac (1 h)
 

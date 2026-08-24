@@ -226,7 +226,7 @@ Ista symmetry-related molekulska kopija daje i O1 kandidat:
 | \(d(\mathrm{N2,O1}^{(ii)})\) | približno 3,332 Å |
 | \(\angle\mathrm{N2-H2N-O1}^{(ii)}\) | približno 158,9° |
 
-Ovi brojevi opravdavaju oznaku **geometrijski kandidati za N-H···O kontakte**. Sami ne dokazuju pojedinačnu energiju, niti opravdavaju automatsko biranje samo jednog od dva O atoma. Ovo je upravo razlog da izlaz sistema čuva geometriju i pravilo klasifikacije, a ne samo boolean <code>is_hbond=true</code>.
+Ovi brojevi opravdavaju oznaku **geometrijski kandidati za N-H···O kontakte**. Sami ne dokazuju pojedinačnu energiju, niti opravdavaju automatsko biranje samo jednog od dva O atoma. Zato je naučno potreban geometrijski trag i poznata definicija klasifikacije; sam boolean <code>is_hbond=true</code> nije dovoljan dokaz.
 
 ## Od liste kontakata do periodičnog grafa
 
@@ -235,9 +235,9 @@ Za aplikacije je korisno razlikovati dva grafa:
 - **atomski kontaktni graf**: čvorovi su atomi, a ivice su tipizirani periodični kontakti;
 - **molekulski packing graf**: čvorovi su molekulske/komponentne kopije, a ivice sabiraju njihove kontakte.
 
-Minimalna ivica treba da čuva:
+Da bi periodični kontakt mogao da se protumači i reprodukuje, evidence mora da odgovori na:
 
-| Polje | Zašto je potrebno |
+| Kategorija | Zašto je potrebna |
 |---|---|
 | atom/component mapping | da se zna ko sa kim interaguje |
 | symmetry operation ID | da se kontakt reprodukuje |
@@ -247,17 +247,17 @@ Minimalna ivica treba da čuva:
 | rule set i verzija | pragovi i atom typing se menjaju |
 | quality/uncertainty | disorder, occupancy, H treatment, s.u. |
 
-Graf treba da bude invarijantan na izbor origina, ekvivalentne jedinične ćelije i redosled atoma. Sirovi symmetry-operation indeks nije stabilan između dva ekvivalentna CIF zapisa, pa služi za provenance unutar konkretnog zapisa, ne kao globalni feature ID.
+Tabela je pojmovni model evidence-a, ne propisana edge schema. Graf treba da bude invarijantan na izbor origina, ekvivalentne jedinične ćelije i redosled atoma. Sirovi symmetry-operation indeks nije stabilan između dva ekvivalentna CIF zapisa, pa služi za provenance unutar konkretnog zapisa, ne kao globalni feature ID.
 
-## Posledice za dve aplikacije
+## Zašto je ovo relevantno za dve aplikacije
 
 ### Globalna pretraga
 
 - Hemijski graf služi za brz molekulski dohvat; periodični kontaktni deskriptori daju packing/interakcioni re-ranking.
-- Korisnik treba da može da filtrira po donor/akceptor motivu, ali uz jasno navedenu verziju pravila.
+- Donor/akceptor motiv može biti filter samo uz jasno poznatu definiciju pravila.
 - Kontaktne mreže moraju uključiti symmetry-related i cross-boundary susede.
 - Nedostajući H, disorder ili nepouzdan bond typing treba da smanje confidence, ne da postanu lažno odsustvo interakcije.
-- Learned embedding kontakata ne sme sakriti komponentne skorove i dokazni geometrijski trag.
+- Learned embedding kontakata ne objašnjava sam po sebi komponentne skorove ili geometrijski trag.
 
 ### Poređenje svih parova
 

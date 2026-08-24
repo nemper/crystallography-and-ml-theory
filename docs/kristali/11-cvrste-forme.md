@@ -252,9 +252,9 @@ Nijedna pojedina metoda nije univerzalno dovoljna:
 
 „Isti SMILES“ ne razlikuje polimorfe. „Različita ćelija“ je jak trag, ali redetermination, temperatura, druga postavka ćelije ili pogrešna simetrija mogu napraviti prividnu razliku. Potrebno je kombinovati sastav, strukturu, uslove i eksperimentalne obrasce.
 
-## Data model koji ne meša nivoe
+## Hijerarhija koja ne meša nivoe
 
-Minimalni entiteti su:
+Za teorijsko razumevanje treba razlikovati:
 
 | Entitet | Ključne veze |
 |---|---|
@@ -267,19 +267,19 @@ Minimalni entiteti su:
 | Measurement | property, vrednost, jedinica, uslovi, uncertainty |
 | Evidence | PXRD/SCXRD/DSC/TGA izvor i quality status |
 
-Ne koristi naziv „Form I“ kao globalni identifikator: različite organizacije mogu različito numerisati forme. Label mora biti namespaced i vezan za izvor.
+Ovo je pojmovna hijerarhija identiteta, ne propisana data schema. Naziv „Form I“ nije globalni identifikator: različite organizacije mogu različito numerisati forme, pa etiketa ima značenje samo uz izvor i namespace.
 
-## Posledice za dve aplikacije
+## Moguće ose relevantne za dve aplikacije
 
 ### Globalna pretraga
 
-Pretraživač treba da dozvoli najmanje tri različite namere:
+Tri različite moguće namere su:
 
 1. sličan hemijski entitet bez obzira na formu;
 2. ista/kompatibilna kompoziciona klasa;
 3. slično kristalno pakovanje unutar uporedivih formi.
 
-Pre brzog vektorskog dohvata ili tokom re-ranking-a treba ponuditi filtere:
+Mogući filteri, ako ih product scope potvrdi, uključuju:
 
 - neutral/free form, salt, hydrate, solvate, cocrystal;
 - broj komponenti i stehiometrija;
@@ -288,11 +288,11 @@ Pre brzog vektorskog dohvata ili tokom re-ranking-a treba ponuditi filtere:
 - ista formula ili isti parent compound;
 - temperatura i quality profil određivanja.
 
-Rezultat mora objasniti da li je pogodak sličan po molekulu, sastavu ili periodičnom pakovanju. Jedan zbirni skor bez te dekompozicije može visoko rangirati hemijski sličnu, ali razvojno nerelevantnu formu.
+Pogodak može biti sličan po molekulu, sastavu ili periodičnom pakovanju; jedan zbirni skor bez te dekompozicije može visoko rangirati hemijski sličnu, ali razvojno nerelevantnu formu. Koje ose budući proizvod prikazuje ostaje stakeholder odluka.
 
 ### Poređenje svih parova
 
-Poređenje prvo treba da klasifikuje odnos:
+Pre izbora metrike potrebno je konceptualno razjasniti odnos:
 
 - isto određivanje/duplikat;
 - redetermination iste faze;
@@ -302,7 +302,7 @@ Poređenje prvo treba da klasifikuje odnos:
 
 Tek zatim treba računati odgovarajuće metrike. Packing RMSD između anhidrata i hidrata može biti koristan kao parcijalna analiza zajedničkog API okruženja, ali nije isto pitanje kao dokaz polimorfnosti.
 
-Izlaz para treba da sadrži:
+Za stručno tumačenje para relevantni su:
 
 - mapiranje komponenti i atoma;
 - razliku sastava i naboja;

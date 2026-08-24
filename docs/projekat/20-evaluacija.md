@@ -14,9 +14,9 @@ Primer proverljivog cilja:
 
 Drugi claim je ograničen, merljiv i navodi populaciju, task, metric i uslove važenja.
 
-## 20.2 Ground truth je skup odluka
+## 20.2 Ground truth je višeslojna odluka
 
-Label schema za par treba da razdvoji:
+Jedan par može biti sličan na jednom, a različit na drugom nivou. Ekspertska odluka zato može razdvojiti dimenzije kao što su:
 
 - composition/component identity;
 - molecular graph/scaffold;
@@ -28,13 +28,13 @@ Label schema za par treba da razdvoji:
 - whole-crystal packing;
 - interaction network;
 - task-specific relevantnost;
-- confidence, reason i reviewer evidence.
+- sigurnost, obrazloženje i dokaz na kom se odluka zasniva.
 
 Jedan binary `similar=true` skriva neslaganje i ne omogućava dijagnostiku.
 
 ## 20.3 Ekspertska anotacija
 
-Predloženi protokol:
+Sledeći redosled je obrazovni primer dobro kontrolisane anotacije, ne plan konkretnog produkcionog procesa:
 
 1. napiši rubricu sa pozitivnim, negativnim i ambiguous primerima;
 2. sakrij model score i identitet metode od anotatora;
@@ -48,7 +48,7 @@ White paper i imena ConQuest upita nisu ground truth. Oni daju kontekst i candid
 
 ## 20.4 Evaluation skup
 
-Obavezni slojevi:
+Koristan evaluacioni skup obično kombinuje više vrsta slučajeva:
 
 - **sanity/self pairs**: isti objekat i ekvivalentni encoding;
 - **easy negatives**: potpuno različit sastav/graf;
@@ -151,62 +151,26 @@ Za svaki abstention prag nacrtaj **coverage–risk krivu**: coverage je udeo slu
 
 ## 20.10 Uncertainty i ponovljivost
 
-Svaki objavljeni rezultat čuva:
-
-- immutable dataset snapshot/query manifest;
-- CSD release/licence boundary;
-- train/validation/calibration/test manifests;
-- raw input hashes bez nedozvoljene redistribucije;
-- standardization/feature/model/metric verzije;
-- random seeds i environment lock;
-- hyperparameters izabrani samo na validation skupu, a kalibrator i operativni pragovi na unapred određenom calibration skupu;
-- pun error list i exclusion reasons;
-- claim ledger sa izvorima i datumom provere.
+Objavljeni rezultat mora biti poveziv sa populacijom i verzijom podataka nad kojima je dobijen, granicom licence, pravilima standardizacije i reprezentacije, verzijom modela/metrike, stohastičkim uslovima i razlozima isključivanja. To su kategorije dokaza potrebne za ponavljanje i tumačenje rezultata, a ne propisana šema artefakata ili okruženja.
 
 Uz svaki primarni rezultat obavezno prijavi **point estimate i unapred definisan interval poverenja**. Pre evaluacije zapiši nivo intervala, metod i nezavisnu jedinicu uzorkovanja. Bootstrap ne radi nad pojedinačnim hitovima ili parovima kada dele isti query ili hemijsku porodicu: resampluj na nivou nezavisnog query-ja, odnosno compound-family grupe koja odgovara claim-u, da korelisani primeri ne glume dodatni uzorak.
 
 Za stohastičke modele/ANN indekse pokreni unapred određen skup ponovljenih seed-ova. Baseline i kandidat koriste iste split-ove i, gde je primenljivo, iste seed-ove; prijavi point estimate razlike i **paired delta** interval poverenja. Varijacija kroz seed-ove opisuje algoritamsku ponovljivost, ali se seed-ovi ne smeju tretirati kao nezavisni hemijski uzorci niti zamenjuju grouped bootstrap.
 
-## 20.11 Minimalni claim ledger
+## 20.11 Ilustrativna evidencija tvrdnji
+
+Sledeća tabela je nenormativan primer kako se činjenica odvaja od scope-a i dokaza; njene kolone nisu projektna schema.
 
 | Tvrdnja | Precizan scope | Dokaz/izvor | Lokalni test | Confidence | Datum/verzija | Izuzeci |
 |---|---|---|---|---|---|---|
 | `4M` znači svi metali | ConQuest atom group | CCDC vodič | oba `.cqs` | high | query snapshot | ne dokazuje koordinaciju |
 | search2 je podskup search1 | lokalni export | refcode set diff | 2038/2110 | high | SHA-256 snapshot | samo dostavljeni fajlovi |
-| packing scorer radi na X | konkretna implementacija/licenca | API/paper | benchmark fixture | pending validation | version | unsupported records |
 
 Za interpretativni claim koristi dve nezavisne stručne potvrde gde je moguće. Za ponašanje CCDC alata i licence koristi zvanični, datirani izvor.
 
-## 20.12 Go/no-go kapije
+## 20.12 Koliko jak claim dokazi podržavaju
 
-### Gate 1 — podaci
-
-- parser coverage i error taxonomy poznati;
-- original/provenance očuvani;
-- licencni tok odobren;
-- query semantika potvrđena.
-
-### Gate 2 — hemijska reprezentacija
-
-- expert audit component/bond/metal perception-a;
-- invariance testovi prolaze;
-- loss matrix dokumentovan;
-- edge cases daju warning/abstention.
-
-### Gate 3 — retrieval/comparison
-
-- baseline-i implementirani;
-- held-out point estimates i unapred definisani intervali poverenja prijavljeni su za ukupni skup, macro/micro agregaciju i sve unapred označene kritične slice-ove;
-- `go` važi samo ako odgovarajuća donja granica intervala prelazi minimalni prag (odnosno gornja ostaje ispod maksimalnog dopuštenog rizika) i ukupno i za **najlošiji kritični slice**; slice se ne bira naknadno po povoljnom rezultatu;
-- failure modes pregledani sa stručnjacima;
-- objašnjenja prate rezultate.
-
-### Gate 4 — produkcija/naučni claim
-
-- reproducible freeze;
-- monitoring/drift/release update plan;
-- security/access/export kontrole;
-- limitations i negative results napisani pre demonstracije.
+Spremnost za naučni claim nije jedna univerzalna kapija. Snaga tvrdnje zavisi od toga da li su populacija i prava poznati, reprezentacija hemijski proverena, poređenje izvedeno na nezavisnim podacima, intervali i kritični slice-ovi prijavljeni, a ograničenja i failure modes jasno opisani. Slabost bilo kog od tih dokaza sužava claim ili zahteva abstention; ovo nije release plan niti lista faza realizacije.
 
 ## 20.13 Provera znanja
 

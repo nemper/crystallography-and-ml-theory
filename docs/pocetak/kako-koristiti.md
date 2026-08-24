@@ -30,7 +30,7 @@ Preporučena putanja je oko **122 fokusirana sata kroz 15 nedelja**. To nije hil
 |---|---:|---|
 | održivi | 15 nedelja, 8-9 h nedeljno | paralelno sa projektovanjem i konsultacijama |
 | ubrzani | 8 nedelja, 15-16 h nedeljno | ako je prototip hitan |
-| referentni | bez roka | kasnije vraćanje na poglavlja tokom implementacije |
+| referentni | bez roka | kasnije vraćanje na poglavlja pri teorijskim i projektantskim odlukama |
 
 Raspored nije zasnovan na broju stranica nego na izlaznim sposobnostima. Ako laboratorijsku vežbu uradiš tačno i umeš da objasniš zamke, prelaziš dalje.
 

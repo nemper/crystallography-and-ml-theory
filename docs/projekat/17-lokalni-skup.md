@@ -108,8 +108,8 @@ EXISTS metal coordinated to the mapped N_imine–N_pyridine–N_imine donors
 
 Serializovani default filter flags `3dco`, `rfac`, `diso`, `erro`, `poly`, `ions`, `powd` i `orga` svi su isključeni. Pretraga zato nije zahtevala punu 3D strukturu, maksimalni R, odsustvo disorder-a/error-a, nepolimernost, određeni ionski/powder status ili organic/organometallic klasu.
 
-!!! warning "Obavezna vizuelna reprodukcija"
-    Ova rekonstrukcija je forenzičko čitanje sačuvanog objekta. Kada bude dostupan licencirani ConQuest, oba query-ja treba otvoriti u kompatibilnoj verziji, napraviti screenshot, eksportovati mašinski manifest i zajedno sa naučnim timom potvrditi human intent.
+!!! warning "Granica forenzičke rekonstrukcije"
+    Ova rekonstrukcija je forenzičko čitanje sačuvanog objekta. Jača tvrdnja o originalnoj ljudskoj nameri zahtevala bi nezavisnu vizuelnu proveru u kompatibilnom, licenciranom ConQuest okruženju i stručnu potvrdu; ovaj dokument ne propisuje postupak te buduće provere.
 
 ## 17.5 CSD snapshot iz 2022. naspram datuma pretrage iz 2026.
 
@@ -135,7 +135,7 @@ local audit: August 2026
 Pretraga pokrenuta 2026. nad instalacijom iz 2022. **nije CSD snapshot iz 2026.** Raspon publication year-a lokalnih rezultata 1967–2022 dodatno je konzistentan sa starim cutoff-om.
 
 <div class="project-link">
-**Projektna posledica:** svaki rezultat mora nositi odvojena polja `database_release`, `query_tool_version`, `query_executed_at`, `exported_at` i `ingested_at`. Jedno polje `dataset_date=2026` napravilo bi ozbiljnu provenance grešku i pokvarilo temporalnu evaluaciju.
+**Pouka za provenance:** release baze, verzija query alata, vreme pokretanja pretrage, vreme eksporta i vreme kasnije analize predstavljaju različite događaje. Njihovo stapanje u jednu oznaku „datum skupa“ napravilo bi ozbiljnu provenance grešku i pokvarilo temporalnu evaluaciju. Ovo je semantički zahtev, ne predlog naziva polja.
 </div>
 
 ## 17.6 `.cqs` je binarni program/data objekat, ne bezazleni tekst
@@ -154,9 +154,9 @@ Oba `.cqs` fajla su Berkeley DB B-tree fajlovi:
 Vrednosti uključuju Python protocol-1 pickle tokove. Tako se mogu pročitati query strukture, refcode rezultati, verzije i putanje — ali to stvara bezbednosni rizik.
 
 !!! danger "Nikad `pickle.load()` nad nepoverljivim CQS-om"
-    Python pickle može pri deserializaciji da pozove proizvoljan kod. Ekstenzija `.cqs`, izvor „sa fakulteta“ ili antivirusna provera nisu dokaz bezbednosti. Ne otvaraj nepoznat CQS u produkcionom procesu običnim unpickle-om. Radi u izolovanom, read-only okruženju; prvo proveri format/magic/size; za statičku inspekciju koristi opcode parser koji ne konstruiše objekte; bez mreže i tajni; ograniči vreme/memoriju; sačuvaj audit log. Najbezbednije je da kompatibilni ConQuest iz pouzdanog izvora napravi kontrolisan manifest.
+    Python pickle može pri deserializaciji da pozove proizvoljan kod. Ekstenzija `.cqs`, izvor „sa fakulteta“ ili antivirusna provera nisu dokaz bezbednosti. Nepoverljivi CQS zato zahteva izolovanu, read-only analizu bez izvršavanja objekata, sa ograničenim resursima i bez pristupa mreži ili tajnama. Statička inspekcija i pouzdani kompatibilni alat imaju drugačiji bezbednosni profil od običnog unpickle-a; konkretan operativni postupak nije tema ovog poglavlja.
 
-CQS takođe otkriva lokalna korisnička imena, putanje i temp lokacije. Pre deljenja treba ga tretirati kao poverljiv artefakt, čak i kada sam query nije poslovna tajna. Dve krajnje aplikacije primaju CIF; nema razloga da javni upload endpoint prihvata CQS.
+CQS takođe otkriva lokalna korisnička imena, putanje i temp lokacije. Pre deljenja treba ga tretirati kao poverljiv artefakt, čak i kada sam query nije poslovna tajna. CQS i CIF imaju različitu namenu i bezbednosni profil; CQS se ne sme tretirati kao benigni ekvivalent CIF ulaza.
 
 ## 17.7 Šta svaki CSD izvozni format čuva i gubi
 
@@ -292,7 +292,7 @@ MOL zato ne prenosi očiglednu iminsku/aromatičnu/nitro bond-order hemiju. MOL2
 Strukturne distance u CIF-u podržavaju razumnu hemiju: P–C 1,841–1,853 Å uz trigonalno-piramidalni P(III) centar; nitro N–O 1,2272/1,2274 Å; hydrazone-like C=N 1,2825 Å i N–N 1,3608 Å. Ove tvrdnje se ne bi smele rekonstruisati iz V2000 bond orders ovog konkretnog MOL fajla.
 
 <div class="project-link">
-**Parser test:** upload `cu_n14_a.cif` mora da ostane responzivan i kada naiđe na semicolon-delimited HKL blok od više megabajta. Reflection text se ne šalje u hemijski fingerprint ili LLM prompt. Parser prvo pravi bounded streaming inventory, zatim čita samo dozvoljene kategorije.
+**Pouka za parsiranje:** `cu_n14_a.cif` pokazuje da mali koordinatni model može biti upakovan sa višemegabajtnim semicolon-delimited HKL blokom. Resource-bounded čitanje i razlikovanje refleksionog teksta od hemijskih reprezentacija zato su bezbednosno i naučno važni; ova činjenica ne propisuje parser arhitekturu niti konkretan fixture.
 </div>
 
 ## 17.9 Profil `search2` metadata i kvaliteta
@@ -412,15 +412,7 @@ Nedostajuće reprezentacije pokazuju obrasce povezane sa procesom izvoza i slož
 - `Du`/suppressed disorder postoji u stotinama record-a;
 - 176 SD record-a ima matching problem iako status kaže „No disordered atoms“, a 84 matching problem uz unknown disorder.
 
-Ispravan data model čuva za svako polje:
-
-```text
-value
-availability: present | absent | unknown | not_applicable | parse_failed
-source_format
-derivation_method
-quality_flags
-```
+Za tumačenje missingness-a treba razlikovati poznatu vrednost, odsustvo podatka, nepoznato, neprimenljivo i neuspeh parsiranja, kao i poreklo, način izvođenja i kvalitet nalaza. To su različite semantičke kategorije, ne predlog konkretne data schema-e.
 
 Model se evaluira po missingness slice-ovima. „Drop rows with missing SMILES“ nije neutralno čišćenje: menja hemijsku populaciju.
 
@@ -467,98 +459,40 @@ Razlozi su i tehnički i pravni:
 - raw fajlovi su veliki i nepotrebni za čitanje nastavnog teksta;
 - provenance i pravo redistribucije originalnih fakultetskih fajlova nisu još formalno rešeni.
 
-U repo smeju, posle licencne/provenance revizije:
+Odsustvo raw fajlova iz ovog repoa ne određuje univerzalnu listu dozvoljenih budućih artefakata. Za svaki raw ili izvedeni sadržaj zasebno se proveravaju izvor i integritet, vlasništvo/licenca, poverljivost, mogućnost rekonstrukcije, transformaciono poreklo i pravo deljenja. Agregat, model ili indeks nije automatski slobodan samo zato što nije originalni CIF.
 
-- originalni kod, schema i testovi;
-- sintetičke ili eksplicitno odobrene male fixtures;
-- agregirane statistike koje ne omogućavaju rekonstrukciju zaštićenog skupa;
-- query manifest bez proprietary result sadržaja i bez ličnih putanja;
-- dokumentovane procedure za reprodukciju unutar licenciranog data-plane-a.
+## 17.15 Šta lokalna forenzika znači za naučni dizajn
 
-Raw i derived artefakti u kontrolisanom skladištu treba da dobiju manifest poput:
+### Ulaz i reprezentacije
 
-```yaml
-artifact_id: internal-stable-id
-original_filename: recorded-verbatim
-byte_length: measured-from-original
-checksum:
-  algorithm: sha256
-  status: compute-and-verify-locally-before-ingest
-source_owner: requires-confirmation
-licence_or_contract: unresolved-until-reviewed
-database_release: explicit-release-or-not-applicable
-query_tool_and_version: explicit-when-applicable
-query_executed_at: separate-from-data-cutoff
-parser_and_version: exact
-transformations: ordered-list
-quality_flags: []
-redistribution: deny-until-confirmed
-```
-
-Ovde namerno nema prepisane checksum vrednosti: ona mora biti izračunata direktno iz konkretnog originalnog fajla u kontrolisanom ingest-u.
-
-## 17.15 Šta lokalna forenzika menja u arhitekturi
-
-### Zajednički ingest
-
-- registruj neizmenjen izvor i provenance pre parsiranja;
-- uvedi size/time/memory limits i streaming CIF parser;
-- podrži multi-block CIF, semicolon text, `?`/`.`, uncertainty notaciju i frakcione koordinate van `[0,1)` uz normalizaciju sa zapisom transformacije;
-- razdvoji entry, crystal, molecule/components i coordination graph;
-- ne dozvoli da jedna lossy reprezentacija prepiše bogatiju;
-- poravnaj formate po refcode-u i prijavi nedostajanje, ne `inner join` bez izveštaja;
-- čuvaj raw, canonical i derived sloj odvojeno.
+Lokalni fajlovi pokazuju da ulaz može biti velik, multi-block, sadržati duga tekstualna polja, različite missing oznake, neizvesnosti i frakcione koordinate van osnovnog intervala. Entry, crystal, komponente i koordinacioni graf nisu isti objekat, a lossy reprezentacija ne može bez upozorenja zameniti bogatiji izvor. Poravnanje formata po refcode-u mora očuvati i vidljivost nedostajućih reprezentacija. Ovo su naučni zahtevi za značenje ingest-a, ne izbor parsera, storage slojeva ili izvršnog toka.
 
 ### Aplikacija 1: globalna pretraga
 
-- lokalni izvozi nisu dovoljni za globalni proizvod; potreban je licencirani CSD snapshot/API i dozvola za indeksiranje/serviranje;
-- search1/2 su fixtures za DAP slice, ne corpus za ceo CSD;
-- candidate generation može koristiti 2D scaffold, ali metal presence/coordination i crystal similarity moraju biti posebni slojevi;
-- SMILES-only indeks mora imati fallback za 233/2.038 nedostajućih entry-ja u ovom slice-u;
-- download CIF opcija zavisi od licence i ne sme postati bulk export;
-- query rezultat mora prikazati database release, mapping, score komponente i missing/quality upozorenja.
+Lokalni izvozi nisu globalni CSD corpus i ne mogu dokazati performanse nad punom bazom. `search1/2` opisuju DAP-uslovljen slice, a 233 od 2.038 metal-containing zapisa nemaju SMILES. Zato 2D scaffold, prisustvo metala, potvrđena koordinacija i crystal similarity ostaju različite ose, dok rezultat mora biti tumačen uz release, mapping, score komponente, missingness, kvalitet i licencni scope. Poglavlje ne bira indeks, fallback ili način prikaza.
 
 ### Aplikacija 2: svi parovi
 
-- za `n` ulaza broj parova je `n(n−1)/2`, ali nijedan pair score nema smisla bez unapred izabranog nivoa: ligand, coordination entity, conformer ili crystal packing;
-- N14 pokazuje da različiti eksporti iste strukture mogu imati različite bond-order informacije;
-- poređenje packing-a se odbija ili ograničava kada nema ćelije/simetrije/3D;
-- atom mapping mora biti invariant na redosled atoma, translaciju, rotaciju, izbor periodične slike i ekvivalentno označavanje simetrije;
-- rezultat za svaki par čuva source verzije, representation verzije, mapping, evidence i abstention razlog.
+Za `n` ulaza postoji `n(n−1)/2` neuređenih parova, ali nijedan pair score nema smisla bez izabranog nivoa: ligand, coordination entity, conformer ili crystal packing. N14 pokazuje da različiti eksporti iste strukture mogu imati različite bond-order informacije. Packing claim nema dovoljan dokaz bez ćelije, simetrije i 3D podataka, dok atom mapping mora biti neosetljiv na fizički ekvivalentne promene zapisa. Tumačenje para zato zavisi od porekla reprezentacija, mapping-a, obima dokaza i razloga za neocenjen rezultat, bez propisivanja result schema-e.
 
 ### Ground truth
 
-Potrebna je stručna anotacija najmanje sledećih polja:
-
-```text
-motif_match_valid
-metal_present_scope
-mapped_dap_donor_atoms
-metal_to_dap_edges
-observed_denticity
-coordination_number_and_geometry
-component_roles
-data_sufficiency
-relevance_by_search_mode
-reviewer_and_guideline_version
-```
+Stručna anotacija može razdvojiti valjanost motiva, scope prisustva metala, mapirane DAP donore i metal–donor veze, opaženi denticitet i geometriju, uloge komponenti, dovoljnost podataka, task-specific relevantnost i poreklo stručne odluke. To su dimenzije ground truth-a, ne fiksna lista polja.
 
 Članstvo u query rezultatu može biti candidate label, nikada automatski similarity rank ili konačna koordinaciona istina.
 
-## 17.16 Reproduktivna kontrolna lista
+## 17.16 Pitanja za proveru reproduktivnosti zaključka
 
-- [ ] Originali su read-only i van Git repoa.
-- [ ] Veličine i checksum-i izračunati su direktno pri ingest-u, ne prepisani iz dokumenta.
-- [ ] CSD release je odvojen od query/search datuma.
-- [ ] Query graf, `4M` semantika i svi filteri imaju mašinski manifest i stručnu potvrdu.
-- [ ] CQS se ne unpickle-uje u poverljivom procesu.
-- [ ] Refcode redosled i `search2 ⊂ search1` odnos imaju automatski test.
-- [ ] CIF/MOL2/SDF/SMI nedostajanje se prijavljuje po entry-ju.
-- [ ] `Du`, matching problem, fractional formula i multi-component status imaju eksplicitna pravila.
-- [ ] Train/validation/test split je group-aware i temporalno korektan.
-- [ ] Sve izvedene statistike beleže parser/verziju i denominator.
-- [ ] Naučni tim pregleda kontraprimere i annotation guideline.
-- [ ] Licencni vlasnik odobrava storage, indexing, ML i output granice.
+- Da li broj potiče iz originalnog izvora ili je izveden pod poznatim pravilima?
+- Da li su CSD release, datum query-ja i datum analize pravilno razdvojeni?
+- Da li forenzičko čitanje query objekta potvrđuje samo mašinsku semantiku ili i ljudsku nameru?
+- Da li je CQS analiziran bez izvršavanja nepoverljivog pickle sadržaja?
+- Da li odnos `search2 ⊂ search1` i redosled refcode-ova važe za tačno navedeni snapshot?
+- Da li nedostajanje CIF/MOL2/SDF/SMI reprezentacije ostaje vidljivo po entry-ju?
+- Da li su `Du`, matching problem, fractional formula i multi-component status uključeni u tumačenje?
+- Da li split sprečava curenje refcode/hemijskih familija i poštuje vremenski claim?
+- Da li statistika navodi parser/verziju, populaciju i denominator?
+- Da li interpretativni i licencni zaključci imaju odgovarajući stručni ili ugovorni dokaz?
 
 ## 17.17 Mini-vežbe
 
@@ -620,7 +554,7 @@ CAPHEK formula ima Zn, četiri N i dva Cl. Zašto je koordinaciona signatura `N3
 
 ## 17.18 Kriterijum prolaza
 
-Poglavlje si savladao kada možeš da reprodukuješ broj zapisa po formatu, nacrtaš stvarnu logiku oba query-ja, objasniš 2022/2026 provenance razliku, pokažeš najmanje tri izvora label leakage/bias-a i napišeš ingest politiku koja ne izvršava CQS pickle, ne gubi missingness i ne commit-uje raw CSD podatke.
+Poglavlje si savladao kada možeš da reprodukuješ broj zapisa po formatu, nacrtaš stvarnu logiku oba query-ja, objasniš 2022/2026 provenance razliku, pokažeš najmanje tri izvora label leakage/bias-a i objasniš zašto nepoverljivi CQS, missingness i raw CSD podaci zahtevaju različite bezbednosne i licencne granice.
 
 ## Primarni i autoritativni izvori
 

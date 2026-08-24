@@ -16,6 +16,8 @@ To nisu zamenljive reprezentacije. SMILES uglavnom opisuje molekulski graf, MOL2
 
 ## Dokazni lanac iz lokalnih fajlova
 
+U dijagramu strelica iz white paper-a ka aplikacijama znači **relevantan princip ili problemski kontekst**, ne poreklo specifikacije. Dve aplikacije potiču iz lokalnog briefa; DAP/CQS i N14 su lokalni primeri čiju ulogu još potvrđuje fakultet.
+
 ```mermaid
 flowchart TD
     W[CCDC white paper] --> Q[Kvalitet, standardizacija, FAIR i struktura-svojstvo]
@@ -39,7 +41,7 @@ White paper nije tehnička specifikacija algoritma. On pouzdano postavlja princi
 
 ### A. Globalna pretraga
 
-Za bazu reda miliona struktura ne može se za svaki upit odmah raditi najskuplje kristalno poravnanje sa svakim zapisom. Razuman koncept je kaskada:
+Za bazu reda miliona struktura ne može se za svaki upit odmah raditi najskuplje kristalno poravnanje sa svakim zapisom. Coarse-to-fine kaskada je važan algoritamski koncept, ali ovaj dijagram ne propisuje budući stack ili redosled njegove izrade:
 
 ```mermaid
 flowchart LR
@@ -78,5 +80,4 @@ Rezultat treba da bude **vektor objašnjenja**, ne samo jedan skor. Jedna agrega
 6. **Neodređen ground truth.** Dva stručnjaka mogu pod "slično" misliti na isti ligand, isti metalni poliedar ili isto pakovanje.
 7. **Licenca.** Tehnički moguć izvoz i indeksiranje nisu automatski pravno dozvoljeni za novu aplikaciju.
 
-Sledeća poglavlja grade znanje kojim se svaki od ovih rizika pretvara u proverljiv projektantski zahtev.
-
+Sledeća poglavlja grade znanje potrebno da se rizici razumeju i da se jednog dana mogu pretvoriti u proverljive zahteve, tek nakon odgovora fakulteta.

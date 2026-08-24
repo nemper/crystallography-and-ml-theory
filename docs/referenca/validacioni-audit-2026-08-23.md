@@ -2,6 +2,9 @@
 
 Ova strana beleži šta je provereno, kako su neslaganja razrešena i šta još **nije moguće potvrditi**. Cilj nije da se kurs proglasi nepogrešivim, već da svaka važna tvrdnja ima jasan dokaz, scope i put ponovne provere.
 
+!!! note "Istorijski audit, ne plan realizacije"
+    Ovo je zapis stanja i dokumentacionog QA postupka od 23. avgusta 2026. Komande, tadašnji remediation koraci i opis potrebnog dokaza nisu backlog niti redosled implementacije 2CDC aplikacija. Aktuelna pitanja za fakultet nalaze se u [jedinstvenom registru pitanja](pitanja-za-fakultet.md).
+
 ## Izvršni rezultat
 
 - Zamrznut je baseline commit `08dad2bacae5064a0d5fc1da5a23ac859c811dd5`.
@@ -75,7 +78,7 @@ Pošto je pasus namerno opisivao drugi scope, [strana 17](../projekat/17-lokalni
 | C06 reciprocal/PXRD | [10. Difrakcija i kvalitet](../kristali/10-difrakcija-kvalitet.md#reciprocal-space-operativni-most-hklrightarrow-drightarrow2theta) |
 | C11 pun CIF | [12A. Anatomija CIF-a](../podaci/12a-anatomija-cif.md) + [sintetički fixture](../assets/open/tutorial-minimal.cif) |
 | C12 svih 22 PDF strana | [22. White paper tokovi i FL](../projekat/22-whitepaper-tokovi-fl.md) |
-| C15 lifecycle gate | [state machine i state contract](../projekat/22-whitepaper-tokovi-fl.md#minimalna-state-machine) |
+| C15 lifecycle gate | [konceptualne razlike lifecycle stanja](../projekat/22-whitepaper-tokovi-fl.md#lifecycle-stanja) |
 | redosled i vreme | [15-nedeljni plan, oko 122 h](../pocetak/plan-ucenja.md) |
 | praktična provera | [L0A i L11](../praktikum/laboratorije.md) + [kontrolna rešenja](../praktikum/resenja.md) |
 
@@ -160,29 +163,29 @@ Fixture:
 
 To ispunjava nastavni cilj „moram da znam kako CIF izgleda“ bez pretpostavke da privatni GitHub rešava CCDC licencu.
 
-## Otvorene neizvesnosti i tačan način zatvaranja
+## Otvorene neizvesnosti i dokaz koji bi ih razrešio
 
 ### CQS runtime/UI
 
 Statička binarna forenzika podržava opis query grafa, version stringova i nepovezanog `4M` atoma. Ne može dokazati sve version-dependent ConQuest GUI default-e, session stanje ni ponoviti rezultat bez kompatibilnog licenciranog runtime-a.
 
-**Zatvaranje:** otvoriti oba CQS-a u odgovarajućoj ConQuest verziji, sačuvati screenshot query/filtera, machine-readable manifest, verzije i ponovljeni refcode rezultat/hash.
+**Potreban dokaz:** vizuelna/runtime potvrda oba CQS-a u odgovarajućoj ConQuest verziji, sa constraints/filterima, verzijama i ponovljenim refcode rezultatom/hash-om.
 
 ### Nameravana DAP definicija
 
 Fajl pouzdano određuje izvršivi 18-atomski podgraf. Ne određuje sam šta naučni tim želi da uključi među supstituisane, parcijalne, protonovane/tautomerne ili koordinaciono pozitivne/granične slučajeve.
 
-**Zatvaranje:** fakultet odobrava verzionisanu operational definition, atom mapping i annotation guide sa positive/negative/ambiguous primerima.
+**Potreban dokaz:** fakultetski odobrena operational definition, atom mapping i annotation guide sa positive/negative/ambiguous primerima.
 
 ### Licenca i lokalne CCDC mogućnosti
 
 Bez institucijskog ugovora i runtime-a nije potvrđeno pravo bulk eksportovanja/redistribucije, raspoloživ product tier ni lokalna dostupnost Mogul, HBP, packing/API/on-site tokova.
 
-**Zatvaranje:** permission/capability matrix potpisuju data owner/controller i licence owner; zatim se rade lokalni smoke testovi na odobrenim podacima.
+**Potreban dokaz:** potvrđena permission/capability odluka data owner/controller-a i licence owner-a, uz lokalni dokaz dostupnosti relevantne funkcije nad odobrenim podacima.
 
-## Reproduktivne završne kontrole
+## Istorijske završne kontrole dokumentacije
 
-Pre svakog release-a ove knjige ponavljaju se:
+U auditu od 23. avgusta korišćene su sledeće dokumentacione kontrole:
 
 1. `mkdocs build --strict`;
 2. provera internih linkova/assets i da nema horizontalnog overflow-a;

@@ -1,22 +1,22 @@
-# Scope i pravila odlučivanja
+# Scope i teorijska pravila poređenja
 
-## Dva proizvoda, više algoritamskih poslova
+## Dva problema, više algoritamskih porodica
 
 ### Aplikacija 1: globalna pretraga
 
-Ulaz je jedan CIF. Sistem bezbedno parsira i standardizuje dozvoljeni sadržaj, primenjuje hard filtere, generiše visok-recall kandidate nad velikim licenciranim korpusom, preciznije ih rerangira i vraća objašnjene rezultate.
+Ulaz je jedan CIF. Teorijski problem obuhvata bezbedno tumačenje i standardizaciju dozvoljenog sadržaja, eligibility i filtriranje, pronalaženje i rangiranje kandidata nad velikim licenciranim korpusom i objašnjiv dokaz uz rezultat.
 
-Primarni cilj nije klasifikacija nego **rangiranje uz visok recall, kontrolisanu latenciju i stručno proverljiv evidence**.
+Primarni cilj nije klasifikacija nego **rangiranje uz visok recall, razuman računarski trošak i stručno proverljiv evidence**.
 
 ### Aplikacija 2: precizno poređenje skupa
 
-Za (n) uploadovanih CIF-ova postoji (n(n-1)/2) neuređenih parova. Za svaki par sistem odvojeno poredi sastav, molekulski graf, koordinaciono okruženje, mapiranu 3D geometriju, packing i interakcione mreže kada ulazi to dozvoljavaju.
+Za \(n\) uploadovanih CIF-ova postoji \(n(n-1)/2\) neuređenih parova. Konceptualne ose poređenja obuhvataju sastav, molekulski graf, koordinaciono okruženje, mapiranu 3D geometriju, packing i interakcione mreže kada ulazi to dozvoljavaju.
 
-Primarni cilj je **tačno i rastavljivo pairwise poređenje**, ne samo jedan neobjašnjen similarity score.
+Primarni cilj je **tačno i rastavljivo pairwise poređenje**, ne samo jedan neobjašnjen similarity score. Ovo je opis problema, ne zamrznuta arhitektura sistema.
 
-## Šta ovde znači „optimalan“
+## Šta ovde znači fer poređenje
 
-Algoritam nije optimalan zato što je noviji ili složeniji. Optimalan je kandidat koji na unapred zamrznutom protokolu najbolje zadovoljava relevantnu kombinaciju:
+Nijedna algoritamska porodica nije unapred „pobednik“ zato što je novija ili složenija. Smisleno poređenje zahteva isti target, ciljnu populaciju, split, budžet, coverage račun i kriterijume greške. Relevantne dimenzije su:
 
 1. naučna validnost reprezentacije i target-a;
 2. recall/ranking ili pairwise tačnost po važnim slice-ovima;
@@ -25,19 +25,19 @@ Algoritam nije optimalan zato što je noviji ili složeniji. Optimalan je kandid
 5. objašnjivost i mogućnost stručnog audita;
 6. količina i kvalitet dostupnih labela;
 7. privatnost, licenca i mogućnost lokalnog izvršavanja;
-8. složenost održavanja i reproduktivnost.
+8. složenost i reproduktivnost.
 
-Zato će svaka preporuka imati najmanje tri uloge:
+Zato se porodice metoda opisuju kroz tri neutralne uloge:
 
-- **baseline**: jednostavan metod koji kompleksniji kandidat mora pošteno da pobedi;
-- **production candidate**: trenutno najbolji odnos kvaliteta, troška i rizika;
-- **challenger**: složeniji metod koji ulazi tek ako unapred definisan eksperiment pokaže materijalnu korist.
+- **referentna metoda**: transparentna kontrola koja pokazuje šta donosi dodatna složenost;
+- **alternativna porodica**: metod sa drugačijim pretpostavkama, reprezentacijom ili kapacitetom;
+- **uslov primenljivosti**: podatak i dokaz koji određuju kada je poređenje smisleno, a kada rezultat treba ograničiti ili izostaviti.
 
 ## Granica između strategije i implementacije
 
-Ova dokumentacija objašnjava **šta** sistem treba da uradi, **zašto** je to naučno potrebno i **kako se proverava** da je odluka opravdana. Ona nije implementaciona specifikacija gotovog proizvoda.
+Ova dokumentacija objašnjava koje algoritamske funkcije postoje, zašto su naučno relevantne, pod kojim pretpostavkama važe i kako se porodice metoda mogu fer porediti. Ona nije specifikacija konkretnog proizvoda i ne određuje šta treba implementirati niti kojim redosledom.
 
-Zato se buduće šeme podataka, testni skupovi, API payload-i, deployment manifesti i infrastrukturni poslovi navode samo kao obaveze naredne razvojne faze. Njihova konkretna polja, kod, konfiguracija i izvršenje projektuju se tek kada počne razvoj i budu poznati odobreni podaci, alati, licence i operativno okruženje.
+Šeme podataka, fixture-i, endpoint-i, payload-i, storage topologija, deployment manifesti, backlog i rollout nisu normativni izlazi ove knjige. Ako se pojave u objašnjenju, služe samo kao nenormativni primer teorijskog principa i ne stvaraju implementacionu obavezu.
 
 ## Granice
 
@@ -45,4 +45,4 @@ Zato se buduće šeme podataka, testni skupovi, API payload-i, deployment manife
 - Lokalni `search1/search2` eksporti nisu unbiased trening skup niti ground truth univerzalne srodnosti.
 - LLM nije CIF parser, geometrijski kalkulator, kristalografski validator ni izvor ground truth-a.
 - Slanje CSD ili fakultetskih podataka eksternom API-ju nije dozvoljeno bez eksplicitne ugovorne odluke.
-- Konačni izbor algoritma je eksperimentalna odluka nad odobrenim podacima; literatura sužava prostor kandidata, ali ne zamenjuje lokalni benchmark.
+- Iz literature se ne može izvesti univerzalni pobednik. Fer poređenje nad odobrenim, reprezentativnim podacima može podržati kontekstualni zaključak, ali ga ova dokumentacija unapred ne donosi.

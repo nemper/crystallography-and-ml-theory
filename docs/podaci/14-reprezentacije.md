@@ -109,12 +109,7 @@ Ne sabiraj ih dok nisu normalizovani, validirani i semantički objašnjeni.
 
 ## 14.8 Feature provenance i uncertainty
 
-Minimalni feature record treba da ima:
-
-```text
-value + unit + level + method + version + parameters
-+ source field/atoms + uncertainty + missing reason + timestamp
-```
+Feature je interpretabilan samo kada uz vrednost postoji dovoljno konteksta da se razume njegova jedinica i strukturni nivo, metod i verzija, izvorni atomi/polja, parametri, neizvesnost i razlog odsustva. To su kategorije dokaza, ne propisana buduća record schema.
 
 Posebno razdvoji:
 

@@ -1,18 +1,18 @@
 # 2CDC ML/AI Strategy
 
-Ova dokumentacija odgovara na praktično pitanje: **koji algoritam ili kombinacija algoritama je najbolji za svaku fazu dve 2CDC aplikacije, pod kojim uslovima i na osnovu kog dokaza?**
+Ova dokumentacija odgovara na teorijsko pitanje: **koje porodice algoritama mogu da opišu pojedine delove dva 2CDC problema, pod kojim pretpostavkama i uz kakva ograničenja dokaza?**
 
-Ako dokumentaciju koristiš kao put učenja, a ne samo kao arhitektonsku referencu, prati [plan za ML inženjera](learning/11-ml-ai-plan-ucenja.md). On povezuje tačan redosled ovih modula sa hemijskim preduslovima, proverama razumevanja i budućim fazama R0–R10, bez implementiranja aplikacija tokom učenja.
+Ako dokumentaciju koristiš kao put učenja, prati [plan za ML inženjera](learning/11-ml-ai-plan-ucenja.md). On povezuje redosled gradiva sa hemijskim preduslovima i proverama razumevanja, bez projektovanja ili implementiranja aplikacija tokom učenja.
 
-Ne tražimo jedan univerzalni model. Globalni retrieval, precizno poređenje kristala, procena svojstava, objašnjenje rezultata i eventualni jezički interfejs imaju različite ciljeve, greške, podatke i acceptance kriterijume. Jezički model nije zahtev izvornog brief-a; ispituje se kao opcioni UX sloj nad potpunim determinističkim Tier 0 sistemom.
+Ne tražimo jedan univerzalni model. Globalni retrieval, precizno poređenje kristala, procena svojstava, objašnjenje rezultata i eventualni jezički interfejs imaju različite ciljeve, greške, podatke i kriterijume dokaza. Jezički model nije zahtev izvornog brief-a; posmatra se samo kao opcioni UX sloj nad determinističkim naučnim jezgrom.
 
-Dokumentacija će za svaki kandidat jasno razdvojiti:
+Dokumentacija za svaku porodicu jasno razdvaja:
 
 - algoritamsku funkciju u pipeline-u;
 - ulaz, target i output;
 - podršku iz primarnih radova ili zvanične dokumentacije;
-- lokalno proverljivu inženjersku hipotezu;
-- baseline, challenger i uslov pod kojim se bira pobednik;
+- lokalno proverljivu hipotezu;
+- referentnu metodu i uslove fer poređenja;
 - failure modes, abstention i licencne granice.
 
 Počni od [scope-a i pravila odlučivanja](00-scope.md), a zatim koristi [mapu pipeline-a](01-pipeline-decision-map.md) da vidiš gde pripada svaka porodica algoritama.
@@ -25,14 +25,14 @@ Modul [preciznog pairwise poređenja](pairs/04-precise-pairwise.md) opisuje comp
 
 Modul [periodičnih crystal encodera](deep/05-periodic-crystal-encoders.md) proverava CGCNN, SchNet, DimeNet, MEGNet, ALIGNN, Matformer i equivariant modele, sa eksplicitnim periodic-invariance i stereo gate-ovima.
 
-Modul [metric learning-a i pair modela](deep/06-metric-learning-and-evaluation.md) određuje loss-eve, positive/negative protokol, dual/cross-encoder uloge, splitove, kalibraciju i production gate.
+Modul [metric learning-a i pair modela](deep/06-metric-learning-and-evaluation.md) obrađuje loss-eve, positive/negative protokol, dual/cross-encoder uloge, splitove, kalibraciju i evaluaciju.
 
-Modul [lokalnih SLM-ova i RAG-a](language/07-local-slm-rag.md) definiše bezbedan NL→DSL tok, granicu determinističkog naučnog jezgra, aktuelni model shortlist, hibridni retrieval, fine-tuning lestvicu i production evaluaciju.
+Modul [lokalnih SLM-ova i RAG-a](language/07-local-slm-rag.md) objašnjava kontrolisanu interpretaciju, granicu determinističkog naučnog jezgra, nenormativni datirani pregled lokalnih modela, BM25/dense/RRF retrieval, LoRA/QLoRA i evaluaciju.
 
-Modul [spoljnih LLM API-ja i bezbednosti](language/08-api-llm-security.md) uvodi C0–C4 klasifikaciju, centralni egress broker, minimalne evidence payload-e, proverene provider/retention matrice, prompt-injection odbrane i vendor-neutral tournament.
+Modul [spoljnih LLM API-ja i bezbednosti](language/08-api-llm-security.md) razdvaja izvornu licencu, minimizaciju, processor/region/retention/cache kontrole, prompt-injection odbranu i vendor-neutral evaluaciju.
 
-Centralni [cross-format i lifecycle eligibility ugovor](data/09-cross-format-eligibility.md) sprečava da CIF/MOL/MOL2/SDF/SMILES gubici, missingness ili `NeedsReview/Released/Withdrawn` prelazi tiho promene fingerprint, graf, indeks, trening skup ili evaluation denominator.
+Centralni modul o [cross-format i lifecycle eligibility-ju](data/09-cross-format-eligibility.md) objašnjava kako CIF/MOL/MOL2/SDF/SMILES gubici, missingness, prava i lifecycle mogu promeniti fingerprint, graf, indeks, trening skup ili evaluation denominator.
 
-[Konačna optimalna matrica i fazni roadmap](roadmap/10-optimal-stack-roadmap.md) spajaju sve module u jedan izvršni redosled: deterministički MVP, klasični ML turnir, exact→ANN gate, deep challengere, lokalni SLM/RAG, opcioni API i jasne stop/defer uslove.
+[Uporedna mapa algoritamskih porodica i uslova primene](roadmap/10-optimal-stack-roadmap.md) povezuje determinističke, retrieval/ANN, klasične, periodične/deep, jezičke, property, polymorph-risk i federativne metode bez propisivanja realizacionog redosleda.
 
-[Završni validacioni audit](reference/final-validation-2026-08-23.md) beleži nezavisne glasove, sve materijalne korekcije, pokrivenost lokalnih izvora, build/link/browser kontrole i granice onoga što bez CSD pristupa još nije moguće potvrditi.
+[Istorijski QA snapshot od 23. avgusta 2026.](reference/final-validation-2026-08-23.md) beleži tadašnje nezavisne glasove, materijalne naučne korekcije, pokrivenost lokalnih izvora i tehničke kontrole. To je zapis o datiranoj verziji dokumentacije, ne potvrda realizovanog sistema niti aktivan plan razvoja.

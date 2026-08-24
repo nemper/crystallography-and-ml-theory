@@ -146,7 +146,7 @@ Lokalnih 87.254 measured i 4.237 unique/refinement refleksija zato nisu konflikt
 | epistemološka uloga | koristan fingerprint i predikcija onoga što bi model trebalo da daje | bulk-phase evidence i mogući dokaz mešavine/fazne promene |
 | granica | izveden je iz istog CIF-a, pa nije nezavisna potvrda tog modela | dobro slaganje podržava fazni identitet, ali samo ne potvrđuje svaki atom ili refinement detalj SCXRD modela |
 
-Ako aplikacija poredi pattern-e, minimalni manifest čuva:
+Ako se pattern-i porede, interpretacija zahteva poznate kategorije eksperimentalnog/simulacionog konteksta:
 
 - `pattern_type = simulated | measured` i izvorni fajl/hash;
 - probe/radiation; wavelength(s) gde je primenljivo; tip i kalibraciju ose (\(2\theta\), \(q\) ili \(d\));
@@ -155,6 +155,8 @@ Ako aplikacija poredi pattern-e, minimalni manifest čuva:
 - preferred-orientation, mixture/phase i amorphous-status anotacije kada su poznate;
 - software/verziju i sve simulation settings;
 - comparison metric, peak-matching toleranciju i razlog svake isključene regije.
+
+To nije propisana manifest schema, već spisak promenljivih koje mogu promeniti značenje poređenja.
 
 !!! danger "Ne pravi kružni dokaz"
     „Simulirao sam PXRD iz CIF-a i simulacija se slaže sa istim CIF-om“ proverava implementaciju, ne fazni identitet uzorka. Nezavisan evidence nastaje tek poređenjem sa stvarno izmerenim bulk podatkom, uz unapred definisan protokol i granice zaključka.
@@ -308,7 +310,7 @@ Maksimalni i srednji shift/s.u. su u ovom fajlu 0.000. To pokazuje numeričku ko
 
 [IUCr checkCIF](https://checkcif.iucr.org/) proverava CIF sintaksu, ćeliju i geometriju, simetriju, displacement parametre, structure factors i neke obrasce mogućih duplikata. Alert znači „pregledaj i, ako treba, objasni“.
 
-Tipičan tok je:
+Logika stručne provere je:
 
 1. pokreni validaciju odgovarajućeg nivoa;
 2. sačuvaj kompletan izveštaj i verziju alata;
@@ -323,7 +325,7 @@ Tipičan tok je:
 
 ## Profil kvaliteta, ne jedna etiketa
 
-Za ML i pretragu čuvaj vektor:
+Kvalitet se može razmatrati kao vektor više pokazatelja:
 
 \[
 q = [
@@ -335,7 +337,7 @@ N_{\text{refl}}, N_{\text{param}},
 ]
 \]
 
-Uz svaku komponentu čuvaj:
+Svaka komponenta je tumačiva samo uz poznat:
 
 - izvorno CIF polje i originalni tekst;
 - status nedostaje/neprimenljivo/izmereno/izvedeno;
@@ -345,14 +347,13 @@ Uz svaku komponentu čuvaj:
 
 Jedinstven „quality score“ može postojati samo kao verzionisan, dokumentovan i kalibrisan pomoćni skor. Nikada ne sme zameniti sirove pokazatelje.
 
-## Posledice za dve aplikacije
+## Teorijske posledice za dve aplikacije
 
 ### Globalna pretraga
 
-- Ingest mora prvo proveriti sintaksu, simetriju, hemijsku konzistentnost i quality profile.
-- Teška greška ide u quarantine, ne u indeks.
-- Strukture sa disorder-om ne treba automatski brisati; indeks mora znati koje reprezentacije su nepouzdane.
-- Quality filter treba da bude korisnički i kontekstualan, a ne skriveni univerzalni prag.
+- Sintaksa, simetrija, hemijska konzistentnost i quality profile određuju koje su analize uopšte podržane.
+- Teška greška ili disorder ne znače automatski istu odluku za svaki search mode; mora biti vidljivo koja je reprezentacija nepouzdana.
+- Quality filter ima kontekst i ne predstavlja univerzalni skriveni prag.
 - R i srodna polja mogu biti feature za re-ranking ili uncertainty, ne zamena za hemijsku sličnost.
 - Nedostajuća vrednost mora ostati „nepoznato“, a ne nula.
 
@@ -360,11 +361,11 @@ Jedinstven „quality score“ može postojati samo kao verzionisan, dokumentova
 
 - Geometrijska razlika mora se posmatrati uz s.u. i način tretmana H atoma.
 - Disorder alternative ne smeju se mapirati kao dva istovremeno prisutna atoma.
-- Poređenje treba da vrati i kvalitet atomskog mapiranja i pokrivenost upoređenog dela.
+- Zaključak treba tumačiti zajedno sa kvalitetom atomskog mapiranja i pokrivenošću upoređenog dela.
 - Nizak RMSD između dva slaba modela nije snažan dokaz.
-- Izveštaj treba da razdvoji „strukturno različito“ od „nema dovoljno pouzdanih podataka“.
+- „Strukturno različito“ i „nema dovoljno pouzdanih podataka“ jesu različita stanja znanja.
 
-Za obe aplikacije test-skup treba da sadrži uredne, neuređene, nepotpune, redetermined i namerno oštećene CIF-ove. Inače će QA sloj biti testiran samo na idealnim primerima.
+Validnost se ne može proceniti samo na urednim primerima: disorder, nepotpunost, redeterminations i kontrolisani oštećeni primeri otkrivaju drugačije failure mode-ove. Tačan budući testni skup i pragove mora da odobri stakeholder.
 
 ## Tipične zamke
 

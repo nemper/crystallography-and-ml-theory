@@ -407,20 +407,20 @@ Zato se originalna dodela ne prepisuje automatski rezultatom biblioteke. Čuvaju
 
 [IUCr checkCIF](https://checkcif.iucr.org/) i odgovarajući lokalni alati služe kao dijagnostika. Za poverljive strukture ne šalji CIF javnom servisu bez dozvole.
 
-## Posledice za dve aplikacije
+## Teorijske posledice za dve aplikacije
 
 ### Globalna pretraga
 
-- Indeksiraj IT number/type, Hall simbol, reported setting i standardized setting odvojeno.
+- IT number/type, Hall simbol, reported setting i standardized setting nose različite informacije i ne treba ih poistovetiti.
 - Koristi space group kao filter ili feature, ne kao dokaz identiteta.
-- Standardizuj ćeliju i koordinate pre cell/packing feature-a, ali sačuvaj original i transformaciju.
+- Cell/packing poređenje zahteva kompatibilnu reprezentaciju ćelije i koordinata uz očuvanu vezu sa originalom i transformacijom.
 - Candidate generation može koristiti lattice i symmetry klasu; reranking mora proveriti hemiju i periodično atomsko okruženje.
-- Ne dozvoli da raw <code>P21/c</code>/<code>P21/n</code> kategorije stvore lažnu udaljenost.
+- Raw <code>P21/c</code>/<code>P21/n</code> kategorije mogu stvoriti lažnu udaljenost ako se setting ne razreši.
 - Symmetry-confidence i detected-vs-reported neslaganje treba da utiču na uncertainty.
 
 ### Poređenje svih parova
 
-Pairwise comparator treba da vrati:
+Za tumačenje pairwise poređenja relevantni su:
 
 - da li je nađena validna basis/origin transformacija;
 - cell i symmetry residual;
@@ -430,7 +430,7 @@ Pairwise comparator treba da vrati:
 - slaganje komponenti, koordinacije, konformacije i packing-a;
 - nejasnoće zbog specijalnih pozicija, disorder-a i tolerancije.
 
-Redosled poređenja je važan:
+Sledeći redosled izražava algoritamske zavisnosti, ne plan implementacije:
 
 1. proveri sastav i komponente;
 2. pronađi kompatibilne lattice/basis transformacije;
@@ -438,7 +438,7 @@ Redosled poređenja je važan:
 4. generiši/dedupliciraj periodične položaje;
 5. pronađi hemijski validan atom mapping;
 6. poredi lokalnu geometriju, konformaciju, packing i kontakte;
-7. vrati dokaznu transformaciju i uncertainty.
+7. poveži zaključak sa dokaznom transformacijom i uncertainty-jem.
 
 ## Tipične zamke
 

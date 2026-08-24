@@ -1,6 +1,6 @@
 # Plan učenja
 
-Ovo je redosled hemijskog i kristalografskog gradiva. Za paralelni ML/AI tok — sa prioritetima dokumentacije, hemijskim preduslovima, proverama razumevanja i mapiranjem budućih razvojnih koraka na R0–R10 — koristi [plan učenja ML/AI dela za 2CDC](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/ml-ai-strategy/docs/learning/11-ml-ai-plan-ucenja.md).
+Ovo je redosled hemijskog i kristalografskog gradiva. Za paralelni ML/AI tok — sa prioritetima gradiva, hemijskim preduslovima i proverama razumevanja — koristi [plan učenja ML/AI dela za 2CDC](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/ml-ai-strategy/docs/learning/11-ml-ai-plan-ucenja.md).
 
 ## Preporučena putanja od 15 nedelja
 
@@ -54,7 +54,7 @@ flowchart TD
 
 ## Šta svesno ne učimo sada
 
-Sledeće oblasti nisu potrebne za prvu fazu projekta i ne treba da ti pojedu vreme:
+Sledeće oblasti nisu potrebne na uvodnom nivou ove putanje učenja i ne treba da ti pojedu vreme:
 
 - detaljni mehanizmi organskih reakcija i laboratorijska sinteza;
 - kompletna termodinamika gasova i rastvora;

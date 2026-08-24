@@ -2,11 +2,11 @@
 
 Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno pogrešan label, nevalidan similarity score, curenje licence ili sistem koji deluje ubedljivo baš kada nema dokaz.
 
-Čitaj kolonu **test/odbrana** kao obaveznu kontrolu u kodu ili review proceduri.
+Čitaj poslednju kolonu kao **konceptualnu posledicu i ilustrativan način opovrgavanja zablude**. Ona ne propisuje buduća polja, fixture-e, UI ponašanje, gate-ove ili review proceduru; konkretan oblik eventualne realizacije određuje se kasnije.
 
 ## 1. Identitet, sastav i hemijske veze
 
-| # | Zabluda | Šta je tačno | Posledica i test/odbrana |
+| # | Zabluda | Šta je tačno | Konceptualna posledica / primer provere |
 |---:|---|---|---|
 | 1 | „Ista molekulska formula znači isti molekul.“ | Formula daje broj elemenata, ne povezanost. Etanol i dimetil-etar dele \(\mathrm{C_2H_6O}\), a različiti su konstitucioni izomeri. | Formula je jeftin filter, nikad exact graph label. Test: isti sastav/drugi graf mora biti hard negative. |
 | 2 | „Isti molekul znači isti CSD entry.“ | Entry predstavlja konkretno određivanje kristala; isti compound može imati više temperatura, redeterminations, polimorfa i solvata. | Deduplikacija mora imati odvojene `entry`, `chemical entity`, `solid form` i `determination` identitete. |
@@ -25,7 +25,7 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 
 ## 2. Metali i koordinaciona hemija
 
-| # | Zabluda | Šta je tačno | Posledica i test/odbrana |
+| # | Zabluda | Šta je tačno | Konceptualna posledica / primer provere |
 |---:|---|---|---|
 | 15 | „Ako entry sadrži metal i DAP motiv, DAP koordinira metal.“ | Lokalni ConQuest `4M` atom je nepovezan sa 18-atomski DAP query motivom; dokazano je samo da se metal nalazi negde u istom entry-ju. | Candidate label nije coordination ground truth. Potrebni su component assignment, metal-neighbor perception i donor mapping. |
 | 16 | „Metal–ligand veza postoji ako je rastojanje ispod jednog globalnog cutoff-a.“ | Tipične distance zavise od elemenata, oxidation/spin stanja, CN, geometrije, disorder-a i modela. | Neighbor model mora biti element/context-aware i verzionisan; blizina može vratiti `ambiguous`. |
@@ -38,7 +38,7 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 
 ## 3. Kristal, simetrija i periodičnost
 
-| # | Zabluda | Šta je tačno | Posledica i test/odbrana |
+| # | Zabluda | Šta je tačno | Konceptualna posledica / primer provere |
 |---:|---|---|---|
 | 23 | „CIF je samo još jedan molekulski format.“ | CIF može opisati ćeliju, space group, ASU, occupancy, eksperiment, refleksije i refinement. CIF→SMILES je bogata-to-siromašna projekcija. | Crystal source of truth ostaje sačuvan; molekulski prikaz dobija loss report. |
 | 24 | „Jedan CIF sadrži tačno jedan molekul.“ | Može imati više data block-ova, components, nezavisnih molekula, disorder alternatives, solvent i periodičnu mrežu. | Ingest navodi izabrani block i comparison object; ne radi automatski `first molecule`. |
@@ -57,7 +57,7 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 
 ## 4. Difrakcija i quality — nema magičnog semafora
 
-| # | Zabluda | Šta je tačno | Posledica i test/odbrana |
+| # | Zabluda | Šta je tačno | Konceptualna posledica / primer provere |
 |---:|---|---|---|
 | 37 | „R < 0,05 znači dobar CIF; iznad toga odbaci.“ | R zavisi od sastava, disorder/twinning-a, rezolucije, apsorpcije, skupa refleksija i modela. Nizak R može pratiti pogrešan/prefleksibilan model. | Quality je vektor dokaza; prag, ako postoji za claim, validira se po domenu i ostaje objašnjiv. |
 | 38 | „R(all), R(gt) i wR mogu direktno da se porede.“ | Koriste različite skupove/formule/težine; wR je često na \(F^2\), R na amplitudama. | Svaka vrednost nosi CIF field i semantics; ne rangiraj modele mešanim kolonama. |
@@ -74,7 +74,7 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 
 ## 5. Čvrste forme, stabilnost i svojstva
 
-| # | Zabluda | Šta je tačno | Posledica i test/odbrana |
+| # | Zabluda | Šta je tačno | Konceptualna posledica / primer provere |
 |---:|---|---|---|
 | 49 | „Svaka različita čvrsta forma je polimorf.“ | Salt, hydrate, drugi solvate i cocrystal menjaju component/charge/composition klasifikaciju; amorfno nije kristalni polymorph. | Solid-form relation je višekomponentna etiketa, ne jedno `polymorph=true`. |
 | 50 | „Hidrat/solvat je nečist polimorf.“ | Molekuli vode/rastvarača mogu biti stehiometrijski, strukturno ključni deo jednofaznog kristala. | Komponentu ne briši kao noise; parent i full-form poređenje prikazuj odvojeno. |
@@ -91,7 +91,7 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 
 ## 6. Formati, ingest i provenance
 
-| # | Zabluda | Šta je tačno | Posledica i test/odbrana |
+| # | Zabluda | Šta je tačno | Konceptualna posledica / primer provere |
 |---:|---|---|---|
 | 61 | „Konverzija CIF→SDF/SMILES samo menja ekstenziju.“ | Odbacuju se cell, symmetry, packing, occupancy i quality, a components/bonds se biraju ili inferiraju. | Svaka konverzija ima loss matrix, source link i task scope; original se čuva. |
 | 62 | „Ako parser nije prijavio grešku, zapis je validan.“ | Sintaktički validan fajl može imati pogrešnu formulu, nesmislen graf, pogrešne units ili ozbiljne alerts. | Odvojeni `syntax`, `chemistry`, `crystal`, `quality`, `licence` statusi. |
@@ -106,7 +106,7 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 
 ## 7. Sličnost i ML evaluacija
 
-| # | Zabluda | Šta je tačno | Posledica i test/odbrana |
+| # | Zabluda | Šta je tačno | Konceptualna posledica / primer provere |
 |---:|---|---|---|
 | 71 | „Hemijska sličnost je objektivno jedan broj.“ | Composition, graph, coordination, conformation, packing, interactions i property relevance su različiti claim-i. | Prikazuj component scores/evidence; combined score samo verzionisan i task-kalibrisan. |
 | 72 | „Tanimoto 0,8 univerzalno znači veoma slično.“ | Značenje zavisi od fingerprinta, radius-a, bit length-a, standardizacije, veličine i domena. | Score mora nositi representation profile; threshold se bira na validation set-u za konkretan task. |
@@ -132,7 +132,7 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 
 ## 8. Federativno učenje, privatnost i licence
 
-| # | Zabluda | Šta je tačno | Posledica i test/odbrana |
+| # | Zabluda | Šta je tačno | Konceptualna posledica / primer provere |
 |---:|---|---|---|
 | 92 | „Federativno učenje garantuje privatnost jer raw fajlovi ne napuštaju instituciju.“ | Gradients/update-i i konačni model mogu odavati informacije; lokalni logovi i coordinator su deo threat model-a. | Secure aggregation/DP gde odgovara, leakage testovi, minimalni outputs i pravno odobren protokol. |
 | 93 | „Secure aggregation rešava svaku privatnost.“ | Skriva pojedinačne update-e od servera pod pretpostavkama, ali ne rešava malicious clients, final-model inference, endpoint security ili licencu. | Threat model po akteru i artefaktu; kombinuj kontrole, ne naziv tehnologije. |

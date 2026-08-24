@@ -1,15 +1,15 @@
-# Metric learning, pair modeli i production gate
+# Metric learning, pair modeli i evaluacija
 
-## Glavna odluka
+## Glavni zaključak
 
-Najbolji neural dizajn zavisi od mesta u pipeline-u:
+Primeren neuralni dizajn zavisi od naučne uloge:
 
-- za **aplikaciju 1**: mode-specific periodic **dual encoder** kao dodatni structural candidate kanal, pa exact/ANN retrieval i query-conditioned rerank za `useful_precedent`;
-- za **aplikaciju 2**: shared encoder + simetrični multi-output pair head kao prvi neural challenger;
-- cross-graph attention/matching model: samo za top-M parove ili kada obim App 2 staje u budžet;
-- za finalnu odluku: kalibrisan target-specific classifier/ordinal model sa abstention-om, ne sirovi cosine ili InfoNCE score.
+- za **aplikaciju 1**: mode-specific periodic **dual encoder** kao dodatni structural candidate kanal, pa exact/ANN retrieval i query-conditioned rerank za korisnost kandidata kao precedenta;
+- za **aplikaciju 2**: shared encoder + simetrični multi-output pair head za učenje imenovanih relacija;
+- cross-graph attention/matching model: za candidate podskup ili all-pairs režim samo kada računarski obim to dopušta;
+- za target-specific odluku: kalibrisan classifier/ordinal model sa abstention-om, ne sirovi cosine ili InfoNCE score.
 
-Nijedan model ne dobija naziv „crystal similarity model“ bez suffix-a koji kaže koju relaciju uči. `same_parent_graph_v1`, `coordination_relation_v1`, `conformer_similarity_v1`, `packing_relation_v1` i `useful_precedent_v1` nisu ista relacija.
+Nijedan model ne dobija naziv „crystal similarity model“ bez dodatka koji kaže koju relaciju uči. Isti parent graph, odnos koordinacionih okruženja, sličnost konformera, odnos pakovanja i korisnost precedenta nisu ista relacija.
 
 Dataset i pair builder najpre prolaze [cross-format i lifecycle eligibility ugovor](../data/09-cross-format-eligibility.md): svi source pogledi istog entry-ja grupišu se pre split-a, representation availability ulazi u denominator/slice metrike, a state transition invalidira pogođene labele, embedding-e, indekse i model lineage.
 
@@ -34,40 +34,26 @@ Minimalni relation registry:
 
 | Target | Simetrija | Tip labele | Primarni posao |
 |---|---|---|---|
-| `same_parent_graph_v1` | simetričan | same/different | filter/pair odluka |
-| `coordination_relation_v1` | simetričan | same/related/different | retrieval + pair |
-| `conformer_similarity_v1` | simetričan | graded ili continuous uz mapping | pair/rerank |
-| `packing_relation_v1` | simetričan | same/related/different | pair/rerank |
-| `molecular_stereo_relation_v1` | simetričan | same/mismatch | exact pair gate; ne similarity score |
-| `crystal_handedness_relation_v1` | simetričan | same/mismatch | enantiomorph/handedness gate kada je primenljiv |
-| `useful_precedent_v1` | query-conditional | grade 0/1/2 + reason | App 1 ranking |
-| `contains_motif_v1(A,B)` | **asimetričan** | A contains B / B contains A / both-or-equal / neither | substructure posao |
+| isti parent graph | simetričan | isto/različito | filter/pair odluka |
+| odnos koordinacionih okruženja | simetričan | isto/povezano/različito | retrieval + pair |
+| sličnost konformera | simetričan | graded ili continuous uz mapping | pair/rerank |
+| odnos kristalnog pakovanja | simetričan | isto/povezano/različito | pair/rerank |
+| odnos molekulske stereokemije | simetričan | isto/neslaganje | exact pair provera; ne similarity score |
+| odnos kristalne handedness | simetričan | isto/neslaganje | enantiomorph/handedness provera kada je primenljiva |
+| korisnost precedenta za upit | query-conditional | grade 0/1/2 + reason | App 1 ranking |
+| usmereno sadržavanje motiva | **asimetričan** | A sadrži B / B sadrži A / oba ili jednako / nijedno | substructure posao |
 
-Ovo su isključivo naučne labele. Izvršenje svake grane zasebno koristi `branch_status_v1 = assessed | ambiguous | not_applicable | missing_input | quality_blocked | timeout | failed` iz pair contract-a. `relation_label` je nullable i relation loss dobija masku `branch_status == assessed AND relation_label != null`; nijedan non-assessed status ne postaje klasa. `packing_relation_v1` svuda koristi isti enum `same | related | different`, dok se parcijalni matched cluster čuva kroz `evidence_coverage`, `matched_N` i RMSD.
+Ovo su isključivo naučne labele. Ishod izvršenja svake grane odvojeno razlikuje ocenjeno, dvosmisleno, neprimenljivo, nedostajući ulaz, blokadu kvalitetom, istek vremena i neuspeh. Relation loss računa se samo za ocenjene slučajeve sa poznatom naučnom labelom; nijedan neocenjen ishod ne postaje klasa. Packing relacija razlikuje isto, povezano i različito, dok se parcijalni matched cluster opisuje coverage-om evidence-a, brojem poklopljenih molekula i RMSD-om.
 
-Jedan positive u `same_parent_graph_v1` može biti negative u `packing_relation_v1`. Zato se koriste odvojeni modeli/head-ovi ili eksplicitno multi-task učenje sa zasebnim loss-om, maskom dostupnih labela i slice metrikom za svaki target.
+Par koji je pozitivan za isti parent graph može biti negativan za isti packing. Zato se koriste odvojeni modeli/head-ovi ili eksplicitno multi-task učenje sa zasebnim loss-om, maskom dostupnih labela i slice metrikom za svaki target.
 
 ### Label ugovor
 
-```yaml
-pair_id: stable-unordered-id
-left_structure_group: ...
-right_structure_group: ...
-target: packing_relation_v1
-label: related
-evidence_refs:
-  compack_or_pac: ...
-  exact_mapping: ...
-  interaction_network: ...
-annotators: [...]
-adjudication_status: final | unresolved
-confidence: certain | probable | ambiguous
-label_source: expert | metamorphic | weak_rule
-```
+Labela je definisana tek kada navodi identitet/grupe oba endpoint-a, target i vrednost, reference na exact mapping/packing/interaction evidence, anotatore, adjudikaciju, pouzdanost i poreklo — stručnu anotaciju, metamorphic evidence ili slabo pravilo. Tačan tehnički format je implementacioni izbor.
 
-`weak_rule` labela može pomoći pretraining-u ili distillation-u, ali ne sme biti nezavisni gold test modela koji imitira isto pravilo.
+Labela izvedena slabim pravilom može pomoći pretraining-u ili distillation-u, ali ne sme biti nezavisni gold test modela koji imitira isto pravilo.
 
-Schema iz primera je za simetričnu relaciju i koristi unordered `pair_id`. Directional target koristi ordered pair key i čuva oba smera; canonical storage ordering nikada ne menja target smer.
+Simetrična relacija koristi neuređeni identitet para. Directional target koristi uređeni par i čuva oba smera; eventualni kanonski storage redosled nikada ne menja target smer.
 
 ## 6.2 Dual encoder za globalnu pretragu
 
@@ -84,7 +70,7 @@ Za L2-normalizovane embedding-e cosine i squared Euclidean imaju isti poredak:
 \lVert z_A-z_B\rVert_2^2=2-2z_A^Tz_B.
 \]
 
-Manifest ipak čuva tačnu normalizaciju i metricu; menjanje jedne menja index contract. Ako se norm ne fiksira, inner product, cosine i L2 više nisu ekvivalentni.
+Definicija metoda ipak navodi tačnu normalizaciju i metricu; menjanje jedne menja susedstvo. Ako se norm ne fiksira, inner product, cosine i L2 više nisu ekvivalentni.
 
 ### Zašto dual encoder
 
@@ -92,9 +78,9 @@ Manifest ipak čuva tačnu normalizaciju i metricu; menjanje jedne menja index c
 - exact Flat daje oracle za istu naučenu metricu;
 - HNSW/IVF može ubrzati isti vektor tek posle recall testa;
 - query latency je jedan graph build + jedan forward;
-- embeddings se mogu cache-ovati i za App 2.
+- embeddings se mogu ponovo koristiti i za App 2.
 
-Za dva CIF/crystal ulaza i simetričan structural target encoder weights se dele. Ako App 1 query uključuje dodatni tekstualni intent, korisničke filtere ili directional `useful_precedent_v1` semantiku, shared-cosine structural embedding ostaje samo high-recall kandidat signal treniran na imenovanom simetričnom proxy targetu. Direktno učenje query-conditional korisnosti zahteva role-specific query/corpus tower ili query-conditioned pair/listwise reranker. Nevezani query/document encoderi su nova cross-modal/asymmetric arhitektura i ne preimenuju se u simetričnu crystal metricu.
+Za dva CIF/crystal ulaza i simetričan structural target encoder weights se dele. Ako App 1 query uključuje dodatni tekstualni intent, korisničke filtere ili usmerenu semantiku korisnosti precedenta, shared-cosine structural embedding ostaje samo high-recall kandidat signal treniran na imenovanom simetričnom proxy targetu. Direktno učenje query-conditional korisnosti zahteva role-specific query/corpus tower ili query-conditioned pair/listwise reranker. Nevezani query/document encoderi su nova cross-modal/asymmetric arhitektura i ne preimenuju se u simetričnu crystal metricu.
 
 ### Šta dual encoder ne može
 
@@ -106,7 +92,7 @@ Za dva CIF/crystal ulaza i simetričan structural target encoder weights se dele
 
 Zato App 1 koristi uniju 2D, coordination, 3D i learned kanala. Neural kanal ne postaje jedini recall put.
 
-## 6.3 Loss turnir
+## 6.3 Loss porodice i njihove pretpostavke
 
 ### Pair contrastive loss
 
@@ -141,25 +127,20 @@ Denominator sadrži designated positive i sve dozvoljene negative, ali isključu
 
 ### Supervised contrastive
 
-[Supervised contrastive learning](https://proceedings.neurips.cc/paper/2020/hash/d89a66c7c80a29b1bdbab0f2a1a94af8-Abstract.html) dozvoljava više positives po anchor-u i koristi sve poznate iste-klase primere u batch-u. To je prvi supervised embedding kandidat kada target zaista pravi dosledne klase ili relation groups.
+[Supervised contrastive learning](https://proceedings.neurips.cc/paper/2020/hash/d89a66c7c80a29b1bdbab0f2a1a94af8-Abstract.html) dozvoljava više positives po anchor-u i koristi sve poznate iste-klase primere u batch-u. Primeren je kada target zaista pravi dosledne klase ili relation groups.
 
-Ne sme se jednom klasom spojiti „isti parent“, „isti metal“ i „sličan packing“. Takav model dobija kontradiktorne positive/negative parove. Ako `related` nije tranzitivna equivalence relacija, ne pretvara se veštački u class ID za supervised contrastive loss. Ni distance-based pair/triplet loss automatski ne može predstaviti proizvoljnu netranzitivnu relaciju: prvo se radi metric-consistency audit, a kada target nije kompatibilan sa globalnom metrikom koristi se pair comparator ili query-conditioned ranker.
+Ne sme se jednom klasom spojiti „isti parent“, „isti metal“ i „sličan packing“. Takav model dobija kontradiktorne positive/negative parove. Ako kategorija „povezano“ nije tranzitivna equivalence relacija, ne pretvara se veštački u class ID za supervised contrastive loss. Ni distance-based pair/triplet loss automatski ne može predstaviti proizvoljnu netranzitivnu relaciju: prvo se radi metric-consistency audit, a kada target nije kompatibilan sa globalnom metrikom koristi se pair comparator ili query-conditioned ranker.
 
 ### BCE/ordinal i listwise loss
 
-- binary cross-entropy nad simetričnim pair head-om je prvi finalni pair-classification baseline;
-- ordinal/cumulative-link head je bolji kada ekspert dosledno razlikuje `different < related < same`;
+- binary cross-entropy nad simetričnim pair head-om odgovara binarnom pair-classification targetu;
+- ordinal/cumulative-link head odgovara situaciji u kojoj ekspert dosledno uređuje kategorije od različitog, preko povezanog, do istog;
 - [ListNet](https://doi.org/10.1145/1273496.1273513) je listwise metod; LambdaMART koristi pairwise lambda-gradijente ponderisane promenom ranking metrike. Oba zahtevaju query-grouped judgments, dok graded labels pomažu ali nisu formalno obavezne za LambdaMART;
 - unjudged/truncated candidate nije implicitno grade 0.
 
-### Preporučeni red
+### Veza target-a i loss-a
 
-1. metamorphic invariance pretraining;
-2. pair contrastive baseline;
-3. supervised contrastive sa svim poznatim positives;
-4. triplet kao mining-sensitivity challenger, ne default;
-5. BCE/ordinal pair head ili query-grouped ranker za finalni target;
-6. cross-graph model samo ako dual encoder + determinističke features ostavljaju dokazanu rupu.
+Metamorphic invariance primeri proveravaju reprezentacionu ekvivalenciju, pair contrastive i triplet loss zahtevaju pouzdane negative, a supervised contrastive zahteva metric-consistent relation groups. BCE/ordinal head odgovara direktnoj pair odluci, dok query-grouped pairwise/listwise loss zahteva ranking judgments. Cross-graph model je opravdan kada target zahteva correspondence signal koji dual encoder i determinističke features ne predstavljaju dovoljno dobro; redosled realizacije ne sledi iz same loss teorije.
 
 ## 6.4 Positive parovi: tri nivoa dokaza
 
@@ -193,7 +174,7 @@ Obavezna pravila:
 1. split se pravi **pre** mining-a;
 2. miner vidi samo training particiju;
 3. designated positive ostaje i u numerator-u i u denominator-u; ostali poznati positives ulaze kao dodatni positives u multi-positive/SupCon formulaciji ili se uklanjaju samo iz skupa tretiranog kao negative — designated positive se nikada ne briše iz denominator-a;
-4. `unknown/unjudged` nije negative;
+4. nepoznat ili neocenjen kandidat nije negativan primer;
 5. hardest candidate ide u audit queue, ne automatski u label 0;
 6. negative pool i miner checkpoint se verzionišu;
 7. koristi se mešavina random, within-family i potvrđenih semi-hard negativa;
@@ -203,7 +184,7 @@ Ako postoje pouzdani positives i veliki neoznačen pool, [positive–unlabeled u
 
 ### Ciljani hard negatives za 2CDC
 
-Svaki hard negative nosi `target` polje. Isti par može biti negative za packing head, a positive za parent head; globalna negative etiketa ne postoji.
+Svaki hard negative eksplicitno navodi ciljnu relaciju. Isti par može biti negative za packing head, a positive za parent head; globalna negative etiketa ne postoji.
 
 - ista formula, drugi constitutional graph;
 - isti parent ligand, druga koordinacija/metallation;
@@ -211,11 +192,11 @@ Svaki hard negative nosi `target` polje. Isti par može biti negative za packing
 - isti cell/space group, različit packing;
 - enantiomer/enantiomorph u stereo-sensitive profilu;
 - solvent/counterion razlika;
-- disorder/quality slučaj sa `branch_status: quality_blocked` i `relation_label: null`, ne `different`.
+- disorder/quality slučaj u kome je zaključak blokiran kvalitetom i nema naučnu relacionu labelu, ne lažno „različito“.
 
 ## 6.6 Self-supervised pretraining
 
-[Crystal Twins](https://arxiv.org/abs/2205.01893) koristi 428.275 neoznačenih struktura, CGCNN encoder, Barlow Twins objective i random perturbation/atom/edge masking; rezultat validira fine-tuned **property prediction** na sedam skupova. [CrysGNN](https://openreview.net/forum?id=Y33JsvNrn1o) pretrenira na približno 800.000 crystal graph-ova i takođe pokazuje property-prediction transfer. Njegovi node reconstruction zadaci jesu self-supervised, ali graph-level deo rekonstruiše space group i bira contrastive positive/negative preko crystal-system informacije; zato je preciznije reći **symmetry-metadata-informed pretraining**, ne potpuno label-free graph SSL. Space-group i `normalized_crystal_system` polja ulaze u shortcut, split i pretraining-overlap audit; raw export label i reported/coordinate setting ostaju zasebni provenance, ne paralelne klase. Nijedan rad sam po sebi ne dokazuje 2CDC retrieval metricu.
+[Crystal Twins](https://arxiv.org/abs/2205.01893) koristi 428.275 neoznačenih struktura, CGCNN encoder, Barlow Twins objective i random perturbation/atom/edge masking; rezultat validira fine-tuned **property prediction** na sedam skupova. [CrysGNN](https://openreview.net/forum?id=Y33JsvNrn1o) pretrenira na približno 800.000 crystal graph-ova i takođe pokazuje property-prediction transfer. Njegovi node reconstruction zadaci jesu self-supervised, ali graph-level deo rekonstruiše space group i bira contrastive positive/negative preko crystal-system informacije; zato je preciznije reći **symmetry-metadata-informed pretraining**, ne potpuno label-free graph SSL. Space-group i normalizovani crystal-system podaci ulaze u shortcut, split i pretraining-overlap audit; raw export label i reported/coordinate setting ostaju zasebni provenance, ne paralelne klase. Nijedan rad sam po sebi ne dokazuje 2CDC retrieval metricu.
 
 ### Augmentation contract je target-specific
 
@@ -229,7 +210,7 @@ Bezbedni positives za invariance pretraining su dokazano ekvivalentna kodiranja 
 - brisanje donor veze;
 - reflection kada je stereo bitan.
 
-Ove transformacije mogu biti korisni pretext corruption zadaci, ali se ne sme tvrditi da čuvaju `packing_relation` ili `coordination_relation`. Svaka dobija ablation i label-consistency audit.
+Ove transformacije mogu biti korisni pretext corruption zadaci, ali se ne sme tvrditi da čuvaju relaciju pakovanja ili koordinacionih okruženja. Svaka dobija ablation i label-consistency audit.
 
 ### Pretraining overlap
 
@@ -239,7 +220,7 @@ Ako je encoder video neoznačene test strukture, rezultat je transductive. Stric
 
 ### Simetrični two-tower head
 
-Za simetričan target početni MLP/GBDT head dobija commutative features, na primer:
+Za simetričan target MLP/GBDT head može koristiti commutative features, na primer:
 
 \[
 h(A,B)=\left[|z_A-z_B|,\ z_A\odot z_B,\ z_A+z_B,\ d(z_A,z_B),\ x_{det}(A,B)\right],
@@ -247,9 +228,9 @@ h(A,B)=\left[|z_A-z_B|,\ z_A\odot z_B,\ z_A+z_B,\ d(z_A,z_B),\ x_{det}(A,B)\righ
 
 gde su \(x_{det}\) rastavljivi deterministic branch output-i. Za simetričan target i oni moraju biti commutative ili sadržati oba directional rezultata u simetričnoj agregaciji. `concat(z_A,z_B)` bez simetrizacije može naučiti left/right artefakt. Alternativa je set arhitektura po principu [Deep Sets](https://proceedings.neurips.cc/paper_files/paper/2017/hash/f22e4747da1aa27e363d86d40ff442fe-Abstract.html) ili prosek logits-a oba redosleda.
 
-Cache ID ordering služi skladištenju, ne model symmetry-ju. Test mora menjati ID-jeve, reingest redosled i proveriti \(S(A,B)=S(B,A)\) u dtype-specifičnoj toleranciji.
+Kanonski ID ordering eventualno služi skladištenju, ne model symmetry-ju. Test mora menjati ID-jeve, reingest redosled i proveriti \(S(A,B)=S(B,A)\) u dtype-specifičnoj toleranciji.
 
-Directional containment dobija dva odvojena izlaza `A_contains_B` i `B_contains_A`, uz `both/equal`, `neither` i `ambiguous` izvedeno stanje; ne koristi se simetričan metric head. Swap-equivariance znači da zamena A/B mora tačno zameniti dva directional izlaza, dok `both/equal` i `neither` ostaju isti.
+Directional containment dobija dva odvojena izlaza: da li A sadrži B i da li B sadrži A. Iz njih se izvode slučajevi u kojima važe oba smera ili jednakost, nijedan smer ili dvosmislenost; ne koristi se simetričan metric head. Swap-equivariance znači da zamena A/B mora tačno zameniti dva directional izlaza, dok slučajevi „oba ili jednako“ i „nijedno“ ostaju isti.
 
 ### Cross-graph comparator
 
@@ -262,42 +243,24 @@ Directional containment dobija dva odvojena izlaza `A_contains_B` i `B_contains_
 - symmetric output za simetrične relacije;
 - bounded memory za velike i disordered strukture.
 
-Bezbedne opcije su cross-match nad profile-invariantnim node/local-environment features, eksplicitno mapiranje/alignment pre zajedničkog modela ili dokazano profile-specific \(G_A\times G_B\) invariantna arhitektura. Za `stereo_sensitive` profil O(3)-even distance/unsigned-angle features nisu dovoljne: grana čuva SO(3)-invariantan ali reflection-sensitive `0o`/signed kanal ili koristi exact stereo gate, uz test u kome se nezavisno mirror-uje samo A pa samo B ([e3nn parity/irreps](https://docs.e3nn.org/en/stable/api/o3/o3_irreps.html)). Cross-attention težina nije atom mapping dokaz; tačan correspondence ostaje deterministički evidence.
+Bezbedne opcije su cross-match nad profile-invariantnim node/local-environment features, eksplicitno mapiranje/alignment pre zajedničkog modela ili dokazano profile-specific \(G_A\times G_B\) invariantna arhitektura. Za stereo-sensitive profil O(3)-even distance/unsigned-angle features nisu dovoljne: grana čuva SO(3)-invariantan ali reflection-sensitive `0o`/signed kanal ili koristi exact stereo gate, uz test u kome se nezavisno mirror-uje samo A pa samo B ([e3nn parity/irreps](https://docs.e3nn.org/en/stable/api/o3/o3_irreps.html)). Cross-attention težina nije atom mapping dokaz; tačan correspondence ostaje deterministički evidence.
 
-### Gde se cross-graph model izvršava
+### Računski režimi cross-graph modela
 
-- App 1: top-M posle visok-recall candidate unije;
+- App 1: ograničen candidate podskup posle visok-recall unije;
 - App 2 full mode: svi parovi samo ako \(n(n-1)/2\) i strukturalne veličine staju u kapacitet;
 - App 2 pruned mode: kandidat-pruning ima zaseban recall gate;
-- timeout daje `branch_status: timeout`, a OOM `branch_status: failed` sa `reason_code: resource_exhausted`; u oba slučaja `relation_label: null`, ne similarity 0.
+- istek vremena i nedostatak memorije ostaju različiti neuspešni ishodi sa jasnim razlogom; nijedan nema naučnu relacionu labelu niti postaje similarity 0.
 
 ### Multi-output umesto jednog procenta
 
-```yaml
-same_parent_graph_v1:
-  branch_status: assessed
-  relation_label: same
-  probability: 0.99
-  exact_evidence: matched
-coordination_relation_v1:
-  branch_status: assessed
-  relation_label: different
-  probability: 0.93
-  reason_codes: [different_mapped_donor_set]
-packing_relation_v1:
-  branch_status: quality_blocked
-  relation_label: null
-  evidence_coverage: none
-  reason_codes: [disorder_unresolved]
-overall:
-  decision: abstain
-```
+Ilustrativni izlaz može istovremeno tvrditi da je parent graph isti uz exact dokaz, da je coordination relacija različita zbog različitog mapiranog donor seta i da packing nije ocenjen zbog nerešenog disorder-a. Svaka grana zato nosi svoj ishod, naučnu relacionu labelu samo kada je ocenjiva, probability samo kada je kalibrisana, objašnjenje razloga i evidence coverage. U tom obrascu agregatna odluka abstain-uje umesto da neocenjen packing pretvori u nulu.
 
 Jedan overall model ne sme prosekom sakriti hard mismatch ili neocenjenu ključnu granu.
 
 ## 6.8 Split bez endpoint leakage-a
 
-Strukture se prvo grupišu po stable identity/redetermination, a dodatni cold key — parent, compound, scaffold, solid form, publication ili vreme — bira se prema konkretnoj generalization tvrdnji. Tek zatim se generišu parovi i augmentations. Nije bezbedno blanket grupisati po svim ključevima: za `same_parent_graph_v1` target parent-disjoint query/corpus split može po definiciji ukloniti svaki mogući positive.
+Strukture se prvo grupišu po stable identity/redetermination, a dodatni cold key — parent, compound, scaffold, solid form, publication ili vreme — bira se prema konkretnoj generalization tvrdnji. Tek zatim se generišu parovi i augmentations. Nije bezbedno blanket grupisati po svim ključevima: za target istog parent grafa parent-disjoint query/corpus split može po definiciji ukloniti svaki mogući positive.
 
 Pre konačnog splita report prikazuje broj i masu labela/positives po targetu i slice-u koji su dodeljivi, odbačeni ili postali cross-partition. Ako cold definicija znači da relevantan corpus item ne može postojati, taj slice je open-set **no-match/abstention** test, ne Recall@C retrieval test.
 
@@ -316,7 +279,7 @@ Ovo meri generalizaciju kada su oba endpoint-a iz novih grupa. Cross-partition \
 
 ### 1D warm/cold
 
-Ako produkcija znači novi query protiv poznatog, zamrznutog corpus-a \(T\), zasebni protokol je:
+Ako ciljna upotreba znači novi query protiv poznatog, zamrznutog corpus-a \(T\), zasebni protokol je:
 
 ```text
 train: T × T
@@ -349,11 +312,11 @@ Izbor metode, cluster jedinice i small-sample korekcije zaključava se pre testa
 
 ## 6.9 `search1/search2` i druge kružne labele
 
-Dostavljeni `search2` je uređeni/filterisani podskup `search1`. `search2=positive`, a isključeni redovi `negative` samo bi naučili filter/ordering koji je već proizveo fajl.
+Dostavljeni `search2` je uređeni/filterisani podskup `search1`. Tretiranje tog podskupa kao pozitivnih primera, a isključenih redova kao negativnih, samo bi naučilo filter/ordering koji je već proizveo fajl.
 
 Ti exporti ostaju korisni za:
 
-- parser/schema test;
+- test parsera i definicije podataka;
 - reprodukciju filter semantike;
 - kandidat pool za novu slepu anotaciju;
 - hard-case pitanja za eksperte.
@@ -364,7 +327,7 @@ Nisu supervised relevance gold bez nezavisno definisanog targeta i nove adjudika
 
 ### A. Representation correctness
 
-- 100% obaveznih exact-equivalence metamorphic slučajeva prolazi;
+- svaki obavezni exact-equivalence metamorphic slučaj prolazi;
 - pair swap i nezavisna transformacija A/B prolaze;
 - mirror positive/negative ponašanje prati stereo profil;
 - embedding ne kolabira: prati se variance po dimenziji, effective rank i duplicate vector stopa;
@@ -413,7 +376,7 @@ Cosine, margin, InfoNCE i LambdaMART score nisu probability. Poseban pointwise/p
 
 [Temperature scaling](https://proceedings.mlr.press/v70/guo17a.html) je jednostavan neural baseline. Platt/isotonic su binary baseline-i; multiclass target zahteva koherentan simplex calibrator i classwise reliability, a ordinal target cumulative calibrator koji čuva redosled pragova. [Kull et al.](https://proceedings.neurips.cc/paper_files/paper/2019/hash/8ca01ea920679a0fe3728441494041b9-Abstract.html) daju multiclass calibration porodicu, ali konkretan metod se bira u validation-u.
 
-Calibrator je output-, mode-, selection- i generation-specific. Na primer, tvrdi samo \(P(y\mid selected, mode, candidate\_generation)\) za served populaciju na kojoj je fitovan; `full`, pruned, top-M i druga candidate-union politika mogu imati različitu prevalence/distribuciju. Hard-negative-enriched calibration bez weighting-a ili prirodnog reprezentativnog skupa daje pogrešne verovatnoće.
+Calibrator je output-, mode-, selection- i generation-specific. Na primer, tvrdi samo \(P(y\mid \text{selected},\text{mode},\text{candidate policy})\) za populaciju na kojoj je fitovan; full, pruned, top-M i druga candidate-union politika mogu imati različitu prevalence/distribuciju. Hard-negative-enriched calibration bez weighting-a ili prirodnog reprezentativnog skupa daje pogrešne verovatnoće.
 
 Class-prior correction je dozvoljen samo uz eksplicitnu label/prior-shift pretpostavku — stabilan class-conditional feature distribution — i sensitivity test. Ne koriguje proizvoljan covariate/concept shift ([Saerens et al.](https://doi.org/10.1162/089976602753284446)).
 
@@ -434,75 +397,51 @@ Conformal sloj dobija claim samo pod odgovarajućom exchangeability pretpostavko
 - polymorph, solvate/co-crystal i \(Z'\);
 - coordination polymer;
 - disorder/occupancy/missing H;
-- space group/`normalized_crystal_system`, zasebno raw-label i lattice/axes-setting slice, te cell veličina;
+- space group i normalizovani crystal system, zasebno raw-label i lattice/axes-setting slice, te cell veličina;
 - vreme/publication/source;
 - mali i veoma veliki graph/pair.
 
-Bez autorizovanog reprezentativnog CSD snapshot-a model može biti research challenger na public/dostavljenim podacima, ali ne dobija production-wide CSD claim.
+Bez autorizovanog reprezentativnog CSD snapshot-a model može biti istraživačka hipoteza na public/dostavljenim podacima, ali ne podržava corpus-wide CSD claim.
 
-## 6.12 Početni challenger → production gate
+## 6.12 Kategorije evaluacione odluke
 
-Sledeće vrednosti su **2CDC inženjerski početni predlog**, ne univerzalne konstante iz literature. Zaključavaju se u ADR-u pre outer testa i menjaju samo kroz novu verziju eksperimenta.
+Pre merenja se definišu estimand, jedinica agregacije (`query-macro`, micro ili pair), potreban broj nezavisnih grupa i positive događaja, paired interval/LCB sa estimand-ispravnim resampling-om i non-inferiority margina. Slice koji nema dovoljnu efektivnu veličinu dobija status `underpowered`, a ne automatski pass ili fail. Numeričke granice su claim-, rizik- i stakeholder-specifične i ne slede iz literature kao univerzalne konstante.
 
-Svaki gate pre merenja definiše: estimand, jedinicu agregacije (`query-macro`, micro ili pair), minimum nezavisnih grupa i minimum positive događaja, paired interval/LCB sa estimand-ispravnim resampling-om i non-inferiority margin. Slice koji ne dostigne unapred zadatu efektivnu veličinu nije „pass“; evaluator vraća `evaluation_status: underpowered`. To je status evaluacije, ne branch status niti relation label. Isto pravilo važi za ukupni skup i za poređenje label budžeta.
-
-| Gate | Početni kriterijum |
+| Kategorija | Naučni kriterijum |
 |---|---|
 | data integrity | nula endpoint/family/hash preklapanja u cold/cold split-u; upstream overlap odgovara deklarisanom claim-u |
-| metamorphic | 100% obaveznih testova; nema ID/order/basis/supercell greške |
-| pair symmetry | max swap razlika ≤ dtype-specifične unapred validirane tolerance; ne slepo fiksnih `1e-6` za svaki runtime |
-| ANN | query-macro tie-aware exact-score Recall@C ≥ 99,5% ukupno i ≥ 98% u svakom dovoljno snažnom kritičnom slice-u |
-| semantic candidate | query-macro expert-positive Recall@C ≥ 99% ukupno i ≥ 95% po dovoljno snažnom kritičnom slice-u |
-| non-inferiority | donja 95% estimand-correct paired interval/LCB granica razlike prema baseline-u ≥ −1 pp ukupno i ≥ −3 pp po slice-u |
-| korist | uz non-inferiority: ≥2 pp primarne relevance metrike **ili** ≥30% latency/cost dobitka |
+| metamorphic | svi obavezni ID/order/basis/supercell testovi zadovoljavaju unapred validirane tolerance |
+| pair symmetry | swap razlika ostaje unutar dtype- i runtime-specifične numeričke tolerancije |
+| ANN | query-macro tie-aware exact-score Recall@C meri se prema exact oracle-u ukupno i po dovoljno snažnim kritičnim slice-ovima |
+| semantic candidate | expert-positive Recall@C meri da izgubljen kandidat ne može biti vraćen rerankerom; nepotpune oznake ograničavaju claim na judgment pool |
+| non-inferiority i korist | paired interval poredi praktičnu marginu, primarnu relevance metriku i računsku korist |
 | pair model | PR-AUC i operativni precision/recall nisu lošiji od RF/GBDT/determinističkog baseline-a |
 | calibration | NLL/Brier i risk na ciljanoj coverage nisu lošiji od baseline-a |
-| operacije | p95/p99, RAM, rebuild/update, timeout i recovery staju u unapred definisan SLO |
-
-Visoke candidate-recall vrednosti odgovaraju ulozi prvog sloja, gde izgubljen kandidat ne može biti vraćen rerankerom. Ako su ekspertne oznake nepotpune, semantic prag se tumači samo nad zamrznutim, dokumentovanim judgment pool-om.
+| račun | relevantni latency kvantili, RAM, rebuild/update trošak, timeout i recovery odgovaraju deklarisanom computational scope-u |
 
 ### False-negative audit
 
 Mined negatives se slepo proveravaju na stratifikovanom uzorku nezavisnih grupa. Kao početna orijentacija, nula grešaka u 300 iid/reprezentativnih provera sa zajedničkom stopom daje približno 1% jednostranu 95% „rule-of-three“ gornju granicu ([Hanley i Lippman-Hand](https://doi.org/10.1001/jama.1983.03330370053031)); zavisni parovi ne smeju se brojati kao 300 nezavisnih opažanja. Kod disproporcionalno stratifikovanog uzorka prijavljuju se sampling-weighted population estimate i stratum-specific intervali/bound-ovi; unresolved audit stavke nisu automatski nula grešaka.
 
-### Label-efficiency gate
+### Label-efficiency analiza
 
-Deep model se meri na najmanje pet log-raspoređenih budžeta **nezavisnih grupa**, sa više seed-ova i istim zamrznutim testom. Mora imati unapred definisanu paired LCB/non-inferiority odluku i dovoljan efektivni \(n\) na najmanje dva uzastopna realistična budžeta; pobeda tačkaste procene ili samo pri najvećem, nedostupnom label budžetu nije praktična optimalnost.
+Deep model se meri kroz više unapred definisanih budžeta **nezavisnih grupa**, sa više seed-ova i istim zamrznutim testom. Learning curve, paired interval/non-inferiority odluka i efektivni \(n\) pokazuju da li se korist javlja u praktično dostupnom opsegu labela; jedna tačkasta pobeda pri najvećem budžetu nije dovoljna.
 
 Aktivno odabrane labele mogu efikasno trenirati model, ali aktivno odabran test uvodi selection bias. Koristi se reprezentativni test ili design/importance-weighted estimator ([Active Testing](https://proceedings.mlr.press/v139/kossen21a.html)).
 
-## 6.13 Eksperimentalni turnir
+## 6.13 Ilustrativne ose poređenja
 
-### Frozen reference sistemi
+### Referentne porodice
 
-1. transparentna rule/lexicographic formula;
-2. deterministic descriptors + logistički/ordinalni model;
-3. RF;
-4. ExtraTrees;
-5. GBDT;
-6. exact ECFP/coordination/packing candidate kanali.
+Transparentna rule/lexicographic formula, deterministic descriptors sa logističkim/ordinalnim ili tree modelom i exact ECFP/coordination/packing candidate kanali predstavljaju komplementarne reference. Njihove uloge se ne mogu svesti na jedan obavezan redosled.
 
 ### Encoderi
 
-1. CGCNN;
-2. Matformer;
-3. ALIGNN;
-4. SchNet periodic distance-only ablation;
-5. eventualni equivariant model tek posle failure analize.
+CGCNN, Matformer i ALIGNN ispituju različite hipoteze: jednostavan periodic graph, periodic transformer i line-graph/angle signal. SchNet daje distance-only ablation, a equivariant model testira potrebu za tensor/higher-body signalom. To su različite reprezentacione pretpostavke, ne projektni backlog.
 
 ### Training varijante
 
-```text
-random init + pair contrastive
-random init + supervised contrastive
-validirano SSL init + supervised contrastive
-frozen encoder + tabular head
-fine-tuned encoder + tabular/MLP head
-dual encoder + exact Flat
-dual encoder + ANN
-dual encoder + deterministic rerank
-cross-graph rerank top-M
-```
+Moguće ose obuhvataju random naspram validiranog SSL init-a, pair naspram supervised contrastive loss-a, frozen naspram fine-tuned encoder-a, tabular naspram MLP head-a, exact Flat naspram ANN-a nad istim embedding-om, deterministic rerank i ograničen cross-graph rerank.
 
 Svaka uporediva varijanta dobija isti split, label subset, tuning pravila i približno jednak search budžet. Candidate generator/retriever-i dobijaju isti eligible corpus, query set, hard filter/ACL, per-query budget i pooling/judgment protokol, ali njihovi output pool-ovi **moraju smeti da se razlikuju** — upravo to meri semantic candidate recall.
 
@@ -533,7 +472,7 @@ Za kontrolisanu reranker ablation svi rankeri dobijaju isti zamrznuti upstream c
 
 ### Polymorph pair u aplikaciji 2
 
-Molecular head daje visoku sličnost; packing head predviđa `related/different`. Ako COMPACK/PAC nije primenljiv zbog disorder-a, packing output ima `branch_status: quality_blocked`, `relation_label: null` i reason code, a model abstain-uje. Ne uči se implicitno da missing packing znači negative.
+Molecular head daje visoku sličnost; packing head razlikuje povezano od različitog. Ako COMPACK/PAC nije primenljiv zbog disorder-a, packing zaključak je blokiran kvalitetom, nema naučnu relacionu labelu i navodi razlog, a model abstain-uje. Ne uči se implicitno da missing packing znači negative.
 
 ### False-negative slučaj
 
@@ -543,50 +482,44 @@ Batch sadrži redetermination istog solid form-a pod drugim ID-jem. Naivni InfoN
 
 Ovo je 1D warm/cold evaluacija. Corpus embeddings i indeks su napravljeni pre cutoff-a; query porodica je nova. Rezultat se ne meša sa 2D cold/cold pair tvrdnjom gde su oba endpoint-a nova.
 
-## 6.15 Skaliranje i operacije
+## 6.15 Računsko skaliranje
 
 ### App 1
 
-Offline trošak je jedan embedding po autorizovanom corpus entry-ju. Online put meri graph-build, encoder, ANN, exact rerank i ukupni p99 posebno. ACL/licenca se primenjuju pre candidate distance search-a kao u retrieval modulu.
+Trošak unapred izračunatih corpus reprezentacija je jedan embedding po autorizovanom entry-ju. Analiza odvojeno meri graph-build, encoder, ANN, exact rerank i odgovarajući rep ukupne latency distribucije. ACL/licenca se primenjuju pre candidate distance search-a kao u retrieval modulu.
 
 ### App 2
 
 Za \(n\) struktura postoji \(P=n(n-1)/2\) unordered parova. Shared embeddings se računaju \(n\) puta, a lagani pair head \(P\) puta. Cross-graph comparator se batch-uje po site/edge budget-u, ne samo po broju parova; veliki graph može dominirati memorijom.
 
-Queue čuva:
+Računski izveštaj razlikuje full/pruned mode, cost distribuciju, timeout/failure statuse, peak memoriju i parcijalne rezultate bez pretvaranja neuspeha u score. Tačna queue i retry šema nisu deo algoritamske specifikacije.
 
-- full/pruned mode;
-- pair priority i cost estimate;
-- timeout/retry;
-- peak GPU/CPU memory;
-- branch status;
-- model/graph generation;
-- partial result bez pretvaranja failure-a u score.
+### Kompatibilnost reprezentacije i indeksa
 
-### Drift i rebuild
+Promena standardizacije, graph builder-a, model weights-a, embedding normalizacije, distance metrike ili quantization-a menja definiciju embedding prostora. Indeks i query encoder moraju koristiti kompatibilnu reprezentaciju; lifecycle i rebuild mehanizam je implementacioni izbor.
 
-Promena standardization-a, graph builder-a, model weights-a, embedding normalizacije, distance metrike ili quantization-a zahteva novu atomsku `embedding_generation_id` i corpus rebuild/dual-run. Novi encoder ne sme da query-uje stari indeks.
+## 6.16 Informacije potrebne za reproduktivnu evaluaciju
 
-## 6.16 Reproduktivni training manifest
+Pored definicije modela iz prethodnog poglavlja navode se:
 
-Pored model manifesta iz prethodnog poglavlja čuva:
-
-- target/relation schema i annotator guideline verziju;
+- definiciju targeta/relacije i verziju annotator guideline-a;
 - label provenance, adjudication i sample weights;
 - split group definiciju i hash svih particija;
 - 1D/2D/temporal estimand;
 - augmentation/positive policy;
-- negative pool, miner model/checkpoint, refresh schedule i false-negative mask;
+- negative pool, miner model/checkpoint, mining trenutak/politika i false-negative mask;
 - batch composition i sampler seed;
 - loss jednačinu, margin/temperature i normalization;
-- optimizer/scheduler/early-stop criterion;
+- optimizer, learning-rate politika i early-stop criterion;
 - sve tuning trial-ove i selection rule;
-- calibration dataset/prevalence i calibrator checksum;
-- exact Flat vectors/results i ANN artifact checksum;
+- calibration dataset/prevalence i definicija calibrator-a;
+- exact Flat rezultati i definicija ANN artefakta;
 - candidate merge/top-M politiku;
 - per-slice metrics, intervals i failure list;
-- hardware/runtime/precision i measured SLO;
-- code, container/dependency i weights hash.
+- hardware/runtime/precision i izmereni computational scope;
+- code/dependency i weights identitet.
+
+Tačan tehnički format i infrastrukturni mehanizmi nisu naučni zahtevi; navedene kategorije jesu potrebne da bi se rezultat protumačio i ponovio.
 
 ## 6.17 Anti-patterni
 
@@ -595,8 +528,8 @@ Pored model manifesta iz prethodnog poglavlja čuva:
 - random pair split;
 - mining pre split-a ili iz validation/test pool-a;
 - svi in-batch kandidati tretirani kao negatives;
-- `unknown/unjudged` pretvoren u label 0;
-- `search2` kao positive i ostatak `search1` kao negative;
+- pretvaranje nepoznatog ili neocenjenog kandidata u oznaku nula;
+- tretiranje skupa `search2` kao positive i ostatka `search1` kao negative;
 - InfoNCE ili cosine preimenovan u probability;
 - canonical ID ordering kao zamena za simetričan head;
 - cross-attention weights predstavljene kao atom mapping;
@@ -608,20 +541,16 @@ Pored model manifesta iz prethodnog poglavlja čuva:
 - conformal coverage bez exchangeability ugovora;
 - threshold, mining ili ANN parametar izabran na outer testu.
 
-## 6.18 Konačna preporuka
+## 6.18 Matrica uloga i uslova primenljivosti
 
-| Faza | Optimalni početak | Neural challenger | Production gate |
+| Uloga | Transparentna referenca | Neuralna alternativa | Uslov primenljivosti |
 |---|---|---|---|
-| invariance pretraining | exact metamorphic parovi | Barlow/InfoNCE uz target-safe augmentations | svi metamorphic testovi |
-| App 1 structural candidate | deterministic multichannel | Matformer shared dual encoder; ALIGNN coordination challenger, svaki na simetričnom targetu | embedding semantic recall; exact Flat je referenca |
-| App 1 ANN infrastruktura | exact Flat nad istim embedding-om | HNSW/IVF prema retrieval modulu | uvodi se samo zbog SLO/scale uz exact-oracle recall gate |
-| App 1 `useful_precedent` rerank | rule/logistic/RF/GBDT | role-specific/query-conditioned pairwise ili listwise ranker; cross-graph top-M | nDCG/Recall non-inferiority + benefit |
-| App 2 pair | deterministic evidence + RF/GBDT | shared encoder + simetrični BCE/ordinal multi-head | PR/calibration/evidence/abstention |
-| skupi pair | exact mapping/packing | invariant cross-graph comparator | samo ako rešava dokumentovan failure slice |
-| directional motif | exact subgraph relation | directional pair head | meri oba smera, bez metric pretvaranja |
+| invariance učenje | exact metamorphic parovi | Barlow/InfoNCE uz target-safe augmentations | transformacije zaista čuvaju target i prolaze metamorphic testove |
+| App 1 structural candidate | deterministic multichannel | periodic shared dual encoder ili angle-aware encoder | semantic recall se meri nezavisno; exact Flat je oracle istog embedding-a |
+| App 1 ANN infrastruktura | exact Flat nad istim embedding-om | HNSW/IVF prema retrieval modulu | ANN rešava scale/latency/cost, ne semantičku definiciju |
+| App 1 rerank prema korisnosti precedenta | rule/logistic/tree model | query-conditioned pairwise/listwise ili ograničen cross-graph ranker | zahteva query-level judgments i fer candidate-pool evaluaciju |
+| App 2 pair | deterministički evidence + tabularni model | shared encoder + simetrični BCE/ordinal multi-head | PR/calibration/evidence/abstention i swap/PBC/stereo testovi |
+| skupi pair | exact mapping/packing | invariant cross-graph comparator | opravdan kada rešava dokumentovan failure slice |
+| directional motif | exact subgraph relation | directional pair head | meri oba smera, bez pretvaranja u simetričnu metricu |
 
-**PROPOSAL:** prvi deep eksperiment nije treniranje ogromnog modela od nule. Uzeti isti validirani `crystal_view`, porediti CGCNN, Matformer i ALIGNN na jednom targetu i koristiti exact Flat. Supervised contrastive se koristi samo za dosledne equivalence/relation grupe; netranzitivni `related` dobija explicit pair comparator/ranker, a query-conditional `useful_precedent` pairwise/listwise ranking. Embedding se zatim spaja sa determinističkim features u GBDT ili malom simetričnom head-u.
-
-Dodatni semantic recall ili pair kvalitet opravdava learned embedding, SSL ili cross-graph sloj. ANN se ne uvodi niti bira radi semantic dobitka: exact Flat je oracle za poredak istog embedding-a, a aproksimaciona greška može samo slučajno promeniti semantic Recall@C naviše ili naniže. Takav incidentalni dobitak nije ugovorna prednost indeksa. ANN se uvodi samo kada exact Flat ne ispunjava scale/latency/cost SLO, a približni indeks prođe exact-neighbor recall, semantic non-inferiority i operativni gate.
-
-Sistem je spreman za neural production samo kada learned kanal pobedi jednostavniji baseline pod istim data/split/tuning ugovorom, ne gubi critical slice, prolazi periodične/stereo testove, ostaje unutar SLO-a i zadržava deterministički evidence i mogućnost abstention-a.
+Learned embedding, SSL ili cross-graph sloj naučno su opravdani tek kada daju dodatni semantic recall ili pair kvalitet pod istim data/split/tuning uslovima, bez gubitka critical slice-a i determinističkog evidence-a. ANN se procenjuje odvojeno: exact Flat je oracle za poredak istog embedding-a, a aproksimaciona greška nije semantička prednost čak i kada slučajno promeni Recall@C.

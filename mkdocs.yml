@@ -110,11 +110,12 @@ nav:
       - 20. Evaluacija i naučna validacija: projekat/20-evaluacija.md
       - 21. Licence, FAIR i poreklo podataka: projekat/21-licence-fair.md
       - 22. White paper tokovi i federativno učenje: projekat/22-whitepaper-tokovi-fl.md
-  - Praktikum:
-      - Laboratorijske vežbe: praktikum/laboratorije.md
-      - Završni mini-projekat: praktikum/zavrsni-projekat.md
+  - Opcioni praktikum:
+      - Nastavne laboratorijske vežbe: praktikum/laboratorije.md
+      - Završna analiza bez implementacije: praktikum/zavrsni-projekat.md
       - Rešenja i rubrike: praktikum/resenja.md
   - Referenca:
+      - Pitanja i odluke za fakultet: referenca/pitanja-za-fakultet.md
       - Brzi podsetnik: referenca/podsetnik.md
       - Rečnik pojmova: referenca/recnik.md
       - Opasne zablude: referenca/zablude.md

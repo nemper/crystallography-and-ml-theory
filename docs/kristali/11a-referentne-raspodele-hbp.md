@@ -22,7 +22,7 @@ Treba da možeš da:
 
 ## Referentna raspodela nije „svi brojevi iz baze“
 
-Ako kandidat ima C–N dužinu 1,390 Å, besmisleno je porediti je sa svim C–N vezama bez konteksta. Referentna populacija mora da odgovara pitanju. Minimalni manifest sadrži:
+Ako kandidat ima C–N dužinu 1,390 Å, besmisleno je porediti je sa svim C–N vezama bez konteksta. Referentna populacija mora da odgovara pitanju. Reproduktivno tumačenje zahteva sledeće kategorije:
 
 | Sloj | Primer pitanja koje mora biti zamrznuto |
 |---|---|
@@ -33,7 +33,7 @@ Ako kandidat ima C–N dužinu 1,390 Å, besmisleno je porediti je sa svim C–N
 | baza | CSD release i skup dozvoljenih privatnih/javnih baza |
 | deduplikacija | po entry-ju, fragmentu, compound/form familiji ili drugoj jedinici? |
 | podrška | broj exact/generalized pogodaka, missingness i razlog proširenja query-ja |
-| implementacija | alat/verzija, parametri, transformacije i random seed ako postoji |
+| računarski kontekst | alat/verzija, parametri, transformacije i random seed ako postoji |
 
 Bez ovoga „98. percentil“ nije reproduktivna tvrdnja. Promena protonacije, bond type-a ili filtera može promeniti populaciju više nego sama razlika koju meriš.
 
@@ -158,38 +158,23 @@ Ovo se ne čita kao „A1 veza postoji sa 72% fizičke sigurnosti“. Preciznije
 | grouping/H-bond score | kakav je skup međusobno kompatibilnih putative veza? | da li taj network gradi realan kristal |
 | coordination score | koliko su donor/acceptor coordination outcomes tipični po modelu? | ukupnu stabilnost, lattice energy ili polymorph probability |
 
-## Kako ovo ulazi u dve aplikacije
+## Moguće primene u dve aplikacije
 
 ### Globalna pretraga
 
-- Referentni signal koristi se kao filter/rerank feature samo uz query, release, support i applicability.
+- Referentni signal može imati smisla kao filter/rerank feature samo uz query, release, support i applicability.
 - Retka geometrija ne sme biti automatski odbačena; može biti upravo naučno zanimljiv kandidat.
-- Precomputed distribucije moraju biti versioned i ponovo izgrađene kada se promeni CSD snapshot, standardizacija ili filter.
+- Promena CSD snapshot-a, standardizacije ili filtera menja referentnu raspodelu i prekida direktnu uporedivost rezultata.
 - Proprietary i public fitting slojevi moraju ostati odvojeni ako licenca ili provenance to zahtevaju.
 
 ### Poređenje svih parova
 
-- Za svaku razlikujuću geometriju vrati raw vrednosti, s.u., atom mapping i položaj u istoj referentnoj raspodeli.
+- Poređenje geometrije ima smisla uz raw vrednosti, s.u., atom mapping i položaj u istoj referentnoj raspodeli.
 - Poredi support i applicability, ne samo dva percentile-a.
 - Za torzije koristi circular distance/modove.
 - HBP poređenje razdvaja potential pairs, observed network, grouping i coordination rezultate; jedna zbirna ocena ne sme sakriti različit uzrok.
 
-Minimalni evidence objekat može izgledati ovako:
-
-```yaml
-reference_signal:
-  measurement: "N2-C7 bond length"
-  value_angstrom: 1.390
-  query_manifest: "sha256:..."
-  database_release: "explicit-version"
-  exact_hits: 250
-  generalized_hits: 0
-  empirical_percentile: 98.8
-  robust_z: 2.81
-  applicability: "inside"
-  conclusion: "unusual_in_this_reference_set"
-  forbidden_inference: "not_energy_or_polymorph_probability"
-```
+Ovo su mogući načini upotrebe, ne unapred odobren feature set. Fakultet kroz Q10, Q13 i Q22 potvrđuje da li je referentni signal uopšte deo targeta. Bez obzira na format budućeg evidence-a, moraju ostati vidljivi merena veličina, referentni query/release i podrška, outlier signal, applicability i zabranjena inferencija „nije energija niti polymorph probability“.
 
 ## Tipične zamke
 

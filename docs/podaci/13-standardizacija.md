@@ -14,9 +14,9 @@ Ovde koristimo precizne radne termine:
 
 Standardizovani prikaz nije „istinitiji original“. On je pogled namenjen određenom pitanju.
 
-## 13.2 Četiri paralelna pogleda
+## 13.2 Četiri konceptualna pogleda
 
-Umesto jednog mutabilnog objekta, čuvaj:
+Isti izvor može se razmatrati kroz više pogleda, bez tvrdnje da su oni jedna obavezna storage arhitektura:
 
 | Pogled | Sadržaj | Tipična upotreba |
 |---|---|---|
@@ -36,7 +36,9 @@ flowchart TD
     T --> A
 ```
 
-## 13.3 Redosled sigurnog pipeline-a
+## 13.3 Logičke zavisnosti standardizacije
+
+Sledeći redosled objašnjava stručnu zavisnost — na primer, original i charge moraju biti poznati pre parent transformacije — a ne plan realizacije projekta:
 
 1. **Identifikuj datoteku** po sadržaju, ne samo ekstenziji; sačuvaj hash.
 2. **Parsiraj bez prepisivanja originala** i sakupi sva upozorenja.
@@ -120,18 +122,19 @@ Posle svake transformacije automatski proveri ono što bi trebalo da ostane isto
 
 ## 13.8 Verzije i reproducibilnost
 
-Svaki standardization profile ima identitet, npr.:
+Svaka politika standardizacije mora imati stabilan identitet i verziju. Da bi njeno značenje bilo proverljivo, opisuje najmanje sledeće pojmovne kategorije:
 
-```yaml
-profile: ligand-retrieval-v1
-remove_components: [recognized_crystallization_solvent]
-preserve_metals: true
-preserve_formal_charge: true
-tautomer_policy: none
-aromaticity_model: toolkit-X-2026.03
-```
+| Kategorija | Šta mora biti jasno |
+|---|---|
+| cilj i pogled | za koje naučno pitanje i koji pogled — crystal, component ili parent/query — derivat važi |
+| tretman komponenti | kako se razmatraju solventi, counterions, coformers, voda i metali, uz razlog za svako uklanjanje ili zadržavanje |
+| hemijske konvencije | kako se tumače formalni naboj, protonacija, tautomerija, aromatičnost, stereo i metal–ligand povezanost |
+| kristalografski sadržaj | da li i kako ostaju ćelija, simetrija, disorder, occupancy i periodična geometrija |
+| gubici i veze sa izvorom | šta je očuvano, izvedeno, promenjeno ili izgubljeno i kako se derivat mapira nazad na original |
+| provere | koji invariants, upozorenja i granice primenljivosti prate transformaciju |
+| poreklo pravila | koja verzija pravila i alata je primenjena i na kom verzionisanom izvoru |
 
-Promena toolkita ili pravila zahteva novu verziju i reindeksiranje. Stari embeddings/fingerprints bez feature provenance nisu uporedivi sa novim samo zato što imaju isti broj dimenzija.
+Nazivi polja, format serijalizacije i način tehničkog prenosa te politike ostaju implementacioni izbori. Promena toolkita ili pravila zahteva novu verziju politike i ponovno izvođenje ili proveru zavisnih derivata. Embeddings, fingerprints i drugi derivati nastali pod različitim politikama nisu međusobno uporedivi samo zato što imaju isti format ili broj dimenzija; uporedivost mora biti posebno dokazana uz feature provenance i očuvane invariants.
 
 ## 13.9 Provera znanja
 

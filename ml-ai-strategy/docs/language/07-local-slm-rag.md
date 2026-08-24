@@ -1,709 +1,233 @@
-# Lokalni SLM, kontrolisani upiti i RAG
+# Lokalni SLM, kontrolisana interpretacija i RAG
 
-## Odluka u jednoj rečenici
+## Svrha modula
 
-Lokalni small language model u 2CDC-u treba da bude **jezički adapter oko determinističkog naučnog sistema**, a ne CIF parser, hemičar, kristalograf ni source of truth.
+Lokalni mali jezički model (SLM) može da olakša unos namere, terminološko razjašnjenje i objašnjenje već izračunatih rezultata. Ne predstavlja kristalnu strukturu, ne određuje hemijsku istinu i ne zamenjuje parser, prava pristupa ili determinističke algoritme.
 
-Najbolji početni dizajn je zato:
+Ovo poglavlje je teorijska mapa mogućih uloga. Ne propisuje konkretan model, format razmene, izvršni servis niti način uvođenja.
 
-1. deterministički parser i naučni feature pipeline;
-2. lokalni SLM koji korisnički jezik prevodi u mali, verzionisani query DSL;
-3. grammar/JSON-schema constrained decoding;
-4. nezavisna sintaksna, semantička, licencna i autorizaciona validacija;
-5. determinističko izvršenje odobrenog plana;
-6. lokalni RAG samo nad odobrenom dokumentacijom;
-7. generisanje objašnjenja isključivo iz verzionisanih evidence objekata;
-8. eksplicitno razjašnjenje ili abstention kada zahtev nije jednoznačan.
+## Granica naučnog autoriteta
 
-Ovaj modul razlikuje tri nivoa tvrdnje:
+Jezički sloj može da:
 
-- **potvrđena osobina modela/metoda** — navedena u model-cardu, zvaničnoj dokumentaciji ili originalnom radu;
-- **2CDC kandidat** — razumno je uvrstiti ga u lokalni benchmark;
-- **production izbor** — može nastati tek kada pobedi na zamrznutom 2CDC testu, na ciljnom hardveru i pod dozvoljenom licencom.
+- prepozna korisničku nameru i mapira sinonime na kontrolisane pojmove;
+- uoči da je zahtev dvosmislen i postavi pitanje za razjašnjenje;
+- predloži strukturisan plan upita koji se zatim nezavisno proverava;
+- pronađe odlomke u odobrenoj dokumentaciji;
+- verbalizuje deterministički izračunate činjenice uz precizne izvore;
+- sažme upozorenja i objasni zašto je neka grana neprimenljiva ili neodređena.
 
-!!! warning "Datum preseka"
-    Shortlist modela je proveren 23. avgusta 2026. Modeli, licence, chat template-i i inference backend-i se menjaju. Pre implementacije ponovo proveriti izvor, pinovati tačan revision i ponoviti acceptance testove.
+Jezički sloj ne treba da:
 
-## Gde SLM može da doda vrednost — inženjerski predlog
+- tumači raw CIF, CQS, MOL ili MOL2 kao autoritativni parser;
+- određuje bond order, stereohemiju, koordinaciju, simetriju, periodične susede ili atom mapping;
+- računa fingerprint, MCS, RMSD, packing, PXRD, similarity ili property vrednost;
+- menja skup kandidata, parova, denominatore ili naučne statuse;
+- odlučuje o licenci, tenant-u, svrsi upotrebe, izvozu ili pristupu alatu;
+- izvršava slobodno generisan SQL, Cypher, shell ili mrežni poziv.
 
-Ni kratki opis dve aplikacije ni white paper **ne zahtevaju konverzacioni interfejs, SLM ili RAG**. Izvorni ugovor se može u celosti ispuniti Tier 0 pristupom: formularima, kontrolisanim filterima, unapred definisanim comparison profilima, šablonskim izveštajem i determinističkim parserom. Uvođenje SLM-a je zato naš proverljiv UX/inženjerski predlog, ne činjenica iz fakultetskog zahteva niti uslov naučne ispravnosti.
+Osnovni princip je jednostavan: naučni rezultat mora imati isto značenje i bez jezičkog modela. Model može da predloži ili objasni; deterministički parseri, validatori i algoritmi utvrđuju šta je dozvoljeno i šta je izračunato.
 
-Dve aplikacije imaju stvarne jezičke poslove:
+## Kontrolisani jezik između korisnika i izvršenja
 
-| Posao | SLM može da pomogne | SLM ne sme da bude autoritet |
+Prirodni jezik je otvoren i dvosmislen, dok hemijski upit mora imati zatvoren skup operacija i eksplicitnu semantiku. Između njih zato može postojati kontrolisana međureprezentacija. Njena konkretna sintaksa nije tema ovog modula; teorijski je važno da razdvaja:
+
+1. **sintaksu** — da li je predlog u dozvoljenom obliku;
+2. **semantiku** — da li pojmovi znače ono što korisnik namerava;
+3. **primenljivost** — da li potrebna reprezentacija i podaci postoje;
+4. **autorizaciju** — da li je operacija dozvoljena za izvor i svrhu;
+5. **izvršenje** — determinističko računanje i potpuno accounting izveštavanje.
+
+Grammar-constrained decoding ili schema-constrained output može da smanji broj formalno nevalidnih izlaza. Ne dokazuje da je upit hemijski ispravan, dozvoljen ili veran nameri. Validan strukturisan izlaz može i dalje da pomeša, na primer, „metal postoji u zapisu“ sa „metal je direktno koordinisan mapiranom ligandu“.
+
+Kada više dozvoljenih tumačenja vodi različitim skupovima rezultata, bezbedan ishod je razjašnjenje ili uzdržavanje, a ne pogađanje najverovatnijeg značenja.
+
+## Šta lokalni materijali pokazuju o jezičkoj semantici
+
+Lokalni CQS i export primeri korisni su kao dokaz da naziv pretrage i članstvo u staroj grupi nisu nezavisan gold standard. Različite search grupe mogu kodirati različite stručne pretpostavke, a njihov naziv ne dokazuje razlog zbog kojeg je entry ušao u rezultat.
+
+N14 CIF/MOL/MOL2 primer pokazuje drugu granicu: filename, format i tekstualni komentar ne dokazuju sastav ili povezanost. Bogat CIF može sadržati velike RES/HKL ili druge tekstualne blokove koji su podatak za namenski parser, ne instrukcija jezičkom modelu.
+
+PDF ekstrakcija takođe može dati skriven, ponovljen ili pogrešno raspoređen tekst. Dokumentacioni retrieval zato zahteva proveru prikaza i lokatora; činjenica da je string izvučen iz PDF-a nije sama po sebi dokaz da ga čitalac vidi na toj strani.
+
+Ovi primeri nisu specifikacija budućih testova. Oni su obrazloženje zašto kontrolisana semantika, provenance i stručna provera moraju biti odvojeni od verovatnoće teksta.
+
+## Nivoi jezičke pomoći
+
+Moguće porodice rešenja imaju različite osobine:
+
+| Porodica | Šta dobro radi | Glavno ograničenje |
 |---|---|---|
-| prirodni jezik → search plan | mapiranje namere i termina na dozvoljeni DSL | samostalno izmišljanje filtera ili query semantike |
-| razjašnjenje upita | postavljanje uskog pitanja kada je scope nejasan | pretpostavljanje da „Cu kompleks“ znači određenu vezu |
-| pomoć kroz UI | objašnjenje pojmova, warning-a i mogućih modova | ukidanje upozorenja ili quality gate-a |
-| RAG nad dokumentacijom | nalaženje relevantnih pravila i izvora | parametarsko „sećanje“ kao dokaz |
-| izveštaj o rezultatu | pretvaranje evidence objekata u čitljiv tekst | ponovno računanje score-a ili dopisivanje hemijskih činjenica |
-| routing | izbor unapred dozvoljenog read-only alata | pozivanje proizvoljnog koda, URL-a ili baze |
-| CIF sadržaj | eventualno opis već parsiranih, dozvoljenih polja | čitanje raw CIF-a, određivanje bondova, symmetry ili packing-a |
+| formulari, rečnici i pravila | predvidljiv unos, zatvoren vocabulary, jasne greške | slabija fleksibilnost jezika |
+| grammar-constrained SLM | parafraze i kontrolisan strukturisan predlog | formalna validnost nije semantička istinitost |
+| instruction SLM | razjašnjenje i objašnjenje šireg spektra pitanja | veći rizik halucinacije i veći resursi |
+| retrieval-grounded SLM | odgovor nad pronađenim odlomcima | zavisi od eligibility-ja, retrieval recall-a i kvaliteta izvora |
+| adapter ili fine-tuned SLM | stabilnija terminologija u dobro definisanom zadatku | zahteva prava, čist gold i zaštitu od memorisanja |
 
-Ključna posledica je da ista naučna analiza mora dati isti strukturisani rezultat i kada je jezički model isključen. SLM menja ergonomiju, ne ground truth. Ako lokalni benchmark ne pokaže materijalnu UX korist uz prihvatljiv rizik i trošak, Tier 0 ostaje production rešenje.
+Ovo nisu stepenice koje se moraju proći navedenim redom. Izbor zavisi od jezika korisnika, troška greške, dostupnih labela, hardvera, licence i toga da li problem uopšte zahteva generativni model.
 
-## Granica determinističkog naučnog jezgra
+## Datirani, nenormativni pregled lokalnih modela
 
-### Poslovi koji ostaju izvan SLM-a
+Sledeća tabela je obrazovni snapshot zvaničnih model-cardova proveravanih **23. avgusta 2026.** Ne predstavlja rangiranje niti preporuku za 2CDC. Nazivi, licence, runtime podrška i dostupne revizije mogu se promeniti.
 
-- dictionary-aware CIF parsing i izbor data block-a;
-- razlikovanje `?`, `.`, nule i nedostajućeg polja;
-- validacija ćelije, simetrije, koordinata, occupancy-ja i disorder-a;
-- component assignment i izbor chemical/crystal view-a;
-- bond i coordination perception sa eksplicitnim pravilima i verzijom;
-- formula, charge, element, graph, fingerprint i substructure operacije;
-- atom mapping, MCS/VF2, Kabsch, RMSD, PBC i symmetry obrada;
-- packing, PXRD, SOAP, interaction-network i property izračunavanja;
-- hard filteri, access control, license policy i finalno izvršenje query-ja;
-- score, kalibracija, uncertainty, provenance i download odluka.
+| Porodica/model iz zvaničnog izvora | Obrazovno relevantna osobina | Pitanje koje ostaje za lokalnu proveru |
+|---|---|---|
+| FunctionGemma 270M | vrlo mali model usmeren na function calling | da li uska veličina pokriva potrebne jezike i terminologiju |
+| Qwen3.5 2B/4B/9B | kompaktne višejezične veličine u istoj porodici | odnos tačnosti, memorije, latencije i kvantizacije |
+| Phi-4-mini-instruct | mali instruction model druge porodice | ponašanje na srpskom i kontrolisanim hemijskim namerama |
+| Gemma 4 | lokalno dostupna porodica različitih veličina | odgovarajuća licenca, runtime i task kvalitet |
+| Ministral 3 3B Instruct 2512 | mali instruction model sa zvaničnim model-cardom | formatna disciplina i višejezični slice-ovi |
+| gpt-oss-20b | veći open-weight lokalni model | da li dobitak opravdava memoriju i latenciju |
 
-### Dozvoljen ulaz u jezički sloj
+Model-card opisuje opštu namenu; ne dokazuje kvalitet na lokalnom stručnom jeziku, hemijskim razgraničenjima ili bezbednosnim slučajevima.
 
-SLM ne dobija proizvoljan dump naučnih objekata. Dobija minimalni, allowlisted objekat, na primer:
+## Memorija, kvantizacija i supply chain
 
-```json
-{
-  "ui_language": "sr-Latn",
-  "allowed_modes": ["molecular_graph", "coordination", "crystal_packing"],
-  "allowed_filters": [
-    "entry_elements",
-    "coordinated_metal",
-    "direct_donor_set",
-    "require_3d",
-    "exclude_disorder"
-  ],
-  "user_request": "Nađi Cu komplekse sa DAP ligandom koordinisanim preko tri N donora."
-}
-```
-
-Ne dobija raw CIF, reflection block, CSD result row, koordinate, proprietary opis ni skriveni tekst iz PDF-a. Ako je neko polje potrebno za objašnjenje, deterministic core ga prvo pretvara u minimalni evidence objekat i označava provenance/licencu.
-
-Modelov DSL se uvek prenosi unutar **server-bound execution envelope-a** koji model ne generiše niti može da menja. Envelope najmanje sadrži `request_id`, `tenant_id`, `run_id`, `query_artifact_id`, SHA-256 originalnog uploada, `parser_manifest_id`, `data_block_id`, `crystal_view_id` i verziju access-policy-ja. Compiler proverava da se svi identiteti i hash-evi poklapaju sa aktivnom autorizovanom sesijom i prepisuje ih u execution manifest. Promena fajla, data block-a, parsera, crystal view-a, run-a ili tenant-a poništava stari plan; isti tekstualni DSL ne sme se neopaženo izvršiti nad drugim objektom.
-
-Ovaj identitet je odvojen od `user_request`: filename/display label nije hemijski identitet, a model ne bira ni `tenant_id` ni artifact hash. Direktni Tier 0 upit i SLM-generisani upit prolaze kroz isti envelope/compiler.
-
-## Optimalna arhitektura: NL → DSL → validirano izvršenje
-
-Jezički model ne izvršava naučni upit direktno. Predloženi tok je:
-
-1. korisnički tekst se prevodi u ograničen query plan ili pitanje za razjašnjenje;
-2. sintaksni validator proverava dozvoljeni oblik;
-3. semantički validator proverava hemijsko značenje i kontradikcije;
-4. policy sloj proverava prava, svrhu i resurse;
-5. determinističko jezgro prikazuje plan i tek zatim ga izvršava u odobrenom data-plane-u.
-
-Validan JSON nije isto što i validan hemijski ili autorizovan upit. Constrained decoding uklanja deo sintaksnih grešaka, ali ne dokazuje da je model dobro razumeo nameru.
-
-## Predlog minimalnog query DSL-a
-
-U razvojnoj fazi treba definisati mali, verzionisan DSL koji:
-
-- koristi zatvoren skup polja, operatora, jedinica i Boolean kombinacija;
-- razdvaja entry, component, ligand, coordination i crystal scope;
-- razlikuje hard filter, preference i ranking objective;
-- razlikuje missing, unknown, not-applicable i false;
-- ne dozvoljava slobodan SQL, kod ili bulk/export operacije;
-- ograničava dubinu, broj uslova, vreme i resurse;
-- vraća `clarify` kada korisnik nije odredio bitan scope.
-
-Ilustrativno: „Cu postoji u formuli“ i „Cu je direktno koordinisan DAP ligandu“ moraju postati različiti planovi. Zahtev „nađi slične Cu komplekse“ mora se razjasniti, dok se pokušaj da se `search2` automatski proglasi gold klasom odbija.
-
-Tačna JSON Schema, nazivi polja, gramatika i runtime manifest projektuju se tek pri implementaciji.
-
-## Source-derived regression ugovor
-
-Teme iz dostavljenog foldera nisu samo materijal za RAG. One postaju zamrznuti testovi koji proveravaju da je jezički sloj sačuvao stvarno značenje podataka i obe aplikacije.
-
-### CQS i lokalni eksporti
-
-`.cqs` je binarni, verzijski zavisan ConQuest query/session artefakt. Dostavljeni primeri su Berkeley DB B-tree fajlovi sa Python pickle sadržajem i lokalnim putanjama. Javni CIF endpoint ih odbija već na format/magic proveri, bez deserializacije. SLM ih ne parsira, ne izvršava i nikada ne poziva običan `pickle.load()`. Kompatibilan, odobren ConQuest ih otvara u izolovanom toku; čovek proverava vizuelni query, a sistem pravi mašinski čitljiv i hash-ovan manifest. Raw serializovane flag kodove ne pretvaramo u production semantiku nagađanjem: forenzička rekonstrukcija ostaje nalaz koji se mora potvrditi u kompatibilnom ConQuest-u.
-
-Obavezne regression činjenice lokalnog snapshot-a:
-
-| Činjenica | Ispravno tumačenje koje narativ mora sačuvati |
-|---|---|
-| `search1`: 2.110 jedinstvenih CIF/refcode zapisa; 1.877 SMILES | DAP bis-iminski motiv; metal nije ni zahtevan ni zabranjen |
-| `search2`: 2.038 jedinstvenih CIF/refcode zapisa; 1.805 SMILES | isti motiv + odvojen query atom tipa `4M` |
-| razlika: 72 reda | članstvo u jednom query-conditioned lokalnom snapshot-u, ne negativna hemijska klasa |
-| skup/redosled | `search2` je strogi podskup `search1` i zadržava isti relativni refcode redosled |
-| po 233 nedostajuća SMILES-a | isti zajednički metal-containing entry-ji nedostaju u oba izvoza; missing representation nije negativna hemijska etiketa niti slučajni dropout |
-| `4M` nije povezan sa motivom | „metal negde u entry-ju“, ne Cu/DAP ili metal–N koordinacija |
-| standardni quality/filter flag-ovi su off | 3D, R factor, errors, disorder, polymer, ion, powder i organic/organometallic status nisu prećutno filtrirani |
-| source navodi CSD 5.43 + March/June 2022 updates | 2022 data snapshot; trag privremenog save-a iz 2026. nije dokaz novog CSD search run-a |
-
-Model mora odbiti ili ispraviti tvrdnje:
-
-- „`search1` su metal-free ligandi“;
-- „`search2` su potvrđeni koordinacioni kompleksi“;
-- „72 isključena reda su negativni primeri“;
-- „svi rezultati imaju potpunu 3D strukturu bez disorder-a“;
-- „brojevi 2.110/2.038 opisuju trenutno stanje celog CSD-a“.
-
-Ako faculty naknadno potvrdi drugačiju ciljnu semantiku, menja se verzija label rubric/DSL manifesta; istorijski query se ne prepisuje.
-
-### Kako izgleda CIF bez objavljivanja fakultetskog fajla
-
-U glavnom delu istog repozitorijuma postoji [pun sintetički, parsabilan i anotiran CIF primer](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/docs/podaci/12a-anatomija-cif.md). On prikazuje `data_` blok, `_tag value` parove, petlje (`loop_`), ćeliju, simetriju, atom-site tabelu, citirane/nepoznate vrednosti i semicolon-delimited višelinijski tekst. Tako se format može naučiti i testirati bez redistribucije raw fakultetskog CIF-a ili CSD izvoza.
-
-Stvarni lokalni fixture `cu_n14_a.cif` ulazi u zatvoreni regression set sa sledećim proverljivim invariantama:
-
-- deklarisana formula je `C25 H20 N3 O2 P`; u sastavu nema Cu;
-- prefiks `cu_` u filename-u i Cu Kα talasna dužina opisuju provenance/eksperiment, ne dokazuju bakar u jedinjenju;
-- fajl je približno 2,7 MB i, pored strukturnih kategorija, ima velike semicolon-delimited SHELX RES/HKL blokove; ti blokovi se streaming-preskaču i nikada ne šalju u prompt ili RAG;
-- CIF token `?` ostaje eksplicitno **unknown**; ne pretvara se u nulu, prazan string ili modelsku dopunu;
-- filename `N14` nije dokaz izotopa azot-14.
-
-Detaljna forenzika stvarnog fixture-a, bez objavljivanja raw sadržaja, ostaje u [opisu lokalnog skupa u istom repozitorijumu](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/docs/projekat/17-lokalni-skup.md).
-
-### App 1 — filteri i properties
-
-Za svaki budući filter treba definisati njegov naučni scope, tip vrednosti, jedinice i uslove, ponašanje za missing vrednost, provenance i dozvoljene operatore. Formula, element, component, coordination entity, crystal form i entry nisu zamenjivi scope-ovi. Property vrednost se ne dopunjava jezičkim modelom kada nedostaje.
-
-Pre izvršenja korisniku treba prikazati jednoznačan preview: šta je hard zahtev, šta je preference, koje jedinice i missing pravilo važe i nad kojom populacijom se upit izvršava.
-
-### App 2 — svi ulazi, svi prihvatljivi parovi i parcijalni neuspeh
-
-Buduća implementacija treba da:
-
-- evidentira svaki upload kao prihvaćen ili odbijen, sa razlogom;
-- formira tačno `n(n-1)/2` neuređenih parova nad unapred definisanim skupom prihvaćenih ulaza;
-- za svaku granu odvoji status izvršenja, naučni rezultat i evidence;
-- ne sakrije odbijeni ulaz, nedostajući par ili parcijalni neuspeh;
-- ostane invariantna na promenu redosleda i naziva fajlova;
-- čuva directional coverage u oba smera i ne izvodi tranzitivnu sličnost bez direktnog poređenja.
-
-Tačan input manifest, result schema, pair ID i validacioni kod pripadaju razvojnoj fazi.
-
-### Stereo regression
-
-Search/comparison profile eksplicitno bira:
-
-- **stereo-sensitive** — enantiomer/mirror razlika ostaje relevantna;
-- **stereo-agnostic** — refleksija je dozvoljena samo zato što task contract to kaže.
-
-Ako korisnička namera ne određuje koji profil važi, sistem vraća `clarify` **pre** izvršenja. Molekulska i kristalna stereo provera imaju odvojene targete, `molecular_stereo_relation_v1` i `crystal_handedness_relation_v1`. Kada je grana izvršena nad dovoljnim dokazom, vraća `branch_status: assessed` i `relation_label: same|mismatch`. Nedovoljan ili konfliktan dokaz vraća `missing_input` ili `ambiguous` uz `relation_label: null`; ahiralni slučaj ili stereo-agnostic profil vraća `not_applicable` + `null`. `unknown` zato nije ni branch status, ni relation label, ni treći profil. Molekulska stereokemija (R/S, E/Z, definisani stereocentri/dvostruke veze) i kristalni enantiomorf/handedness space-group ili packing opisa ostaju odvojeni claim-ovi; odsustvo jednog nije dokaz drugog.
-
-Testovi obuhvataju definisan enantiomer, mirror transform, nepoznatu stereo oznaku, ahiralni/not-applicable slučaj, atom reordering i ekvivalentan rigid transform. Exact `relation_label: mismatch` u stereo-sensitive profilu ne sme da bude pregažen dobrim RMSD-om, sličnim packing narativom ili visokom opštom similarity ocenom. Narativ doslovno prenosi `branch_status`, nullable relation label i target; ne sme iz 2D slike, naziva ili opšteg hemijskog obrasca proglasiti R/S, chirality, crystal handedness ili jednakost.
-
-### White paper regression
-
-Dostavljeni white paper motiviše data lifecycle i buduća istraživanja, ali ne menja zahteve dve aplikacije:
-
-- federativno učenje nije potrebno za MVP ni za sam App 1/App 2 task;
-- vendor capability/benchmark/testimonial nije dokaz dostupnosti, licence ili koristi u lokalnoj instalaciji;
-- structure–property vrednost važi samo uz material i solid-form identitet, uslove, metodu, jedinicu, uncertainty i provenance;
-- „manufacturability“ nije jedna univerzalna skalarna etiketa bez procesa i operativne definicije;
-- Mogul outlier, packing similarity ili hydrogen-bond propensity su signali za istragu, ne oracle za polymorph, stabilnost, energiju ili ostvarivost forme;
-- simulirani PXRD iz istog CIF-a nije nezavisna eksperimentalna potvrda;
-- konflikt nevidljivog PDF text layer-a i rendera mora ostati quarantined, ne RAG činjenica;
-- „raw ostaje lokalno“ smanjuje egress, ali nije potpuna garancija poverljivosti: potrebni su ACL, tenant izolacija, enkripcija, tajne van prompta, bezbedni temp/cache/log tokovi, retention politika, backup kontrola i incidentni audit.
-
-Ove tvrdnje ulaze u factuality i refusal skup za svaki SLM/API kandidat.
-
-## Plan modela: baseline, production kandidat i challengeri
-
-Nijedan javni opšti benchmark ne meri tačno 2CDC kombinaciju: srpski/engleski jezik, naš DSL, DAP/Schiff-base terminologiju, CSD filter scope, razjašnjenja, abstention i licence-aware ponašanje. Shortlist zato sužava eksperiment; ne bira pobednika.
-
-### Tier 0 — bez generativnog modela
-
-**Baseline:** formular, kontrolisani filteri, autocomplete, sinonimski rečnik i deterministički parser jednostavnih komandi.
-
-Ovaj baseline je obavezan jer:
-
-- ima 100% predvidljivu semantiku;
-- jednostavno se testira i prevodi;
-- može biti dovoljan za većinu čestih upita;
-- daje donju granicu greške, latencije i troška;
-- ostaje fallback kada nijedan model ne prođe gate.
-
-SLM mora da dokaže materijalno bolju task completion stopu bez povećanja opasnih semantičkih grešaka.
-
-### Tier 1 — veoma mali, usko specijalizovan parser
-
-**FunctionGemma 270M** je kandidat samo za NL→tool/DSL routing nakon task-specific fine-tuning-a. Google-ov [model card](https://ai.google.dev/gemma/docs/functiongemma/model_card) eksplicitno kaže da model nije namenjen direktnom dijalogu, da treba da se prilagodi konkretnoj function-calling ulozi i da ima 32K kontekst. Tačan [checkpoint](https://huggingface.co/google/functiongemma-270m-it) je pod Gemma usage terms (`license: gemma`), ne Apache 2.0, pa prihvatanje uslova i deployment prava ulaze u gate. To ga čini dobrim challengerom za uski offline parser, ali lošim podrazumevanim čet modelom.
-
-Production gate:
-
-- pobedi deterministički baseline na unseen intent-family split-u;
-- prolazi srpski latinica/ćirilica i engleski test;
-- ne halucinira tool/field imena;
-- pouzdano bira `clarify` i `reject`;
-- tačno radi posle ciljane kvantizacije.
-
-### Tier 2 — kompaktni lokalni generalisti
-
-| Kandidat | Šta je potvrđeno | Zašto je u shortlist-u | Obavezni caveat |
-|---|---|---|---|
-| Qwen3.5-2B/4B/9B | zvanični model-cardovi za [2B](https://huggingface.co/Qwen/Qwen3.5-2B), [4B](https://huggingface.co/Qwen/Qwen3.5-4B) i [9B](https://huggingface.co/Qwen/Qwen3.5-9B) navode Apache-2.0, post-training i 262.144 native context; [porodična objava](https://qwen.ai/blog?id=qwen3.5) navodi srpski u široj listi jezika | kontrolisan same-family efficiency/default/accuracy eksperiment; 4B je razumna početna tačka | navođenje srpskog nije dokaz stručne 2CDC tačnosti; 2B kartica ga prvenstveno pozicionira za prototip/fine-tuning; vision sposobnost nam nije potrebna |
-| Phi-4-mini-instruct | Microsoft-ov [model-card](https://huggingface.co/microsoft/Phi-4-mini-instruct) navodi 3,8B, 128K, MIT i function-calling format | stabilan kompaktni tekstualni challenger i koristan različit tokenizer/training prior | zvanična lista podržanih jezika ne navodi srpski; model-card upozorava na non-English razlike i halucinirane funkcije/URL-ove |
-| Gemma 4 E2B/E4B | Google-ov [model-card](https://ai.google.dev/gemma/docs/core/model_card_4) navodi Apache 2.0, 128K, function calling i sistemsku ulogu; E2B znači 2,3B effective ali 5,1B sa embeddings, E4B 4,5B effective ali 8B sa embeddings | challenger sa drugom arhitekturom i alatnim formatom | memory plan koristi pune artefakte/parametre, ne oznaku E2B/E4B; opšta sposobnost nije 2CDC dokaz |
-| Ministral 3 3B Instruct 2512 | Mistral-ov [model-card](https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512) navodi Apache-2.0, 3,4B language model + 0,4B vision encoder, 256K, function calling/JSON i vendor FP8 tvrdnju o 8 GB VRAM | nezavisan kompaktni challenger, izvan Qwen/Google/Microsoft porodica | lista imenovanih jezika ne uključuje srpski; 256K kontekst nije obećanje da staje u isti 8 GB profil; vendor fit se ponovo meri lokalno |
-
-**Početni production kandidat za benchmark, ne unapred pobednik:** Qwen3.5-4B. Razlog je kombinacija kompaktne veličine, eksplicitno širokog jezičkog scope-a, otvorenih težina/licence i aktuelnog tool/agent fokusa. Qwen3.5-2B/9B mere da li manji ili veći član iste porodice menja odluku; Phi-4-mini, Gemma 4 i Ministral 3 3B sprečavaju da izbor zavisi od jednog vendor benchmarka.
-
-### Tier 3 — jači lokalni fallback
-
-**gpt-oss-20b** je kandidat za zahtevnija razjašnjenja, evaluaciju nacrta i složenije grounded izveštaje na jačoj radnoj stanici. OpenAI navodi 21B ukupnih i 3,6B aktivnih parametara, Apache 2.0, structured outputs i lokalno izvršavanje; [objava modela](https://openai.com/index/introducing-gpt-oss/) navodi native MXFP4 i oko 16 GB memorije za 20b varijantu. Isti izvor kaže da je trening korpus pretežno engleski.
-
-To znači:
-
-- „3,6B aktivnih“ opisuje račun po tokenu, ne da ukupne težine zauzimaju memoriju kao dense 3,6B model;
-- navedenih 16 GB nije garancija našeg konteksta, concurrency-ja ili brzine;
-- srpski i 2CDC task moraju se testirati;
-- open-weight deployment prenosi na nas obavezu system-level zaštita;
-- model se izvršava na infrastrukturi koju kontrolišemo i nije isto što i OpenAI-hosted API model;
-- model ne treba pokretati za jednostavan query koji Tier 0/1/2 rešava jednako pouzdano.
-
-Qwen3.5-9B i odgovarajuće srednje Gemma 4 varijante mogu ući u isti quality tier tek nakon hardware feasibility testa. Ne treba benchmark pretvoriti u katalog desetina skoro identičnih modela.
-
-## Hardware i kvantizacija bez nagađanja
-
-Za dense model sa (P) parametara i (b) bita po težini, samo sirove težine imaju teorijsku donju granicu:
+Donja granica memorije samo za težine približno je:
 
 \[
-M_{weights,lower} \approx P \cdot b / 8.
+M_{weights}\approx \frac{P\cdot b}{8},
 \]
 
-To nije realna potrebna memorija. Deployment dodaje najmanje:
+gde je \(P\) broj parametara, a \(b\) broj bitova po težini. Stvarni zahtev uključuje runtime overhead, KV cache, aktivacije, privremene buffere, tokenizer, kontekst i eventualne adaptere. Zbog toga račun `parametri × bitovi` nije obećanje da će model stati na uređaj.
 
-- KV cache, koji raste sa kontekstom, batch-em i concurrency-jem;
-- activations, workspaces i backend buffers;
-- tokenizer/chat-template i eventualni vision/audio delovi;
-- ne-kvantizovane ili drugačije kvantizovane slojeve;
-- allocator fragmentation, OS i serving overhead;
-- adaptere, embedding/reranker modele i indeks.
+Kvantizacija menja sistem koji se evaluira. Ista bazna težina u različitim formatima ili backend-ovima može promeniti tačnost strukturisanog izlaza, jezičke slice-ove, brzinu i kalibraciju. Revizija modela, tokenizer, chat template, format težina, runtime i licenca pripadaju provenance-u čak i kada ovaj modul ne određuje njihovu konkretnu šemu.
 
-Za MoE model razlikovati ukupne i aktivne parametre: aktivni parametri prvenstveno utiču na račun, dok sve težine i dalje moraju biti dostupne kroz memoriju/offload hijerarhiju.
+Open-weight ne znači automatski da su poreklo, licenca i integritet bez rizika. Težine, tokenizer, adapter i izvršni runtime treba posmatrati kao odvojene supply-chain artefakte.
 
-### Obavezni hardware manifest
+## RAG nije crystal embedding
 
-Za svaki rezultat sačuvati:
+RAG ovde znači pronalaženje **dokumenata**: uputstava, odobrenih lokalnih beležaka, metodoloških objašnjenja i drugih tekstualnih izvora. Chemical/crystal similarity koristi druge objekte, reprezentacije, metrike i gold podatke.
 
-```yaml
-model_id: exact_repository_and_revision
-weights_sha256: exact_hash_or_manifest
-license_snapshot: reviewed_document_id
-chat_template_hash: exact_hash
-inference_backend: name_and_version
-quantization: format_bits_group_size_and_source
-device: exact_cpu_gpu_accelerator
-ram_vram: exact_capacity
-context_tokens: p50_p95_and_max_test
-concurrency: tested_value
-batching: tested_policy
-decoding: grammar_schema_temperature_seed
-adapter: id_hash_or_none
-```
+Raw CIF tekst ili njegova prozna parafraza nije valjana zamena za 2D graf, periodični graf, packing deskriptor ili kristalni encoder. Isto tako, dokumentni embedding ne sme postati naučni similarity score samo zato što je generisan neuronskim modelom.
 
-Meri se p50/p95/p99 latency, peak RAM/VRAM, throughput pri ciljnoj konkurentnosti, load time, crash/OOM stopa i sve task metrike. „Pokrenuo se jedan prompt“ nije feasibility test.
+### Eligibility korpusa
 
-### Model i runtime supply chain
+Pre indeksiranja treba znati:
 
-Lokalno preuzimanje težina je izvršna/supply-chain odluka, ne samo download:
+- ko je vlasnik izvora i koja upotreba je dozvoljena;
+- da li dokument sme da se lokalno čuva, indeksira, ugrađuje u embedding i citira;
+- koja verzija i datum važe;
+- da li je sadržaj odobren, povučen, quarantined ili superseded;
+- koje stranice, sekcije i druge lokatore odgovor može da pokaže korisniku.
 
-- preuzimati iz zvanične organizacije i pinovati immutable commit/revision;
-- verifikovati manifest i hash svih težina, tokenizer-a, config-a i chat template-a;
-- pregledati licencu i usage policy tačne varijante, uključujući adapter i quantization;
-- preferirati data-only/safe tensor artefakte, ali ne pretpostaviti da oni čine ceo repository bezbednim;
-- po defaultu zabraniti proizvoljan `trust_remote_code`; izuzetak zahteva code review, pin i izolovan build;
-- pregledati custom kernel, model code, tokenizer i template pre uvođenja;
-- zaključati dependency/container/driver verzije, napraviti SBOM i skenirati artefakte;
-- produkcioni model učitati iz internog read-only mirror-a bez runtime download-a;
-- inference service nema mrežni, filesystem ili credential pristup koji mu zadatak ne zahteva;
-- community quantization tretirati kao novi nepovereni artefakt, ne kao vendor release.
+Eligibility i ACL filtriranje moraju prethoditi retrieval-u. Post-filter posle pretrage ne uklanja činjenicu da je nedozvoljeni dokument već mogao uticati na rang, cache ili model kontekst.
 
-Hash dokazuje identitet preuzetih bajtova, ne njihovu bezbednost, licencnu podobnost ili task kvalitet.
+## Porodice dokumentnog retrieval-a
 
-### Quantization gate
+### Leksički retrieval i BM25
 
-Kvantizacija ulazi samo ako ista verzija modela na istom testu zadrži:
+BM25 je jaka referenca kada upiti sadrže tačne oznake, refcode, DOI, CIF tag, naziv alata ili retku terminologiju. Uobičajena forma je:
 
-- canonical DSL exact match;
-- per-field precision/recall;
-- clarification i rejection ponašanje;
-- srpska slova, ćirilicu, hemijske simbole i CIF tagove;
-- citation/grounding rezultat;
-- najgori kritični slice iznad praga.
+\[
+\operatorname{BM25}(q,d)=\sum_{t\in q}\operatorname{IDF}(t)
+\frac{f(t,d)(k_1+1)}
+{f(t,d)+k_1\left(1-b+b\frac{|d|}{\operatorname{avgdl}}\right)}.
+\]
 
-Porediti barem referentnu preciznost i ciljane 8/4-bit varijante kada hardver to dozvoljava. Community quantization nije automatski ekvivalentna vendor checkpoint-u: beleže se autor, format, calibration i hash.
+Field-aware indeks može različito tretirati naslov, tag, refcode i telo, ali parametri i tokenizer moraju odgovarati jeziku i korpusu.
 
-## RAG: dokumenti nisu crystal embeddings
+### Dense bi-encoder
 
-RAG indeks služi za **tekstualno znanje i pomoć**, dok crystal retrieval indeks služi za hemijsku i kristalografsku sličnost. Njihovi vektori, metrike i acceptance kriterijumi ne smeju se mešati.
+Dense retrieval mapira upit i dokument u zajednički vektorski prostor. Može pomoći kod sinonima, parafraza i višejezičnih upita, ali može propustiti retke identifikatore i tačne stringove. Njegov embedding prostor je model- i revizija-specifičan.
 
-[Originalni RAG rad](https://arxiv.org/abs/2005.11401) pokazuje kombinovanje parametarskog modela sa eksplicitnom, pretraživom memorijom. U 2CDC-u to ne znači da će RAG automatski dati istinu. Potrebni su kuriran korpus, retrieval evaluacija, source-level provenance, claim-level grounding i abstention.
+Modeli kao Qwen3-Embedding-0.6B i BGE-M3 predstavljaju datirane primere različitih dense/višejezičnih pristupa; njihovo postojanje nije dokaz da su bolji na lokalnom korpusu.
 
-### Dozvoljen RAG korpus
+### Fuzija rang-lista i RRF
 
-- ova validirana projektna dokumentacija;
-- odobreni CIF dictionary i zvanične tehničke specifikacije;
-- odobrene CCDC/API/licencne stranice ili lokalno čuvani dozvoljeni izvodi;
-- originalni radovi i model-cardovi uz metadata/licencu;
-- verzionisani data dictionary, DSL schema i runbook;
-- stručno odobreni FAQ i primeri.
+Reciprocal Rank Fusion kombinuje rang-liste bez pretpostavke da su njihovi skorovi direktno uporedivi:
 
-Ne indeksirati automatski:
+\[
+\operatorname{RRF}(d)=\sum_{r\in R}\frac{1}{k+\operatorname{rank}_r(d)}.
+\]
 
-- raw ili bulk CSD/CIF/MOL/MOL2/SDF sadržaj;
-- reflection/source blokove iz CIF-a;
-- korisničke upload-e bez dozvole za sekundarnu upotrebu;
-- proizvoljne chat logove;
-- nevidljivi PDF embedded tekst koji se ne slaže sa renderom/OCR-om;
-- model output kao novu činjenicu bez ljudske/proceduralne validacije.
+RRF je koristan kada leksički i semantički kanal nalaze komplementarne dokumente. Ne popravlja dokument koji nijedan kanal nije kandidovao.
 
-Slučaj CCDC white paper-a je obavezan regression test: tematski nepodudaran, nevidljivi embedded docking tekst ostaje u raw evidence sloju, ali ne ulazi u approved RAG corpus dok QA ne razreši konflikt.
+### Cross-encoder, late interaction i reranking
 
-### Ingest i chunk schema
+Cross-encoder zajednički obrađuje upit i kandidat i može preciznije proceniti relevantnost, uz veći trošak po paru. ColBERT-like late interaction čuva token-level signale i nalazi se između bi-encoder efikasnosti i pune cross-encoder interakcije. Qwen3-Reranker-0.6B je jedan datirani primer rerankera, ne propisani izbor.
 
-Svaki budući RAG chunk treba da čuva stabilan identitet i verziju izvora, hash, vrstu i težinu tvrdnje, tačan locator, jezik, status odobrenja, prava/vidljivost, vremenski scope i eventualni konflikt sa drugim izvorom.
+Reranker ne može da vrati relevantan dokument koji nije u candidate skupu. Zbog toga se candidate recall i finalno rangiranje mere odvojeno.
 
-Chunk granice prate naslov, paragraf, listu ili definiciju; tabele zadržavaju header, a formula ostaje uz objašnjenje. Vendor dokument, standard, originalni rad, lokalno merenje i naš predlog ne smeju se tretirati kao dokaz iste snage.
+## Grounded generisanje
 
-Konkretna storage schema i ingest kod definišu se tokom implementacije.
+Generator dobija samo minimalan, odobren evidence skup. Za svaku bitnu tvrdnju treba da bude moguće utvrditi:
 
-## Hibridni retrieval koji treba prvi testirati
+- iz kojeg dokumenta i verzije potiče;
+- na kojoj stranici, sekciji ili drugom lokatoru se nalazi;
+- da li je tvrdnja direktno podržana ili je označena kao zaključivanje;
+- da li postoje konfliktni ili zastareli izvori;
+- šta ostaje nepoznato.
 
-### Baseline
+Citiranje dokumenta nije dovoljno ako odlomak ne podržava tvrdnju. Numeričke vrednosti, prava, statusi i naučni rezultati treba da dolaze iz strukturisanog evidence-a, a ne iz memorije modela. Ako evidence nije dovoljan, odgovor treba da ostane uzdržan.
 
-1. autorizacioni sloj prvo materijalizuje eligible skup po tenant-u, projektu, purpose-u, `approval_status`-u, vremenu i licenci;
-2. **BM25/lexical** pretražuje samo taj eligible skup nad naslovom, telom, terminima i aliasima;
-3. post-retrieval assert i top-k chunk-ovi sa exact source locator-om.
+## Prilagođavanje modela
 
-Lexical baseline je važan za `_atom_site_occupancy`, `P 21/c`, `4M`, `search2`, refcode, DOI i retke hemijske termine. Probabilističku osnovu BM25 porodice sistematizuju [Robertson i Zaragoza](https://doi.org/10.1561/1500000019).
-
-Za query termine (t), dokument (d) i frekvenciju (f(t,d)), tipičan BM25 član ima oblik:
-
-```text
-IDF(t) * f(t,d) * (k1 + 1)
------------------------------------------------
-f(t,d) + k1 * (1 - b + b * |d| / avg_document_length)
-```
-
-`k1` kontroliše saturaciju term frequency-ja, a `b` length normalization. Polja poput naslova, tag-a i tela mogu imati odvojene težine, ali se svi parametri zamrzavaju na development qrels. Exact identifier ne sme nestati zato što duži prozni chunk ima bolji ukupni score.
-
-Dense bi-encoder računa odvojene vektore query-ja i chunk-a, pa se kandidati efikasno traže cosine/dot-product merom. Prednost je semantička i cross-lingual veza; mana je što jedan vektor može izgubiti retke literalne detalje. Zato dense-only nije production default.
-
-### Production kandidat
-
-0. autorizacioni sloj materijalizuje eligibility skup po tenant-u, projektu, data class-u, purpose-u, approval statusu, vremenu i licenci;
-1. BM25 top-`k_b` samo nad eligible skupom;
-2. multilingual dense top-`k_d` samo nad istim eligible skupom;
-3. Reciprocal Rank Fusion nad rangovima;
-4. diversity/dedup;
-5. cross-encoder/reranker samo nad eligible malim union skupom;
-6. post-retrieval ACL/license assert pre pravljenja evidence paketa;
-7. evidence paket za generator, uz ponovnu output/field-level proveru.
-
-Eligibility mora biti enforced u oba retriever-a, na primer kroz fizički/kriptografski odvojene indekse ili pouzdan pre-filter koji ANN zaista poštuje. „Retrieve sve pa sakrij nedozvoljeno“ curi kroz score, latency, log ili model kontekst i nije prihvatljivo. Post-assert je defense in depth, ne zamena za pre-retrieval kontrolu.
-
-RRF kombinuje rangove bez pretpostavke da su BM25 i cosine score kalibrisani na istoj skali; originalni rad je [Cormack, Clarke i Buettcher 2009](https://doi.org/10.1145/1571941.1572114). Parametar i dubine retrieval-a ipak se biraju na development qrels, ne po default-u iz biblioteke.
-
-Za retriever-e (m) i dokument (d):
-
-```text
-RRF(d) = sum_m 1 / (k0 + rank_m(d))
-```
-
-Dokument koji retriever nije vratio nema član za taj retriever. `k0`, `k_b`, `k_d` i finalni candidate budget su različiti parametri i svi se verzionišu.
-
-Cross-encoder reranker zajednički čita `(query, chunk)` i daje relevance score, pa je skuplji od bi-encodera i koristi se samo nad malim union skupom. Njegov logit ili sigmoid nije automatski kalibrisana verovatnoća relevantnosti. Ako latency ili nDCG dobitak ne opravda sloj, BM25+dense+RRF ostaje jednostavniji production izbor. ColBERT-like late interaction je naredni challenger između bi- i cross-encoder troška, ne obavezni MVP sloj.
-
-### Dense/reranker shortlist
-
-| Uloga | Početni kandidat | Challenger | Razlog za lokalni test |
+| Metoda | Šta menja | Kada je obrazovno relevantna | Glavni rizik |
 |---|---|---|---|
-| dense embedding | [Qwen3-Embedding-0.6B](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) | [BGE-M3](https://huggingface.co/BAAI/bge-m3) | oba imaju zvanično dokumentovan multilingual scope; Qwen je Apache 2.0 i nudi 32K/promenljivu dimenziju, BGE-M3 je MIT i nudi dense/sparse/multi-vector sa 8192 |
-| reranker | [Qwen3-Reranker-0.6B](https://huggingface.co/Qwen/Qwen3-Reranker-0.6B) | BM25+dense bez reranker-a; zatim drugi multilingual cross-encoder | meri marginalni nDCG/recall dobitak naspram latency-ja i memorije |
-| lexical | BM25 | field-aware BM25 / kontrolisani aliasi | robustan exact-token baseline |
-| fusion | RRF | learned fusion tek uz dovoljno qrels | ne zahteva score calibration različitih retriever-a |
+| prompt i kontrolisani primeri | kontekst, ne težine | mali broj jasnih namera | krhkost prema parafrazama i template-u |
+| constrained decoding | prostor dozvoljenih izlaza | zatvorena sintaksa | ne rešava semantičku grešku |
+| supervised fine-tuning | ponašanje težina | dovoljno čistih, dozvoljenih primera | leakage, overfit i memorisanje |
+| LoRA | trenira niskorangirane adaptere uz zamrznutu bazu | ograničeni resursi i modularno prilagođavanje | adapter i baza zajedno čine evaluacionu jedinicu |
+| QLoRA | LoRA nad kvantizovanom bazom | dodatna ušteda memorije | kvantizaciona greška i veća runtime zavisnost |
 
-Qwen model-card navodi 0,6B, 32K, 100+ jezika i Apache 2.0 za embedding/reranker seriju; [prateći rad](https://arxiv.org/abs/2506.05176) dokumentuje trening i javnu evaluaciju. [BGE-M3 rad](https://arxiv.org/abs/2402.03216) opisuje multilingual dense, lexical i multi-vector funkcije. Ti benchmarkovi nisu zamena za 2CDC qrels, posebno ne za srpski i crystallographic tagove.
+LoRA aproksimira promenu težina niskorangiranom matricom, često zapisano kao \(\Delta W=BA\), gde je rang mnogo manji od dimenzija pune matrice. Manji broj treniranih parametara ne uklanja potrebu za pravima nad podacima, nezavisnim testom i proverom memorisanja.
 
-### Obavezni retrieval manifest
+## Podaci, split i leakage
 
-Da bi se eksperiment mogao ponoviti, budući run treba da zabeleži:
+Jedinica nezavisnosti za interpretaciju namere nije svaka parafraza. Varijante iste intent/template familije treba grupisati. Za dokumentni RAG, chunk-ovi istog dokumenta ili izdanja nisu nezavisni primeri; evaluacija mora uzeti u obzir source/topic familije.
 
-- verziju korpusa i qrels-a;
-- tačne revizije embedding i reranker modela;
-- tokenizer, query/document šablone, pooling, dimenziju i metricu;
-- BM25, fusion i candidate-budget parametre;
-- način obrade predugog teksta;
-- verziju i hash indeksa i eligibility/ACL snapshot-a.
+Posebno treba odvojiti podatke korišćene za prompt primere ili prilagođavanje, izbor modela i pragova, kalibraciju i netaknuti finalni test. Restricted ili neodobren sadržaj ne sme postati trening primer.
 
-Tačna YAML/JSON struktura pripada implementaciji. Embedding model i dalje ne dobija raw kristal kao prozni tekst: dokumentni retrieval i crystal similarity ostaju različiti sistemi.
+Synthetic primeri su korisni za rubne forme i bezbednosne napade, ali nisu jedini dokaz stručnog kvaliteta. LLM judge može biti pomoćni signal; ne treba da bude jedini autoritet za gold koji ocenjuje isti tip modela.
 
-## Grounded generisanje odgovora
+## Evaluacija
 
-Generator dobija ograničen objekat:
+### Interpretacija namere
 
-```json
-{
-  "question": "Zašto ovaj par nema packing score?",
-  "answer_policy": {
-    "claims_must_reference_evidence": true,
-    "unknown_action": "abstain"
-  },
-  "evidence": [
-    {
-      "evidence_id": "pair-17-input-b-qc-3",
-      "claim_type": "packing_not_comparable",
-      "facts": {
-        "cell_present": false,
-        "symmetry_present": false
-      },
-      "algorithm_version": "qc-v4",
-      "source_ids": ["upload-b@sha256:..."],
-      "visibility": "project-internal"
-    }
-  ]
-}
-```
+Relevantne metrike uključuju tačnost namere i kontrolisanih pojmova, execution equivalence, stopu pravilnog razjašnjenja/odbijanja/uzdržavanja, stopu semantički pogrešnih ali formalno validnih predloga i rezultate po jeziku, pismu, terminološkoj i bezbednosnoj grupi.
 
-Dozvoljen odgovor:
+### Retrieval
 
-> Packing nije moglo biti upoređeno jer ulaz B nema validnu ćeliju i simetriju; grana zato nema naučnu relation labelu [pair-17-input-b-qc-3].
+Odvojeno se mere candidate recall, Recall@k, MRR ili nDCG, judgment coverage, tačni identifikatori i rezultati po jeziku/source familiji. Dense ili reranking doprinos ima smisla samo nad istim eligible korpusom i istim qrels-ima.
 
-Nedozvoljen dodatak:
+### Grounded odgovor
 
-> Verovatno je reč o amorfnom uzorku.
+Proveravaju se vernost evidence-u, potpunost lokatora, numerička tačnost, označavanje zaključivanja, konfliktnih izvora i nepoznatog. Stil odgovora ne sme da prikrije unsupported claim.
 
-Evidence to ne dokazuje. Model mora da izostavi tvrdnju ili eksplicitno kaže da uzrok nije poznat.
+### Statističko izveštavanje i abstention
 
-### Claim-level verifier
+Poređenje se radi na istim primerima, sa intervalima koji resampluju nezavisne intent ili source familije. Seed varijacija se prijavljuje odvojeno od broja nezavisnih upita. Pored proseka treba prikazati unapred definisane kritične slice-ove.
 
-Pre prikaza:
+Samoprijavljeni confidence modela nije kalibrisana verovatnoća. Korisniji su empirijski risk–coverage odnosi zasnovani na validator signalima, neslaganju metoda i posebnom calibration skupu. Prag i kalibracija važe za konkretnu kombinaciju modela, revizije, template-a, runtime-a i kvantizacije.
 
-1. svaka naučna rečenica dobija jedan ili više `evidence_id`;
-2. ID mora postojati, biti dozvoljen korisniku i pripadati istoj verziji run-a;
-3. numeričke vrednosti se renderuju iz evidence polja, ne iz slobodnog teksta modela;
-4. deterministic template proverava critical claims i warning-e;
-5. unsupported claim blokira odgovor ili ga šalje na reviziju;
-6. citat pokazuje tačan source/section/page ili algoritamski evidence, ne samo početnu stranu dokumenta.
+## Threat model lokalnog sloja
 
-RAG retrieval ne dokazuje entailment. Claim-support evaluacija i dalje je potrebna.
+„Lokalno“ smanjuje egress, ali ne pretvara sadržaj u pouzdanu instrukciju.
 
-## Fine-tuning lestvica
-
-Ne počinjati full fine-tuning-om.
-
-1. **deterministički baseline i schema**;
-2. zero/few-shot prompt sa grammar-constrained decoding-om;
-3. retrieval i controlled vocabulary;
-4. supervised fine-tuning / LoRA ako error analysis pokazuje ponovljiv task gap;
-5. QLoRA ako je memory ograničenje realno i kvalitet ostaje iznad gate-a;
-6. full fine-tuning samo uz jak dokaz da adapter nije dovoljan, dovoljno podataka i jasan maintenance budžet.
-
-[LoRA](https://arxiv.org/abs/2106.09685) zamrzava bazne težine i uči low-rank update-e. [QLoRA](https://arxiv.org/abs/2305.14314) propagira gradijente kroz zamrznut 4-bit kvantizovan bazni model u LoRA adaptere. Ovi radovi dokazuju efikasnost tehnike u svojim eksperimentima; ne garantuju da će adapter poboljšati 2CDC niti da je jedna 4-bit implementacija bez gubitka.
-
-### Minimalni supervised skup
-
-Za NL→DSL svaki primer sadrži:
-
-- originalni zahtev i jezik/script;
-- canonical intent i DSL;
-- dozvoljene alternativne formulacije istog plana;
-- obavezno pitanje za razjašnjenje, kada postoji;
-- status `execute`, `clarify`, `reject` ili `abstain`;
-- expert rationale;
-- policy/licensing expectation;
-- test oracle za canonical plan i server-side preview.
-
-Obavezni slice-ovi:
-
-- srpski latinica, srpska ćirilica i engleski;
-- code-switching i hemijski simboli koji se ne prevode;
-- DAP/Schiff-base sinonimi i pogrešni termini;
-- element u formuli naspram koordinisanog metala;
-- ligand/component/entry/crystal view;
-- hard filter naspram ranking preference;
-- unknown stereo, disorder, missing 3D i multiple components;
-- validni, nevalidni, dvosmisleni i nedozvoljeni zahtevi;
-- prompt-injection i pokušaji bulk export-a;
-- veoma dugi zahtevi sa irelevantnim tekstom.
-
-Sintetičke parafraze mogu povećati trening skup, ali:
-
-- ne postaju same expert gold;
-- svi derivati jedne bazne namere ostaju u istoj split grupi;
-- API model ne dobija restricted sadržaj radi generisanja parafraza;
-- finalni test sadrži ljudski napisane zahteve koji nisu korišćeni za prompt tuning.
-
-Gold DSL, očekivani report, evaluator rationale i sama final-test pitanja ne ulaze u RAG korpus niti few-shot prompt kandidata. Ciljni odobreni dokument iz koga test pita činjenicu može biti u korpusu; **test artefakt i njegov odgovor** ne mogu. Prompt, chunking, query instruction, retriever, fusion, reranker i pragovi podešavaju se samo na train/development particijama. Finalni test se ne otvara da bi se popravio prompt. Isti model ne sme istovremeno da generiše gold i da bez spoljnog oracle-a ocenjuje sopstveni odgovor.
-
-### Split protiv curenja
-
-Random row split je nevažeći ako parafraze iste canonical namere završe u train i test skupu. Grupisati najmanje po:
-
-- baznom intent/query template-u;
-- source/example family-ju;
-- sinonimskom ili synthetic-generation parent-u;
-- dokumentu/sekciji za RAG pitanja;
-- ekspertu ili batch-u anotacije kada može otkriti stil.
-
-Posebno držati challenge skup novih kompozicija poznatih operatora. Model mora da generalizuje semantiku, a ne da prepozna rečenicu.
-
-## Evaluacija po poslovima
-
-### NL→DSL
-
-| Metrika | Šta meri | Zašto sama nije dovoljna |
-|---|---|---|
-| schema-valid rate | formalno validan izlaz | semantika može biti pogrešna |
-| canonical exact match | ceo normalizovan plan | dve semantički jednake reprezentacije mogu imati različit zapis |
-| execution/plan equivalence | isti deterministički query plan ili rezultat na fixtures | isti rezultat na malom fixture-u može sakriti različitu semantiku |
-| per-field precision/recall | metal, scope, donor set, quality, limit... | ne meri opasnu kombinaciju polja |
-| dangerous false-execution rate | izvršio umesto clarify/reject/abstain | mora imati posebno nizak, unapred definisan prag |
-| clarification precision/recall | pravilno prepoznata dvosmislenost | treba meriti i korisnost pitanja |
-| policy violation rate | nedozvoljena operacija preživela plan | cilj je nula na zamrznutom security skupu |
-
-### RAG retrieval
-
-- Recall@k nad expert qrels;
-- MRR/nDCG@k kada je gradacija relevantnosti stvarna;
-- exact source/version/section retrieval;
-- retrieval po srpskim, engleskim i cross-lingual parovima;
-- rare-token i exact-CIF-tag slice;
-- unanswerable i conflicting-source slice;
-- approved-vs-quarantined leakage stopa;
-- latency/memorija sa i bez reranker-a.
-
-### Generisani izveštaj
-
-- claim precision: podržane tvrdnje / sve proverljive tvrdnje;
-- evidence coverage: podržane referentne tvrdnje koje su ispravno prenete;
-- citation correctness i locator correctness;
-- numeric copy fidelity;
-- obavezni warning recall;
-- unsupported causal inference rate;
-- abstention precision/recall;
-- expert ocena jasnoće, bez mešanja sa factuality ocenom.
-
-LLM-as-judge može pomoći u trijaži, ali nije jedini sudija. Kritične tvrdnje imaju determinističke provere i stručni audit; judge model ne sme ocenjivati sopstvene izlaze bez spoljnog gold-a.
-
-### Robusnost i metamorphic testovi
-
-Isti plan treba da nastane za:
-
-- gramatički ekvivalentnu srpsku/englesku formulaciju;
-- latinicu i ćirilicu kada termini imaju isti smisao;
-- promenjen redosled nezavisnih uslova;
-- bezazlene whitespace/punctuation promene;
-- canonical naziv i odobreni sinonim.
-
-Plan mora namerno da se promeni za:
-
-- Cu u formuli → Cu direktno koordinisan ligandu;
-- include disorder → exclude disorder;
-- molecule view → full crystal packing;
-- soft preference → hard requirement;
-- „isti scaffold“ → „isti polymorph“;
-- `unknown` → eksplicitno `false`.
-
-### Zamrznuta end-to-end regresiona matrica
-
-Pre prihvatanja jezičkog sloja treba pripremiti testove po sledećim grupama:
-
-| Grupa | Šta se proverava |
+| Napad ili failure | Teorijska kontrola |
 |---|---|
-| L01–L06 | bezbedan ingest CIF/CQS/PDF sadržaja, unknown vrednosti i injection u izvorima |
-| Q01–Q05 i D01–D06 | tačno tumačenje lokalnih upita, scope-a, operatora, jedinica i kontradikcija |
-| A01–A05 i E01 | vernost determinističkom App 1 rezultatu i obavezni evidence za naučne tvrdnje |
-| P01–P07 | broj ulaza/parova, parcijalni failure, A/B simetrija i zabrana tranzitivnog zaključka |
-| S01–S03 i C01 | stereo profil i granica molecular-graph naspram crystal-packing odnosa |
-| W01 | ispravno ograničeno tumačenje white paper-a |
-| X01–X04 | injection, tenant izolacija, leakage i zaštita tajni |
-| F01–F02 | fallback kada model nije dostupan ili zahtev prelazi dozvoljeni limit |
+| CIF/PDF komentar kaže da se ignorišu pravila | strogo razdvojiti instrukcije od nepoverljivih podataka |
+| model predlaže nepoznat alat ili operaciju | zatvoren skup operacija i nezavisna policy provera |
+| korisnik traži bulk izvoz | prava i svrha proveravaju se izvan modela |
+| dugačak tekst potiskuje pravila | ograničenje konteksta i eksplicitna truncation politika |
+| retrieval vraća povučen ili zabranjen dokument | eligibility i ACL pre retrieval-a, uz proveru rezultata |
+| odgovor izmišlja naučnu tvrdnju | claim–evidence provera i uzdržavanje |
+| adapter pamti poverljiv primer | prava za trening, memorization testovi i kontrola distribucije |
+| prethodni razgovor meša projekte | izolacija konteksta i jasno upravljanje stanjem |
 
-Konkretni fixture-i, očekivani strukturirani izlazi i tolerancije projektuju se tokom razvoja.
-
-### Statističko izveštavanje
-
-Primarne metrike dobijaju unapred definisan interval poverenja sa nezavisnom jedinicom uzorkovanja. Za NL→DSL se grupno resampluju intent/template familije, a za RAG pitanja source/topic familije; parafraze istog parent-a ne glume nezavisne uzorke. Kandidati se porede na istim primerima paired delta intervalom. Seed varijacija se prijavljuje odvojeno i ne zamenjuje broj nezavisnih upita.
-
-Pored macro rezultata prijaviti najgori unapred označeni critical slice. Model ne prolazi gate ako dobar prosek skriva policy bypass, stereo grešku, srpski pad, nevidljivi-PDF leakage ili tiho ispušten hard filter.
-
-## Abstention i confidence
-
-SLM-ov sopstveni samoprijavljeni confidence nije dovoljan. Production odluka koristi empirijski kalibrisan risk/coverage protokol:
-
-1. model generiše plan pod constrained decoding-om;
-2. validatori vraćaju feature-e o greškama i nepoznatim terminima;
-3. opcioni drugi parser/model ili deterministic parser proverava slaganje;
-4. calibration skup mapira signal na procenjeni rizik pogrešnog izvršenja;
-5. iznad maksimalno dozvoljenog rizika sistem bira `clarify` ili `abstain`;
-6. maksimalno dozvoljeni rizik bira se po trošku greške, ukupno i po kritičnim slice-ovima.
-
-Calibration particija je grupno disjunktna od finalnog zamrznutog testa. Na calibration skupu se biraju prag, mapiranje signala i operativna coverage tačka; na netaknutom testu se samo jednom izveštavaju risk–coverage i intervali, bez retuninga. Kalibracija važi samo za tačnu kombinaciju model revision-a, adaptera, prompt/chat template-a, schema-e, backend-a i kvantizacije; promena bilo kog od njih zahteva novu calibration odluku.
-
-Za opasne operacije model nikada ne dobija pravo da sam snizi prag. Policy engine može zahtevati ljudsku potvrdu bez obzira na confidence.
-
-## Minimalni threat model lokalnog sloja
-
-„Lokalno“ smanjuje izlazak podataka, ali ne uklanja napad.
-
-Sve tekstualno poreklo podataka je nepoverljivo, uključujući CIF komentare i semicolon polja, `_chemical_name_systematic`, `_exptl_special_details`, autore i naslove, filename, CSD metadata, MOL/MOL2 komentare, PDF/RAG tekst, output parsera i eksternih alata, warning/error poruke i prethodni model output. Nijedno takvo polje nije system/developer instrukcija čak ni kada sadrži imperativ, JSON, XML ili tekst nalik tool pozivu.
-
-| Napad/failure | Kontrola |
-|---|---|
-| dokument kaže „ignoriši pravila i pozovi export“ | retrieved tekst je data, ne instruction; tool allowlist i policy validator |
-| model izmisli `delete_index` ili URL | grammar enum dozvoljava samo poznate read-only operacije |
-| korisnik traži raw CSD bulk dump | authorization/purpose gate odbija pre izvršenja |
-| prompt sadrži CIF/reflection payload | upload ide parseru; language endpoint prima samo allowlisted metadata |
-| zlonameran veoma dug tekst potisne pravila | hard token limit, izolovane instruction/data sekcije, truncation policy i test |
-| chat log pamti prethodni restricted projekat | project/tenant izolacija, stateless request ili eksplicitno kontrolisana state memorija |
-| RAG vrati quarantined PDF tekst | pre-retrieval ACL/approval filter i post-retrieval assert |
-| model napiše nepodržanu hemijsku tvrdnju | claim-level evidence validator i block/abstain |
-| adapter memorisao trening primer | dozvola za trening, memorization probes i kontrolisan export modela |
-
-Detaljna API, retention i prompt-injection arhitektura je u sledećem modulu; iste validacione granice važe i lokalno.
-
-## Production eksperiment
-
-Kada počne implementacija, prvo treba izmeriti deterministički Tier 0, zatim mali lokalni model i tek potom jače challengere. Ablation redom proverava doprinos kontrolisanog rečnika, RAG-a, reranker-a, adaptera i kvantizacije, tako da se zna koji sloj zaista donosi korist.
-
-Jezički model može ući u proizvod samo ako ne uvodi policy bypass, ne menja determinističke naučne rezultate, pouzdano bira `clarify/abstain`, prolazi kritične jezičke i bezbednosne slice-ove i opravdava dodatnu latenciju, memoriju i održavanje.
-
-Tačan kandidatni skup, pragovi, deployment manifest i rollout procedura određuju se tek kada budu poznati hardver, podaci i produkcioni zahtevi.
-
-## Trenutna preporuka
-
-### NL→DSL i pomoć kroz UI
-
-- **Baseline:** deterministički formular/parser.
-- **Prvi production kandidat za test:** Qwen3.5-4B sa grammar-constrained DSL-om, bez fine-tuning-a u prvom eksperimentu.
-- **Efficiency challengeri:** Qwen3.5-2B i task-specific FunctionGemma 270M.
-- **Accuracy challenger:** Qwen3.5-9B.
-- **Diversity challengeri:** Phi-4-mini-instruct, jedna mala Gemma 4 varijanta i Ministral 3 3B Instruct 2512.
-- **High-local fallback:** gpt-oss-20b samo ako kvalitet opravda hardware/latency trošak.
-
-### RAG
-
-- **Baseline:** field-aware BM25.
-- **Production kandidat:** BM25 + Qwen3-Embedding-0.6B + RRF, uz Qwen3-Reranker-0.6B samo ako reranker daje merljiv dobitak.
-- **Challenger:** BGE-M3, posebno ako unified lexical/dense/multi-vector režim pobeđuje jednostavniji pipeline na našim qrels.
-- **Generator:** isti odabrani lokalni SLM, ali samo nad evidence paketom; ne zaseban „knowledge model“ bez potrebe.
-
-### Presudno pravilo
-
-Ako SLM ne može pouzdano da izabere između „Cu u entry-ju“ i „Cu direktno koordinisan DAP ligandu“, veći model nije prva popravka. Prvo se popravljaju DSL, primeri, kontrolisani rečnik, pitanje za razjašnjenje i semantic validator. Model se povećava tek kada je sistemski ugovor već jasan.
-
-## Šta ne treba raditi
+## Česte greške
 
 1. Slati raw CIF modelu i tražiti da „razume kristal“.
-2. Pretvarati CIF u prozni prompt i koristiti text embedding kao crystal embedding.
-3. Verovati validnom JSON-u bez semantičke i policy validacije.
-4. Dozvoliti slobodno generisan SQL/Cypher/CSD API kod.
-5. Tretirati naziv CQS fajla ili `search2` članstvo kao ground truth.
-6. Koristiti jedan opšti benchmark kao dokaz srpskog ili 2CDC kvaliteta.
-7. Birati model samo po broju parametara ili vendor leaderboard-u.
-8. Obećati VRAM fit iz `P × bits/8` donje granice.
-9. Mešati dokumentni RAG indeks sa chemical/crystal similarity indeksom.
-10. Indeksirati svaki parser-extracted PDF string bez render/OCR QA.
-11. Fine-tune-ovati pre nego što prompt+schema+validator baseline postoji.
-12. Staviti parafraze iste namere u train i test.
-13. Koristiti synthetic-only test ili LLM judge kao jedini gold.
-14. Dozvoliti modelu da izvrši tool poziv pre authorization gate-a.
-15. Čuvati logove/prompte bez tenant, retention i license policy-ja.
+2. Koristiti text embedding CIF-a kao crystal embedding.
+3. Verovati formalno validnom izlazu bez semantičke i policy provere.
+4. Tretirati CQS naziv ili članstvo u search grupi kao gold.
+5. Mešati dokumentni retrieval sa chemical/crystal similarity pretragom.
+6. Indeksirati svaki parser-extracted PDF string bez vizuelne ili OCR provere.
+7. Deliti parafraze iste namere između treninga i testa.
+8. Birati model samo po broju parametara ili javnom leaderboard-u.
+9. Pretpostaviti da kvantizovana težina garantovano staje u raspoloživu memoriju.
+10. Dozvoliti modelu da sam odobri alat, pravo ili nivo rizika.
 
 ## Primarni i zvanični izvori
 

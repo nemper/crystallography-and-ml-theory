@@ -152,7 +152,7 @@ Za lokalni CAPHEK dva najveća ugla su 147,436° i 128,705°:
 To je distordovana/intermedijarna petokoordinaciona geometrija, bliža kvadratno-piramidalnom kraju mere nego trigonalno-bipiramidalnom. Ne treba je proglasiti idealnom geometrijom samo na osnovu `CN = 5`.
 
 <div class="project-link">
-**Za model:** čuvaj sirove M–D distance i D–M–D uglove, mapping atoma, CN i verzionisanu geometrijsku meru. Tekstualna etiketa „square pyramidal“ je izvedena i može biti neizvesna.
+**Dokazna posledica:** zaključak o geometriji treba da se može povezati sa M–D distancama, D–M–D uglovima, mapiranjem atoma, CN-om i definicijom geometrijske mere. Tekstualna etiketa „square pyramidal“ je izvedena i može biti neizvesna; ovo nije propisana record schema.
 </div>
 
 ### Minimalni ligand-field most: zašto elektroni utiču na geometriju
@@ -285,13 +285,15 @@ U organskim molekulima bond order je često dovoljno stabilan za graf. Kod kompl
 - hapticity, na primer vezivanje metala za više atoma π-sistema, ne staje uredno u jednostavno „broj crta“ pravilo;
 - disorder i parcijalna okupacija mogu dati alternativne lokalne okoline.
 
-Zato svaki izvedeni koordinacioni graf treba da nosi:
+Zato se pouzdano tumačenje izvedenog koordinacionog grafa oslanja na:
 
-1. izvor veze: eksplicitna, CSD-kurirana, symmetry-generated ili distance-inferred;
-2. pravilo, verziju i pragove;
-3. confidence i upozorenja;
-4. originalne koordinate i mapiranje atoma;
+1. poznat izvor veze: eksplicitna, CSD-kurirana, symmetry-generated ili distance-inferred;
+2. poznatu definiciju pravila, verzije i pragova;
+3. vidljivu neizvesnost i upozorenja;
+4. mogućnost povezivanja sa originalnim koordinatama i mapiranjem atoma;
 5. mogućnost `unknown/ambiguous`, a ne prinudnu etiketu.
+
+To su kategorije evidence-a, ne obavezna polja buduće implementacije.
 
 ## 5.10 Mini-vežbe
 

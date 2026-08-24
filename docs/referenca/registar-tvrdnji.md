@@ -90,15 +90,8 @@ Repo-generated `docs/assets/open/tutorial-minimal.cif` nije jedan od 15 izvora. 
 - da private GitHub sam po sebi daje dozvolu za CSD redistribuciju;
 - da se svaki izvedeni feature/model sme objaviti.
 
-## Change-control pravilo
+## Princip verzionisanja dokaza
 
-Kada se promeni bilo koji source hash, CSD release, query, parser, standardization profile ili autoritativna definicija:
-
-1. ne prepisuj stari rezultat;
-2. napravi novi snapshot/version;
-3. ponovi povezane testove;
-4. zabeleži diff i uticaj na lessons/features/labels;
-5. traži domenskog recenzenta za interpretativne promene;
-6. ažuriraj datum i confidence samo za pogođene redove.
+Promena source hash-a, CSD release-a, query-ja, parsera, standardization profila ili autoritativne definicije može promeniti važenje nalaza. Stari i novi rezultat zato se ne smeju nevidljivo spojiti: moraju ostati razdvojeni po verziji, uz vidljiv uticaj na pogođene tvrdnje i odgovarajući stručni review interpretativnih promena. Ovo je epistemološki princip registra, ne plan buduće implementacije ili release procedura.
 
 Ovaj registar je inženjerska verifikacija, ne zamena za formalni review kristalografa, koordinacionog hemičara i vlasnika licence pre naučne publikacije ili produkcionog puštanja.

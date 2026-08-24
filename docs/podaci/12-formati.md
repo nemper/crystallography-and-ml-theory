@@ -139,26 +139,19 @@ SMILES kodira atome i veze kao tekst:
 
 [Open Babel format documentation](https://openbabel.org/docs/FileFormats/Overview.html) može objasniti sintaksu konverzija, ali hemijski smisao rezultata i dalje mora biti testiran.
 
-## 12.8 Pravilo ingest-a za obe aplikacije
+## 12.8 Loss-aware provenance princip
 
-Za svaki ulaz čuvaj paralelno:
+Formati pokazuju zašto original, interpretacija i izvedeni prikaz nisu ista vrsta informacije. Reproduktivno tumačenje zato mora da razlikuje:
 
-1. originalne bajtove i SHA-256;
-2. detektovani format, encoding i parser/verziju;
-3. netaknut originalni data model;
-4. izvedene prikaze za konkretan zadatak;
-5. transformacioni dnevnik i warnings;
-6. validacioni status, nikad samo „parse success“.
+| Kategorija | Zašto je potrebna |
+|---|---|
+| originalni sadržaj i identitet | omogućava proveru šta je stvarno primljeno |
+| format/parser kontekst | značenje može zavisiti od standarda, alata i verzije |
+| direktno deklarisani podaci | ne smeju se pomešati sa dodeljenim vezama ili normalizacijom |
+| izvedeni task-specific prikazi | mogu biti korisni, ali su potencijalno lossy i uslovljeni pravilima |
+| warnings, coverage i provenance | „parse success“ ne znači hemijsku ili kristalografsku potpunost |
 
-```mermaid
-flowchart LR
-    B[Original bytes + hash] --> P[Parse]
-    P --> O[Original object]
-    O --> C[Crystal view]
-    O --> G[Chemical graph view]
-    O --> Q[Query/ML view]
-    P --> W[Warnings + provenance]
-```
+Ovo su semantičke kategorije, ne propisana storage schema ili budući ingest pipeline.
 
 ## 12.9 Provera znanja
 

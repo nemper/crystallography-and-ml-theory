@@ -92,7 +92,7 @@ quality compatibility medium
 
 Tek zatim može postojati verzionisana formula, kalibrisana prema konkretnom zadatku. Težine ne treba birati „po osećaju“ niti trenirati bez jasno označenih ekspertskih parova.
 
-## 15.8 Skaliranje za dostavljeni skup
+## 15.8 Računska cena za dostavljeni skup
 
 Potpuno poređenje \(n\) struktura zahteva:
 
@@ -102,15 +102,9 @@ Potpuno poređenje \(n\) struktura zahteva:
 
 parova. Za 2.110 zapisa to je **2.224.995** parova; za 2.038 metal-filterovanih zapisa **2.075.703**. Ako jedna duboka analiza traje samo 0,5 s, prvi posao bi serijski trajao skoro 13 dana.
 
-Praktična arhitektura:
+Porodice metoda za smanjenje troška uključuju jeftine eligibility/filter korake, približno nalaženje kandidata, exact reranking manjeg skupa i odlaganje skupih 3D/packing analiza. To je coarse-to-fine algoritamski princip, ne izbor buduće baze, cache ključa ili redosled implementacije.
 
-1. jeftini validacioni i metadata filteri;
-2. approximate-nearest-neighbor retrieval nad verzionisanim embedding/fingerprint indeksom;
-3. exact 2D reranking top-\(k\);
-4. skupa 3D/packing/interaction analiza samo kandidata;
-5. simetričan cache za par `(min_id, max_id, metric_version)`.
-
-Za stvarno traženje svih parova iznad praga potrebna je empirijska provera recall-a prefiltera; top-\(k\) sam može propustiti relevantan par.
+Kada zahtev zaista glasi „svi parovi“, candidate pruning menja zadatak. Za traženje svih parova iznad praga potrebna je empirijska provera recall-a prefiltera; top-\(k\) sam može propustiti relevantan par.
 
 ## 15.9 Kako se prag validira
 

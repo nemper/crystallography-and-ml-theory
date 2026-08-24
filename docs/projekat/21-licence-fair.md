@@ -8,9 +8,9 @@ Posle ovog poglavlja treba da možeš da:
 - objasniš zašto raw CSD podaci i CSD-derived skupovi nisu deo ovog repoa;
 - pokažeš zašto privatni GitHub repo nije automatsko rešenje licencnog problema;
 - primeniš FAIR na podatke koji ostaju poverljivi i kontrolisano dostupni;
-- dizajniraš provenance zapis za izvor, transformaciju, model i rezultat;
+- objasniš koje vrste provenance dokaza povezuju izvor, transformaciju, model i rezultat;
 - prepoznaš nevidljivi, tematski nepodudarni embedded PDF tekst kao ingest i provenance incident;
-- definišeš licence-aware granice za obe 2CDC aplikacije.
+- objasniš licence-aware pitanja koja obe 2CDC aplikacije moraju da razjasne.
 
 !!! info "Granica ovog poglavlja"
     Ovo je inženjersko čitanje javno dostupnih uslova i principa, ne pravni savet. Merodavan je konkretan ugovor organizacije sa CCDC-om i pisano tumačenje vlasnika podataka.
@@ -41,49 +41,36 @@ Važeći [CCDC Standard Licence Agreement](https://www.ccdc.cam.ac.uk/licence-ag
 
 ### Zašto CSD izvozi nisu u ovom repou
 
-Repo treba da sadrži:
-
-- edukativni tekst i naš izvorni kod;
-- male sintetičke testove koje smo sami napravili;
-- javne podatke sa kompatibilnom, dokumentovanom licencom;
-- eventualno reference/manifest zapise o licenciranim artefaktima, bez njihovog sadržaja.
-
-Repo ne treba da sadrži:
-
-- raw CSD bazu;
-- masovne CSD izvoze iz ConQuest-a ili API-ja;
-- kopirane CSD CIF/MOL/MOL2/SDF redove;
-- derived subset koji omogućava rekonstrukciju zaštićenog sadržaja;
-- model, embedding ili indeks za koji nije provereno pravo distribucije.
+Originalni CSD izvozi nisu deo ovog obrazovnog repoa zato što dostupnost u licenciranom alatu ne daje automatski pravo kopiranja na drugog hosta ili redistribucije. Nastavni tekst može opisati agregate, metode i sintetičke primere, ali prihvatljivost svakog konkretnog raw ili izvedenog artefakta zavisi od ugovora, porekla i mogućnosti rekonstrukcije zaštićenog sadržaja. Ovo je objašnjenje sadašnjeg dokumentacionog scope-a, ne trajna allow/deny lista za budući razvoj.
 
 Čak i private repo može predstavljati kopiju kod trećeg pružaoca usluge, imati širi krug naloga, backup-e i drugačiju geografsku lokaciju. „Private“ je kontrola pristupa, ne nova licenca.
 
 !!! danger "Derived nije automatski slobodno"
-    Embedding, fingerprint indeks, trenirani model, agregirane karakteristike ili eksportovani result set mogu biti izvedeni materijal. Da li se konkretan artefakt sme distribuirati zavisi od ugovora, mogućnosti rekonstrukcije, poslovne namene i pisanog odobrenja. Kada nije jasno, sistem mora da blokira eksport i traži odluku vlasnika licence/CCDC-a.
+    Embedding, fingerprint indeks, trenirani model, agregirane karakteristike ili eksportovani result set mogu biti izvedeni materijal. Da li se konkretan artefakt sme distribuirati zavisi od ugovora, mogućnosti rekonstrukcije, poslovne namene i pisanog odobrenja. Odsustvo jasne dozvole nije dokaz da je eksport dozvoljen.
 
-## Predlog arhitektonske granice
+## Konceptualne granice odgovornosti
 
-Najbezbedniji početni dizajn razdvaja:
+Za licencnu analizu korisno je razlikovati sledeće domene, bez pretpostavke kako će oni tehnički biti realizovani:
 
-| Sloj | Sadržaj | Tipična lokacija |
+| Domen | Sadržaj | Ključno pitanje |
 |---|---|---|
-| open code plane | parser interfejsi, algoritmi, dokumentacija, sintetički testovi | GitHub repo |
-| licensed data plane | CSD podaci, CSD-derived cache/index, licencirani alati | odobrena organizacija/lokacija |
-| proprietary project plane | interni CIF-ovi, svojstva, laboratorijski metadata | kontrolisano interno skladište |
-| publication plane | odobrene metrike, slike, tabele, dokumenti | javni ili partnerski kanal |
+| otvoreni kod i znanje | algoritmi, dokumentacija, sintetički primeri | šta se može zakonito deliti i ponoviti bez zaštićenih podataka? |
+| licencirani podaci i derivati | CSD podaci, izvedene reprezentacije i licencirani alati | ko, gde i za koju namenu sme da ih koristi? |
+| interni projektni podaci | interni CIF-ovi, svojstva i laboratorijski metadata | ko kontroliše poverljivost, obradu i rok čuvanja? |
+| publikovani rezultat | odobrene metrike, slike, tabele ili modeli | da li izlaz otkriva ili rekonstruiše zaštićen sadržaj? |
 
-Kod komunicira sa licenciranim data-plane-om kroz kontrolisan servis. Servis vraća samo polja i rezultate koje konkretna licenca i uloga dozvoljavaju. Nije prihvatljivo da web API slučajno postane bulk-export interfejs.
+Granice među domenima određuju prava i značenje podataka; same po sebi ne propisuju servis, API, lokaciju skladišta ili deployment arhitekturu.
 
 ## FAIR nije isto što i open
 
 Originalni [FAIR Guiding Principles](https://doi.org/10.1038/sdata.2016.18) znače:
 
-| Slovo | Princip | Projektna realizacija |
+| Slovo | Princip | Konceptualna posledica |
 |---|---|---|
-| F - Findable | podatak i metadata imaju stabilan identitet i mogu se pronaći | internal URI, source ID, indeks metapodataka |
-| A - Accessible | postoji standardizovan postupak pristupa | API/protokol sa autentikacijom i autorizacijom |
-| I - Interoperable | koriste se formalni jezici, rečnici i kvalifikovane veze | CIF dictionaries, kontrolisane jedinice, ontology/role polja |
-| R - Reusable | značenje, poreklo, licence i domenski standardi su dovoljno bogati | provenance, quality, usage policy, verzije i citiranje |
+| F - Findable | podatak i metadata imaju stabilan identitet i mogu se pronaći | identitet ne treba da zavisi od filename-a ili trenutne lokacije |
+| A - Accessible | postoji standardizovan postupak pristupa | pristup može zahtevati autentikaciju i autorizaciju |
+| I - Interoperable | koriste se formalni jezici, rečnici i kvalifikovane veze | značenje jedinica, relacija i termina mora biti deljivo |
+| R - Reusable | značenje, poreklo, licence i domenski standardi su dovoljno bogati | ponovna upotreba zavisi od konteksta, kvaliteta i dozvole |
 
 Princip A1.2 eksplicitno dozvoljava autentikaciju i autorizaciju kada su potrebne. Zbog toga proprietary ili licencirani podatak može biti FAIR:
 
@@ -99,26 +86,11 @@ Princip A1.2 eksplicitno dozvoljava autentikaciju i autorizaciju kada su potrebn
 !!! warning "FAIR nije quality sertifikat"
     FAIR pomaže da se podatak pronađe, pristupi mu, poveže i ponovo upotrebi. Ne garantuje da je kristalografski model tačan, da je property dobro izmeren ili da ML skup nema bias. Quality i FAIR su povezani, ali različiti kontrolni slojevi.
 
-## Licence kao izvršiva politika, ne fusnota
+## Licenca je deo značenja upotrebe, ne fusnota
 
-Za svaki izvor napravi matricu dozvola:
+Procena dozvoljenosti zavisi od više od naziva licence. Potrebno je razumeti ko kontroliše izvor, koji ugovor je merodavan, na koje korisnike, lokacije i namene se odnosi, da li pokriva čitanje, transformaciju, trening, čuvanje, deljenje i publikovanje, kao i šta se dešava pri isteku ili opozivu. Ove dimenzije su pitanja pravnog i podatkovnog scope-a, ne predlog konkretne permission schema-e ili policy engine-a.
 
-| Polje | Primer pitanja |
-|---|---|
-| owner/controller | ko odlučuje o upotrebi? |
-| licence/contract ID | koji dokument je merodavan? |
-| scope | organizacija, lokacija, projekat, korisnici |
-| expiry/review date | kada dozvolu ponovo proveravamo? |
-| read/search | ko sme da čita i pretražuje? |
-| transform/index | smeju li normalizacija, fingerprint i embedding? |
-| train/evaluate | sme li ML trening i koje vrste modela? |
-| cache/backup | gde i koliko dugo? |
-| export/share | koja polja i kojim primaocima? |
-| publish | statistike, slike, kod, model weights? |
-| citation | obavezna referenca i tekst zahvalnice |
-| deletion | kako se opoziv/istek propagira na derivative? |
-
-Policy engine treba da radi fail closed: odsustvo dozvole znači „ne izvršavaj“, ne „pretpostavi da je dozvoljeno“.
+Opšti bezbednosni princip je konzervativan: nepoznata dozvola ne može se tumačiti kao pozitivna dozvola.
 
 ## Provenance: dokazni lanac za svaki bajt i svaku tvrdnju
 
@@ -131,29 +103,9 @@ Provenance odgovara na pitanja:
 - koje transformacije su izvršene;
 - koji izlaz je nastao iz kojih ulaza;
 - ko je pregledao alert ili izuzetak;
-- da li je derivative opoziv nakon isteka licence.
+- da li se posledice opoziva ili isteka mogu pratiti kroz izvedene artefakte.
 
-Minimalni manifest može izgledati ovako:
-
-    source_id: urn:2cdc:source:cu-n14-a
-    original_name: cu_n14_a.cif
-    sha256: "<unesi-provereni-64-heksadecimalni-hash>"
-    received_at: "<uneti-stvarni-ISO-8601-trenutak-prijema-ili-unknown>"
-    source_owner: "<utvrditi-pre-upotrebe>"
-    licence_id: unresolved_block_use
-    confidentiality: internal
-    allowed_operations:
-      - local_parse
-      - local_quality_check
-    redistribution: denied_until_confirmed
-    parser:
-      name: parser_name
-      version: parser_version
-    validation:
-      method: local_validator
-      ruleset_version: ruleset_version
-      reviewed_by: reviewer_or_service_account
-    parent_artifacts: []
+To zahteva identitet izvora, dokaz integriteta bajtova, vreme i poreklo prijema, vlasništvo i dozvolu, klasifikaciju poverljivosti, verzije alata i pravila, transformacioni lineage, status pregleda i veze ka roditeljskim artefaktima. Spisak opisuje kategorije dokaza; ne propisuje manifest, nazive polja ili storage model.
 
 Hash dokazuje da je konkretan niz bajtova isti; ne dokazuje da je sadržaj tačan, vidljiv korisniku ili licencno dozvoljen.
 
@@ -188,86 +140,32 @@ Ako ingest sačuva samo izvučeni tekst:
 - deduplikacija može povezati nepovezane dokumente;
 - audit ne može objasniti odakle je rečenica došla.
 
-### Ispravan PDF ingest
+### Koje dokaze PDF ingest mora da razlikuje
 
-Za svaki PDF sačuvaj najmanje:
-
-1. originalni fajl i hash;
-2. PDF metadata i broj strana;
-3. tekst po strani, sa identitetom parsera;
-4. render svake relevantne strane ili reproducibilan render hash;
-5. OCR/visible-text rezultat kada je potreban;
-6. odstupanje embedded text naspram vizuelnog/OCR sloja;
-7. ručnu ili automatsku QA odluku;
-8. status: raw, quarantined, reviewed, approved ili rejected.
-
-Praktična pravila:
-
-- nevidljivi embedded tekst ne briši iz raw evidence-a;
-- ne puštaj ga u korisnički indeks dok se konflikt ne razreši;
-- zapiši koje stranice i stringovi su označeni;
-- derived „approved text“ veži na tačnu verziju izvornog PDF-a i QA odluku;
-- pri promeni parsera ponovi ekstrakciju i uporedi rezultate.
+Ovaj incident pokazuje da originalni PDF, njegov hash i metadata, tekst koji vraća određeni parser, vizuelni render, eventualni OCR i odluka o tome koji sadržaj je vidljiv nisu ista vrsta dokaza. Razlika između embedded i vidljivog teksta mora ostati proverljiva, a sadržaj sa nerešenim konfliktom ne može imati isti status kao vizuelno potvrđen tekst. To su provenance i quality principi; konkretan workflow, statusi i način skladištenja zavise od budućeg okruženja.
 
 !!! example "Zašto je ovo FAIR problem"
     Bez provenance-a ne možemo znati da li je rečenica došla iz vidljivog sadržaja, OCR-a, nevidljivog embedded sloja ili naknadne transformacije. Podatak može biti lako pronađen, ali nije pouzdano reusable jer mu poreklo i značenje nisu jasni.
 
-## Ingest tok za hemijske i dokumentne izvore
+## Konceptualni životni ciklus hemijskih i dokumentnih izvora
 
-| Faza | Obavezna kontrola | Izlaz |
-|---|---|---|
-| register | vlasnik, licenca, hash, klasifikacija | immutable source record |
-| parse | alat/verzija, format, greške | raw parsed representation |
-| cross-check | CIF schema/checkCIF ili PDF text/render poređenje | validation report |
-| curate | jedinice, identitet, forma, vidljivost, alerts | reviewed canonical record |
-| derive | fingerprint, embedding, property join, tekst segmenti | lineage-linked derivative |
-| serve/export | role, purpose, licence policy, redaction | audit event |
-| retire | expiry, revocation, deletion propagation | tombstone i derivative review |
+Kod hemijskih i dokumentnih izvora korisno je razlikovati registrovani izvor, parsiranu reprezentaciju, validacioni nalaz, stručno protumačen zapis, izvedene rezultate i kasniji status pristupa ili povlačenja. Svaki nivo odgovara na drugo pitanje: integritet bajtova, tehničku čitljivost, naučnu konzistentnost, stručnu odluku, poreklo derivata ili dozvoljenost dalje upotrebe.
 
-Raw, canonical i derived sloj ne treba prepisivati jedan preko drugog. Nova kuracija stvara novu verziju sa vezom ka prethodnoj.
+Originalni, protumačeni i izvedeni sadržaj ne treba predstavljati kao istu vrstu činjenice. Ovaj životni ciklus je pojmovni model za razmišljanje o provenance-u, ne propisan ingest pipeline.
 
-## Posledice za globalnu pretragu
+## Pitanja licence za globalnu pretragu
 
-Globalna aplikacija verovatno ima najveći licencni rizik jer radi nad veoma velikom bazom:
+Globalna pretraga nad velikom licenciranom bazom otvara nekoliko odvojenih pitanja: gde je obrada dozvoljena, ko sme da vidi koji nivo rezultata, da li su indeksiranje i privremeni derivati dopušteni, da li rezultat omogućava bulk rekonstrukciju, šta sme da napusti organizaciju i kako istek ili opoziv utiču na ranije izvedene artefakte. I telemetrija i eksterni servisi mogu postati neželjen kanal podataka. Poglavlje ne bira API, tenant model, cache ili UI; ono pokazuje koje pravne granice takav dizajn mora da razjasni.
 
-- CSD pretraga i indeksiranje treba da se izvršavaju unutar odobrenog licensed data-plane-a.
-- API mora primeniti autentikaciju, autorizaciju, tenant i purpose ograničenje.
-- Bulk enumeration i neograničen eksport moraju biti odvojeni od normalnog search endpoint-a.
-- Svaki rezultat mora nositi source ID, verziju baze, datum pretrage i dozvoljeni nivo prikaza.
-- Cache i embedding moraju imati licence ID, expiry i deletion lineage.
-- Slanje CSD podataka ili derivata eksternom SaaS/LLM servisu zahteva prethodnu proveru ugovora.
-- Telemetrija ne sme slučajno zapisivati strukture, query fajlove ili pune rezultate.
-- UI treba jasno da razlikuje javni/open pogodak, interni proprietary pogodak i licencirani CSD pogodak.
+## Pitanja licence za poređenje svih parova
 
-Ako licenca istekne ili se korisnik povuče iz projekta, sistem mora znati koji indeks, model i cache zahtevaju blokadu ili ponovnu procenu. Bez lineage grafa to je praktično nemoguće.
+Kod korisničkih CIF-ova potrebno je razjasniti pravo na obradu, poverljivost, razdvajanje različitih vlasnika/projekata, eventualnu ponovnu upotrebu za trening, rok čuvanja i dozvoljeni sadržaj bogatog pairwise rezultata. Rezultat izveden iz dva izvora može naslediti ograničenja oba izvora. To su pitanja scope-a i lineage-a, ne predlog upload, retention ili export implementacije.
 
-## Posledice za poređenje svih parova
+## Kako restricted podaci mogu biti FAIR
 
-Druga aplikacija prima korisničke fajlove i pravi bogate pairwise rezultate:
+FAIR ne zahteva objavljivanje sadržaja CSD-a. Restricted podatak može imati stabilan identitet i bogate metadata bez otkrivanja koordinata, standardizovan ali kontrolisan pristup, interoperabilne rečnike i jedinice, eksplicitnu licencu i pun provenance. Informacija o postojanju ili povlačenju zapisa može ostati dostupna samo u meri koju ugovor dozvoljava.
 
-- pri upload-u traži potvrdu prava na obradu i klasifikaciju poverljivosti;
-- izoluj tenant-e i projekte;
-- ne koristi input za budući trening bez posebne dozvole;
-- čuvaj original, canonical i derived reprezentacije odvojeno;
-- report može sadržati dovoljno geometrije da predstavlja izvedeni strukturni podatak - primeni export policy;
-- definiši retention i bezbedno brisanje inputa, rendera, cache-a i privremenih fajlova;
-- svaki par mora pokazati source verzije i algoritam/verziju;
-- ako jedan član para ima restriktivniju licencu, rezultat nasleđuje najmanje taj nivo restrikcije dok pravilo ne kaže drugačije.
-
-## FAIR implementacija za restricted podatke
-
-Praktičan cilj nije da objavimo sadržaj CSD-a, nego da ovlašćeni agent može pouzdano da ga koristi:
-
-- **F1/F3:** interni stabilni URI za source, form, determination i measurement; metadata nosi njihove veze.
-- **F2/F4:** bogati metadata indeks bez otkrivanja zaštićenih koordinata neovlašćenom korisniku.
-- **A1/A1.2:** dokumentovan API uz authentication/authorization.
-- **A2:** metadata i tombstone ostaju kada je sadržaj povučen, u meri dozvoljenoj ugovorom.
-- **I1–I3:** CIF rečnici, kontrolisane jedinice, kvalifikovane relacije i verzionisane ontologije.
-- **R1/R1.1:** dovoljni naučni metadata i eksplicitna licenca/policy.
-- **R1.2:** pun provenance i transformation lineage.
-- **R1.3:** kristalografski i hemijski standardi zajednice.
-
-Persistent identifier može biti interni i ne mora otkriti sadržaj. „Ne postoji za neovlašćenog korisnika“ i „postoji, ali zahteva dozvolu“ su različite policy odluke koje treba svesno doneti.
+Persistent identifier može biti interni i ne mora otkriti sadržaj. „Ne postoji za neovlašćenog korisnika“ i „postoji, ali zahteva dozvolu“ su različite policy odluke, a FAIR sam ne bira između njih.
 
 ## Tipične zamke
 
@@ -323,7 +221,7 @@ Licenca za izvor ističe sutra. Koji artefakti moraju biti pronađeni?
 
 ## Kriterijum prolaza
 
-Poglavlje si savladao kada možeš da nacrtaš data-flow obe aplikacije, za svaku ivicu navedeš licencu i dozvoljenu operaciju, a zatim pokažeš kako se od jednog source hash-a nalaze svi derivative artefakti i zaustavlja neodobren eksport.
+Poglavlje si savladao kada možeš da objasniš kako se pristup, obrada, deljenje i objavljivanje razlikuju, zašto provenance mora povezati izvor i derivative i zašto FAIR ne ukida licencna ograničenja.
 
 ## Primarni i autoritativni izvori
 

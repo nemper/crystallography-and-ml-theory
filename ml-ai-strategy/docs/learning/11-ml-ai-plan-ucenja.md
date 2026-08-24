@@ -7,46 +7,46 @@ Osnovna putanja ima 16 nastavnih blokova i približno **178 fokusiranih sati**: 
 Ovaj plan dopunjuje [postojeći 15-nedeljni plan hemije](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/docs/pocetak/plan-ucenja.md). Hemijski plan daje redosled domenskog gradiva; ova strana govori kada je to gradivo dovoljno savladano za određenu ML/AI odluku.
 
 !!! info "Granica ovog plana"
-    Tokom učenja pišeš kratke obrazložene skice, tabele odluka i očekivane ishode na ilustrativnim primerima. Konkretne šeme, fixture fajlovi, kod, benchmark run-ovi, treniranje, deployment i produkcioni artefakti ovde se samo navode kao buduće obaveze razvojne faze — ne izrađuju se u okviru plana učenja.
+    Tokom učenja pišeš kratke obrazložene skice, uporedne tabele i očekivane ishode na ilustrativnim primerima. Plan ostaje na pojmovima, pretpostavkama i dokazima; ne projektuje konkretan sistem niti izvodi praktične sistemske probe.
 
 ## Pravila rada
 
 1. **Napredovanje je zasnovano na dokazu, ne na datumu.** Ako kapija ne prolazi, ponovi ciljanu vežbu; nemoj samo nastaviti čitanje.
-2. **Svaki score prvo dobija semantiku.** Pre implementacije napiši objekat poređenja, target, primenljivost, reprezentaciju, metricu i failure ponašanje.
+2. **Svaki score prvo dobija semantiku.** Pre poređenja metoda napiši objekat, target, primenljivost, reprezentaciju, metriku i značenje neuspeha.
 3. **Determinističko jezgro prethodi ML-u.** Parser, standardizacija, hard filteri, atom/component mapping i periodična geometrija nisu poslovi za generativni model.
-4. **`UNKNOWN` nije nula.** U korisničkom prikazu može postojati zajednička oznaka `UNKNOWN`, ali se u podacima izvodi iz preciznog statusa `ambiguous`, `missing_input`, `quality_blocked`, `timeout` ili `failed`, uz `relation_label: null`. `not_applicable` ostaje zasebno. Nijedan od tih statusa ne postaje negativna labela ili similarity `0`.
-5. **Restricted podaci ostaju u odobrenom data-plane-u.** U Git ulaze samo šeme, manifesti, agregati čije je objavljivanje odobreno i sintetički/otvoreni fixture-i. Raw CSD/fakultetski CIF, MOL, MOL2, SDF, SMI, CQS i PDF ne ulaze u repo.
-6. **Ne uči opšti ML ponovo.** Linearni modeli, tree ensemble-i, GNN, metric learning i kalibracija obrađuju se samo kroz 2CDC targete, splitove, failure slice-ove i production gate-ove.
+4. **`UNKNOWN` nije nula.** Dvosmisleno, odsutno, neprimenljivo, blokirano kvalitetom, isteklo i neuspešno nisu ista stanja i nijedno automatski ne postaje negativna labela ili similarity `0`.
+5. **Restricted podaci ostaju u odobrenom data-plane-u.** Raw CSD i fakultetski sadržaj ne kopira se radi vežbe; primer mora biti otvoren, sintetički ili eksplicitno dozvoljen za tu svrhu.
+6. **Ne uči opšti ML ponovo.** Linearni modeli, tree ensemble-i, GNN, metric learning i kalibracija obrađuju se kroz 2CDC targete, splitove, failure slice-ove i uslove fer evaluacije.
 
 ## Prioriteti i tačan redosled čitanja
 
 Oznake u tabeli znače:
 
 - **O — obavezno:** potrebno za sledeću kapiju;
-- **P — preporučeno:** potrebno pre odgovarajuće implementacione faze, ali ne blokira raniji prototip;
+- **P — preporučeno:** potrebno pre odgovarajuće napredne teme, ali ne blokira ranije gradivo;
 - **R — referenca:** otvara se tokom dizajna, error analysis-a ili audita; ne čita se linearno unapred.
 
-Roadmap se čita dva puta: prvi put samo radi orijentacije, a drugi put u celosti u 16. nedelji, kada već možeš da osporiš ili odbraniš svaku odluku.
+Uporedna mapa algoritamskih porodica čita se dva puta: prvi put radi orijentacije, a drugi put u celosti u 16. nedelji, kada već možeš da osporiš primenljivost svake porodice.
 
 | Red | Dokumentacija | Prioritet | Kada i zašto |
 |---:|---|---|---|
 | 1 | Hemija: naslovna, „Šta projekat zapravo traži“, plan i dijagnostika | O | Pre svega: razdvoji sastav, graf, konformer, kristal i eksperimentalni model. |
-| 2 | ML/AI: [početna](../index.md), [scope](../00-scope.md) i [mapa pipeline-a](../01-pipeline-decision-map.md) | O | Definiši dva proizvoda, poslove 0–7 i uloge baseline/candidate/challenger. |
-| 3 | [Optimalni stack i roadmap](../roadmap/10-optimal-stack-roadmap.md): izvršna odluka, globalni gate-ovi i R0–R2 | O | Prvi, orijentacioni prolaz; bez proučavanja model shortlist-a. |
+| 2 | ML/AI: [početna](../index.md), [scope](../00-scope.md) i [mapa pipeline-a](../01-pipeline-decision-map.md) | O | Definiši dva problema, funkcije pipeline-a i razliku između referentnih i learned metoda. |
+| 3 | [Uporedna mapa algoritamskih porodica](../roadmap/10-optimal-stack-roadmap.md) | O | Prvi, orijentacioni prolaz kroz objekte, targete i uslove primene; nije realizacioni plan. |
 | 4 | Hemija 1–6: atomi/formule, veze, 3D/stereo, organski minimum, koordinaciona hemija i DAP/Schiff-base | O | Preduslov za svaki 2D graf, fingerprint, motif, metal/donor i stereo target. |
 | 5 | Hemija 7–11A: interakcije, ćelija, simetrija, kvalitet, čvrste forme, referentne raspodele/HBP | O | Preduslov za periodične grafove, packing, polimorfe, PXRD, uncertainty i crystal modele. |
 | 6 | Hemija 12–17: formati, pun CIF, standardizacija, reprezentacije, sličnost, CSD/ConQuest i lokalni skup | O | Pre bilo kog dataseta, feature-a ili modela; ovde se vidi stvarni cross-format gubitak i selection bias. |
-| 7 | [Cross-format i lifecycle eligibility](../data/09-cross-format-eligibility.md) | O | Prvi kompletan ML/AI modul posle hemijskih preduslova; postaje ugovor za sve naredne faze. |
+| 7 | [Cross-format i lifecycle eligibility](../data/09-cross-format-eligibility.md) | O | Prvi kompletan ML/AI modul posle hemijskih preduslova; daje pojmovnu osnovu za sve naredne teme. |
 | 8 | Hemija 19 + [precizno pairwise poređenje](../pairs/04-precise-pairwise.md) | O | App 2 se uči prva jer se najveći deo može validirati bez pune CSD baze i bez ML-a. |
 | 9 | Hemija 18 i 20 + [globalni retrieval, ANN i ranking](../retrieval/03-global-retrieval-ann-ranking.md) | O | Razdvoji exact filter, candidate recall, semantic recall, qrels i finalni ranking. |
-| 10 | [Klasični ML](../classical/02-classical-ml.md) | O za R5 | Čitaj tek kada postoje target, group/time split i zamrznuti deterministički baseline-i. |
-| 11 | [Periodični crystal encoderi](../deep/05-periodic-crystal-encoders.md), pa [metric learning i evaluacija](../deep/06-metric-learning-and-evaluation.md) | P pre R7; O za R7 | Ne počinji dok periodične/stereo invarijanse, exact Flat oracle i gold/split protokol nisu izvršivi. |
-| 12 | Hemija 21–22 + ceo [optimalni roadmap](../roadmap/10-optimal-stack-roadmap.md) | O | Licence, FAIR, provenance, lifecycle, white-paper granice, property targeti i FL odluka. |
-| 13 | [Lokalni SLM i RAG](../language/07-local-slm-rag.md) | P; O samo za R8 | Jezički adapter i dokumentacioni retrieval; nije crystal representation niti naučni autoritet. |
-| 14 | [Spoljni LLM API i bezbednost](../language/08-api-llm-security.md) | R; O samo za R9 | Čita se tek kada je dokazana rupa koju Tier 0/lokalni sloj ne rešava i postoji dozvoljen `C0/C1` tok. |
+| 10 | [Klasični ML](../classical/02-classical-ml.md) | O | Čitaj kada razumeš target, group/time split i determinističke reference. |
+| 11 | [Periodični crystal encoderi](../deep/05-periodic-crystal-encoders.md), pa [metric learning i evaluacija](../deep/06-metric-learning-and-evaluation.md) | P | Ne počinji dok ne razumeš periodične/stereo invarijanse, exact oracle i gold/split protokol. |
+| 12 | Hemija 21–22 + cela [uporedna mapa](../roadmap/10-optimal-stack-roadmap.md) | O | Licence, FAIR, provenance, lifecycle, white-paper granice, property targeti i uslovi za FL. |
+| 13 | [Lokalni SLM i RAG](../language/07-local-slm-rag.md) | P | Jezička interpretacija i dokumentacioni retrieval; nije crystal representation niti naučni autoritet. |
+| 14 | [Spoljni LLM API i bezbednost](../language/08-api-llm-security.md) | R | Čita se radi razumevanja minimizacije, processor/retention razlika, prompt injection-a i granica prava. |
 | 15 | [Metod dokaza](../reference/evidence-method.md), [završni ML/AI audit](../reference/final-validation-2026-08-23.md), hemijski rečnik/zablude/izvori/audit | R | Koristi pri pisanju claim-a, proveri terminologije i završnom auditu; rešenja praktikuma tek posle sopstvenog pokušaja. |
 
-Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i svaka bibliografska stavka na njihovom kraju. Spoljne radove čitaj u celosti samo kada implementiraš ili validiraš metod koji taj rad definiše, na primer ECFP, VF2, Kabsch, COMPACK/PAC, HNSW ili konkretan periodic encoder.
+Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i svaka bibliografska stavka na njihovom kraju. Spoljne radove čitaj u celosti kada dublje proučavaš metod koji taj rad definiše, na primer ECFP, VF2, Kabsch, COMPACK/PAC, HNSW ili konkretan periodic encoder.
 
 ## Hemijski preduslovi po ML/AI temi
 
@@ -65,19 +65,19 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 | Structure–property i polymorph-risk target | 10–11A, 20–22 | Target se vezuje za material/solid form, uslove, metod, vreme i neizvesnost; indikator nije oracle. |
 | Federativno učenje | 21–22 | FL nije zamena za licencu niti automatska privatnost; bez opravdanog multi-site targeta odluka je **DEFER**. |
 
-## Faze, vreme, roadmap i završni dokaz razumevanja
+## Nastavne celine, vreme i dokaz razumevanja
 
-| Faza | Blokovi | Sati | Primarni roadmap domet | Dokaz razumevanja |
-|---|---:|---:|---|---|
-| F0 — scope, claims i prava | 1 | 8 | R0 | Kratka beleška o dva proizvoda, profilima poređenja/pretrage, pravima, nepoznanicama i stop-uslovima. |
-| F1 — hemijski graf, stereo i koordinacija | 2–3 | 16 | R0 → R1 | Mapa pojmova i ručno obrazloženi pozitivni, negativni i neodređeni DAP/donor primeri. |
-| F2 — 3D kristal i periodičnost | 4–6 | 27 | R1 | Checklist invarijansi i očekivanih ishoda fizički ekvivalentnih i stvarno različitih transformacija. |
-| F3 — formati, reprezentacije i data contract | 7–8 | 21 | R1 | Checklist polja, matrica gubitaka među formatima i zamišljen denominator/eligibility primer. |
-| F4 — determinističko poređenje parova | 9–10 | 24 | R2; osnova R4 App 2 | Predložak pair izveštaja i nekoliko ručno razrađenih slučajeva sa statusima i evidence-om. |
-| F5 — retrieval, exact oracle i reranking | 11–12 | 24 | R2 App 1; osnova R4 i R6 | Beleška o dizajnu benchmarka, anotaciji i toku exact → candidate → rerank. |
-| F6 — gold, split, klasični ML i kalibracija | 13 | 12 | R3 → R5 | Dizajn evaluacije, skica leakage-safe split-a i tumačenje hipotetičkih rezultata. |
-| F7 — periodic deep i metric learning challenger | 14–15 | 26 | R7 | Uporedna projektantska tabela i obrazloženi budući **GO** ili **DEFER** kriterijumi. |
-| F8 — governance, white paper i naredne faze | 16 | 20 | Odluke za R8–R10 | Završni memorandum o provenance-u, reproduktivnosti, SLM/API granici i FL odluci. |
+| Celina | Blokovi | Sati | Dokaz razumevanja |
+|---|---:|---:|---|
+| F0 — scope, claims i prava | 1 | 8 | Kratka beleška o dva problema, profilima poređenja/pretrage, pravima, nepoznanicama i granicama tvrdnje. |
+| F1 — hemijski graf, stereo i koordinacija | 2–3 | 16 | Mapa pojmova i ručno obrazloženi pozitivni, negativni i neodređeni DAP/donor primeri. |
+| F2 — 3D kristal i periodičnost | 4–6 | 27 | Checklist invarijansi i očekivanih ishoda fizički ekvivalentnih i stvarno različitih transformacija. |
+| F3 — formati, reprezentacije i eligibility | 7–8 | 21 | Matrica gubitaka među formatima i zamišljen denominator/eligibility primer. |
+| F4 — determinističko poređenje parova | 9–10 | 24 | Konceptualni pair izveštaj i nekoliko ručno razrađenih slučajeva sa stanjima i evidence-om. |
+| F5 — retrieval, exact oracle i reranking | 11–12 | 24 | Beleška o anotaciji i razlikama između exact, candidate i finalnog ranga. |
+| F6 — gold, split, klasični ML i kalibracija | 13 | 12 | Skica leakage-safe evaluacije i tumačenje hipotetičkih rezultata. |
+| F7 — periodični deep i metric learning | 14–15 | 26 | Uporedna tabela modelskih porodica, njihovih pretpostavki i failure režima. |
+| F8 — governance, white paper i uslovne teme | 16 | 20 | Završni memorandum o provenance-u, reproduktivnosti, SLM/API granici, polymorph-risk-u i FL uslovima. |
 
 Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI nadogradnje. Redovni blokovi sabiraju 168 h; poslednjih do 10 h služi za završnu sintezu i usmenu samoproveru. To je 16 intenzivnih nedelja pri 10–13 h rada, odnosno oko 22–23 nedelje pri tempu od 8 h.
 
@@ -85,7 +85,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 ### Nedelja 1 — problem pre algoritma (8 h)
 
-**Čitaj:** početne strane oba dela dokumentacije, hemijsku mapu projekta i dijagnostiku; zatim ML/AI scope, pipeline mapu i izvršni deo roadmapa do R2.
+**Čitaj:** početne strane oba dela dokumentacije, hemijsku mapu projekta i dijagnostiku; zatim ML/AI scope, pipeline mapu i uvodne delove uporedne algoritamske mape.
 
 **Fokus:** za oba proizvoda odredi objekat, korisničku odluku, target, cenu greške, evidence i ono što ostaje blokirano bez CSD prava ili gold podataka.
 
@@ -149,7 +149,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Fokus:** šta CIF, MOL, MOL2, SDF i SMILES čuvaju, gube, dodeljuju ili ostavljaju nepoznatim; original i purpose-specific view nisu isto.
 
-**Projektantska vežba:** napravi matricu gubitaka i checklist podataka koje bi budući sistem morao čuvati: izvor, hash, parser/verziju, field-level poreklo, konflikt, status i transformacioni lineage.
+**Projektantska vežba:** napravi matricu gubitaka i obrazloži koje vrste provenance-a su potrebne da bi se razlikovali izvor, verzija, konflikt, raspoloživost i transformacija.
 
 **Kapija:** lossy format ne prepisuje bogatiji izvor, uspešan parse nije isto što i validan crystal model i nijedan entry ne nestaje bez accounting-a.
 
@@ -225,23 +225,23 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 ### Nedelja 15 — metric learning bez lažnih parova (13 h)
 
-**Čitaj:** ceo metric learning i production-gate modul.
+**Čitaj:** ceo metric learning i evaluacioni modul.
 
 **Fokus:** equivalence, relation i query-conditioned relevantnost; granice contrastive/triplet/InfoNCE pristupa; dual encoder naspram exact evidence-a i cross-graph comparator-a.
 
-**Projektantska vežba:** napravi uporednu tabelu descriptor+GBDT, CGCNN i izabranog Matformer/ALIGNN kandidata, kao i plan budućih kontrola: isti target/split/budžet, ablation, false-negative audit, više label-budget tačaka i seed-ova.
+**Projektantska vežba:** napravi uporednu tabelu descriptor+GBDT, CGCNN i Matformer/ALIGNN porodica, sa istim targetom i splitom, potrebnim ablation-om, false-negative pitanjima i uticajem label budžeta.
 
-**Kapija:** umeš da definišeš unapred šta bi značili praktična pobeda, critical-slice non-inferiority, kalibracija, abstention, SLO, licence i reproduktivnost; inače je odluka **DEFER**.
+**Kapija:** umeš da objasniš praktičnu korist, critical-slice non-inferiority, kalibraciju, abstention, resurse, licence i reproduktivnost bez pretpostavke da deep model mora pobediti.
 
-### Nedelja 16 — governance, white paper i naredne faze (10 h + do 10 h sinteze)
+### Nedelja 16 — governance, white paper i uslovne teme (10 h + do 10 h sinteze)
 
-**Čitaj:** hemija 22, ceo roadmap po drugi put i referentne audite; lokalni SLM/RAG samo na nivou odluke, a API modul samo ako se razmatra R9.
+**Čitaj:** hemija 22, celu uporednu mapu po drugi put i referentne audite; zatim teorijske granice lokalnog SLM/RAG-a i spoljnog API-ja.
 
-**Fokus:** white-paper pojmovi naspram state, property i evidence ugovora; polymorph-risk indikator naspram tvrdnje; poslovni i naučni uslovi za R8/R9/R10.
+**Fokus:** white-paper pojmovi naspram state, property i evidence semantike; polymorph-risk indikator naspram tvrdnje; naučni, pravni i bezbednosni uslovi za SLM, API i FL.
 
 **Projektantska vežba:** usmeno odbrani jedan search query, pair rezultat, **UNKNOWN** slučaj, leakage incident i licence stop. Za FL prođi preduslove i nacrtaj threat model na konceptualnom nivou.
 
-**Kapija:** FL je **DEFER** bez zakonitog, zajedničkog multi-site supervised targeta koji se ne može centralizovati; SLM/API su **DEFER** bez dokazane UX rupe.
+**Kapija:** umeš da objasniš zašto FL zahteva zakonit zajednički multi-site supervised target, a SLM/API ne postaju naučni autoritet time što su jezički sposobni.
 
 ## Kapije prelaza
 
@@ -254,10 +254,10 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 | G4 — deterministički App 2 | pair universe, branch state, evidence, simetriju i usmereni coverage | non-assessed grana nestaje, postaje nula ili dobija relation labelu |
 | G5 — App 1 retrieval | exact filter/oracle, multichannel coverage i tri nivoa retrieval evaluacije | ANN brzina glumi hemijsku tačnost ili reranker skriva candidate miss |
 | G6 — supervised evaluacija | leakage-safe gold/qrels, split, kalibraciju i error-analysis plan | stare grupe, duplikati ili finalni test utiču na trening i tuning |
-| G7 — deep challenger | fer poređenje i budući GO/DEFER kriterijum za critical slice, invarijanse, SLO i licence | jedan random split, seed ili label budžet se smatra dovoljnim dokazom |
-| G8 — sledeća faza | merljivu rupu, odobren budući data flow, baseline i stop-uslov za R8/R9/R10 | sama oznaka „AI“, „LLM“ ili „FL“ služi kao opravdanje |
+| G7 — deep modeli | fer poređenje za critical slice, invarijanse, resurse i licence | jedan random split, seed ili label budžet se smatra dovoljnim dokazom |
+| G8 — uslovne teme | koje dodatno pitanje rešavaju SLM, API, polymorph-risk ili FL i koje pretpostavke zahtevaju | sama oznaka „AI“, „LLM“ ili „FL“ služi kao opravdanje |
 
-## Minimalni paket beležaka svake faze
+## Minimalni paket beležaka svake nastavne celine
 
 Za učenje je dovoljno da beleška sadrži:
 
@@ -270,34 +270,34 @@ Za učenje je dovoljno da beleška sadrži:
 - poznate granice i odluku šta treba čitati ili proveravati sledeće;
 - vezu sa rečnikom i čestim zabludama iz hemijskog dela.
 
-Egzaktne šeme, manifesti, fixture fajlovi, kod, benchmark merenja, trenirani modeli, deployment i produkcioni izveštaji pripadaju kasnijoj razvojnoj fazi. Plan učenja treba samo da objasni **šta** će tada morati da postoji i **zašto**.
+Plan učenja beleži pojmove, pretpostavke i načine dokazivanja. Ne definiše tehničke artefakte, konkretne modele, servise ili operativne izveštaje.
 
 ## Uslovni nastavak posle osnovnih blokova
 
 Ovo nisu automatske obaveze osnovnog 2CDC scope-a.
 
-### R8 — lokalni SLM i dokumentacioni RAG (oko 16 h teorijske nadogradnje)
+### Lokalni SLM i dokumentacioni RAG (oko 16 h teorijske nadogradnje)
 
-Pročitaj lokalni SLM/RAG modul i uporedi uloge Tier 0 form/DSL/template pristupa, field-aware BM25, constrained NL→DSL, dense retrieval, RRF i malog reranker-a. Osmisli kako bi se kasnije proveravali intent/paraphrase grupe, multilingual i rare-token slučajevi, bez menjanja determinističkog naučnog rezultata.
+Pročitaj lokalni SLM/RAG modul i uporedi formulare/rečnike, kontrolisanu međureprezentaciju, BM25, constrained decoding, dense retrieval, RRF i reranking. Objasni kako intent/paraphrase grupe, višejezični i rare-token slučajevi utiču na evaluaciju, bez menjanja determinističkog naučnog rezultata.
 
-**Ishod učenja:** plan buduće evaluacije lokalnog jezičkog sloja, sa fallback-om, bez implementiranja ili testiranja sistema.
+**Ishod učenja:** uporedna beleška o ulozi, ograničenjima i evaluaciji lokalnog jezičkog sloja.
 
-### R9 — spoljni API (oko 8 h za odluku)
+### Spoljni API (oko 8 h teorije)
 
-Pročitaj API/security modul. Odredi šta bi pre bilo kakvog poziva moralo biti formalno odobreno: klasa podataka, minimalni payload, broker, retention/region/processor uslovi, audit, circuit breaker i lokalni fallback. Projektni podaci se ne šalju radi probe.
+Pročitaj API/security modul. Objasni razliku između izvorne licence, minimizacije, processor/region uslova, retention-a, cache/state-a, audit-a i prompt-injection odbrane. Projektni podaci se ne šalju radi vežbe.
 
-**Ishod učenja:** obrazložen budući **GO/NO-GO** okvir; podrazumevani odgovor je **NO-GO** dok lokalni baseline nema dokazanu rupu i rights/security gate nije pozitivan.
+**Ishod učenja:** obrazložena procena koje činjenice bi morale biti poznate pre razmatranja spoljne obrade, bez izbora providera ili modela.
 
-### R10 — federativno učenje (oko 6 h za odluku)
+### Federativno učenje (oko 6 h teorije)
 
-Ponovo pročitaj FL delove hemijskog poglavlja 22 i roadmapa. Uporedi local-only, shared-public-pretraining i dozvoljeni centralni baseline, pa objasni kako threat model određuje secure aggregation, diferencijalnu privatnost i robust aggregation.
+Ponovo pročitaj FL delove hemijskog poglavlja 22 i uporedne mape. Uporedi centralizovano, local-only, shared-public-pretraining i federativno učenje, pa objasni kako threat model određuje secure aggregation, diferencijalnu privatnost i robust aggregation.
 
-**Ishod učenja:** konceptualna **GO/DEFER** odluka. Bez stvarnog multi-site targeta koji se zakonito ne može centralizovati rezultat mora biti **DEFER**; implementacija nije deo plana.
+**Ishod učenja:** konceptualno objašnjenje uslova pod kojima FL ima smisla. Bez stvarnog multi-site targeta koji se zakonito ne može centralizovati, FL ostaje samo teorijska porodica.
 
 ## Završni kriterijum spremnosti
 
-Spreman si za prelazak na zasebno planiranje realizacije kada možeš da odbraniš ceo lanac:
+Integrisano razumevanje imaš kada možeš da odbraniš ceo lanac:
 
-**odobren izvor → loss-aware purpose view → hemijski i periodični objekat → deterministički exact evidence → candidate retrieval i/ili pair comparison → leakage-safe gold/qrels i split → kalibrisan target-specific challenger sa abstention-om → reproduktivnost i licencna dozvoljenost → objašnjiv rezultat ili precizan UNKNOWN**
+**odobren izvor → loss-aware purpose view → hemijski i periodični objekat → deterministički exact evidence → candidate retrieval i/ili pair comparison → leakage-safe gold/qrels i split → kalibrisana target-specific learned metoda sa abstention-om → reproduktivnost i licencna dozvoljenost → objašnjiv rezultat ili precizan UNKNOWN**
 
 Ako bilo koja strelica nema jasno značenje, teorijsko opravdanje i plan buduće provere, složeniji model još nije sledeći korak.

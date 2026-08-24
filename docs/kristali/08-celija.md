@@ -451,9 +451,9 @@ Za N14:
 
 To odgovara <code>_exptl_crystal_density_diffrn 1.363</code>. Saglasnost proverava formulu, \(Z\), zapreminu i račun kao paket. Ne dokazuje da je svaki atom ili bond type ispravan.
 
-## Predlog data modela za ćeliju
+## Pojmovni slojevi opisa ćelije
 
-Ne čuvaj samo šest normalizovanih brojeva. Minimalni zapis treba da sadrži:
+Šest normalizovanih brojeva nije dovoljno da se razume poređenje. Naučni opis razlikuje:
 
 - originalne \(a,b,c,\alpha,\beta,\gamma,V\) vrednosti i s.u.;
 - originalni Cartesian cell matrix \(\mathbf A\);
@@ -466,19 +466,7 @@ Ne čuvaj samo šest normalizovanih brojeva. Minimalni zapis treba da sadrži:
 - round-trip i atom-mapping validaciju;
 - \(Z\), izvedeni \(Z'\) samo kada je metod opravdan, i confidence.
 
-~~~mermaid
-flowchart TD
-    O["Originalni CIF<br/>nikada ne prepisivati"]
-    P["Parser + dictionary validacija"]
-    S["Standardizovana ćelija<br/>A', fractional coordinates"]
-    T["Transformacija<br/>P, origin shift, tolerancije"]
-    V["Validacija<br/>round-trip, formula, Z, density"]
-    F["Cell/lattice feature-i"]
-    O --> P --> S --> F
-    S --> T
-    T --> V
-    O --> V
-~~~
+Ovo su kategorije potrebne za tumačenje ekvivalentnosti i gubitka informacije, ne propisana record schema ili budući tok skladištenja.
 
 ## Posledice za dve aplikacije
 

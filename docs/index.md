@@ -23,7 +23,7 @@ Dostavljena specifikacija zahteva dva različita režima:
 | CIF protiv veoma velike baze | odziv i skalabilnost uz dobar odziv relevantnih kandidata | jeftini metapodaci i 2D/3D reprezentacije za dohvat, pa skuplje rangiranje |
 | svi parovi u malom ulaznom skupu | maksimalno verodostojno poređenje | višeslojno poravnanje molekula, geometrije, pakovanja i interakcija |
 
-Lokalni CSD izvozi dodatno pokazuju stvarni domen: DAP/Schiff-base motiv i veliki broj metalnih kompleksa. Zbog toga su koordinaciona hemija, promenljive oksidacione forme, donorni atomi, denticitet i geometrija oko metala obavezne teme - ne fakultativni dodatak.
+Lokalni CSD izvozi fokusirani su na DAP/Schiff-base motiv i veliki broj zapisa sa metalima. Zbog toga su koordinaciona hemija, donorni atomi, denticitet i geometrija oko metala obavezne teme za razumevanje dostavljenog materijala. Da li je taj slice i domen finalnog proizvoda ili samo primer ostaje pitanje za fakultet.
 
 ## Put kroz knjigu
 
@@ -33,7 +33,7 @@ Lokalni CSD izvozi dodatno pokazuju stvarni domen: DAP/Schiff-base motiv i velik
 4. **Digitalna hemija** - šta CIF/MOL/MOL2/SDF/SMILES čuvaju, šta gube i zašto konverzija nije neutralna.
 5. **Sličnost i aplikacije** - grafovi, otisci, deskriptori, poravnanje, pakovanje, evaluacija i dvofazna pretraga.
 
-Ako želiš prvo da vidiš format nad kojim ćeš raditi, otvori [pun, anotiran i parsabilan CIF primer](podaci/12a-anatomija-cif.md). Za statistički deo polymorph-risk toka koristi [referentne raspodele, Mogul i HBP](kristali/11a-referentne-raspodele-hbp.md). Ako želiš da proveriš da nijedna tema dostavljenog dokumenta nije izgubljena, koristi [mapu svih 22 strane white paper-a](projekat/22-whitepaper-tokovi-fl.md).
+Ako želiš prvo da vidiš format nad kojim ćeš raditi, otvori [pun, anotiran i parsabilan CIF primer](podaci/12a-anatomija-cif.md). Za statistički deo polymorph-risk toka koristi [referentne raspodele, Mogul i HBP](kristali/11a-referentne-raspodele-hbp.md). Ako želiš da proveriš da nijedna tema dostavljenog dokumenta nije izgubljena, koristi [mapu svih 22 strane white paper-a](projekat/22-whitepaper-tokovi-fl.md). Za sve nepoznanice koje dostupni fajlovi ne mogu da razreše koristi [jedinstvenu listu pitanja i odluka za fakultet](referenca/pitanja-za-fakultet.md).
 
 Detaljan trag validacije — sva 34 baseline poglavlja, svih 15 artefakata, glasovi, korekcije i otvorena pitanja — nalazi se u [validacionom auditu od 23. avgusta 2026](referenca/validacioni-audit-2026-08-23.md).
 

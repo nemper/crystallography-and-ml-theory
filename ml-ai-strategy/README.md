@@ -1,6 +1,6 @@
 # 2CDC ML/AI Strategy
 
-Privatna, evidence-driven dokumentacija za izbor ML/AI algoritama u dve 2CDC aplikacije:
+Privatna, evidence-driven dokumentacija o algoritamskim porodicama relevantnim za dva 2CDC problema:
 
 1. globalna pretraga CSD struktura na osnovu jednog CIF-a;
 2. precizno poređenje uploadovanog skupa CIF fajlova, svaki sa svakim.
