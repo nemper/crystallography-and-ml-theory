@@ -36,7 +36,7 @@ Raw fajlovi nisu u ovom repou. Hash omogućava proveru da vežba koristi iste ba
 | `search2.sd` | `DFF75F66F43827FC5D08E453DFB2C1FF86C7945C7B8B5CB1D0A5C67914D48781` |
 | `search2.smi` | `49F89091D28DAEE5102CE771316EA1AB4204A01FF91F9CD5B350B15800745F4D` |
 
-Repo-generated `docs/assets/open/tutorial-minimal.cif` nije jedan od 15 izvora. Njegov SHA-256 je `A6EEDB8582B90E8A2652DE76394169C506EEA4D06FC1819FB3EF757291D9E7C9`; to je sintetički CC0 teaching fixture čiji je sadržaj u celini pregledljiv.
+Repo-generated `chemistry-foundations/docs/assets/open/tutorial-minimal.cif` nije jedan od 15 izvora. Njegov SHA-256 je `A6EEDB8582B90E8A2652DE76394169C506EEA4D06FC1819FB3EF757291D9E7C9`; to je sintetički CC0 teaching fixture čiji je sadržaj u celini pregledljiv.
 
 ## Kritične lokalne tvrdnje
 

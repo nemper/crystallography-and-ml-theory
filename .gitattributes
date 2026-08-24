@@ -9,5 +9,5 @@ requirements.txt text eol=lf
 *.js text eol=lf
 
 # Vendored runtime bundles are preserved byte-for-byte and are not source-diffed.
-docs/assets/vendor/**/*.js binary
+chemistry-foundations/docs/assets/vendor/**/*.js binary
 ml-ai-strategy/docs/assets/vendor/**/*.js binary

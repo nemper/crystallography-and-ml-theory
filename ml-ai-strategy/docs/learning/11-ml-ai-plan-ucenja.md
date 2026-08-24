@@ -4,7 +4,7 @@ Ovo je putanja kroz postojeći kurs hemije i ML/AI strategiju za inženjera koji
 
 Osnovna putanja organizovana je kao niz tematskih celina povezanih preduslovima i kapijama razumevanja. Nema kalendarski raspored niti procenu trajanja: napredovanje zavisi isključivo od savladanih preduslova i prolaska odgovarajućih kapija. Putanja ne uključuje implementiranje dve aplikacije, treniranje modela niti kompletno čitanje svake spoljne reference.
 
-Ovaj plan dopunjuje [postojeći plan učenja hemije](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/docs/pocetak/plan-ucenja.md). Hemijski plan daje redosled domenskog gradiva; ova strana govori kada je to gradivo dovoljno savladano za određenu ML/AI odluku.
+Ovaj plan dopunjuje [postojeći plan učenja hemije](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/chemistry-foundations/docs/pocetak/plan-ucenja.md). Hemijski plan daje redosled domenskog gradiva; ova strana govori kada je to gradivo dovoljno savladano za određenu ML/AI odluku.
 
 !!! info "Granica ovog plana"
     Tokom učenja pišeš kratke obrazložene skice, uporedne tabele i očekivane ishode na ilustrativnim primerima. Plan ostaje na pojmovima, pretpostavkama i dokazima; ne projektuje konkretan sistem niti izvodi praktične sistemske probe.

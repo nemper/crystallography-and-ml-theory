@@ -9,8 +9,10 @@ Ovaj poddirektorijum je poseban dokumentacioni deo istog repozitorijuma u kojem 
 
 ## Lokalno pokretanje
 
+Iz korena repozitorijuma, nakon zajedničke instalacije zavisnosti:
+
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python -m pip install -r requirements.txt
-.\.venv\Scripts\python -m mkdocs serve
+.\.venv\Scripts\python -m mkdocs serve -f ml-ai-strategy/mkdocs.yml
 ```

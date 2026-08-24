@@ -214,8 +214,8 @@ Dobitak koji nestaje kada se ukloni source/missingness signal nije dokaz bolje h
 
 ## Veza sa izvornim materijalom
 
-- `docs/projekat/17-lokalni-skup.md`: cross-format gubici, 84 zapisa bez coordinate model-a, 233 bez SMILES-a, `Du`, matching problem, N14 i leakage.
-- `docs/projekat/22-whitepaper-tokovi-fl.md`: early-access/main lifecycle, review/curation, structure–property veza i uslovni FL pojmovi.
+- `chemistry-foundations/docs/projekat/17-lokalni-skup.md`: cross-format gubici, 84 zapisa bez coordinate model-a, 233 bez SMILES-a, `Du`, matching problem, N14 i leakage.
+- `chemistry-foundations/docs/projekat/22-whitepaper-tokovi-fl.md`: early-access/main lifecycle, review/curation, structure–property veza i uslovni FL pojmovi.
 - dostavljeni CCDC white paper, **vizuelno/fizički strane 12–14**, odlomci o early-access naspram main baze, Manage Databases, Review Structures/CSD-Editor i database-ready toku.
 - `dve funkcionalnosti.txt`: globalni candidate/ranking problem i all-pairs poređenje, što motiviše coverage i denominator razmatranja.
 

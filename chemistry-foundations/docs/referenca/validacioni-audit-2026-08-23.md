@@ -88,7 +88,7 @@ Pošto je pasus namerno opisivao drugi scope, [strana 17](../projekat/17-lokalni
 
 | # | Baseline strana | Audit odluka posle remediation-a |
 |---:|---|---|
-| 1 | `docs/index.md` | `VALID`; ulaz u nove obavezne strane dodat |
+| 1 | `chemistry-foundations/docs/index.md` | `VALID`; ulaz u nove obavezne strane dodat |
 | 2 | `koordinaciona/05-kompleksi.md` | `VALID + REMEDIATED` — ligand-field minimum |
 | 3 | `koordinaciona/06-dap-schiff.md` | `VALID`; faculty scope ostaje eksplicitno pending |
 | 4 | `kristali/07-interakcije.md` | `VALID` |
@@ -187,7 +187,7 @@ Bez institucijskog ugovora i runtime-a nije potvrđeno pravo bulk eksportovanja/
 
 U auditu od 23. avgusta korišćene su sledeće dokumentacione kontrole:
 
-1. `mkdocs build --strict`;
+1. `mkdocs build --strict -f chemistry-foundations/mkdocs.yml` iz korena repozitorijuma;
 2. provera internih linkova/assets i da nema horizontalnog overflow-a;
 3. browser pregled navigacije, MathJax i svih Mermaid dijagrama;
 4. parsiranje sintetičkog CIF-a i provera hash-a/loop cardinality-ja;
@@ -199,12 +199,12 @@ U auditu od 23. avgusta korišćene su sledeće dokumentacione kontrole:
 
 Sve kontrole su prošle:
 
-- `mkdocs build --strict`: PASS; jedini ispis van regularnog build loga je opšte upstream upozorenje Material for MkDocs-a o budućem MkDocs 2.0;
+- `mkdocs build --strict -f chemistry-foundations/mkdocs.yml`: PASS; jedini ispis van regularnog build loga je opšte upstream upozorenje Material for MkDocs-a o budućem MkDocs 2.0;
 - relativni interni linkovi i fragmenti: 3.607 provera, 0 grešaka;
 - browser crawl: 38/38 strana na desktop viewport-u i 38/38 na 390×844; bez horizontalnog overflow-a i polomljenih slika;
 - Mermaid/MathJax: svih 17 Mermaid kontejnera postalo je SVG, a matematički sadržaj je iscrtan na svim posećenim stranama;
 - sintetički CIF: isti SHA-256 kao u registru; nezavisno ga parsiraju PyCifRW 5.0.1 i Gemmi 0.7.5; oba nalaze jedan blok i dve `atom_site` vrste;
-- sadržaj Git radnog stabla sa kontrolisanim ekstenzijama: samo `docs/assets/open/tutorial-minimal.cif`; nema lokalnih izvornih PDF/CQS/MOL/MOL2/SD/SDF/SMI/raw CIF fajlova;
+- sadržaj Git radnog stabla sa kontrolisanim ekstenzijama: samo `chemistry-foundations/docs/assets/open/tutorial-minimal.cif`; nema lokalnih izvornih PDF/CQS/MOL/MOL2/SD/SDF/SMI/raw CIF fajlova;
 - `git diff --check`: PASS;
 - remote metadata: repozitorijum `nemper/2cdc-chemistry-foundations` je private.
 

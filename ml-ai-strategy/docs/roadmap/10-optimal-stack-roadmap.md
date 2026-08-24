@@ -292,4 +292,4 @@ Ova mapa povezuje postojeće teorijske module i ne zamenjuje njihove definicije 
 - [spoljni API i security](../language/08-api-llm-security.md);
 - [cross-format i eligibility podataka](../data/09-cross-format-eligibility.md).
 
-Potpuna tematska mapa 22-stranog CCDC white paper-a ostaje u glavnom hemijskom kursu `docs/projekat/22-whitepaper-tokovi-fl.md`. White paper motiviše vendor tokove, lifecycle, structure–property, polymorph-risk i federativne teme. Ne propisuje 2CDC algoritam, DAP/CQS semantiku, gold standard, stack ili realizacioni redosled.
+Potpuna tematska mapa 22-stranog CCDC white paper-a ostaje u glavnom hemijskom kursu `chemistry-foundations/docs/projekat/22-whitepaper-tokovi-fl.md`. White paper motiviše vendor tokove, lifecycle, structure–property, polymorph-risk i federativne teme. Ne propisuje 2CDC algoritam, DAP/CQS semantiku, gold standard, stack ili realizacioni redosled.

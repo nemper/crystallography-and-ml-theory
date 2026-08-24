@@ -1,28 +1,53 @@
-# 2CDC - hemijske osnove za strukturnu pretragu
+# 2CDC dokumentacija za učenje
 
-Privatna, projektno usmerena knjiga za ML inženjera koji kreće od nule i treba da projektuje dve aplikacije nad malim molekulskim kristalnim strukturama:
+Ovaj repozitorijum sadrži dva odvojena, ali međusobno usklađena dokumentaciona dela:
 
-1. brzu pretragu velike strukturne baze po sličnosti sa ulaznim CIF-om;
-2. precizno poređenje svih parova u manjem skupu CIF fajlova.
+- [Hemijske osnove](chemistry-foundations/README.md) — hemija, kristalografija i cheminformatika relevantne za 2CDC;
+- [ML/AI strategija](ml-ai-strategy/README.md) — algoritamske porodice, reprezentacije, evaluacija i ML/AI preduslovi relevantni za ista dva problema.
 
-Knjiga objašnjava samo hemiju, kristalografiju i cheminformatiku koje utiču na te zadatke. Svaka celina sadrži intuitivni model, formalnu definiciju, primer vezan za dostavljene fajlove, tipičnu zamku, praktičnu vežbu i proveru znanja.
+Oba dela ostaju u istom repozitorijumu i imaju zasebne MkDocs konfiguracije. Zajedničke Python zavisnosti i virtuelno okruženje nalaze se u korenu repozitorijuma.
 
-Plan je uređen prema preduslovima i proverljivim ishodima znanja. Posebno razdvaja sastav, molekulski graf, koordinaciono okruženje, konformaciju, kristalno pakovanje i intermolekulske interakcije, jer ne postoji jedna univerzalna strukturna sličnost.
+## Struktura
 
-## Lokalno pokretanje
+```text
+2cdc-chemistry-foundations/
+├── chemistry-foundations/
+│   ├── docs/
+│   ├── mkdocs.yml
+│   └── README.md
+├── ml-ai-strategy/
+│   ├── docs/
+│   ├── mkdocs.yml
+│   └── README.md
+├── requirements.txt
+└── LICENSE
+```
+
+## Zajednička priprema
+
+Sve komande se pokreću iz korena repozitorijuma:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python -m pip install -r requirements.txt
-.\.venv\Scripts\python -m mkdocs serve
 ```
 
-Zatim otvoriti adresu koju prikaže MkDocs, podrazumevano `http://127.0.0.1:8000`.
+## Pokretanje hemijskog dela
 
-## Važno o izvornim podacima
+```powershell
+.\.venv\Scripts\python -m mkdocs serve -f chemistry-foundations/mkdocs.yml
+```
 
-Repozitorijum namerno ne sadrži white paper, CSD izvoze, ConQuest `.cqs` upite niti dostavljene CIF/MOL/MOL2 fajlove. Jedini verzionisani `.cif` je ručno napisan, sintetički teaching fixture u `docs/assets/open/tutorial-minimal.cif`; ne sadrži eksperimentalne ni CSD podatke. CSD Portfolio i iz njega izvedeni podskupovi podležu CCDC licenci i ne smeju se redistribuirati bez odgovarajućeg odobrenja. Dostavljene lokalne kopije tretiraju se kao restricted dok se sa fakultetom ne potvrde owner/controller, dozvoljene operacije i odobreni data plane.
+## Pokretanje ML/AI dela
 
-## Status validacije
+```powershell
+.\.venv\Scripts\python -m mkdocs serve -f ml-ai-strategy/mkdocs.yml
+```
 
-Sadržaj je izveden iz lokalnih projektnih artefakata i proveravan prvenstveno prema IUCr, IUPAC i CCDC dokumentaciji, standardima i originalnim radovima. [Validacioni audit](docs/referenca/validacioni-audit-2026-08-23.md) beleži tri nezavisna pregleda, anonimizovano glasanje, jedinu brojčanu korekciju, zatvorene rupe i preostale neizvesnosti. Stranica `Izvori i metod validacije` razdvaja normativne izvore, primarne radove i didaktičke udžbenike.
+MkDocs zatim u terminalu prikaže lokalnu adresu sajta, podrazumevano `http://127.0.0.1:8000`. Ako oba dela treba da rade istovremeno, drugom se može zadati drugi port, na primer:
+
+```powershell
+.\.venv\Scripts\python -m mkdocs serve -f ml-ai-strategy/mkdocs.yml -a 127.0.0.1:8001
+```
+
+Repozitorijum ne sadrži dostavljene fakultetske fajlove, CSD izvoze ni white paper. Jedini verzionisani CIF je ručno napravljen sintetički primer namenjen učenju.
