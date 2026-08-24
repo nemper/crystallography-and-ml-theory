@@ -198,7 +198,7 @@ Algoritamski definisana veza oko koje je relevantna konformaciona rotacija. Amid
 Atom, često metal, oko koga su ligandi uređeni u koordinacionoj jedinki. Jedan entry može imati više centara.
 
 **Ligand**  
-Atom, jon ili molekulska grupa vezana za centralni atom; u ovom projektu obično organska komponenta koja donira jedan ili više atomskih parova metalu.
+Atom, jon ili molekulska grupa vezana za centralni atom; u ovom projektu obično organska komponenta koja preko jednog ili više donor-atoma donira jedan ili više elektronskih parova metalu u Lewisovom formalizmu.
 
 **Donorni atom**  
 Konkretan ligandni atom koji je direktno koordinisan centralnom atomu, npr. iminski ili piridinski N. Prisustvo N u ligandu ne dokazuje da je taj N donor u konkretnoj strukturi.
