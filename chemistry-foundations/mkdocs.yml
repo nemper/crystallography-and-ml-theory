@@ -7,6 +7,7 @@ strict: true
 
 theme:
   name: material
+  custom_dir: ../site-assets
   language: sr
   features:
     - navigation.instant
@@ -66,56 +67,59 @@ markdown_extensions:
       custom_checkbox: true
 
 extra_javascript:
-  - assets/vendor/mermaid-11.17.0/mermaid.min.js
-  - javascripts/mermaid.js
-  - javascripts/mathjax.js
-  - assets/vendor/mathjax-3.2.2/tex-mml-chtml.js
+  - mermaid-11.17.0/mermaid.min.js
+  - mermaid.js
+  - mathjax.js
+  - mathjax-3.2.2/tex-mml-chtml.js
 
 extra_css:
-  - stylesheets/extra.css
+  - extra.css
+
+watch:
+  - ../site-assets
 
 nav:
   - Početak:
       - Naslovna: index.md
-      - Kako se koristi knjiga: pocetak/kako-koristiti.md
-      - Šta projekat zapravo traži: pocetak/mapa-projekta.md
-      - Plan učenja: pocetak/plan-ucenja.md
-      - Dijagnostika i kriterijumi prolaza: pocetak/dijagnostika.md
+      - Kako se koristi knjiga: kako-koristiti.md
+      - Šta projekat zapravo traži: mapa-projekta.md
+      - Plan učenja: plan-ucenja.md
+      - Dijagnostika i kriterijumi prolaza: dijagnostika.md
   - I. Hemijski jezik:
-      - 1. Atomi, elementi, joni i formule: osnove/01-atomi-joni-formule.md
-      - 2. Elektroni i hemijske veze: osnove/02-veze.md
-      - 3. Molekulska geometrija i konformacija: osnove/03-geometrija.md
-      - 4. Organska hemija koja nam treba: osnove/04-organska.md
+      - 1. Atomi, elementi, joni i formule: 01-atomi-joni-formule.md
+      - 2. Elektroni i hemijske veze: 02-veze.md
+      - 3. Molekulska geometrija i konformacija: 03-geometrija.md
+      - 4. Organska hemija koja nam treba: 04-organska.md
   - II. Koordinaciona hemija:
-      - 5. Metali, ligandi i kompleksi: koordinaciona/05-kompleksi.md
-      - 6. DAP Schiff-base motiv u ovom skupu: koordinaciona/06-dap-schiff.md
+      - 5. Metali, ligandi i kompleksi: 05-kompleksi.md
+      - 6. DAP Schiff-base motiv u ovom skupu: 06-dap-schiff.md
   - III. Od molekula do kristala:
-      - 7. Intermolekulske interakcije: kristali/07-interakcije.md
-      - 8. Kristal, rešetka i jedinična ćelija: kristali/08-celija.md
-      - 9. Simetrija, prostorne grupe i periodičnost: kristali/09-simetrija.md
-      - 10. Difrakcija, refiniranje i kvalitet: kristali/10-difrakcija-kvalitet.md
-      - 11. Polimorfi i druge čvrste forme: kristali/11-cvrste-forme.md
-      - 11A. Referentne raspodele, Mogul i HBP: kristali/11a-referentne-raspodele-hbp.md
+      - 7. Intermolekulske interakcije: 07-interakcije.md
+      - 8. Kristal, rešetka i jedinična ćelija: 08-celija.md
+      - 9. Simetrija, prostorne grupe i periodičnost: 09-simetrija.md
+      - 10. Difrakcija, refiniranje i kvalitet: 10-difrakcija-kvalitet.md
+      - 11. Polimorfi i druge čvrste forme: 11-cvrste-forme.md
+      - 11A. Referentne raspodele, Mogul i HBP: 11a-referentne-raspodele-hbp.md
   - IV. Digitalna hemija:
-      - 12. CIF, MOL, MOL2, SDF i SMILES: podaci/12-formati.md
-      - 12A. Anatomija jednog CIF fajla: podaci/12a-anatomija-cif.md
-      - 13. Standardizacija bez gubitka značenja: podaci/13-standardizacija.md
-      - 14. Molekul kao graf i skup deskriptora: podaci/14-reprezentacije.md
-      - 15. Sličnost nije jedna veličina: podaci/15-slicnost.md
+      - 12. CIF, MOL, MOL2, SDF i SMILES: 12-formati.md
+      - 12A. Anatomija jednog CIF fajla: 12a-anatomija-cif.md
+      - 13. Standardizacija bez gubitka značenja: 13-standardizacija.md
+      - 14. Molekul kao graf i skup deskriptora: 14-reprezentacije.md
+      - 15. Sličnost nije jedna veličina: 15-slicnost.md
   - V. Prevod u dve aplikacije:
-      - 16. CSD i ConQuest tok podataka: projekat/16-csd-conquest.md
-      - 17. Forenzika dostavljenog skupa: projekat/17-lokalni-skup.md
-      - 18. Globalna pretraga: projekat/18-globalna-pretraga.md
-      - 19. Precizno poređenje parova: projekat/19-parovi.md
-      - 20. Evaluacija i naučna validacija: projekat/20-evaluacija.md
-      - 21. Licence, FAIR i poreklo podataka: projekat/21-licence-fair.md
-      - 22. White paper tokovi i federativno učenje: projekat/22-whitepaper-tokovi-fl.md
+      - 16. CSD i ConQuest tok podataka: 16-csd-conquest.md
+      - 17. Forenzika dostavljenog skupa: 17-lokalni-skup.md
+      - 18. Globalna pretraga: 18-globalna-pretraga.md
+      - 19. Precizno poređenje parova: 19-parovi.md
+      - 20. Evaluacija i naučna validacija: 20-evaluacija.md
+      - 21. Licence, FAIR i poreklo podataka: 21-licence-fair.md
+      - 22. White paper tokovi i federativno učenje: 22-whitepaper-tokovi-fl.md
   - Opcioni praktikum:
-      - Nastavne laboratorijske vežbe: praktikum/laboratorije.md
-      - Završna analiza bez implementacije: praktikum/zavrsni-projekat.md
-      - Rešenja i rubrike: praktikum/resenja.md
+      - Nastavne laboratorijske vežbe: laboratorije.md
+      - Završna analiza bez implementacije: zavrsni-projekat.md
+      - Rešenja i rubrike: resenja.md
   - Referenca:
-      - Brzi podsetnik: referenca/podsetnik.md
-      - Rečnik pojmova: referenca/recnik.md
-      - Opasne zablude: referenca/zablude.md
-      - Izvori i metod validacije: referenca/izvori.md
+      - Brzi podsetnik: podsetnik.md
+      - Rečnik pojmova: recnik.md
+      - Opasne zablude: zablude.md
+      - Izvori i metod validacije: izvori.md

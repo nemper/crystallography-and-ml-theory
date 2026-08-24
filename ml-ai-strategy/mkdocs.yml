@@ -3,6 +3,7 @@ site_description: Teorijski pregled algoritamskih porodica za dva 2CDC problema
 strict: true
 theme:
   name: material
+  custom_dir: ../site-assets
   language: sr
   features:
     - navigation.sections
@@ -24,34 +25,37 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
 
 extra_javascript:
-  - assets/vendor/mermaid-11.17.0/mermaid.min.js
-  - javascripts/mermaid.js
-  - javascripts/mathjax.js
-  - assets/vendor/mathjax-3.2.2/tex-mml-chtml.js
+  - mermaid-11.17.0/mermaid.min.js
+  - mermaid.js
+  - mathjax.js
+  - mathjax-3.2.2/tex-mml-chtml.js
 
 extra_css:
-  - stylesheets/extra.css
+  - extra.css
+
+watch:
+  - ../site-assets
 
 nav:
   - Početna: index.md
-  - Plan učenja za ML inženjera: learning/11-ml-ai-plan-ucenja.md
+  - Plan učenja za ML inženjera: 11-ml-ai-plan-ucenja.md
   - Scope i teorijska granica: 00-scope.md
   - Pipeline i teorijska mapa odluka: 01-pipeline-decision-map.md
   - Podaci i eligibility:
-      - Cross-format reconciliation i eligibility: data/09-cross-format-eligibility.md
+      - Cross-format reconciliation i eligibility: 09-cross-format-eligibility.md
   - Teorijska mapa:
-      - Algoritamske porodice i uslovi primene: roadmap/10-optimal-stack-roadmap.md
+      - Algoritamske porodice i uslovi primene: 10-optimal-stack-roadmap.md
   - Klasični ML:
-      - Modeli i eksperimenti: classical/02-classical-ml.md
+      - Modeli i eksperimenti: 02-classical-ml.md
   - Globalna pretraga:
-      - Retrieval, ANN i rangiranje: retrieval/03-global-retrieval-ann-ranking.md
+      - Retrieval, ANN i rangiranje: 03-global-retrieval-ann-ranking.md
   - Precizno poređenje parova:
-      - Algoritmi i evidence: pairs/04-precise-pairwise.md
+      - Algoritmi i evidence: 04-precise-pairwise.md
   - Deep crystal modeli:
-      - Periodični encoderi: deep/05-periodic-crystal-encoders.md
-      - Metric learning i evaluacija: deep/06-metric-learning-and-evaluation.md
+      - Periodični encoderi: 05-periodic-crystal-encoders.md
+      - Metric learning i evaluacija: 06-metric-learning-and-evaluation.md
   - Jezički modeli:
-      - Lokalni SLM, kontrolisana interpretacija i RAG: language/07-local-slm-rag.md
-      - Spoljni LLM API i bezbednost: language/08-api-llm-security.md
+      - Lokalni SLM, kontrolisana interpretacija i RAG: 07-local-slm-rag.md
+      - Spoljni LLM API i bezbednost: 08-api-llm-security.md
   - Referenca:
-      - Metod dokaza: reference/evidence-method.md
+      - Metod dokaza: evidence-method.md

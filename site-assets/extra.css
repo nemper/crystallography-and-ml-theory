@@ -1,0 +1,73 @@
+:root {
+  --md-primary-fg-color: #253a72;
+  --md-accent-fg-color: #008fb3;
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 0.35rem;
+}
+
+.md-typeset table:not([class]) {
+  font-size: 0.76rem;
+}
+
+.md-typeset .project-link {
+  border-left: 0.25rem solid var(--md-accent-fg-color);
+  padding: 0.65rem 0.9rem;
+  background: color-mix(in srgb, var(--md-accent-fg-color) 8%, transparent);
+}
+
+.md-typeset .concept-card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.4rem;
+  padding: 0.8rem 1rem;
+  margin: 0.8rem 0;
+}
+
+.md-typeset .mermaid-course {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.md-typeset .mermaid-course svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.md-typeset mjx-container[jax="CHTML"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.md-typeset .arithmatex {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.md-typeset span.arithmatex {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.md-typeset mjx-assistive-mml {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+}
+
+.md-typeset mjx-container[jax="CHTML"][display="true"] {
+  padding: 0.25rem 0;
+}
+
+.md-typeset :not(pre) > code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
