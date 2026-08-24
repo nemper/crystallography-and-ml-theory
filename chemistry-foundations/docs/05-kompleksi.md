@@ -165,7 +165,7 @@ Prvi korak je približan \(d^n\) broj. Za uobičajene komplekse \(d\)-bloka:
 n_d \approx \text{broj grupe metala}-\text{oksidaciono stanje}.
 \]
 
-Zato su Fe(II) približno \(d^6\), Cu(II) \(d^9\), a Zn(II) \(d^{10}\). Ovo koristi prethodno **nezavisno** određen oxidation state; ne čita se iz MOL2 charge kolone i ne prenosi se mehanički na \(f\)-elemente ili složeno organometalno electron counting.
+Zato su Fe(II) približno \(d^6\), Cu(II) \(d^9\), a Zn(II) \(d^{10}\). Ovo koristi **nezavisno** određeno oksidaciono stanje; postupak bilansa sledi u [§5.7](#57-formalno-naelektrisanje-ukupni-naboj-i-oksidaciono-stanje). Oksidaciono stanje se ne čita iz MOL2 charge kolone, a ovo jednostavno pravilo za \(d^n\) ne prenosi se mehanički na \(f\)-elemente ili složeno organometalno electron counting.
 
 | Idealizovana geometrija | Kvalitativno cepanje \(d\)-orbitala | Projektno važna posledica |
 |---|---|---|
