@@ -4,7 +4,7 @@
 
 ## 16.1 CSD, CSD entry i refcode
 
-Cambridge Structural Database (CSD) je kurirana, licencirana baza kristalnih struktura malih organskih i metal-organskih jedinjenja. CCDC-ov pregled razvoja baze je [The Cambridge Structural Database: a quarter of a century after the millionth structure](https://pubs.acs.org/doi/full/10.1021/acs.chemrev.9b00155). Zvanični CCDC snapshot za 2026 navodi 1.431.347 entries; broj je vremenski promenljiv i ne treba ga hardkodovati kao trajnu činjenicu ([CSD Entry Summary Statistics 2026](https://www.ccdc.cam.ac.uk/media/CSD-Entries-Summary-Statistics-2026.pdf)).
+Cambridge Structural Database (CSD) je kurirana, licencirana baza kristalnih struktura malih organskih i metal-organskih jedinjenja. CCDC-ov pregled razvoja baze je [A Million Crystal Structures: The Whole Is Greater than the Sum of Its Parts](https://pubs.acs.org/doi/full/10.1021/acs.chemrev.9b00155). Zvanični CCDC snapshot za 2026 navodi 1.431.347 struktura; broj je vremenski promenljiv i ne treba ga hardkodovati kao trajnu činjenicu ([CSD Entry Summary Statistics 2026](https://www.ccdc.cam.ac.uk/media/CSD-Entries-Summary-Statistics-2026.pdf)).
 
 **CSD entry** nije nužno jedna jedinstvena hemijska supstanca. Može predstavljati konkretno kristalografsko određivanje pri određenim uslovima, sa sastavom, 3D modelom, bibliografijom i kuriranim anotacijama. Bliski refcode-ovi mogu biti povezane redeterminations ili forme; identitet se ne određuje samo string poređenjem.
 

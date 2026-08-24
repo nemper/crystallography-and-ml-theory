@@ -291,7 +291,7 @@ Ovi linkovi su autoritativni za CCDC proizvode i njihove javne uslove, ali su **
 | Rad | Zašto je ovde |
 |---|---|
 | [Etter, MacDonald & Bernstein 1990: Graph-set analysis of hydrogen-bond patterns in organic crystals](https://doi.org/10.1107/S0108768189012929) | originalna graph-set sistematika za H-bond motive |
-| [Bernstein et al. 1995: Graph-set analysis of hydrogen-bond patterns in organic crystals](https://doi.org/10.1002/anie.199515551) | proširenje/praktična primena graph-set jezika |
+| [Bernstein et al. 1995: Patterns in Hydrogen Bonding: Functionality and Graph Set Analysis in Crystals](https://doi.org/10.1002/anie.199515551) | proširenje/praktična primena graph-set jezika |
 | [Galek et al. 2007: Knowledge-based model of hydrogen-bonding propensity](https://doi.org/10.1107/S0108768107030996) | primarni HBP metod; statistički output nije energetski ili polymorph oracle |
 | [Chisholm & Motherwell 2005: COMPACK](https://doi.org/10.1107/S0021889804027074) | originalni pristup za prepoznavanje crystal-structure/packing sličnosti |
 
