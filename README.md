@@ -10,7 +10,7 @@ Oba dela ostaju u istom repozitorijumu i imaju zasebne MkDocs konfiguracije. Zaj
 ## Struktura
 
 ```text
-2cdc-chemistry-foundations/
+crystallography-and-ml-theory/
 ├── chemistry-foundations/
 │   ├── docs/
 │   ├── mkdocs.yml

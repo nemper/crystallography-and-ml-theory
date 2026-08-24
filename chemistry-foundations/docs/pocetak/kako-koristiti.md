@@ -50,7 +50,7 @@ Vežbe pretpostavljaju ovu strukturu na računaru:
 ├── Pretrage CSD/
 │   ├── search1.*
 │   └── search2.*
-└── 2cdc-chemistry-foundations/
+└── crystallography-and-ml-theory/
 ```
 
 Originale tretiraj kao **read-only**. Za eksperimente pravi kopije u sopstvenom privremenom direktorijumu. Ne uploaduj CSD izvoze u javne servise za vizuelizaciju ili validaciju dok se ne proveri licenca i poverljivost.

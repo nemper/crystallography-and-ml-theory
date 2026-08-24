@@ -206,7 +206,7 @@ Sve kontrole su prošle:
 - sintetički CIF: isti SHA-256 kao u registru; nezavisno ga parsiraju PyCifRW 5.0.1 i Gemmi 0.7.5; oba nalaze jedan blok i dve `atom_site` vrste;
 - sadržaj Git radnog stabla sa kontrolisanim ekstenzijama: samo `chemistry-foundations/docs/assets/open/tutorial-minimal.cif`; nema lokalnih izvornih PDF/CQS/MOL/MOL2/SD/SDF/SMI/raw CIF fajlova;
 - `git diff --check`: PASS;
-- remote metadata: repozitorijum `nemper/2cdc-chemistry-foundations` je private.
+- remote metadata: repozitorijum `nemper/crystallography-and-ml-theory` je private.
 
 Ovaj protokol ostaje obavezan i kada se nastavna teorija nije menjala.
 

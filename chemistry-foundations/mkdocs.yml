@@ -1,7 +1,7 @@
 site_name: 2CDC - hemijske osnove
 site_description: Projektno usmerena hemija, kristalografija i cheminformatika za dve 2CDC aplikacije
-repo_url: https://github.com/nemper/2cdc-chemistry-foundations
-repo_name: nemper/2cdc-chemistry-foundations
+repo_url: https://github.com/nemper/crystallography-and-ml-theory
+repo_name: nemper/crystallography-and-ml-theory
 edit_uri: ""
 strict: true
 

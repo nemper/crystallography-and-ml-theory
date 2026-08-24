@@ -4,7 +4,7 @@ Ova strana je datirani zapis provere tadašnje verzije ML/AI dokumentacije. Čuv
 
 ## Izvršni rezultat
 
-- Auditovani sadržaj bio je zamrznut na commitu `4cbdd4a` u privatnom repozitorijumu `nemper/2cdc-chemistry-foundations`.
+- Auditovani sadržaj bio je zamrznut na commitu `4cbdd4a` u privatnom repozitorijumu `nemper/crystallography-and-ml-theory`.
 - Četiri nezavisna read-only toka pokrila su classical/retrieval, crystal/deep/data, SLM/RAG/API i lokalne izvore.
 - U prvim prolazima pronađeno je pet materijalnih P2 rupa. Posle korekcija svaki ciljani domen dobio je završni **PASS**, bez preostalog P1/P2 nalaza u tom snapshot-u.
 - Oba tadašnja MkDocs projekta prošla su strict build; ML sajt je prošao i provere internih targeta, fragmenata, strukturisanih primera i browser prikaza.
@@ -104,7 +104,7 @@ Fer poređenje ovih porodica zahteva isti target, populaciju, split, budžet, co
 | browser console | 0 warning/error zapisa |
 | `git diff --check` | PASS |
 | kontrolisane raw ekstenzije u Git tree-u | samo `chemistry-foundations/docs/assets/open/tutorial-minimal.cif` |
-| GitHub metadata | `nemper/2cdc-chemistry-foundations` je private; default branch `main` |
+| GitHub metadata | `nemper/crystallography-and-ml-theory` je private; default branch `main` |
 
 Jedini build ispis van regularnog loga bio je opšte upozorenje Material for MkDocs projekta o budućem MkDocs 2.0; tadašnji strict build nije prijavio dokumentacionu grešku.
 

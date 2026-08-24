@@ -1,6 +1,6 @@
 # Plan učenja
 
-Ovo je redosled hemijskog i kristalografskog gradiva. Za paralelni ML/AI tok — sa prioritetima gradiva, hemijskim preduslovima i proverama razumevanja — koristi [plan učenja ML/AI dela za 2CDC](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/ml-ai-strategy/docs/learning/11-ml-ai-plan-ucenja.md).
+Ovo je redosled hemijskog i kristalografskog gradiva. Za paralelni ML/AI tok — sa prioritetima gradiva, hemijskim preduslovima i proverama razumevanja — koristi [plan učenja ML/AI dela za 2CDC](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/learning/11-ml-ai-plan-ucenja.md).
 
 ## Preporučeni redosled gradiva
 
