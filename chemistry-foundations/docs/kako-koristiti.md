@@ -48,9 +48,17 @@ Vežbe pretpostavljaju ovu strukturu na računaru:
 ├── N14.mol2
 ├── dve funkcionalnosti.txt
 ├── Pretrage CSD/
-│   ├── search1.*
-│   └── search2.*
-└── crystallography-and-ml-theory/
+│   ├── 1 - Sifove baze DAP.cqs
+│   ├── 2 - Kompleksi sa DAP SB.cqs
+│   ├── search1.cif
+│   ├── search1.mol2
+│   ├── search1.sd
+│   ├── search1.smi
+│   ├── search2.cif
+│   ├── search2.mol2
+│   ├── search2.sd
+│   └── search2.smi
+└── crystallography-and-ml-theory/                  # nije deo L0 inventara izvornih artefakata
 ```
 
 Originale tretiraj kao **read-only**. Za eksperimente pravi kopije u sopstvenom privremenom direktorijumu. Ne uploaduj CSD izvoze u javne servise za vizuelizaciju ili validaciju dok se ne proveri licenca i poverljivost.

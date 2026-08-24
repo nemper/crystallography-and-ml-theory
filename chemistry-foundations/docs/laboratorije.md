@@ -24,7 +24,7 @@ Za opcioni programski rad korisni su [Gemmi](https://gemmi.readthedocs.io/en/sta
 
 **Cilj:** naučiti da dataset počinje poreklom, ne DataFrame-om.
 
-1. Rekurzivno popiši lokalne fajlove.
+1. U okviru `2CDC` popiši isključivo 15 izvornih artefakata prikazanih u [strukturi lokalnih fajlova](kako-koristiti.md#lokalni-fajlovi): pet fajlova u korenu i deset fajlova u `Pretrage CSD`; ne ulazi u `crystallography-and-ml-theory`, `tmp` ni generisane izlaze.
 2. Zabeleži relativni path, bytes, extension, SHA-256 i vreme izmene.
 3. Format detektuj i po sadržaju; ekstenzija je samo signal.
 4. Za multi-record formate izbroj records nezavisno na dva načina gde je moguće.
@@ -120,7 +120,7 @@ z_c &= c\sin\beta\,z_f.
 1. Pročitaj space-group symbol i IT number.
 2. Izlistaj symmetry operations.
 3. Od jednog atoma generiši general-position ekvivalente i wrap-uj fractional coordinates u ([0,1)).
-4. Za ovaj N14 fixture i zadati kontaktni cutoff, nakon provere dometa, generiši candidates preko \(3\times3\times3\) translations oko referentnog molekula.
+4. Za ovaj N14 fixture koristi `4.0 Å` kao radijus enumeracije kontaktnih kandidata — ne kao definiciju veze ili „jakog kontakta“ — pa, nakon provere dometa, generiši candidates preko \(3\times3\times3\) translations oko referentnog molekula.
 5. Ukloni duplikate koristeći symmetry/site identitet, ne samo zaokružen Cartesian string.
 6. Pronađi najbliže međumolekulske O/N kontakte.
 7. Za svaki zapiši symmetry operation i translation image.
