@@ -104,4 +104,4 @@ To označava karakteristično **Cu Kα rendgensko zračenje** korišćeno u mere
     4. Jer se `Cu` može odnositi na izvor zračenja, autora, softver ili komentar. Elementi se izvode iz hemijskih/atomskih polja.  
     5. Parcijalni naboji nisu dodeljeni/zapisani; ne tvrdi da nema formalnih naboja, polarnih veza ili nejednake elektronske gustine.
 
-**Kriterijum prolaza:** bez gledanja objasni razliku element - atom - jon - molekul - formula unit - kristal i za lokalni CIF prepoznaj \(M\), \(Z\), \(V\) i njihove jedinice u računu gustine. Kompletan račun pripada [poglavlju 8](08-celija.md#gustina-kao-provera-konzistentnosti).
+**Kriterijum prolaza:** bez gledanja objasni razliku element - atom - jon - molekul - formula unit - kristal i za lokalni CIF prepoznaj značenje \(M\), \(Z\) i \(V\), navedi jedinice za \(M\) i \(V\) i objasni da je \(Z\) bezdimenzioni broj formulskih jedinki. Kompletan račun pripada [poglavlju 8](08-celija.md#gustina-kao-provera-konzistentnosti).
