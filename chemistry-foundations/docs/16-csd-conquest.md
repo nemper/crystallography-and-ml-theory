@@ -28,7 +28,7 @@ Forenzički pregled čitljivog serializovanog sadržaja dva `.cqs` fajla pokazuj
 
 | Upit | Strukturni deo | Dodatni uslov | Lokalni rezultati |
 |---|---|---|---:|
-| `1 - Sifove baze DAP.cqs` | 18-atomski DAP bis-iminski motiv | nema dodatnog metalnog uslova; metal nije ni zahtevan ni zabranjen | 2.110 |
+| `1 - Sifove baze DAP.cqs` | 18-atomsko DAP query jezgro sa dve `C=N` veze | nema dodatnog metalnog uslova; metal nije ni zahtevan ni zabranjen | 2.110 |
 | `2 - Kompleksi sa DAP SB.cqs` | isti 18-atomski motiv | odvojeni atom tipa `4M` | 2.038 |
 
 CCDC ConQuest vodič definiše `4M` kao grupu svih metalnih elemenata ([ConQuest User Guide](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf)). U query objektu atom 19 je **nepovezan** sa DAP motivom: nema metal–N bond/contact/geometric constraint.
@@ -61,7 +61,7 @@ Ne sme se iz lokalne učestalosti metala, space groups ili missing SMILES zaklju
 
 Primeri različitih slojeva:
 
-- **query graph constraint**: ciljni pyridine-bis(imine) podgraf;
+- **query graph constraint**: ciljno piridinsko query jezgro sa dve `C=N` veze;
 - **entry composition constraint**: prisutan neki metal;
 - **geometric constraint**: određeni M···N distance/angle;
 - **curation/metadata filter**: 3D coordinates present, bez disorder-a, maksimalni R;
@@ -98,7 +98,7 @@ Reproduktivnost ne zavisi od jedne konkretne YAML šeme, već od toga da opis ra
 |---|---|
 | identitet izvora | SHA-256 `065c31c2669bca2fb087a58650e1a9b8c71ea6bb8f87050b8cab6bd79416aaa5` |
 | alat i baza | ConQuest 2022.2.0; CSD 5.43 sa March/June 2022 segmentima |
-| izvršivi strukturni uslov | 18-atomski DAP-bis(iminski) motiv plus odvojeni `4M` atom |
+| izvršivi strukturni uslov | 18-atomsko DAP query jezgro sa dve `C=N` veze plus odvojeni `4M` atom |
 | broj povezanih komponenti query grafa | dve; ne postoji metal–motiv constraint |
 | sačuvani entry filteri | `require_3d=false`; maksimalni R nije zadat |
 | trag vremena | 2026 temp/save trag ne dokazuje da je baza ili run iz 2026. |

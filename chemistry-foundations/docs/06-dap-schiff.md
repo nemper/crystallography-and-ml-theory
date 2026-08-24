@@ -23,7 +23,7 @@ potencijalni donorski niz: N_imine – N_pyridine – N_imine
 ```
 
 !!! warning "Inference, ne originalno ime u fajlu"
-    Lokalni query graf vrlo snažno podržava 2,6-diacetilpiridinski bis-iminski motiv, ali `.cqs` ne nosi autoritativnu hemijsku definiciju skraćenice. Naučni tim treba pisano da potvrdi da je to nameravani scope, uključujući dozvoljene supstitucije, protone/tautomere i parcijalno kondenzovane proizvode.
+    Lokalni query graf eksplicitno kodira 18-atomsko 2,6-diacetilpiridinsko jezgro sa dve `C=N` veze. Sam query ne ograničava neposredni supstituent na svakom terminalnom N, pa klasifikacija pogotka kao bis-imina ili Schiffove baze zahteva proveru kompletne strukture. `.cqs` ne nosi autoritativnu hemijsku definiciju skraćenice; naučni tim treba pisano da potvrdi nameravani scope, uključujući dozvoljene supstitucije, protone/tautomere i parcijalno kondenzovane proizvode.
 
 ## 6.2 Od karbonila i amina do Schiffove baze
 
@@ -126,7 +126,7 @@ Forenzičko čitanje fajla `1 - Sifove baze DAP.cqs` pokazuje jedan 2D connectiv
 | elementi | 9 C, 3 N, 6 H |
 | centralni prsten | 5 C + 1 N |
 | prstenaste veze | 6 veza sa ConQuest kodom 5 |
-| iminske veze | 2 dvostruke `C=N`, kod 2 |
+| dvostruke `C=N` veze | 2, kod 2 |
 | ostale query veze | 10 `Any`, kod 99 |
 | režim | `exhaustive=1`, `symmchk=1` |
 
@@ -180,7 +180,7 @@ Jedan boolean „jeste/nije kompleks“ skriva više različitih pitanja:
 
 | Nivo dokaza | Pitanje |
 |---|---|
-| motiv | da li je mapirani DAP-bis(iminski) motiv prisutan? |
+| motiv | da li je mapirano 18-atomsko DAP query jezgro sa dve `C=N` veze prisutno? |
 | sastav entry-ja | da li neki metal postoji bilo gde u entry-ju? |
 | komponenta | da li metal i mapirani motiv pripadaju istoj hemijskoj komponenti? |
 | lokalni kontakt | da li postoji hemijski/geometrijski podržan metal–N odnos? |

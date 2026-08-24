@@ -374,7 +374,7 @@ Ove signature su korisne kao features, ali imaju tri caveat-a:
 
 Ovaj skup je **query-conditioned convenience snapshot**, ne slučajan uzorak CSD-a:
 
-1. svaki entry mora imati uski 2,6-diacetilpiridinski bis-iminski podgraf;
+1. svaki entry mora imati usko 18-atomsko 2,6-diacetilpiridinsko query jezgro sa dve `C=N` veze;
 2. `search2` dodatno bira metal presence, ne validiranu DAP koordinaciju;
 3. svi standardni quality/disorder/polymer/ion/3D filteri bili su isključeni;
 4. snapshot prestaje sa June 2022 update-om i ne predstavlja kasnije deponovane strukture;

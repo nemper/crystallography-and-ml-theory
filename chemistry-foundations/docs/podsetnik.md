@@ -58,7 +58,7 @@ Uspešna konverzija je sintaktički događaj, ne dokaz semantičke bezgubitnosti
 
 ## DAP/CQS činjenice
 
-- oba sačuvana upita sadrže isti povezani 18-atomski DAP-bis(iminski) motiv;
+- oba sačuvana upita sadrže isto povezano 18-atomsko DAP query jezgro sa dve `C=N` veze;
 - drugi dodaje nepovezani `4M` atom;
 - `4M` dokazuje metal negde u istom entry-ju, ne DAP–metal koordinaciju;
 - `search2` je strogi podskup `search1`, ali membership nije coordination gold;

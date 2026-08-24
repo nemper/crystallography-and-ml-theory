@@ -145,7 +145,7 @@ Prepoznatljiv atomski motiv koji daje tipično hemijsko ponašanje: karbonil, im
 Izabrano osnovno molekulsko jezgro za poređenje. Nema jednu univerzalnu definiciju; algoritam, prstenovi, side-chain pravila i metal handling moraju biti verzionisani.
 
 **DAP**  
-U ovom projektu: 2,6-diacetilpiridin-derived bis(imine)/Schiff-base motiv iz lokalnih ConQuest upita. Tačan pozitivni opseg (supstituenti, protonacija, donor set, bridging) mora potvrditi naučni tim.
+U ovom projektu: 18-atomsko 2,6-diacetilpiridinsko query jezgro sa dve `C=N` veze iz lokalnih ConQuest upita. Sama podstrukturna podudarnost ne dokazuje da je pogodak bis-imin ili Schiffova baza; to zahteva proveru neposrednog supstituenta na svakom `C=N` azotu u kompletnoj strukturi. Tačan pozitivni opseg (supstituenti, protonacija, donor set, bridging) mora potvrditi naučni tim.
 
 **Schiffova baza / imin**  
 Schiffova baza se uobičajeno odnosi na iminski proizvod kondenzacije primarnog amina i karbonilnog jedinjenja; ključni motiv je C=N. Iminski N može biti donor, ali protonacija i supstitucija menjaju ponašanje.

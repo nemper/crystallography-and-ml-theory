@@ -92,7 +92,7 @@ Lokalni CIF je monoklinski, \(P\,2_1/c\), International Tables broj 14, sa \(Z=4
 
 ## L6 — query semantika
 
-- oba query-ja dele isti connected 18-atomski DAP bis-iminski motiv;
+- oba query-ja dele isto povezano 18-atomsko DAP query jezgro sa dve `C=N` veze;
 - drugi dodaje atom 19 tipa `4M`;
 - `4M` znači svi metali;
 - atom 19 je nepovezana query component;
