@@ -169,18 +169,7 @@ Lokalni izvozi to potvrđuju brojčano:
 
 ## 6.8 Kontraprimeri su važniji od lakih pozitivnih primera
 
-Sledeći `search2` pogoci zadovoljavaju query, ali nisu dokaz ciljne DAP–metal koordinacije:
-
-| Refcode | Lokalni obrazac | Ispravna etiketa za N3 koordinaciju |
-|---|---|---|
-| APHZUC | protonovani DAP-derived ligand + odvojena U/O/Cl komponenta + acetonitril | negativan ili `not-coordinated` |
-| FOWLEJ | ligand + odvojeni Cd/Cl metalat | negativan |
-| GEHCOM | ligand + odvojeni Sn/Cl fragment | negativan |
-| MINQUV | ligand + odvojeni Cu/Cl fragment | negativan |
-| SUZBAT | Fe ima organometalno C okruženje, ne ciljnu N3 vezu | negativan za DAP–N3, iako nije „metal bez veza“ |
-| UJIXES | ligand + odvojeni `[Mn+2]` | negativan ili neodređen ako graf nije dovoljan |
-
-Oni su korisni **hard negatives** za model: veoma liče po scaffold-u i composition-u na pozitivne kandidate, ali padaju na semantički presudnom M–N mapping-u.
+Šest hemijski obrazloženih kontraprimera — APHZUC, FOWLEJ, GEHCOM, MINQUV, SUZBAT i UJIXES — dato je u [§5.8](05-kompleksi.md#58-kontraprimeri-metal-je-prisutan-ali-ciljna-koordinacija-nije-dokazana). Ovde je njihova posebna ML uloga da služe kao **hard negatives**: dele scaffold/composition signal sa pozitivima, ali padaju na presudnom M–N atom mapping-u.
 
 !!! danger "SMILES tačka je signal, ne konačna presuda"
     Tačka u SMILES-u označava odvojene graf komponente u tom eksportu. Kod kristala ipak treba proveriti CIF koordinate, simetriju, periodične slike i provenance percepcije veza. Zaključak `not coordinated` treba da nosi dokaz i confidence, naročito kada je izvor lossy.

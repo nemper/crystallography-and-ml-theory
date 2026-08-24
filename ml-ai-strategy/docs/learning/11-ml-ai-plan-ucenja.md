@@ -65,20 +65,6 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 | Structure–property i polymorph-risk target | 10–11A, 20–22 | Target se vezuje za material/solid form, uslove, metod, vreme i neizvesnost; indikator nije oracle. |
 | Federativno učenje | 21–22 | FL nije zamena za licencu niti automatska privatnost; bez opravdanog multi-site targeta odluka je **DEFER**. |
 
-## Nastavne celine i dokaz razumevanja
-
-| Celina | Dokaz razumevanja |
-|---|---|
-| F0 — scope, claims i prava | Kratka beleška o dva problema, profilima poređenja/pretrage, pravima, nepoznanicama i granicama tvrdnje. |
-| F1 — hemijski graf, stereo i koordinacija | Mapa pojmova i ručno obrazloženi pozitivni, negativni i neodređeni DAP/donor primeri. |
-| F2 — 3D kristal i periodičnost | Checklist invarijansi i očekivanih ishoda fizički ekvivalentnih i stvarno različitih transformacija. |
-| F3 — formati, reprezentacije i eligibility | Matrica gubitaka među formatima i zamišljen denominator/eligibility primer. |
-| F4 — determinističko poređenje parova | Konceptualni pair izveštaj i nekoliko ručno razrađenih slučajeva sa stanjima i evidence-om. |
-| F5 — retrieval, exact oracle i reranking | Beleška o anotaciji i razlikama između exact, candidate i finalnog ranga. |
-| F6 — gold, split, klasični ML i kalibracija | Skica leakage-safe evaluacije i tumačenje hipotetičkih rezultata. |
-| F7 — periodični deep i metric learning | Uporedna tabela modelskih porodica, njihovih pretpostavki i failure režima. |
-| F8 — governance, white paper i uslovne teme | Završni memorandum o provenance-u, reproduktivnosti, SLM/API granici, polymorph-risk-u i FL uslovima. |
-
 ## Tematske celine po redosledu preduslova
 
 ### Problem pre algoritma

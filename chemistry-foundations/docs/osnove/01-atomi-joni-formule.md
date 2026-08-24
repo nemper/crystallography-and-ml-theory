@@ -57,15 +57,7 @@ _chemical_formula_sum     'C25 H20 N3 O2 P'
 _chemical_formula_weight  425.41
 ```
 
-Vrednost 425,41 g/mol je zbir prosečnih atomskih masa u formuli. U jediničnoj ćeliji se nalazi \(Z=4\) formula units, a zapremina je \(2073.51\ \mathrm{\mathring{A}^3}\). Pošto je \(1\ \mathrm{\mathring{A}^3}=10^{-24}\ \mathrm{cm^3}\), kristalografska gustina je:
-
-\[
-\rho = \frac{Z M}{N_A V}
-= \frac{4\cdot425.41}{(6.02214076\times10^{23})(2073.51\times10^{-24})}
-\approx 1.363\ \mathrm{g\ cm^{-3}}.
-\]
-
-To se slaže sa `_exptl_crystal_density_diffrn 1.363`. Ova provera povezuje formulu, \(Z\), ćeliju i jedinice - i može otkriti ozbiljan ingest problem.
+Vrednost 425,41 g/mol je zbir prosečnih atomskih masa u formuli. Kristalografska gustina povezuje molarnu masu \(M\), broj formulskih jedinki \(Z\) i zapreminu ćelije \(V\); kompletan N14 račun, konverzija Å³→cm³ i granice ove provere dati su u [Gustina kao provera konzistentnosti](../kristali/08-celija.md#gustina-kao-provera-konzistentnosti).
 
 ### Jedinice koje moraš trenutno prepoznati
 
@@ -113,4 +105,3 @@ To označava karakteristično **Cu Kα rendgensko zračenje** korišćeno u mere
     5. Parcijalni naboji nisu dodeljeni/zapisani; ne tvrdi da nema formalnih naboja, polarnih veza ili nejednake elektronske gustine.
 
 **Kriterijum prolaza:** bez gledanja objasni razliku element - atom - jon - molekul - formula unit - kristal i proveri gustinu lokalnog CIF-a sa ispravnim jedinicama.
-
