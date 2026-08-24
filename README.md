@@ -7,7 +7,7 @@ Privatna, projektno usmerena knjiga za ML inženjera koji kreće od nule i treba
 
 Knjiga objašnjava samo hemiju, kristalografiju i cheminformatiku koje utiču na te zadatke. Svaka celina sadrži intuitivni model, formalnu definiciju, primer vezan za dostavljene fajlove, tipičnu zamku, praktičnu vežbu i proveru znanja.
 
-Plan obuhvata približno 122 sata rada kroz 15 nedelja. Posebno razdvaja sastav, molekulski graf, koordinaciono okruženje, konformaciju, kristalno pakovanje i intermolekulske interakcije, jer ne postoji jedna univerzalna strukturna sličnost.
+Plan je uređen prema preduslovima i proverljivim ishodima znanja. Posebno razdvaja sastav, molekulski graf, koordinaciono okruženje, konformaciju, kristalno pakovanje i intermolekulske interakcije, jer ne postoji jedna univerzalna strukturna sličnost.
 
 ## Lokalno pokretanje
 

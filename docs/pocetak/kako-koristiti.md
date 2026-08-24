@@ -7,7 +7,7 @@ Hemijski pojmovi postaju korisni tek kada ih povežeš sa reprezentacijom podata
 1. pročitaj intuitivni deo bez memorisanja;
 2. zatvori stranicu i sopstvenim rečima objasni pojam u dve rečenice;
 3. pronađi taj pojam u lokalnom CIF/MOL/MOL2 primeru;
-4. uradi kratku proveru bez gledanja rešenja;
+4. uradi proveru bez gledanja rešenja;
 5. zapiši jednu posledicu za dizajn aplikacije.
 
 Ako ne možeš da odgovoriš na pitanje "koju grešku bi ovaj pojam sprečio u modelu?", gradivo još nije postalo operativno.
@@ -20,19 +20,11 @@ Ako ne možeš da odgovoriš na pitanje "koju grešku bi ovaj pojam sprečio u m
 | **TREBA** | potrebno pre evaluacije prototipa i razgovora sa hemičarima/kristalografima |
 | **KASNIJE** | korisno za istraživački rad, ali nije blokator prvog validnog sistema |
 
-Knjiga je već poređana tako da se pojmovi uvode pre upotrebe. Nemoj preskakati module 1-3 i 7-10. Možeš ubrzati samo ako položiš ulaznu proveru za taj modul.
+Knjiga je već poređana tako da se pojmovi uvode pre upotrebe. Nemoj preskakati module 1-3 i 7-10. Modul preskoči samo ako položiš njegovu ulaznu proveru.
 
-## Koliko vremena
+## Kriterijum za prelazak
 
-Preporučena putanja je oko **122 fokusirana sata kroz 15 nedelja**. To nije hiljade strana, ali nije ni vikend-kurs: kristalna sličnost spaja hemiju, geometriju, periodične sisteme i kvalitet eksperimenta.
-
-| Režim | Tempo | Namena |
-|---|---:|---|
-| održivi | 15 nedelja, 8-9 h nedeljno | paralelno sa projektovanjem i konsultacijama |
-| ubrzani | 8 nedelja, 15-16 h nedeljno | ako je prototip hitan |
-| referentni | bez roka | kasnije vraćanje na poglavlja pri teorijskim i projektantskim odlukama |
-
-Raspored nije zasnovan na broju stranica nego na izlaznim sposobnostima. Ako laboratorijsku vežbu uradiš tačno i umeš da objasniš zamke, prelaziš dalje.
+Prelazak na sledeću celinu zasniva se na izlaznim sposobnostima, ne na broju pročitanih stranica. Pređi dalje kada možeš samostalno da demonstriraš navedeni ishod, tačno uradiš odgovarajuću proveru ili laboratorijsku vežbu i objasniš ključne zamke. Ako neki ishod nije stabilan, vrati se na njegov preduslov u [planu učenja](plan-ucenja.md#zavisnosti-modula).
 
 ## Kako se koriste spoljni linkovi
 

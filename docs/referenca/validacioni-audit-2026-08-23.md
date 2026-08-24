@@ -79,7 +79,7 @@ Pošto je pasus namerno opisivao drugi scope, [strana 17](../projekat/17-lokalni
 | C11 pun CIF | [12A. Anatomija CIF-a](../podaci/12a-anatomija-cif.md) + [sintetički fixture](../assets/open/tutorial-minimal.cif) |
 | C12 svih 22 PDF strana | [22. White paper tokovi i FL](../projekat/22-whitepaper-tokovi-fl.md) |
 | C15 lifecycle gate | [konceptualne razlike lifecycle stanja](../projekat/22-whitepaper-tokovi-fl.md#lifecycle-stanja) |
-| redosled i vreme | [15-nedeljni plan, oko 122 h](../pocetak/plan-ucenja.md) |
+| redosled gradiva | [plan učenja zasnovan na ishodima](../pocetak/plan-ucenja.md) |
 | praktična provera | [L0A i L11](../praktikum/laboratorije.md) + [kontrolna rešenja](../praktikum/resenja.md) |
 
 ## Checklist svih 34 baseline strana
@@ -103,7 +103,7 @@ Pošto je pasus namerno opisivao drugi scope, [strana 17](../projekat/17-lokalni
 | 13 | `pocetak/dijagnostika.md` | `VALID` |
 | 14 | `pocetak/kako-koristiti.md` | `VALID` |
 | 15 | `pocetak/mapa-projekta.md` | `VALID` |
-| 16 | `pocetak/plan-ucenja.md` | `VALID + UPDATED` — remediation uvršten u plan/sate |
+| 16 | `pocetak/plan-ucenja.md` | `VALID + UPDATED` — remediation uvrštena u plan |
 | 17 | `podaci/12-formati.md` | `VALID + REMEDIATED` novom 12A stranom |
 | 18 | `podaci/13-standardizacija.md` | `VALID` |
 | 19 | `podaci/14-reprezentacije.md` | `VALID` |

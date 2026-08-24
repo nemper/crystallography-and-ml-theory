@@ -64,7 +64,7 @@ Prolaz kada možeš da:
 
 ## Završni usmeni test
 
-Uzmi dva lokalna CIF zapisa i za pet minuta objasni:
+Uzmi dva lokalna CIF zapisa i objasni:
 
 1. šta je sigurno zapisano;
 2. šta je hemijski dodeljeno;
@@ -74,4 +74,3 @@ Uzmi dva lokalna CIF zapisa i za pet minuta objasni:
 6. koja bi mera bila prikladna za globalni dohvat, a koja za precizno poređenje.
 
 Ako odgovor može da prati i hemičar i ML inženjer, cilj kursa je postignut.
-

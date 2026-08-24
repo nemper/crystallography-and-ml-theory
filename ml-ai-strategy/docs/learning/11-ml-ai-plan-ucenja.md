@@ -2,9 +2,9 @@
 
 Ovo je putanja kroz postojeći kurs hemije i ML/AI strategiju za inženjera koji već zna da trenira, validira i isporuči ML sistem, ali tek gradi domensko znanje iz hemije i kristalografije. Plan ne ponavlja teoriju iz postojećih poglavlja. On određuje **redosled, preduslove, projektantske vežbe i dokaze razumevanja**.
 
-Osnovna putanja ima 16 nastavnih blokova i približno **178 fokusiranih sati**: oko 122 sata postojećeg kursa hemije i oko 56 sati projektno usmerene ML/AI nadogradnje. Ne uključuje implementiranje dve aplikacije, treniranje modela niti kompletno čitanje svake spoljne reference. Blokovi mogu stati u 16 intenzivnih nedelja samo uz približno 10–13 sati rada nedeljno; pri održivih osam sati računaj oko 22–23 nedelje. Kapije i redosled ostaju isti.
+Osnovna putanja organizovana je kao niz tematskih celina povezanih preduslovima i kapijama razumevanja. Nema kalendarski raspored niti procenu trajanja: napredovanje zavisi isključivo od savladanih preduslova i prolaska odgovarajućih kapija. Putanja ne uključuje implementiranje dve aplikacije, treniranje modela niti kompletno čitanje svake spoljne reference.
 
-Ovaj plan dopunjuje [postojeći 15-nedeljni plan hemije](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/docs/pocetak/plan-ucenja.md). Hemijski plan daje redosled domenskog gradiva; ova strana govori kada je to gradivo dovoljno savladano za određenu ML/AI odluku.
+Ovaj plan dopunjuje [postojeći plan učenja hemije](https://github.com/nemper/2cdc-chemistry-foundations/blob/main/docs/pocetak/plan-ucenja.md). Hemijski plan daje redosled domenskog gradiva; ova strana govori kada je to gradivo dovoljno savladano za određenu ML/AI odluku.
 
 !!! info "Granica ovog plana"
     Tokom učenja pišeš kratke obrazložene skice, uporedne tabele i očekivane ishode na ilustrativnim primerima. Plan ostaje na pojmovima, pretpostavkama i dokazima; ne projektuje konkretan sistem niti izvodi praktične sistemske probe.
@@ -26,7 +26,7 @@ Oznake u tabeli znače:
 - **P — preporučeno:** potrebno pre odgovarajuće napredne teme, ali ne blokira ranije gradivo;
 - **R — referenca:** otvara se tokom dizajna, error analysis-a ili audita; ne čita se linearno unapred.
 
-Uporedna mapa algoritamskih porodica čita se dva puta: prvi put radi orijentacije, a drugi put u celosti u 16. nedelji, kada već možeš da osporiš primenljivost svake porodice.
+Uporedna mapa algoritamskih porodica čita se dva puta: prvi put radi orijentacije, a drugi put u celosti nakon osnovnih hemijskih i ML/AI preduslova, kada već možeš da osporiš primenljivost svake porodice.
 
 | Red | Dokumentacija | Prioritet | Kada i zašto |
 |---:|---|---|---|
@@ -65,25 +65,23 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 | Structure–property i polymorph-risk target | 10–11A, 20–22 | Target se vezuje za material/solid form, uslove, metod, vreme i neizvesnost; indikator nije oracle. |
 | Federativno učenje | 21–22 | FL nije zamena za licencu niti automatska privatnost; bez opravdanog multi-site targeta odluka je **DEFER**. |
 
-## Nastavne celine, vreme i dokaz razumevanja
+## Nastavne celine i dokaz razumevanja
 
-| Celina | Blokovi | Sati | Dokaz razumevanja |
-|---|---:|---:|---|
-| F0 — scope, claims i prava | 1 | 8 | Kratka beleška o dva problema, profilima poređenja/pretrage, pravima, nepoznanicama i granicama tvrdnje. |
-| F1 — hemijski graf, stereo i koordinacija | 2–3 | 16 | Mapa pojmova i ručno obrazloženi pozitivni, negativni i neodređeni DAP/donor primeri. |
-| F2 — 3D kristal i periodičnost | 4–6 | 27 | Checklist invarijansi i očekivanih ishoda fizički ekvivalentnih i stvarno različitih transformacija. |
-| F3 — formati, reprezentacije i eligibility | 7–8 | 21 | Matrica gubitaka među formatima i zamišljen denominator/eligibility primer. |
-| F4 — determinističko poređenje parova | 9–10 | 24 | Konceptualni pair izveštaj i nekoliko ručno razrađenih slučajeva sa stanjima i evidence-om. |
-| F5 — retrieval, exact oracle i reranking | 11–12 | 24 | Beleška o anotaciji i razlikama između exact, candidate i finalnog ranga. |
-| F6 — gold, split, klasični ML i kalibracija | 13 | 12 | Skica leakage-safe evaluacije i tumačenje hipotetičkih rezultata. |
-| F7 — periodični deep i metric learning | 14–15 | 26 | Uporedna tabela modelskih porodica, njihovih pretpostavki i failure režima. |
-| F8 — governance, white paper i uslovne teme | 16 | 20 | Završni memorandum o provenance-u, reproduktivnosti, SLM/API granici, polymorph-risk-u i FL uslovima. |
+| Celina | Dokaz razumevanja |
+|---|---|
+| F0 — scope, claims i prava | Kratka beleška o dva problema, profilima poređenja/pretrage, pravima, nepoznanicama i granicama tvrdnje. |
+| F1 — hemijski graf, stereo i koordinacija | Mapa pojmova i ručno obrazloženi pozitivni, negativni i neodređeni DAP/donor primeri. |
+| F2 — 3D kristal i periodičnost | Checklist invarijansi i očekivanih ishoda fizički ekvivalentnih i stvarno različitih transformacija. |
+| F3 — formati, reprezentacije i eligibility | Matrica gubitaka među formatima i zamišljen denominator/eligibility primer. |
+| F4 — determinističko poređenje parova | Konceptualni pair izveštaj i nekoliko ručno razrađenih slučajeva sa stanjima i evidence-om. |
+| F5 — retrieval, exact oracle i reranking | Beleška o anotaciji i razlikama između exact, candidate i finalnog ranga. |
+| F6 — gold, split, klasični ML i kalibracija | Skica leakage-safe evaluacije i tumačenje hipotetičkih rezultata. |
+| F7 — periodični deep i metric learning | Uporedna tabela modelskih porodica, njihovih pretpostavki i failure režima. |
+| F8 — governance, white paper i uslovne teme | Završni memorandum o provenance-u, reproduktivnosti, SLM/API granici, polymorph-risk-u i FL uslovima. |
 
-Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI nadogradnje. Redovni blokovi sabiraju 168 h; poslednjih do 10 h služi za završnu sintezu i usmenu samoproveru. To je 16 intenzivnih nedelja pri 10–13 h rada, odnosno oko 22–23 nedelje pri tempu od 8 h.
+## Tematske celine po redosledu preduslova
 
-## Nedelja po nedelja
-
-### Nedelja 1 — problem pre algoritma (8 h)
+### Problem pre algoritma
 
 **Čitaj:** početne strane oba dela dokumentacije, hemijsku mapu projekta i dijagnostiku; zatim ML/AI scope, pipeline mapu i uvodne delove uporedne algoritamske mape.
 
@@ -93,7 +91,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** umeš da objasniš zašto App 1 nije samo klasifikator, App 2 nije jedna univerzalna matrica score-a i LLM nije parser.
 
-### Nedelja 2 — od atoma do stereo-svesnog grafa (8 h)
+### Od atoma do stereo-svesnog grafa
 
 **Čitaj:** hemija 1–4.
 
@@ -103,7 +101,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** prolaziš hemijsku Kapiju A i ne pretvaraš nepoznato polje u podrazumevanu vrednost.
 
-### Nedelja 3 — DAP, metali i koordinaciona semantika (8 h)
+### DAP, metali i koordinaciona semantika
 
 **Čitaj:** hemija 5–6.
 
@@ -113,7 +111,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** nijedan kriterijum se ne svodi samo na formulu, filename, SMILES tačku ili pripadnost staroj search grupi.
 
-### Nedelja 4 — 3D, ćelija i periodični susedi (9 h)
+### 3D, ćelija i periodični susedi
 
 **Čitaj:** hemija 7–8.
 
@@ -123,7 +121,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** umeš da obrazložiš koje udaljenosti moraju ostati iste i koji podaci o simetrijskoj operaciji i periodičnoj slici bi se kasnije čuvali.
 
-### Nedelja 5 — simetrija, kvalitet i neizvesnost (9 h)
+### Simetrija, kvalitet i neizvesnost
 
 **Čitaj:** hemija 9–10.
 
@@ -133,7 +131,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** ekvivalentan zapis ne tretiraš kao novi kristal, a odsutan ili loš input ne pretvaraš u score 0.
 
-### Nedelja 6 — polimorfi, packing i referentni signali (9 h)
+### Polimorfi, packing i referentni signali
 
 **Čitaj:** hemija 11 i 11A.
 
@@ -143,7 +141,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** prolaziš hemijsku Kapiju C i umeš da predvidiš očekivanja za origin, wrap, setting/basis, supercell, stereo i disorder slučajeve.
 
-### Nedelja 7 — formati i loss-aware ingest (10 h)
+### Formati i loss-aware ingest
 
 **Čitaj:** hemija 12, 12A i 13; zatim prvi deo cross-format/lifecycle modula.
 
@@ -153,7 +151,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** lossy format ne prepisuje bogatiji izvor, uspešan parse nije isto što i validan crystal model i nijedan entry ne nestaje bez accounting-a.
 
-### Nedelja 8 — eligibility, reprezentacije i lokalni bias (11 h)
+### Eligibility, reprezentacije i lokalni bias
 
 **Čitaj:** hemija 14–17 i 21; dovrši cross-format/lifecycle ugovor.
 
@@ -163,7 +161,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** isti entry u svim formatima/verzijama pripada istoj split grupi, a missing SMILES nije ni missing graph ni negativna labela.
 
-### Nedelja 9 — deterministički App 2: mapping i 3D (12 h)
+### Deterministički App 2: mapping i 3D
 
 **Čitaj:** hemija 19 i pairwise modul 4.1–4.9.
 
@@ -173,7 +171,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** razumeš zašto svaki par i svaka grana moraju imati stanje i zašto smer A→B može menjati coverage, ali ne i simetrične veličine.
 
-### Nedelja 10 — deterministički App 2: packing i evidence (12 h)
+### Deterministički App 2: packing i evidence
 
 **Čitaj:** dovrši pairwise modul 4.10–4.21.
 
@@ -183,7 +181,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** drugi inženjer iz tvoje skice može nedvosmisleno razumeti budući pair universe, mapping, parametre, statuse i evidence.
 
-### Nedelja 11 — App 1: exact i višekanalni candidate retrieval (12 h)
+### App 1: exact i višekanalni candidate retrieval
 
 **Čitaj:** hemija 18 i retrieval modul 3.1–3.12.
 
@@ -193,7 +191,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** umeš da objasniš set-equality zahtev za hard filter i zašto ANN evaluacija mora imati exact oracle iste reprezentacije i metrike.
 
-### Nedelja 12 — reranking, qrels i retrieval evaluacija (12 h)
+### Reranking, qrels i retrieval evaluacija
 
 **Čitaj:** retrieval modul 3.13–3.22 i hemiju 20, sa fokusom na claim, gold, split i metrike.
 
@@ -203,7 +201,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** candidate miss ne pripisuješ rerankeru, stare search grupe nisu gold i novi neocenjeni vrh rezultata zahteva dopunu pool-a.
 
-### Nedelja 13 — split, baseline-i, kalibracija i analiza grešaka (12 h)
+### Split, baseline-i, kalibracija i analiza grešaka
 
 **Čitaj:** dovrši hemiju 20, zatim klasični ML i sekcije 6.8–6.12 metric-learning modula.
 
@@ -213,7 +211,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** model, prag i calibrator se ne biraju na finalnom testu, raw score nije verovatnoća i **KEEP BASELINE** je ispravan ishod kada nema praktičnog dobitka.
 
-### Nedelja 14 — periodični graf i encoder contract (13 h)
+### Periodični graf i encoder contract
 
 **Čitaj:** periodične crystal encodere.
 
@@ -223,7 +221,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** znaš koje transformacije ne menjaju target semantiku, kako stereo profil utiče na refleksiju i zašto nevalidan periodic input nije zero-filled pseudo-kristal.
 
-### Nedelja 15 — metric learning bez lažnih parova (13 h)
+### Metric learning bez lažnih parova
 
 **Čitaj:** ceo metric learning i evaluacioni modul.
 
@@ -233,7 +231,7 @@ Ukupno je oko **178 h**: približno 122 h postojećeg kursa hemije i 56 h ML/AI 
 
 **Kapija:** umeš da objasniš praktičnu korist, critical-slice non-inferiority, kalibraciju, abstention, resurse, licence i reproduktivnost bez pretpostavke da deep model mora pobediti.
 
-### Nedelja 16 — governance, white paper i uslovne teme (10 h + do 10 h sinteze)
+### Governance, white paper i uslovne teme
 
 **Čitaj:** hemija 22, celu uporednu mapu po drugi put i referentne audite; zatim teorijske granice lokalnog SLM/RAG-a i spoljnog API-ja.
 
@@ -276,19 +274,19 @@ Plan učenja beleži pojmove, pretpostavke i načine dokazivanja. Ne definiše t
 
 Ovo nisu automatske obaveze osnovnog 2CDC scope-a.
 
-### Lokalni SLM i dokumentacioni RAG (oko 16 h teorijske nadogradnje)
+### Lokalni SLM i dokumentacioni RAG
 
 Pročitaj lokalni SLM/RAG modul i uporedi formulare/rečnike, kontrolisanu međureprezentaciju, BM25, constrained decoding, dense retrieval, RRF i reranking. Objasni kako intent/paraphrase grupe, višejezični i rare-token slučajevi utiču na evaluaciju, bez menjanja determinističkog naučnog rezultata.
 
 **Ishod učenja:** uporedna beleška o ulozi, ograničenjima i evaluaciji lokalnog jezičkog sloja.
 
-### Spoljni API (oko 8 h teorije)
+### Spoljni API
 
 Pročitaj API/security modul. Objasni razliku između izvorne licence, minimizacije, processor/region uslova, retention-a, cache/state-a, audit-a i prompt-injection odbrane. Projektni podaci se ne šalju radi vežbe.
 
 **Ishod učenja:** obrazložena procena koje činjenice bi morale biti poznate pre razmatranja spoljne obrade, bez izbora providera ili modela.
 
-### Federativno učenje (oko 6 h teorije)
+### Federativno učenje
 
 Ponovo pročitaj FL delove hemijskog poglavlja 22 i uporedne mape. Uporedi centralizovano, local-only, shared-public-pretraining i federativno učenje, pa objasni kako threat model određuje secure aggregation, diferencijalnu privatnost i robust aggregation.
 

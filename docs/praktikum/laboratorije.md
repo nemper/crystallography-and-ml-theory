@@ -20,7 +20,7 @@ warnings i nerešena pitanja
 
 Za opcioni programski rad korisni su [Gemmi](https://gemmi.readthedocs.io/en/stable/) za CIF/crystallography i [RDKit](https://www.rdkit.org/docs/) za molekulske grafove. Oni su pomoćna sredstva, ne propisani projektni stack i ne autoritet nad značenjem. Svaki rezultat proveri na malom ručno razumljivom primeru.
 
-## L0 — Inventar i dokazni lanac (1 h)
+## L0 — Inventar i dokazni lanac
 
 **Cilj:** naučiti da dataset počinje poreklom, ne DataFrame-om.
 
@@ -34,7 +34,7 @@ Za opcioni programski rad korisni su [Gemmi](https://gemmi.readthedocs.io/en/sta
 
 **Isporuka:** `source-manifest.local.csv`, van Git repoa.
 
-## L0A — Anatomija celog bezbednog CIF-a (1 h)
+## L0A — Anatomija celog bezbednog CIF-a
 
 **Ulaz:** repo fixture [`tutorial-minimal.cif`](../assets/open/tutorial-minimal.cif). Ovo je jedini CIF u praktikumu koji sme da se deli javno: ručno je napravljen i sintetički.
 
@@ -48,7 +48,7 @@ Za opcioni programski rad korisni su [Gemmi](https://gemmi.readthedocs.io/en/sta
 
 **Kontrola:** parser i ručno čitanje moraju dati isti atom-column mapping. `?` i `.` ostaju različiti tokeni, a sintetički model se ne opisuje kao eksperimentalni dokaz.
 
-## L1 — Formula, molarna masa i kristalna gustina (1,5 h)
+## L1 — Formula, molarna masa i kristalna gustina
 
 **Ulaz:** `cu_n14_a.cif`.
 
@@ -66,7 +66,7 @@ Za opcioni programski rad korisni su [Gemmi](https://gemmi.readthedocs.io/en/sta
 
 **Kontrola:** dimenziona analiza mora završiti sa g cm⁻³.
 
-## L2 — Veza kao model: N14 cross-format audit (2 h)
+## L2 — Veza kao model: N14 cross-format audit
 
 **Ulazi:** `cu_n14_a.cif`, `N14.mol`, `N14.mol2`.
 
@@ -91,7 +91,7 @@ Zatim:
 
 **Kontrola:** `NO_CHARGES` ne sme postati tvrdnja „svi naboji fizički nula“.
 
-## L3 — Frakcione i kartezijanske koordinate (2 h)
+## L3 — Frakcione i kartezijanske koordinate
 
 **Ulazi:** isti N14 fajlovi.
 
@@ -113,7 +113,7 @@ z_c &= c\sin\beta\,z_f.
 
 **Kontrola:** ne pretpostavljaj orthogonal ćeliju samo zato što tri parametra nose oznake a,b,c.
 
-## L4 — Simetrija i periodični susedi (3 h)
+## L4 — Simetrija i periodični susedi
 
 **Ulaz:** `cu_n14_a.cif`.
 
@@ -129,7 +129,7 @@ z_c &= c\sin\beta\,z_f.
 
 \(3\times3\times3\) nije univerzalno pravilo. U opštem algoritmu potreban broj translacionih slika izvodi se iz cutoff-a i geometrije ćelije, a zatim se testira na vrlo kratkim i kosim ćelijama.
 
-## L5 — Od kratkog kontakta do interakcione hipoteze (2 h)
+## L5 — Od kratkog kontakta do interakcione hipoteze
 
 Koristi kandidate iz L4.
 
@@ -141,7 +141,7 @@ Koristi kandidate iz L4.
 
 **Kontrola:** nijedan kontakt nije automatski „jak“ samo zato što je kratak.
 
-## L6 — ConQuest query anatomija (2 h)
+## L6 — ConQuest query anatomija
 
 **Ulazi:** dva `.cqs` fajla i [ConQuest vodič](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf).
 
@@ -155,7 +155,7 @@ Koristi kandidate iz L4.
 
 **Kontrola:** drugi query ima dve disconnected components; ne izmišljaj metal–N edge.
 
-## L7 — Multi-format audit CSD izvoza (3 h)
+## L7 — Multi-format audit CSD izvoza
 
 **Ulazi:** `search1.*` i `search2.*`.
 
@@ -181,7 +181,7 @@ Zatim:
 
 **Kontrola:** broj SMI linija nije broj CIF entries i ne sme postati denominator bez oznake.
 
-## L8 — Prvi similarity baseline (3 h)
+## L8 — Prvi similarity baseline
 
 Radi samo na zapisima sa dovoljno pouzdanim molekulskim grafom.
 
@@ -195,7 +195,7 @@ Radi samo na zapisima sa dovoljno pouzdanim molekulskim grafom.
 
 **Kontrola:** fingerprint radi na grafu koji je parser dodelio; excluded/problematic records moraju biti prijavljeni, ne nevidljivi.
 
-## L9 — Jedan evidence-rich par (4 h)
+## L9 — Jedan evidence-rich par
 
 Izaberi metal-free DAP ligand i jedan kandidat sa metalom, zatim dva koordinaciona kandidata.
 
@@ -214,7 +214,7 @@ Za svaki par popuni:
 
 **Kontrola:** dozvoljeno je ostaviti ukupni score `null` ako ključna semantika nije potvrđena.
 
-## L10 — Invariance i adversarial suite (3 h)
+## L10 — Invariance i adversarial suite
 
 Napravi kontrolisane varijante jednog fixture-a:
 
@@ -233,7 +233,7 @@ Za svaku unapred napiši koje score komponente moraju ostati iste, koje se smeju
 
 **Kontrola:** očekivanja se pišu pre gledanja izlaza algoritma.
 
-## L11 — Referentni signal i diffraction evidence (2 h)
+## L11 — Referentni signal i diffraction evidence
 
 **Ulazi:** sintetički brojevi iz [lekcije 11A](../kristali/11a-referentne-raspodele-hbp.md) i `tutorial-minimal.cif`.
 

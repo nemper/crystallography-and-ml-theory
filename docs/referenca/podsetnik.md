@@ -120,7 +120,7 @@ Kvadratna složenost je matematička činjenica; scheduler, cache, storage i pro
 - vendor opis funkcije nije dokaz institucijskog product tier-a ili entitlement-a;
 - FL ne daje automatski confidentiality, privacy, security ili licencnu usklađenost.
 
-## Jednominutna provera znanja
+## Provera znanja
 
 1. Isti molekulski graf i drugačiji packing — koji slojevi se slažu, a koji ne moraju?
 2. Zašto reduced-cell pogodak nije dokaz istog polimorfa?

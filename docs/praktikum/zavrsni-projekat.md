@@ -4,7 +4,7 @@
 
 Ovo je završna provera teorijskog razumevanja, ne prototip, backlog niti plan izrade stvarnog projekta. Nije potrebno pisati kod, praviti baze, trenirati modele, definisati produkcione šeme ili izvršavati budući 2CDC tok.
 
-Na jednom hipotetičkom primeru treba usmeno ili u kratkoj belešci objasniti:
+Na jednom hipotetičkom primeru treba usmeno ili u belešci objasniti:
 
 - šta dve aplikacije pokušavaju da odgovore;
 - koje hemijske i kristalografske nivoe ne smeju da pomešaju;
