@@ -103,7 +103,7 @@ Na velikom korpusu originalni izvori, standardizovani prikazi, numeričke reprez
     1. Sadrži izvedene, verzionisane i potencijalno lossy features; original/provenance žive drugde.  
     2. Prisustvo u entry formuli, u entity-ju, direktna koordinacija ligandu ili odvojena komponenta/counterion.  
     3. Kada nema validne ćelije/symmetry/3D ili je quality/representation nedovoljna.  
-    4. Recall-om prema exact ili skupljem referentnom retrieval-u, ukupno i po slice-ovima.  
+    4. Recall-om prema exhaustive exact oracle-u iste reprezentacije, metrike, korpusa, hard filtera i tie/self-match politike, ukupno i po slice-ovima.  
     5. Promena hemijskog modela/parametara menja features i score semantiku.
 
 **Kriterijum prolaza:** možeš da odbraniš značenje ulaza, filtera, candidate-generation-a, preciznog poređenja i konačne relevantnosti pred hemičarem, kristalografom, ML inženjerom i licencnim vlasnikom.
