@@ -113,7 +113,7 @@ Elektrostatičko privlačenje suprotno naelektrisanih jedinki u široj strukturi
 U Lewisovom formalizmu zajednički par potiče od donora/liganda i veže se za centralni atom. Posle formiranja nije univerzalno posebna vrsta `bond type` koju svaki format čuva.
 
 **Red veze (bond order)**  
-Model multiplicitetа/delokalizacije veze. Integer `1/2/3`, aromatični ili `unknown` tip zavise od representation modela; rendgenska difrakcija ga ne meri direktno kao etiketu.
+Model multipliciteta/delokalizacije veze. Integer `1/2/3`, aromatični ili `unknown` tip zavise od representation modela; rendgenska difrakcija ga ne meri direktno kao etiketu.
 
 **Rezonanca / delokalizacija**  
 Više Lewisovih crteža deli isti raspored jezgara, a prava elektronska struktura nije smenjivanje tih crteža već delokalizovan hibrid.
@@ -263,7 +263,7 @@ Skup atoma/jedinki pridružen svakoj rešetkastoj tački da bi se izgradila stru
 Paralelepiped definisan vektorima \(\mathbf a,\mathbf b,\mathbf c\) kojim se opisuje periodičnost rešetke. Kod primitivne ćelije njihove celobrojne translacije dosežu sve rešetkaste tačke; centrirana konvencionalna ćelija sadrži dodatne centrirajuće tačke. Nije jedinstven izbor; ista struktura može imati ekvivalentne ćelije/settings.
 
 **Parametri ćelije**  
-Dužine \(a,b,c\) i uglovi \(\alpha,\beta,\gamma\). Zapremina za opšti slučaj potiče iz determinantе cell matrix/metric tensor-a; slični parametri ne dokazuju isti packing.
+Dužine \(a,b,c\) i uglovi \(\alpha,\beta,\gamma\). Zapremina za opšti slučaj potiče iz determinante cell matrix/metric tensor-a; slični parametri ne dokazuju isti packing.
 
 **Primitivna / konvencionalna ćelija**  
 Primitivna ima jednu rešetkastu tačku po ćeliji; konvencionalna je standardno izabrana radi jasne simetrije i može biti centrirana.
@@ -394,7 +394,7 @@ Model više lokalnih položaja/orijentacija ili sastava koji se prosečno vide u
 Atomic displacement parameter opisuje prosečnu raspodelu položaja usled termalnog kretanja i/ili statičkog nereda. Izotropni model je sfera, anizotropni elipsoid; konverzije \(B\leftrightarrow U\) moraju biti eksplicitne.
 
 **Rezidualna elektronska gustina**  
-Razlika opažene i modelovane gustine posle refiniranja. Pikovi/rupе mogu ukazati na propušten atom, apsorpciju, disorder ili druge efekte; tumače se prostorno i hemijski.
+Razlika opažene i modelovane gustine posle refiniranja. Pikovi/rupe mogu ukazati na propušten atom, apsorpciju, disorder ili druge efekte; tumače se prostorno i hemijski.
 
 **Apsorpciona korekcija**  
 Korekcija za različito slabljenje rendgenskog zraka kroz kristal pri različitim orijentacijama. Posebno važna za jače apsorbujuće elemente/geometrije.
