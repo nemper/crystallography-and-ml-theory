@@ -64,7 +64,7 @@ Konkretan sistem može ove uloge organizovati drugačije. Bitna teorijska razlik
 
 ANN candidate generation i konačni proizvod ne mere se istim recall-om:
 
-- **ANN candidate recall@N prema exact/high-cost pretrazi** meri koliko kandidata iz referentnog skupa, dobijenog nad istim dozvoljenim korpusom i uz iste hard filtere, preživi aproksimativnu fazu. To je test gubitka infrastrukture; exact skup nije samim tim ekspertski ground truth relevantnosti.
+- **ANN candidate recall@N prema exhaustive exact oracle-u iste reprezentacije i metrike** meri koliko kandidata iz referentnog skupa, dobijenog nad istim dozvoljenim korpusom, uz iste hard filtere i istu tie/self-match politiku, preživi aproksimativnu fazu. To je test gubitka infrastrukture; exact skup nije samim tim ekspertski ground truth relevantnosti.
 - **End-to-end recall@k prema ekspertskoj relevantnosti** meri koliko ekspertski potvrđenih relevantnih zapisa završi u prvih `k` rezultata posle svih filtera, candidate generation-a i reranking-a. To je metrika naučnog/proizvodnog claim-a.
 
 Za obe metrike unapred fiksirati `N`/`k`, korpus, denominator i postupanje sa upitima bez relevantnog zapisa. Brzina bez izmerene propuštenosti nije validacija, ali ni visok ANN candidate recall ne dokazuje da je konačni ranking hemijski relevantan.

@@ -92,7 +92,7 @@ Ako ML ne popravlja relevantnu metricu uz prihvatljivu cenu/objašnjivost, nije 
 
 ### Global search
 
-- ANN candidate recall@N prema exact/high-cost candidate skupu — koliko je aproksimativna faza propustila pre reranking-a; ovo nije mera ekspertske relevantnosti;
+- ANN candidate recall@N prema exhaustive exact oracle-u iste reprezentacije i metrike, nad istim korpusom, hard filterima i tie/self-match politikom — koliko je aproksimativna faza propustila pre reranking-a; ovo nije mera ekspertske relevantnosti;
 - end-to-end recall@k prema ekspertski potvrđenoj relevantnosti — koliko relevantnih zapisa je u vrhu konačne liste;
 - precision@k — koliko prikazanih je relevantno;
 - MAP ili nDCG — kvalitet celog rangiranja;
