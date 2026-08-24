@@ -129,4 +129,4 @@ Canonical SMILES može grupisati samo ono što je zapisano njegovim stereooznaka
     4. Ne nužno: premeštanje H i double veze menja formalni graf, iako ih neka standardizacija grupiše.  
     5. Različiti alati drugačije tretiraju amide, ring bonds, terminalne i metalne veze.
 
-**Kriterijum prolaza:** na lokalnom DAP pogotku označi pyridine, dve `C=N` jedinice, tri potencijalna N donor-atoma, terminalne supstituente, moguće protonacione tačke i veze čija rotacija menja konformaciju; iz kompletnog okruženja svakog `C=N` azota utvrdi da li je jedinica imin i da li ispunjava užu definiciju Schiffove baze.
+**Kriterijum prolaza:** na lokalnom DAP pogotku označi pyridine, dve `C=N` jedinice, tri potencijalna N donor-atoma, terminalne supstituente, moguće protonacione tačke i veze čija rotacija menja konformaciju.
