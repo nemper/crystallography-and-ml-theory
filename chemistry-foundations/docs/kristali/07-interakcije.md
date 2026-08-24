@@ -13,6 +13,25 @@ Posle ovog poglavlja treba da možeš da:
 - predstaviš kristal kao periodični kontaktni graf sa poreklom i neizvesnošću svake ivice;
 - prevedeš interakcije u objašnjive feature-e za obe 2CDC aplikacije.
 
+## Minimalni kristalografski most
+
+Za računanje kontakata potrebna je sledeća notacija, pre njenog punog izvođenja u poglavljima [8](08-celija.md) i [9](09-simetrija.md). Matrica ćelije \(\mathbf A=[\mathbf a\ \mathbf b\ \mathbf c]\) prevodi frakcionu koordinatu \(\mathbf f\) u kartezijansku koordinatu \(\mathbf r=\mathbf A\mathbf f\). Periodično ekvivalentni položaji zadovoljavaju
+
+\[
+\mathbf f\sim\mathbf f+\mathbf n,
+\qquad \mathbf n\in\mathbb Z^3.
+\]
+
+Operacija prostorne grupe \(s\) deluje kao
+
+\[
+\mathbf f'=\mathbf R_s\mathbf f+\mathbf t_s.
+\]
+
+Ovde \(\mathbf n\) opisuje celobrojne translacije izabranom ćelijom. Kod centrirane konvencionalne ćelije centrirajući pomaci moraju biti uključeni u puni skup simetrijskih translacija \(\mathbf t_s\).
+
+Zato se susedi ne traže samo među redovima asimetrične jedinice: iz nje se generišu simetrijske slike, zatim njihove celobrojno translirane kopije. Simetrijske kopije koje se poklope unutar tolerancije deduplikuju se samo kada predstavljaju isto kristalografsko mesto i slažu se vrsta atoma, occupancy i disorder identitet; sama blizina nije dovoljna. Ishod kontakta za isto fizičko atomsko mapiranje treba da ostane isti pod ekvivalentnim \((\mathbf R_s,\mathbf t_s,\mathbf n)\) zapisima, dok se konkretni zapis čuva kao provenance njegovog pronalaženja.
+
 ## Intuicija: molekul se ne završava ivicom nacrtane ćelije
 
 Molekulski graf govori koji su atomi hemijski povezani unutar komponente. Kristal, međutim, nastaje kada se molekuli, joni ili koordinacioni entiteti periodično rasporede i međusobno utiču. Najbliži sused nekog atoma često nije u istoj nacrtanoj ćeliji niti u istoj asimetričnoj jedinici.

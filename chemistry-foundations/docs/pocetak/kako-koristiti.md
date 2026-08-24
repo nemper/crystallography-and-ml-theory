@@ -20,7 +20,7 @@ Ako ne možeš da odgovoriš na pitanje "koju grešku bi ovaj pojam sprečio u m
 | **TREBA** | potrebno pre evaluacije prototipa i razgovora sa hemičarima/kristalografima |
 | **KASNIJE** | korisno za istraživački rad, ali nije blokator prvog validnog sistema |
 
-Knjiga je već poređana tako da se pojmovi uvode pre upotrebe. Nemoj preskakati module 1-3 i 7-10. Modul preskoči samo ako položiš njegovu ulaznu proveru.
+Knjiga je poređana tako da se preduslovi uvode pre ili uz prvu upotrebu. Nemoj preskakati module 1–3 i 7–10. Celinu skrati ili preskoči samo ako već možeš da demonstriraš njen ishod iz [plana učenja](plan-ucenja.md); za šire grupe gradiva koristi [kontrolne kapije](dijagnostika.md#kontrolne-kapije).
 
 ## Kriterijum za prelazak
 

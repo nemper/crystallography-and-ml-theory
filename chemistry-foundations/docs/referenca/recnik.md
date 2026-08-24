@@ -254,13 +254,13 @@ Distorzija nelinearnog sistema koja uklanja elektronsku degeneraciju i može sni
 U operativnom scope-u ove knjige: konvencionalna 3D periodična malomolekulska struktura opisana rešetkom, motivom i simetrijom. Nije sinonim za jedan molekul niti za CIF fajl. Širi kristalografski pojam obuhvata i aperiodične kristale, pa ovu projektnu definiciju ne treba predstavljati kao univerzalnu.
 
 **Rešetka (lattice)**  
-Matematički periodičan skup translaciono ekvivalentnih tačaka. Atomi nisu „rešetka“; kristalna struktura nastaje vezivanjem motiva za rešetku.
+Matematički periodičan skup translaciono ekvivalentnih tačaka. Svaki rešetkasti vektor je celobrojna kombinacija vektora primitivnog bazisa; kod centriranog konvencionalnog bazisa njegove celobrojne kombinacije daju podrešetku, a centrirajući vektori daju preostale tačke. Atomi nisu „rešetka“; kristalna struktura nastaje vezivanjem motiva za rešetku.
 
 **Motiv / basis**  
 Skup atoma/jedinki pridružen svakoj rešetkastoj tački da bi se izgradila struktura. Ne mešati sa basis vektorima ćelije.
 
 **Jedinična ćelija**  
-Paralelepiped definisan vektorima \(\mathbf a,\mathbf b,\mathbf c\) čijim translacijama se generiše rešetka. Nije jedinstven izbor; ista struktura može imati ekvivalentne ćelije/settings.
+Paralelepiped definisan vektorima \(\mathbf a,\mathbf b,\mathbf c\) kojim se opisuje periodičnost rešetke. Kod primitivne ćelije njihove celobrojne translacije dosežu sve rešetkaste tačke; centrirana konvencionalna ćelija sadrži dodatne centrirajuće tačke. Nije jedinstven izbor; ista struktura može imati ekvivalentne ćelije/settings.
 
 **Parametri ćelije**  
 Dužine \(a,b,c\) i uglovi \(\alpha,\beta,\gamma\). Zapremina za opšti slučaj potiče iz determinantе cell matrix/metric tensor-a; slični parametri ne dokazuju isti packing.

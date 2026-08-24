@@ -360,7 +360,7 @@ d_{ij}^{(s,\mathbf n)}
 \right\|_2.
 \]
 
-U prethodnom poglavlju N14 O2 kontakt nije dobijen iz originalnog O2 reda, već iz operacije 2 i translacije \((1,0,0)\):
+U [N14 primeru periodičnog kontakta iz poglavlja 7](07-interakcije.md#lokalni-n14-primer-kontakt-koji-nije-u-atomskom-loop-u), O2 kontakt nije dobijen iz originalnog O2 reda, već iz operacije 2 i translacije \((1,0,0)\):
 
 \[
 \mathrm{O2}^{(ii)}

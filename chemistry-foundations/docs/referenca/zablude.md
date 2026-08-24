@@ -4,6 +4,8 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 
 Čitaj poslednju kolonu kao **konceptualnu posledicu i ilustrativan način opovrgavanja zablude**. Ona ne propisuje buduća polja, fixture-e, UI ponašanje, gate-ove ili review proceduru; konkretan oblik eventualne realizacije određuje se kasnije.
 
+Broj u prvoj koloni je identifikator zablude, ne redosled čitanja; redovi su grupisani po temi.
+
 ## 1. Identitet, sastav i hemijske veze
 
 | # | Zabluda | Šta je tačno | Konceptualna posledica / primer provere |
@@ -33,6 +35,7 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 | 18 | „Koordinacioni broj je broj liganada.“ | CN broji direktne donor-atome; jedan tridentatni ligand doprinosi tri, a bridging ligand može vezati više centara. | Izveštaj navodi donor atom IDs, ligand membership, denticity, bridging i neighbor model. |
 | 19 | „Isti metal i isti CN znače istu geometriju.“ | CN=4 može biti tetraedarski, kvadratno-planaran ili između; distortion nosi bitnu informaciju. | Poredi angles/shape measures uz metal/donor mapping. Hard negative: isti M/CN, druga geometrija. |
 | 20 | „Oksidaciono stanje se čita iz elementa ili formalnog broja veza.“ | Isti metal ima više oxidation states; covalency, charge i ligandi zahtevaju balans i stručni dokaz. | Ako evidence nije dovoljan, koristi `unknown/ambiguous`; ne imputiraj tipičnu vrednost kao činjenicu. |
+| 104 | „Izduženi pseudo-octahedral Cu(II) automatski dokazuje Jahn–Teller efekat.“ | Obrazac je kompatibilan sa \(d^9\) efektom, ali ligandna nejednakost, strain, packing, disorder i model mogu dati sličnu geometriju. | Prijavi hipotezu uz oxidation state/\(d^n\), donor mapping, s.u., quality i alternativne uzroke. |
 | 21 | „Coordination entity je isto što i ceo kristalni sastav.“ | Counterions, solventi i coformers mogu biti van koordinacione jedinke, a ipak su deo crystal form-a. | Pretraga mora nuditi entity i full-composition scope odvojeno. |
 | 22 | „Metalni kompleksi se mogu standardizovati istim organskim sanitization pravilima.“ | Organska valenca/aromatičnost pravila mogu pogrešno cepati koordinacione veze ili menjati charges. | Metal-aware profil, loss matrix i expert audit su obavezni; failed sanitization nije razlog da se ulaz tiho odbaci. |
 
@@ -71,6 +74,7 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 | 46 | „Broj u zagradi je tolerancija ili interval.“ | `12.7138(3)` u CIF konvenciji znači s.u. 0,0003 poslednjih cifara, ne ±3 ili tri merenja. | Parser mora čuvati value+s.u. kao povezane veličine; test za notation parsing. |
 | 47 | „100 K kristalna geometrija je ista na sobnoj temperaturi.“ | Ćelija, ADP, konformacija, faza i disorder mogu zavisiti od temperature. | Temperature je deo identity/evidence i pair quality compatibility; ne spajaj uslove bez oznake. |
 | 48 | „Jedan kvalitet score može bezbedno zameniti sva polja.“ | R, resolution, completeness, s.u., residuals, restraints, disorder, twinning i temperatura odgovaraju na različita pitanja. | Čuvaj quality vector; learned score mora ostati rastavljiv, kalibrisan i bez rigidnog univerzalnog cutoff-a. |
+| 107 | „Simulirani PXRD iz CIF-a potvrđuje taj CIF i bulk uzorak.“ | Simulacija je derivat istog modela i zato kružni dokaz; nema informacije iz realnog bulk merenja. | Za fazni evidence koristi measured PXRD sa radiation/instrument/sample metadata i unapred definisanim poređenjem. |
 
 ## 5. Čvrste forme, stabilnost i svojstva
 
@@ -84,6 +88,8 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 | 54 | „Više talište uvek znači stabilniji polimorf.“ | Stabilnost određuje Gibbsova energija i može se menjati temperaturom; melting/enthalpy odnosi zahtevaju punu termalnu analizu. | Ne praviti universal rank iz jednog melting point-a. Potrebni DSC/solubility/transition podaci i context. |
 | 55 | „Najniža energija izolovanog konformera daje najstabilniji kristal.“ | Kristalna stabilnost uključuje intermolekulske interakcije, packing, entropy i uslove; molekul može platiti conformational strain radi boljeg packing-a. | Gas-phase/conformer feature je samo jedan signal; ne label za polymorph stability. |
 | 56 | „Jedan uspešan screen dokazuje da druge forme ne postoje.“ | Polymorph landscape zavisi od rastvarača, temperature, vlage, seeding-a, vremena i tehnike. Odsustvo dokaza nije dokaz odsustva. | Coverage protokola i negative claim scope moraju biti zapisani; sistem ne kaže „nema drugih formi“ bez granica. |
+| 105 | „Mogul outlier ili 99. percentil znači visoku energiju/nestabilnost.“ | To je neuobičajenost u konkretnoj query/filter/release populaciji, ne energetski račun. | Čuvaj referentni manifest/support/applicability; energiju i fazu testiraj odvojenim modelom/eksperimentom. |
+| 106 | „HBP propensity 0,8 znači da je H-veza opažena ili da polimorf postoji.“ | Propensity je output fitting/logistic modela za kandidatni par; observed status, grouping, coordination i realna faza su druga pitanja. | Prikaži output-e odvojeno sa evidence counts, uncertainty i applicability. |
 | 57 | „Jedan difraktovani kristal predstavlja ceo bulk uzorak.“ | Izabrani single crystal može biti manjinska faza; bulk phase purity zahteva odgovarajuće tehnike (npr. powder diffraction/thermal analysis). | Ne prenosi single-crystal identity automatski na batch property label. |
 | 58 | „Rastvorljivost i brzina rastvaranja su isto.“ | Prvo je ravnoteža, drugo kinetika zavisna od površine/habit-a/čestica i uslova. | Dataset schema mora imati property type, jedinicu, temperaturu, pH/solvent, protokol i vreme. |
 | 59 | „Različit habit znači drugi polimorf.“ | Habit je spoljašnja morfologija; isti polymorph može rasti kao igla ili ploča. | Vizuelna klasifikacija nije crystal-form label bez strukturne potvrde. |
@@ -95,6 +101,7 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 |---:|---|---|---|
 | 61 | „Konverzija CIF→SDF/SMILES samo menja ekstenziju.“ | Odbacuju se cell, symmetry, packing, occupancy i quality, a components/bonds se biraju ili inferiraju. | Svaka konverzija ima loss matrix, source link i task scope; original se čuva. |
 | 62 | „Ako parser nije prijavio grešku, zapis je validan.“ | Sintaktički validan fajl može imati pogrešnu formulu, nesmislen graf, pogrešne units ili ozbiljne alerts. | Odvojeni `syntax`, `chemistry`, `crystal`, `quality`, `licence` statusi. |
+| 108 | „`parser_ok` znači `Curated`.“ | Sintaksno parsiranje i verzionisana automatska validacija nisu isto što i završena stručna/policy kuracija. | Posebna stanja `Parsed`, `Validated`, `Curated` i `Released` sa owner-om, evidence-om i SOP-om. |
 | 63 | „Canonical record je nova istina pa raw može da se obriše.“ | Canonical je rezultat verzionisanih odluka i može se promeniti. Bez raw dokaza nema audit-a niti ponovnog parsiranja. | Immutable original + hash, raw parsed, canonical i derived slojevi ostaju povezani. |
 | 64 | „Canonical SMILES je globalni persistent identifier.“ | Canonicalization zavisi od toolkit-a, verzije, aromaticity, salt/tautomer/stereo policy-ja. | Za interni ID koristi stable source/version ID; SMILES čuvaj uz generator profil. |
 | 65 | „Missing vrednost je isto što i nula.“ | `?`, `.`, blank, parse failure, not measured i not applicable nose različita značenja. | Typed missing enum; modeli dobijaju masku/status, a izveštaj ne izmišlja nulu. |
@@ -146,11 +153,6 @@ Ovo nije lista trivijalnih grešaka. Svaka zabluda ispod može napraviti naučno
 | 101 | „Open fajl je automatski FAIR.“ | Bez stabilnog ID-a, metadata, semantike, provenance-a i licence javni dump može biti slabo reusable. | FAIR checklist je odvojen od visibility/licence statusa. |
 | 102 | „FAIR je potvrda naučnog kvaliteta.“ | FAIR opisuje upravljanje/pristup/semantiku; ne garantuje tačan crystal model, property ili unbiased labels. | FAIR, scientific QA, security i licence su odvojene kapije. |
 | 103 | „Brisanje raw fajla briše njegov uticaj.“ | Cache, fingerprints, embeddings, modeli, pair reports i backup-i mogu ostati derivative. | Lineage graf i deletion/review propagation preko svih potomaka. |
-| 104 | „Izduženi pseudo-octahedral Cu(II) automatski dokazuje Jahn–Teller efekat.“ | Obrazac je kompatibilan sa \(d^9\) efektom, ali ligandna nejednakost, strain, packing, disorder i model mogu dati sličnu geometriju. | Prijavi hipotezu uz oxidation state/\(d^n\), donor mapping, s.u., quality i alternativne uzroke. |
-| 105 | „Mogul outlier ili 99. percentil znači visoku energiju/nestabilnost.“ | To je neuobičajenost u konkretnoj query/filter/release populaciji, ne energetski račun. | Čuvaj referentni manifest/support/applicability; energiju i fazu testiraj odvojenim modelom/eksperimentom. |
-| 106 | „HBP propensity 0,8 znači da je H-veza opažena ili da polimorf postoji.“ | Propensity je output fitting/logistic modela za kandidatni par; observed status, grouping, coordination i realna faza su druga pitanja. | Prikaži output-e odvojeno sa evidence counts, uncertainty i applicability. |
-| 107 | „Simulirani PXRD iz CIF-a potvrđuje taj CIF i bulk uzorak.“ | Simulacija je derivat istog modela i zato kružni dokaz; nema informacije iz realnog bulk merenja. | Za fazni evidence koristi measured PXRD sa radiation/instrument/sample metadata i unapred definisanim poređenjem. |
-| 108 | „`parser_ok` znači `Curated`.“ | Sintaksno parsiranje i verzionisana automatska validacija nisu isto što i završena stručna/policy kuracija. | Posebna stanja `Parsed`, `Validated`, `Curated` i `Released` sa owner-om, evidence-om i SOP-om. |
 
 ## Brzi test za novu tvrdnju
 
@@ -205,8 +207,9 @@ Weights ne sadrže lako čitljiv CIF. Da li mogu u javni repo?
 ## Gde proveriti detalje
 
 - hemijski identitet i veze: [poglavlja 1–4](../osnove/01-atomi-joni-formule.md);
+- koordinaciona hemija: [poglavlje 5](../koordinaciona/05-kompleksi.md);
 - interakcije, ćelija i kvalitet: [interakcije](../kristali/07-interakcije.md), [ćelija](../kristali/08-celija.md), [difrakcija](../kristali/10-difrakcija-kvalitet.md);
 - forme, referentne raspodele i stabilnost: [čvrste forme](../kristali/11-cvrste-forme.md), [Mogul/HBP](../kristali/11a-referentne-raspodele-hbp.md);
-- konverzija i standardizacija: [formati](../podaci/12-formati.md), [standardizacija](../podaci/13-standardizacija.md);
+- konverzija, standardizacija i lifecycle: [formati](../podaci/12-formati.md), [standardizacija](../podaci/13-standardizacija.md), [lifecycle stanja](../projekat/22-whitepaper-tokovi-fl.md#lifecycle-stanja);
 - reprezentacije i score: [reprezentacije](../podaci/14-reprezentacije.md), [sličnost](../podaci/15-slicnost.md);
 - evaluacija, licence i FAIR: [evaluacija](../projekat/20-evaluacija.md), [licence i provenance](../projekat/21-licence-fair.md).

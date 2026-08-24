@@ -171,7 +171,7 @@ R =
      {\sum_{hkl}|F_o|}
 \]
 
-Manje slaganje ostataka obično daje manji R. Ipak, R zavisi od kvaliteta i rezolucije podataka, hemijskog sastava, twinning-a, disorder-a, apsorpcije, skupa uključenih refleksija i samog modela.
+Za isti skup podataka i refleksija, manja suma apsolutnih razlika između \(|F_o|\) i \(|F_c|\) daje manji R. Ipak, R zavisi od kvaliteta i rezolucije podataka, hemijskog sastava, twinning-a, disorder-a, apsorpcije, skupa uključenih refleksija i samog modela.
 
 Lokalni CIF daje dve vrednosti:
 

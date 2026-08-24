@@ -5,6 +5,9 @@ Ova strana beleži šta je provereno, kako su neslaganja razrešena i šta još 
 !!! note "Istorijski audit, ne plan realizacije"
     Ovo je zapis stanja i dokumentacionog QA postupka od 23. avgusta 2026. Komande, tadašnji remediation koraci i opis potrebnog dokaza nisu backlog niti redosled implementacije 2CDC aplikacija. Aktuelna pitanja za fakultet nalaze se u [jedinstvenom registru pitanja](pitanja-za-fakultet.md).
 
+!!! info "Naknadne ispravke — 24. avgust 2026."
+    Zaključci ispod odnose se na zamrznuti baseline. Kasniji audit je ispravio formulaciju o R faktoru, kvalifikovao rešetkastu jednačinu za primitivni bazis, dodao minimalni most pre prve upotrebe periodičnosti i simetrije i premestio pet zabluda pod odgovarajuće teme. Istorijski glasovi i brojke ispod nisu prepisani.
+
 ## Izvršni rezultat
 
 - Zamrznut je baseline commit `08dad2bacae5064a0d5fc1da5a23ac859c811dd5`.

@@ -15,8 +15,10 @@ flowchart TD
     P --> L[Lattice i periodic equivalence]
     L --> PK[COMPACK / PAC / crystal comparator]
     P --> I[Typed interaction networks]
+    P --> X[Simulated PXRD / powder signal]
     PK --> R[Multi-output evidence paket]
     I --> R
+    X --> R
     K --> R
     M --> R
     R --> S[Opcioni target-specific ML sloj]

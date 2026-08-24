@@ -35,7 +35,7 @@ U najkraćem:
 
 ## Rešetka kao celobrojna kombinacija tri vektora
 
-Neka su \(\mathbf a,\mathbf b,\mathbf c\) tri nekoplanarna vektora. Translaciona rešetka je:
+Neka su \(\mathbf a,\mathbf b,\mathbf c\) tri nekoplanarna vektora koji čine primitivni bazis. Tada je translaciona rešetka:
 
 \[
 \mathbf T_{\mathbf n}
@@ -43,6 +43,8 @@ Neka su \(\mathbf a,\mathbf b,\mathbf c\) tri nekoplanarna vektora. Translaciona
 n_1\mathbf a+n_2\mathbf b+n_3\mathbf c,
 \qquad n_1,n_2,n_3\in\mathbb Z.
 \]
+
+Kod centriranog konvencionalnog bazisa \(\mathbf a_c,\mathbf b_c,\mathbf c_c\), njegove celobrojne kombinacije daju samo podrešetku; preostale tačke daju centrirajući vektori. Na primer, I-centrirana ćelija ima i klasu pomerenu za \(\tfrac12(\mathbf a_c+\mathbf b_c+\mathbf c_c)\).
 
 Vektori nisu nužno međusobno ortogonalni. Šest parametara ćelije su:
 
@@ -560,6 +562,8 @@ Poglavlje si savladao kada možeš da iz <code>cu_n14_a.cif</code> konstruišeš
 
 - [IUPAC Gold Book: unit cell](https://goldbook.iupac.org/terms/view/U06562)
 - [IUCr Online Dictionary: unit cell](https://dictionary.iucr.org/Unit_cell)
+- [IUCr Online Dictionary: primitive cell](https://dictionary.iucr.org/Primitive_cell)
+- [IUCr Online Dictionary: centred lattice](https://dictionary.iucr.org/Centred_lattice)
 - [IUCr teaching pamphlet 9: matrices, translations and transformations](https://www.iucr.org/education/pamphlets/9)
 - [IUCr teaching pamphlet 10: metric tensor](https://www.iucr.org/education/pamphlets/10)
 - [IUCr teaching pamphlet 21: crystal packing](https://www.iucr.org/education/pamphlets/21)
