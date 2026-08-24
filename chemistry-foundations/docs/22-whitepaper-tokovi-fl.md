@@ -83,8 +83,8 @@ sequenceDiagram
     C->>B: model + round/config
     A->>A: local training on curated data
     B->>B: local training on curated data
-    A-->>C: protected update + metrics
-    B-->>C: protected update + metrics
+    A-->>C: model update + metrics
+    B-->>C: model update + metrics
     C->>C: aggregate + validate + audit
 ```
 
