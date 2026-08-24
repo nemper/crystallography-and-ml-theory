@@ -23,7 +23,7 @@ flowchart TD
     W[CCDC white paper] --> Q[Kvalitet, standardizacija, FAIR i struktura-svojstvo]
     T[Opis dve funkcionalnosti] --> A[Globalni dohvat]
     T --> B[Precizno poređenje parova]
-    CQS[ConQuest CQS upiti] --> D[DAP/Schiff-base podstruktura]
+    CQS[ConQuest CQS upiti] --> D[18-atomsko DAP-derived jezgro sa dve C=N veze]
     CQS --> M[Varijanta sa bilo kojim metalom - 4M]
     EXP[CIF/MOL/MOL2/SDF/SMI izvozi] --> R[Više reprezentacija istih CSD pogodaka]
     N14[N14 lokalni primer] --> X[Povezivanje eksperimenta, kristala i molekula]

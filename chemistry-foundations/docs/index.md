@@ -45,7 +45,7 @@ Svako poglavlje ima isti ritam: intuitivna slika, precizna definicija, primer iz
 | `dve funkcionalnosti.txt` | jedan skalabilni globalni pretraživač i jedan precizni poređivač svih parova |
 | `cu_n14_a.cif` | pun eksperimentalni CIF: monoklinična ćelija, P 21/c, frakcione koordinate, refleksije, refiniranje i struktura kvaliteta pogodnog za vežbu |
 | `N14.mol` / `N14.mol2` | ista hemijska jedinka u dve molekulske reprezentacije sa različitom semantikom tipova veza i atoma |
-| `search1.*` | 2.110 CSD zapisa iz lokalnog CSD 5.43/2022 snapshot-a koji zadovoljavaju 18-atomski DAP/Schiff-base podstrukturni upit |
+| `search1.*` | 2.110 CSD zapisa iz lokalnog CSD 5.43/2022 snapshot-a koji zadovoljavaju podstrukturni upit za 18-atomsko DAP-derived jezgro sa dve `C=N` veze |
 | `search2.*` | 2.038 od tih zapisa uz nepovezani `4M` uslov: metal je negde u entry-ju, ali query ne dokazuje metal–DAP koordinaciju |
 | `tutorial-minimal.cif` | sintetički, redistributabilan CIF 1.1 primer za učenje sintakse; nije eksperiment ni CSD zapis |
 

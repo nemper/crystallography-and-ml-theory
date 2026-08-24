@@ -31,7 +31,7 @@ Iz prvog lokalnog CSD zapisa, `CAPHAG`, sistematsko ime opisuje pyridine-2,6-diy
 
 - centralnim šestočlanim pyridine prstenom;
 - jednim prstenskim N donorom;
-- dve bočne C=N imine funkcije;
+- dve bočne `C=N` jedinice;
 - promenljivim terminalnim supstituentima.
 
 Takav tridentatni N-donor raspored može koordinisati metal, ali prisustvo motiva samo po sebi ne dokazuje koordinaciju. Zato `search1` traži motiv, dok `search2` dodaje odvojeni `4M` atom-uslov za prisustvo bilo kog metala. Čak i tada treba proveriti da li je metal zaista povezan sa tri donor-atoma; "u istom kristalnom zapisu" nije isto što i "koordinisan ovim ligandom".
@@ -129,4 +129,4 @@ Canonical SMILES može grupisati samo ono što je zapisano njegovim stereooznaka
     4. Ne nužno: premeštanje H i double veze menja formalni graf, iako ih neka standardizacija grupiše.  
     5. Različiti alati drugačije tretiraju amide, ring bonds, terminalne i metalne veze.
 
-**Kriterijum prolaza:** na lokalnom DAP pogotku označi pyridine, dve imine, tri potencijalna N donor-atoma, terminalne supstituente, moguće protonacione tačke i veze čija rotacija menja konformaciju.
+**Kriterijum prolaza:** na lokalnom DAP pogotku označi pyridine, dve `C=N` jedinice, tri potencijalna N donor-atoma, terminalne supstituente, moguće protonacione tačke i veze čija rotacija menja konformaciju; iz kompletnog okruženja svakog `C=N` azota utvrdi da li je jedinica imin i da li ispunjava užu definiciju Schiffove baze.

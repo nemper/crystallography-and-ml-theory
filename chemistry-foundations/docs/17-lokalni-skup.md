@@ -80,7 +80,7 @@ Oba `.cqs` sadrže isti povezani 2D connectivity motiv:
 | kostur | centralni pyridine-like prsten, supstituisan na 2,6 položajima |
 | ruke | dve `ring-C–C(=N)–CH3` grupe |
 | prstenaste veze | 6 veza sa kodom 5 |
-| iminske veze | 2 dvostruke veze, kod 2 |
+| dvostruke `C=N` veze | 2, kod 2 |
 | ostale veze | 10 `Any` veza, kod 99 |
 | search flags | `exhaustive=1`, `symmchk=1` |
 
@@ -96,7 +96,7 @@ Oba `.cqs` sadrže isti povezani 2D connectivity motiv:
 Zato je formalna semantika:
 
 ```text
-EXISTS mapped DAP bis-imine motif
+EXISTS mapped 18-atom DAP-derived bis-C=N query core
 AND EXISTS any metal atom in the same database entry
 ```
 
