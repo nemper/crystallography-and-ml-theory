@@ -104,11 +104,11 @@ Za svaki feature čuvaj value, unit, missing-reason, method i confidence. ML mod
 
 ## 13.7 Invariants i testovi
 
-Posle svake transformacije automatski proveri ono što bi trebalo da ostane isto:
+Posle svake transformacije automatski proveri očuvane invarijante i unapred deklarisane očekivane promene:
 
-- broj i identitet elemenata, osim eksplicitno prijavljenih uklonjenih komponenti;
-- formalni total charge i charge balance;
-- atom map između originala i derivata;
+- broj i identitet elemenata, uz eksplicitno evidentirane dodate ili uklonjene atome/komponente;
+- formalni total charge i charge balance; kada politika menja protonaciju/naboj ili uklanja naelektrisanu komponentu, proveri deklarisani `Δcharge` umesto jednakosti;
+- atom map za očuvane atome, uz eksplicitno evidentirane dodate ili uklonjene atome;
 - stereocentri koji nisu cilj transformacije;
 - formula/molecular weight u skladu sa sastavom;
 - kristalna ćelija i symmetry netaknuti u crystal pogledu;
