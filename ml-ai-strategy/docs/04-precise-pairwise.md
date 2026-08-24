@@ -297,9 +297,9 @@ Ne čuvati samo najbolju etiketu. Čuvaju se CSM vrednosti prema svim relevantni
 Za svaki metal i mapirani DAP motif proverava se:
 
 ```text
-central pyridine N → isti metal?
-imine N left      → isti metal?
-imine N right     → isti metal?
+centralni pyridine N              → isti metal?
+levi terminalni N u C=N grani     → isti metal?
+desni terminalni N u C=N grani    → isti metal?
 tri veze direct / ambiguous / absent?
 metal je u istoj komponenti ili samo counterion?
 ```

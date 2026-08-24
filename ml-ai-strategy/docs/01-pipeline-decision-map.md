@@ -109,7 +109,7 @@ Korisnik traži strukture slične Zn kompleksu sa N3 donorskim džepom.
 1. Parser deterministički izdvaja komponente, koordinate i provenance.
 2. Hard filter zahteva Zn u coordination entity-ju; „Zn negde u formuli“ nije dovoljno.
 3. ECFP/Tanimoto vraća visok-recall ligand kandidate.
-4. Exact graph mapping proverava centralni pyridine N i dva imine N.
+4. Exact graph mapping proverava centralni pyridine N i dva terminalna N atoma u `C=N` granama.
 5. Coordination reranker poredi da li ista tri mapirana N koordiniraju isti Zn, donor set, CN i geometriju.
 6. Packing grana radi samo za validne periodične modele i ostaje zaseban score.
 7. LTR model može naučiti query-mode-specific ordering tek iz ekspertskih preferencija.

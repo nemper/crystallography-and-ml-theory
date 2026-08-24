@@ -146,7 +146,7 @@ Koristi kandidate iz L4.
 **Ulazi:** dva `.cqs` fajla i [ConQuest vodič](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf).
 
 1. Napravi atom/bond tabelu za 18-atomski zajednički query motif.
-2. Označi centralni pyridine N i dva imine N.
+2. Označi centralni pyridine N i dva terminalna N atoma u `C=N` granama.
 3. U drugom query-ju pronađi atom 19 i njegov tip `4M`.
 4. Nacrtaj connected components oba query-ja.
 5. Napiši minimalnu tvrdnju koju drugi query dokazuje.

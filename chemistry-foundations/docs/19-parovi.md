@@ -80,7 +80,7 @@ Za tumačenje graph poređenja relevantni su:
 - multiple equivalent mappings i chosen-tie-breaker;
 - confidence ako bond typing nije pouzdan.
 
-Za DAP use case posebno se mapiraju centralni pyridine N, dva imine N i scaffold atoms, pa tek zatim terminalni supstituenti.
+Za DAP use case posebno se mapiraju centralni pyridine N, dva terminalna N atoma u `C=N` granama i scaffold atoms, pa tek zatim terminalni supstituenti.
 
 ## 19.6 Koordinaciono okruženje
 
