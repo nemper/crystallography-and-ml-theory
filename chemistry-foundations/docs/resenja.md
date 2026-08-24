@@ -130,8 +130,8 @@ Maksimum je 16. Za prolaz treba najmanje 13 i nijedna nula u component, coordina
 ## L11 — referenca i PXRD kontrola
 
 - empirical percentile je \(100(247/250)=98.8\);
-- robustni imenilac je (1.4826\cdot0.012=0.0177912), pa je
-  (z_\mathrm{robust}=(1.390-1.340)/0.0177912\approx2.81);
+- robustni imenilac je \(1.4826\cdot0.012=0.0177912\), pa je
+  \(z_\mathrm{robust}=(1.390-1.340)/0.0177912\approx2.81\);
 - kružna udaljenost između \(-179^\circ\) i \(+179^\circ\) je \(2^\circ\);
 - \(d(200)=5.6400/2=2.8200\ \text{Å}\);
 - za \(\lambda=1.5406\ \text{Å}\), \(2\theta\approx31.7^\circ\);
