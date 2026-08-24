@@ -2,8 +2,8 @@
 
 Ovaj repozitorijum sadrži dva odvojena, ali međusobno usklađena dokumentaciona dela:
 
-- [Hemijske osnove](chemistry-foundations/README.md) — hemija, kristalografija i cheminformatika relevantne za 2CDC;
-- [ML/AI strategija](ml-ai-strategy/README.md) — algoritamske porodice, reprezentacije, evaluacija i ML/AI preduslovi relevantni za ista dva problema.
+- [Hemijske osnove](chemistry-foundations/docs/index.md) — hemija, kristalografija i cheminformatika relevantne za 2CDC;
+- [ML/AI strategija](ml-ai-strategy/docs/index.md) — algoritamske porodice, reprezentacije, evaluacija i ML/AI preduslovi relevantni za ista dva problema.
 
 Oba dela ostaju u istom repozitorijumu i imaju zasebne MkDocs konfiguracije. Zajedničke Python zavisnosti i virtuelno okruženje nalaze se u korenu repozitorijuma.
 
@@ -13,12 +13,10 @@ Oba dela ostaju u istom repozitorijumu i imaju zasebne MkDocs konfiguracije. Zaj
 crystallography-and-ml-theory/
 ├── chemistry-foundations/
 │   ├── docs/
-│   ├── mkdocs.yml
-│   └── README.md
+│   └── mkdocs.yml
 ├── ml-ai-strategy/
 │   ├── docs/
-│   ├── mkdocs.yml
-│   └── README.md
+│   └── mkdocs.yml
 ├── requirements.txt
 └── LICENSE
 ```
