@@ -4,6 +4,7 @@
 data_synthetic_nacl_tutorial
 _audit_creation_method            'Hand-written teaching fixture; no experiment'
 _chemical_name_common             'Synthetic sodium chloride tutorial'
+_chemical_name_systematic         ?
 _chemical_formula_sum             'Cl Na'
 _chemical_formula_weight          58.44
 
@@ -18,11 +19,11 @@ _cell_formula_units_Z             4
 
 _symmetry_space_group_name_H-M    'F m -3 m'
 _symmetry_Int_Tables_number       225
-_diffrn_ambient_temperature       298(2)
+_diffrn_ambient_temperature       .
 _exptl_crystal_density_diffrn     2.164
 
-# These two values deliberately demonstrate CIF missing-value tokens.
-_refine_ls_R_factor_gt            ?
+# These values deliberately demonstrate CIF missing-value tokens.
+_refine_ls_R_factor_gt            .
 _refine_ls_wR_factor_ref          .
 
 _publ_section_comment

@@ -23,8 +23,8 @@ SMI nije potpuna record lista. Razlika 233 u oba skupa je signal konverzije/repr
 
 ## L0A — ceo sintetički CIF
 
-- SHA-256 je `A6EEDB8582B90E8A2652DE76394169C506EEA4D06FC1819FB3EF757291D9E7C9`;
-- očekuje se jedan data block, 25 data items i atom-site loop sa šest kolona i dva reda, `Na1`/`Cl1`;
+- SHA-256 je `E6740DCB099445C3D4C30B94213CBCE915A844E81AFF39306F6FAFBB5BC9B6DE`;
+- očekuje se jedan data block, 26 data items i atom-site loop sa šest kolona i dva reda, `Na1`/`Cl1`;
 - `5.6400(10)` znači \(5.6400\pm0.0010\ \text{Å}\) na nivou standardne neizvesnosti zapisa;
 - `?` znači unknown, a `.` not applicable/inapplicable u datom kontekstu;
 - \(V=a^3=179.406144\ \text{Å}^3\), što se slaže sa zaokruženih 179,41 Å³;
