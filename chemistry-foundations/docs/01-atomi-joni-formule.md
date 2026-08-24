@@ -11,7 +11,7 @@
 - kation ima pozitivan neto naboj, npr. \(\mathrm{Na^+}\);
 - anion ima negativan neto naboj, npr. \(\mathrm{Cl^-}\).
 
-**Molekul** je elektroneutralna, diskretna jedinka od najmanje dva atoma povezana hemijskim vezama. Analogna diskretna jedinka sa neto nabojem je **molekulski (poliatomski) jon**. **Jedinjenje** je supstanca sastavljena od najmanje dva elementa. Nisu sva jedinjenja diskretni molekuli: za beskonačnu jonsku rešetku NaCl korisnije je govoriti o **formula unit**, najjednostavnijem stehiometrijskom odnosu Na:Cl = 1:1.
+**Molekul** je elektroneutralna, diskretna jedinka od najmanje dva atoma povezana hemijskim vezama. Analogna diskretna jedinka od više atoma sa neto nabojem je **poliatomski jon**. **Jedinjenje** je supstanca sastavljena od najmanje dva elementa. Nisu sva jedinjenja diskretni molekuli: za beskonačnu jonsku rešetku NaCl korisnije je govoriti o **formula unit**, najjednostavnijem stehiometrijskom odnosu Na:Cl = 1:1.
 
 !!! example "Formula nije graf"
     Formula \(\mathrm{C_2H_6O}\) govori da jedinka sadrži dva C, šest H i jedan O. Ne govori da li je povezanost etanol \(\mathrm{CH_3CH_2OH}\) ili dimetil-etar \(\mathrm{CH_3OCH_3}\). To su konstitucioni izomeri. Filter po formuli zato nije zamena za podstrukturnu ili graf-sličnost.
