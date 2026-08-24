@@ -64,7 +64,7 @@ Jedan ledger red treba da sadrži jednu proverljivu tvrdnju. Spoj „i zato“ �
 | `scientific-scoped` | rezultat konkretnog peer-reviewed rada | novi dokaz, replikacija, promenjen projektni scope |
 | `local-forensic` | 2.038 lokalna metal-filterovana rezultata | promena bilo kog fajla/hash-a ili parsera |
 | `empirical-system` | recall@100 modela v1 | novi model, dataset, split, feature ili threshold |
-| `dynamic-statistic` | broj CSD entries 1.1.2026. | svaki novi CSD snapshot/release |
+| `dynamic-statistic` | broj CSD struktura 1.1.2026. | svaki novi CSD snapshot/release |
 | `product-behavior` | API metoda/field podržani u eksplicitno navedenom release-u | upgrade API-ja, licence ili platforme |
 | `licence-legal` | redistribucija CSD-derived podataka | svaki release/deployment/partner/purpose/ugovor |
 | `interpretive` | nevidljivi, tematski nepodudarni embedded PDF tekst; „zaostali sloj/šablon“ je samo mogući uzrok | novi PDF forensic dokaz; uzrok jasno označiti kao inference |
