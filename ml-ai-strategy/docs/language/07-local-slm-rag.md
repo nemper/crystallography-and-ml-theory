@@ -66,19 +66,6 @@ Moguće porodice rešenja imaju različite osobine:
 
 Ovo nisu stepenice koje se moraju proći navedenim redom. Izbor zavisi od jezika korisnika, troška greške, dostupnih labela, hardvera, licence i toga da li problem uopšte zahteva generativni model.
 
-## Datirani, nenormativni pregled lokalnih modela
-
-Sledeća tabela je obrazovni snapshot zvaničnih model-cardova proveravanih **23. avgusta 2026.** Ne predstavlja rangiranje niti preporuku za 2CDC. Nazivi, licence, runtime podrška i dostupne revizije mogu se promeniti.
-
-| Porodica/model iz zvaničnog izvora | Obrazovno relevantna osobina | Pitanje koje ostaje za lokalnu proveru |
-|---|---|---|
-| FunctionGemma 270M | vrlo mali model usmeren na function calling | da li uska veličina pokriva potrebne jezike i terminologiju |
-| Qwen3.5 2B/4B/9B | kompaktne višejezične veličine u istoj porodici | odnos tačnosti, memorije, latencije i kvantizacije |
-| Phi-4-mini-instruct | mali instruction model druge porodice | ponašanje na srpskom i kontrolisanim hemijskim namerama |
-| Gemma 4 | lokalno dostupna porodica različitih veličina | odgovarajuća licenca, runtime i task kvalitet |
-| Ministral 3 3B Instruct 2512 | mali instruction model sa zvaničnim model-cardom | formatna disciplina i višejezični slice-ovi |
-| gpt-oss-20b | veći open-weight lokalni model | da li dobitak opravdava memoriju i latenciju |
-
 Model-card opisuje opštu namenu; ne dokazuje kvalitet na lokalnom stručnom jeziku, hemijskim razgraničenjima ili bezbednosnim slučajevima.
 
 ## Memorija, kvantizacija i supply chain
@@ -131,8 +118,6 @@ Field-aware indeks može različito tretirati naslov, tag, refcode i telo, ali p
 
 Dense retrieval mapira upit i dokument u zajednički vektorski prostor. Može pomoći kod sinonima, parafraza i višejezičnih upita, ali može propustiti retke identifikatore i tačne stringove. Njegov embedding prostor je model- i revizija-specifičan.
 
-Modeli kao Qwen3-Embedding-0.6B i BGE-M3 predstavljaju datirane primere različitih dense/višejezičnih pristupa; njihovo postojanje nije dokaz da su bolji na lokalnom korpusu.
-
 ### Fuzija rang-lista i RRF
 
 Reciprocal Rank Fusion kombinuje rang-liste bez pretpostavke da su njihovi skorovi direktno uporedivi:
@@ -145,7 +130,7 @@ RRF je koristan kada leksički i semantički kanal nalaze komplementarne dokumen
 
 ### Cross-encoder, late interaction i reranking
 
-Cross-encoder zajednički obrađuje upit i kandidat i može preciznije proceniti relevantnost, uz veći trošak po paru. ColBERT-like late interaction čuva token-level signale i nalazi se između bi-encoder efikasnosti i pune cross-encoder interakcije. Qwen3-Reranker-0.6B je jedan datirani primer rerankera, ne propisani izbor.
+Cross-encoder zajednički obrađuje upit i kandidat i može preciznije proceniti relevantnost, uz veći trošak po paru. ColBERT-like late interaction čuva token-level signale i nalazi se između bi-encoder efikasnosti i pune cross-encoder interakcije.
 
 Reranker ne može da vrati relevantan dokument koji nije u candidate skupu. Zbog toga se candidate recall i finalno rangiranje mere odvojeno.
 
@@ -231,19 +216,6 @@ Samoprijavljeni confidence modela nije kalibrisana verovatnoća. Korisniji su em
 
 ## Primarni i zvanični izvori
 
-### Lokalni modeli i model-cardovi
-
-- [Qwen3.5-4B official model repository/model-card](https://huggingface.co/Qwen/Qwen3.5-4B)
-- [Qwen3.5-2B official model repository/model-card](https://huggingface.co/Qwen/Qwen3.5-2B)
-- [Qwen3.5-9B official model repository/model-card](https://huggingface.co/Qwen/Qwen3.5-9B)
-- [Qwen3.5 official family and language overview](https://qwen.ai/blog?id=qwen3.5)
-- [Google: Gemma 4 model overview](https://ai.google.dev/gemma/docs/core)
-- [Google: FunctionGemma model card](https://ai.google.dev/gemma/docs/functiongemma/model_card)
-- [Microsoft: Phi-4-mini-instruct model card](https://huggingface.co/microsoft/Phi-4-mini-instruct)
-- [Mistral AI: Ministral 3 3B Instruct 2512 model-card](https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512)
-- [OpenAI: Introducing gpt-oss](https://openai.com/index/introducing-gpt-oss/)
-- [OpenAI: gpt-oss model card](https://openai.com/index/gpt-oss-model-card/)
-
 ### Retrieval i prilagođavanje
 
 - [Lewis et al. 2020: Retrieval-Augmented Generation](https://arxiv.org/abs/2005.11401)
@@ -254,10 +226,5 @@ Samoprijavljeni confidence modela nije kalibrisana verovatnoća. Korisniji su em
 - [Robertson i Zaragoza 2009: Probabilistic Relevance Framework/BM25](https://doi.org/10.1561/1500000019)
 - [Cormack et al. 2009: Reciprocal Rank Fusion](https://doi.org/10.1145/1571941.1572114)
 - [Khattab i Zaharia 2020: ColBERT late interaction](https://arxiv.org/abs/2004.12832)
-- [Chen et al. 2024: BGE-M3](https://arxiv.org/abs/2402.03216)
-- [Zhang et al. 2025: Qwen3 Embedding and Reranking](https://arxiv.org/abs/2506.05176)
-- [Qwen3-Embedding-0.6B official model-card](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B)
-- [Qwen3-Reranker-0.6B official model-card](https://huggingface.co/Qwen/Qwen3-Reranker-0.6B)
-- [BGE-M3 official model-card](https://huggingface.co/BAAI/bge-m3)
 - [Hu et al. 2021: LoRA](https://arxiv.org/abs/2106.09685)
 - [Dettmers et al. 2023: QLoRA](https://arxiv.org/abs/2305.14314)

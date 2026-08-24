@@ -94,18 +94,7 @@ Ovo su security obrasci, ne specifikacija konkretnog servisa ili topologije.
 
 Retention se zato posmatra kao funkcija tačnog ugovora, organizacije ili projekta, endpoint-a, modela, regiona, API verzije, uključenih feature-a, cache-a, logging/feedback podešavanja i pravnih/safety izuzetaka. Promena bilo koje od ovih stavki može promeniti data-control zaključak.
 
-## Datirani, nenormativni pregled provider kontrola
-
-Sledeći pregled sažima zvaničnu dokumentaciju proveravanu **23. avgusta 2026.** Namenjen je učenju razlika među kontrolama. Ne rangira providere i ne odobrava slanje bilo kog 2CDC podatka. Uslovi se moraju ponovo proveriti u važećem ugovoru i zvaničnoj dokumentaciji pre svake stvarne upotrebe.
-
-| Provider | Obrazovno relevantne činjenice iz zvaničnih dokumenata | Važna granica |
-|---|---|---|
-| OpenAI API | API sadržaj se po pravilu ne koristi za trening bez opt-in-a; standardni abuse-monitoring logovi mogu trajati do 30 dana; application state, MAM/ZDR i prompt cache imaju odvojena pravila | `store=false`, MAM, ZDR i cache nisu sinonimi, a remote/hosted feature može uvesti dodatnog primaoca ili state |
-| Anthropic API | standardna komercijalna obrada i ZDR zavise od organizacije i feature-a; postoje feature-specifični rokovi i trust/safety/legal izuzeci | ZDR jednog org-a ili endpoint-a ne prenosi se automatski na drugi feature |
-| Gemini API | paid-service data-use, projektno odobren ZDR, Files, grounding, cache, logging i session state dokumentovani su odvojeno | Search/Maps grounding i drugi stateful feature-i mogu imati retention koji se ne uklanja osnovnim ZDR statusom |
-| Mistral API | ZDR je dokumentovan za podržane stateless pozive posle odobrenja; lifecycle razlikuje GA, preview/Labs i promenljive alias-e | stateful feature-i, Labs/Preview i fixed naspram moving model ID-a imaju drugačiji lifecycle i data-use rizik |
-
-Model katalog je promenljiv. Dated snapshot ili tačan model identitet pomaže reproduktivnosti, ali ne zamenjuje proveru prava, processor-a i feature retention-a.
+Model katalog je promenljiv. Datirani presek ili tačan model identitet pomaže reproduktivnosti, ali ne zamenjuje proveru prava, processor-a i feature retention-a.
 
 ## Prompt cache i state
 
@@ -207,39 +196,6 @@ Zato „0 od 100“ ne dokazuje nulti rizik; približna gornja granica je oko 3%
 
 - [CCDC: Can I redistribute data from the CSD?](https://support.ccdc.cam.ac.uk/support/solutions/articles/103000339607-can-i-redistribute-data-from-the-csd-)
 - [CSD Python API / CSD Portfolio Conditions of Use](https://downloads.ccdc.cam.ac.uk/documentation/API/conditions_of_use.html)
-
-### OpenAI
-
-- [OpenAI API model catalog](https://developers.openai.com/api/docs/models)
-- [Data controls in the OpenAI platform](https://developers.openai.com/api/docs/guides/your-data)
-- [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching)
-- [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
-- [Function calling](https://developers.openai.com/api/docs/guides/function-calling)
-- [Evaluation best practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices)
-
-### Anthropic
-
-- [Claude models overview](https://platform.claude.com/docs/en/about-claude/models/overview)
-- [Claude model deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations)
-- [Claude API and data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention)
-- [Anthropic commercial data retention policy](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data)
-- [Claude Structured Outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
-- [Claude strict tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use)
-
-### Google Gemini
-
-- [Gemini API models](https://ai.google.dev/gemini-api/docs/models)
-- [Gemini API versions](https://ai.google.dev/gemini-api/docs/api-versions)
-- [Gemini structured output](https://ai.google.dev/gemini-api/docs/structured-output)
-- [Gemini Developer API zero data retention](https://ai.google.dev/gemini-api/docs/zdr)
-- [Gemini logging and dataset sharing](https://ai.google.dev/gemini-api/docs/logs-policy)
-
-### Mistral
-
-- [Mistral model lifecycle](https://docs.mistral.ai/inference/model-lifecycle)
-- [Mistral zero data retention](https://docs.mistral.ai/admin/monitor-comply/zero-data-retention)
-- [Mistral privacy and data controls](https://docs.mistral.ai/admin/monitor-comply/privacy-data-controls)
-- [Mistral Commercial Terms](https://legal.mistral.ai/terms/commercial-terms-of-service)
 
 ### Bezbednost i evaluacija
 

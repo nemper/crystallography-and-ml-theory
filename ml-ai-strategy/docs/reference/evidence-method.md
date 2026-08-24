@@ -14,7 +14,7 @@ Blogovi, vendor benchmark bez punog protokola i leaderboard broj bez kompatibiln
 
 ## Oznake tvrdnji
 
-Svaka važna preporuka treba da bude označena kao:
+Za svaku važnu preporuku treba moći odrediti jednu od sledećih vrsta; oznake su auditni rečnik za pisanje i proveru, ne obavezni prefiksi u svakom modulu:
 
 - **EVIDENCE** — direktno podržana citiranim izvorom pod navedenim uslovima;
 - **INFERENCE** — razumna sinteza više izvora, uz jasno navedene pretpostavke;

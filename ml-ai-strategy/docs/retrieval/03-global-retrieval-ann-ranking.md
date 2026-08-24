@@ -645,13 +645,13 @@ Pretpostavimo coordination-mode query sa DAP motivom i Cu zahtevom.
 2. Korisnik potvrdi da li scope zahteva samo pripadnost istom entry-ju ili koordinaciju sva tri mapirana DAP N atoma.
 3. ACL i metadata engine izdvoje dozvoljene Cu zapise.
 4. Exact motif indeks potvrdi DAP podgraf.
-5. 2D fingerprint vrati 500 kandidata.
-6. Coordination kanal vrati 200, uključujući neke sa nižim 2D score-om.
+5. 2D fingerprint kanal vrati kandidate do kvote izabrane prema search mode-u i recall krivi.
+6. Coordination kanal vrati zasebno budžetiran skup, uključujući neke kandidate sa nižim 2D score-om.
 7. Unija se deduplikuje, ali čuva poreklo kanala.
 8. Exact mapping proveri koji Cu je vezan za koje donor atome.
 9. Geometrija izračuna CN, uglove i distortion samo kada su koordinate dovoljne.
 10. Ranker sortira prema unapred definisanoj semantici relevantnosti koordinacionog motiva.
-11. Kartica rezultata odvojeno prikazuje:
+11. Obrazložen rezultat odvojeno navodi:
     - DAP subgraph coverage;
     - Cu scope;
     - donor mapping;
