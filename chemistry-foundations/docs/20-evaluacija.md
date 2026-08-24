@@ -100,7 +100,7 @@ Ako ML ne popravlja relevantnu metricu uz prihvatljivu cenu/objašnjivost, nije 
 - latency p50/p95 i index freshness;
 - error rate po parse/representation statusu.
 
-Za rangirane metrike prijavi i **macro** rezultat (svaki query ima jednaku težinu) i **micro** rezultat (relevantni zapisi se objedinjuju), jer micro prosek može sakriti loše ponašanje na malim ili teškim query grupama. Pre otvaranja test skupa definiši politiku za query bez ijednog relevantnog zapisa: recall je tada nedefinisan, pa takve upite ne pretvaraj proizvoljno u nulu ili jedinicu; prijavi njihov broj/udeo odvojeno i oceni false-positive ili abstention ponašanje. Denominator i politika moraju pratiti svaku tabelu rezultata.
+Za count-based precision/recall prijavi **query-macro** i **pooled-micro** rezultat sa eksplicitnim brojiocem i imeniocem. MAP i nDCG prijavi kao prosek query-level vrednosti; svaki alternativni ponderisani agregat mora imati navedenu formulu i težine, a ne samo oznaku „micro“. Pre otvaranja test skupa definiši politiku za query bez ijednog relevantnog zapisa: recall je tada nedefinisan, pa takve upite ne pretvaraj proizvoljno u nulu ili jedinicu; prijavi njihov broj/udeo odvojeno i oceni false-positive ili abstention ponašanje. Denominator i politika moraju pratiti svaku tabelu rezultata.
 
 ### Pair comparator
 

@@ -279,7 +279,7 @@ Efektivni (n) je broj nezavisnih compound/scaffold/solid-form grupa, ne broj sko
 
 **Split:** query i compound/solid-form family ne prelaze fold granicu. Strukture se prvo dodeljuju particijama, pa se parovi prave unutar particije; pair-random split bi mogao da ostavi `A–B` u train-u, a `A–C` u testu.
 
-**Metrike:** nDCG@k, recall@k, MAP, kalibracija pair odluke, latencija i worst-slice po metalu/disorder-u/missing 3D.
+**Metrike:** nDCG@k sa eksplicitnom gain funkcijom nad ocenama `0/1/2`; recall@k i MAP prema unapred definisanom binarnom događaju relevantnosti, na primer `grade >= 1`, uz zasebno prijavljen stroži rezultat za `grade = 2` kada je potreban; kalibracija tačno imenovane verovatnoće, na primer `P(grade >= 1)`, `P(grade = 2)` ili cele ordinalne raspodele; latencija i worst-slice po metalu/disorder-u/missing 3D.
 
 ### Property regression
 
