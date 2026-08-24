@@ -211,7 +211,7 @@ Ovaj oracle govori da li je ANN izgubio susede po izabranoj metrici. Ne govori d
 
 Exact L2 ili inner-product scan čuva pune vektore i poredi query sa svim dozvoljenim kandidatima. [Faiss pregled indeksa](https://github.com/facebookresearch/faiss/wiki/Faiss-indexes) navodi približno `4*d` bajtova po float32 vektoru za Flat indeks.
 
-Exact Flat ima dve odvojene uloge:
+Exact Flat ima tri odvojene uloge:
 
 - ground truth za ANN recall;
 - exact metod kada korpus i latencija to dopuštaju;

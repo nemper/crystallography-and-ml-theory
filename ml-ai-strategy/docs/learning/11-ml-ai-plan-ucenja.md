@@ -36,12 +36,12 @@ Uporedna mapa algoritamskih porodica čita se dva puta: prvi put radi orijentaci
 | 4 | Hemija 1–6: atomi/formule, veze, 3D/stereo, organski minimum, koordinaciona hemija i DAP/Schiff-base | O | Preduslov za svaki 2D graf, fingerprint, motif, metal/donor i stereo target. |
 | 5 | Hemija 7–11A: interakcije, ćelija, simetrija, kvalitet, čvrste forme, referentne raspodele/HBP | O | Preduslov za periodične grafove, packing, polimorfe, PXRD, uncertainty i crystal modele. |
 | 6 | Hemija 12–17: formati, pun CIF, standardizacija, reprezentacije, sličnost, CSD/ConQuest i lokalni skup | O | Pre bilo kog dataseta, feature-a ili modela; ovde se vidi stvarni cross-format gubitak i selection bias. |
-| 7 | [Cross-format i lifecycle eligibility](../data/09-cross-format-eligibility.md) | O | Prvi kompletan ML/AI modul posle hemijskih preduslova; daje pojmovnu osnovu za sve naredne teme. |
+| 7 | Hemija 21 + [cross-format i lifecycle eligibility](../data/09-cross-format-eligibility.md) | O | FAIR, prava, provenance i lifecycle dopunjuju pojmovnu osnovu za sve naredne ML/AI teme. |
 | 8 | Hemija 19 + [precizno pairwise poređenje](../pairs/04-precise-pairwise.md) | O | App 2 se uči prva jer se najveći deo može validirati bez pune CSD baze i bez ML-a. |
 | 9 | Hemija 18 i 20 + [globalni retrieval, ANN i ranking](../retrieval/03-global-retrieval-ann-ranking.md) | O | Razdvoji exact filter, candidate recall, semantic recall, qrels i finalni ranking. |
 | 10 | [Klasični ML](../classical/02-classical-ml.md) | O | Čitaj kada razumeš target, group/time split i determinističke reference. |
 | 11 | [Periodični crystal encoderi](../deep/05-periodic-crystal-encoders.md), pa [metric learning i evaluacija](../deep/06-metric-learning-and-evaluation.md) | P | Ne počinji dok ne razumeš periodične/stereo invarijanse, exact oracle i gold/split protokol. |
-| 12 | Hemija 21–22 + cela [uporedna mapa](../roadmap/10-optimal-stack-roadmap.md) | O | Licence, FAIR, provenance, lifecycle, white-paper granice, property targeti i uslovi za FL. |
+| 12 | Hemija 22 + cela [uporedna mapa](../roadmap/10-optimal-stack-roadmap.md) | O | White-paper granice, structure–property i polymorph-risk targeti, uslovi za FL i završno poređenje algoritamskih porodica. |
 | 13 | [Lokalni SLM i RAG](../language/07-local-slm-rag.md) | P | Jezička interpretacija i dokumentacioni retrieval; nije crystal representation niti naučni autoritet. |
 | 14 | [Spoljni LLM API i bezbednost](../language/08-api-llm-security.md) | R | Čita se radi razumevanja minimizacije, processor/retention razlika, prompt injection-a i granica prava. |
 | 15 | [Metod dokaza](../reference/evidence-method.md), [završni ML/AI audit](../reference/final-validation-2026-08-23.md), hemijski rečnik/zablude/izvori/audit | R | Koristi pri pisanju claim-a, proveri terminologije i završnom auditu; rešenja praktikuma tek posle sopstvenog pokušaja. |
@@ -163,7 +163,7 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 
 ### Deterministički App 2: mapping i 3D
 
-**Čitaj:** hemija 19 i pairwise modul 4.1–4.9.
+**Čitaj:** hemija 19 i pairwise modul 4.1–4.8.
 
 **Fokus:** comparison profile, dodela komponenti sa unmatched opcijom, exact/subgraph/MCS semantika, automorfizmi, Kabsch posle mapping-a i koordinacioni evidence.
 
@@ -173,7 +173,7 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 
 ### Deterministički App 2: packing i evidence
 
-**Čitaj:** dovrši pairwise modul 4.10–4.21.
+**Čitaj:** dovrši pairwise modul 4.9–4.21.
 
 **Fokus:** uloge i granice COMPACK/PAC, CrystalCMP, SOAP–REMatch, PXRD i interaction networks; primenljivost i licencna dostupnost.
 
