@@ -130,33 +130,14 @@ Dostavljeni fajl koristi istu gramatiku, ali je mnogo veći: oko 2,7 MB. U njemu
 
 Iz imena `cu_n14_a.cif` ne zaključuj da struktura sadrži bakar. U tom lokalnom primeru sastav i atom-site lista nemaju Cu; oznaka Cu Kα opisuje rendgensko zračenje. Uvek proveri data items, ne filename.
 
-Na svom računaru možeš bez izmene fajla pogledati početak:
-
-```powershell
-Get-Content -LiteralPath .\cu_n14_a.cif -TotalCount 120
-```
-
-I pronaći važne sekcije:
-
-```powershell
-Select-String -LiteralPath .\cu_n14_a.cif -Pattern '^data_', '^_cell_', '^_atom_site_', '^_refine_'
-```
-
-Za punu interpretaciju koristi CIF-aware alat. CCDC daje kratak odgovor [šta je CIF](https://support.ccdc.cam.ac.uk/support/solutions/articles/103000306374-what-is-a-cif-file-) i navodi alate za [pravljenje i proveru validnog CIF-a](https://support.ccdc.cam.ac.uk/support/solutions/articles/103000306082-are-there-any-tools-available-to-help-produce-a-cif-); IUCr-ov [checkCIF](https://checkcif.iucr.org/) proverava formalne i kristalografske probleme.
+Za formalnu i kristalografsku proveru koristi CIF-aware validator, na primer IUCr-ov [checkCIF](https://checkcif.iucr.org/).
 
 !!! danger "Ne šalji poverljiv CIF na javni servis"
-    Pre web upload-a proveri licencu, poverljivost i ugovorenu data boundary. Za proprietary ili neobjavljenu strukturu koristi odobren lokalni/on-site alat. Parser, vizuelizator i checkCIF odgovaraju na različita pitanja; nijedan sam ne garantuje hemijsku ispravnost.
+    Pre slanja proveri pravo i poverljivost. Sintaksna, kristalografska i hemijska validacija nisu ista provera; nijedan alat ih sam ne garantuje.
 
-## 12A.7 Minimalni pregled pre ingest-a
+## 12A.7 Minimalna provera pre tumačenja
 
-1. Izračunaj hash originalnih bajtova i radi nad kopijom/read-only ulazom.
-2. Detektuj CIF verziju i encoding; ne pretpostavljaj da svaki `.cif` koristi isti dijalekt.
-3. Proveri da parser vidi očekivane data block-ove i prijavi duplikate/loop greške.
-4. Validiraj data names prema relevantnim dictionary verzijama.
-5. Proveri ćeliju, simetriju, atom sites, occupancy/disorder i hemijski sastav zajedno.
-6. Zadrži parser warnings i ne pretvaraj `?`/`.` u nulu.
-7. Vizuelno pregledaj asimetričnu jedinicu, proširenu ćeliju i periodic contacts.
-8. Sačuvaj original, parser/verziju, transformacije i sve izvedene prikaze odvojeno.
+Pre zaključivanja utvrdi CIF dijalekt i rečnik, izabrani data block i parser warnings; zajedno proveri ćeliju, simetriju, atom sites, occupancy/disorder i sastav; `?` i `.` sačuvaj kao različita značenja nedostajanja; vizuelno uporedi asimetričnu jedinicu, proširenu ćeliju i periodične kontakte. Uvek razlikuj originalne, parsirane i izvedene podatke.
 
 ## 12A.8 Provera znanja
 

@@ -200,10 +200,10 @@ Može li interni proprietary dataset biti FAIR ako pristup zahteva login?
 
 ### 3. Nevidljivi embedded PDF tekst
 
-Parser nalazi docking tekst na naslovnoj strani, ali render ga ne prikazuje. Šta radiš?
+Parser nalazi docking tekst na naslovnoj strani, ali render ga ne prikazuje. Šta zaključuješ?
 
 ??? success "Odgovor"
-    Sačuvaj raw ekstrakciju kao evidence, označi stranicu konfliktom, ne indeksiraj sporni tekst u approved sloj, vizuelno/OCR proveri dokument i zapiši QA odluku sa parserom i verzijom.
+    Embedded tekst i vidljivi sadržaj su različiti dokazi. Sporni tekst ne tretiraj kao potvrđen sadržaj dok se konflikt ne proveri renderom/OCR-om; sačuvaj poreklo ekstrakcije, parser i verziju.
 
 ### 4. Embedding za objavu
 

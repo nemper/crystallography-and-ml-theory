@@ -1,6 +1,6 @@
 # 22. White paper tokovi i federativno učenje
 
-**Prioritet: MORAŠ za razumevanje izvora; NE MORAŠ odmah implementirati FL.** Ova strana zatvara teme iz dostavljenog white paper-a koje nisu čista hemija: lifecycle proprietary podataka, product/workflow pojmove, povezivanje strukture i svojstva, manufacturability i federativno učenje.
+**Prioritet: MORAŠ za razumevanje izvora. FL se ovde obrađuje samo teorijski; implementacija nije deo ovog materijala.** Ova strana zatvara teorijske teme iz dostavljenog white paper-a: provenance i lifecycle proprietary podataka, povezivanje strukture i svojstva, manufacturability, polymorph risk i federativno učenje.
 
 Dostavljeni dokument *Maximising the Impact of Proprietary Structural Data* je CCDC white paper. On je koristan za problemski okvir i opis CCDC ekosistema, ali nije nezavisna evaluacija proizvoda, tehnička specifikacija naših aplikacija niti dokaz da će određeni ML metod raditi na našem skupu.
 
@@ -15,52 +15,15 @@ Nemoj spajati sledeće rečenice:
 
 Prva rečenica motiviše istraživanje. Tek četvrta može postati lokalni dokaz za ograničenu tvrdnju.
 
-## 22.2 Potpuna mapa 22 strane dokumenta
+## 22.2 Obim izvora {#222-potpuna-mapa-22-strane-dokumenta}
 
-Broj strane je fizički redosled u dostavljenom PDF-u.
+Nastavne tvrdnje white paper-a nalaze se pre svega na stranama 3–18: proprietary podaci i provenance, structure–property veze, lifecycle/curation, federativno učenje i indikatori polymorph risk-a. Strane 1–2 i 19–22 jesu front/back matter, zaključak/testimonial, reference i kontakt, a ne nezavisna validacija. Teorija je obrađena u sekcijama 22.3–22.6 i povezanim poglavljima; konflikt embedded teksta i rendera analiziran je u [poglavlju 21](21-licence-fair.md).
 
-| Strane | Tema u dokumentu | Gde je teorija obrađena | Granica dokaza |
-|---:|---|---|---|
-| 1 | naslovna strana | ova mapa | nema naučne tvrdnje; embedded text extractor prikazuje i nevidljiv, tematski nepodudaran docking tekst |
-| 2 | sadržaj | ova mapa | navigaciona strana, ne dokaz |
-| 3–4 | curated proprietary structural data, metadata, provenance, structure–property veze, digitalizacija; solubility, stability, manufacturability; najava FL | [standardizacija](../podaci/13-standardizacija.md), [FAIR/licence](21-licence-fair.md), sekcije 22.4–22.6 | executive summary je program rada, ne validaciona studija |
-| 5 | FAIR, data silos, identifikatori, legacy izvori i verzije | [21. Licence, FAIR i poreklo](21-licence-fair.md) | FAIR ne znači open, kvalitetno ili licencno slobodno |
-| 6 | posledice lošeg data management-a za odluke i ML | [evaluacija](20-evaluacija.md), [provenance](21-licence-fair.md) | citirana novčana procena nije procena troška ovog projekta |
-| 7 | javni CSD + proprietary podaci i iteracija data → insight → eksperiment | [CSD tok](16-csd-conquest.md), [lokalni skup](17-lokalni-skup.md) | kombinovanje izvora ne uklanja selection bias niti licencu |
-| 8–9 | focused subsets, razlika javnog i internog prostora, curation, atom/bond typing, geometrijske distribucije i intermolekulske interakcije | [interakcije](../kristali/07-interakcije.md), [čvrste forme](../kristali/11-cvrste-forme.md), [standardizacija](../podaci/13-standardizacija.md), sekcija 22.5 | „unusual“ je statistički signal u definisanom referentnom skupu, ne automatski energetski ili stabilnosni dokaz |
-| 10–11 | ConQuest, Mercury, CSD Python API; struktura–svojstvo, crystallisation conditions, melting point, solubility i priprema podataka za FL | [CSD tok](16-csd-conquest.md), sekcija 22.4 | broj dostupnih property vrednosti je vremenski promenljiv; property mora biti vezan za formu i uslove |
-| 12 | automatizovani in-house tok, on-site WebCSD, „early access“ i glavna baza | sekcija 22.3 | naziv proizvoda ne zamenjuje dokumentovano značenje lifecycle-a, prava i kvaliteta |
-| 13–14 | Manage Databases, CSD-Editor, review/ingest i automatski database-ready format | sekcija 22.3 | capability, format, tier, API i ponašanje proveravaju se u tačnoj instalaciji i licenci |
-| 15–16 | federativno učenje nad lokalno zadržanim podacima | sekcija 22.6 | FL ne daje sam po sebi confidentiality, privacy ili licence compliance |
-| 17–18 | polymorph-risk case: proprietary/public coverage, Mogul, packing comparison i hydrogen-bond propensity | [čvrste forme](../kristali/11-cvrste-forme.md), sekcija 22.5 | skup indikatora prioritizuje istragu; ne dokazuje neotkriven polimorf ni termodinamički poredak |
-| 19–20 | zaključak i eksterni testimonial | ova mapa | sažetak i mišljenje nisu nezavisna benchmark evaluacija |
-| 21 | osam referenci | [izvori](../referenca/izvori.md) | svaka podržavajuća tvrdnja se proverava u originalnom radu; citation list nije automatska validacija |
-| 22 | kontakt CCDC-a | nema gradiva | administrativna strana |
+## 22.3 Lifecycle stanja i dokazni status {#lifecycle-stanja}
 
-!!! warning "PDF ima nevidljiv tekstualni konflikt"
-    Vizuelno su strane 1–2 naslov i sadržaj ovog white paper-a, ali text extraction vraća i zaostali tekst o *ultra-large docking*-u. Pošto se ne vidi u renderu i ne pripada dokumentu, ne tretira se kao tema kursa. To je praktičan primer zašto PDF ingest mora ukrstiti text layer i render.
+White paper razlikuje sadržaj pre pune kuracije od sadržaja odobrenog za standardnu upotrebu. Prenosiva teorijska razlika je između primljenog izvora, tehnički parsiranog sadržaja, automatski validiranog nalaza, stručno pregledanog ili kuriranog zapisa i sadržaja odobrenog ili povučenog za određenu namenu. Nazivi i prelazi zavise od institucije.
 
-## 22.3 Od vendor naziva do generičkog data lifecycle-a
-
-White paper opisuje konkretne CCDC komponente. Za teorijsko razumevanje korisno je prevesti svaki naziv u generičku odgovornost:
-
-| Pojam iz white paper-a | Generička odgovornost | Otvoreno pitanje za lokalni kontekst |
-|---|---|---|
-| on-site **WebCSD** | kontrolisani web search/view pristup internoj strukturnoj bazi | scope pristupa, korisnici, stvarna verzija i prava nad izlazom |
-| **early-access database** | kolekcija dostupna pre pune kuracije | šta oznaka kvaliteta znači i za koje je upotrebe dovoljna? |
-| **main database** | validiran ili odobren skup za standardnu upotrebu | ko je odobrio skup, za koji scope i pod kojom verzijom? |
-| **Manage Databases** | administracija ingest-a, statusa i baza | koja je funkcija zaista dostupna u ugovorenom tier-u? |
-| **CSD-Editor** | stručna korekcija hemijskog/kristalografskog zapisa | ko je odgovoran, šta je promenjeno i na kom dokazu? |
-| database-ready conversion | derivacija formata pogodnog za CCDC desktop/API alate | koja verzija i koji gubici određuju značenje derivata? |
-| **ConQuest / Mercury / CSD Python API** | query, vizuelizacija/analiza i programski workflow | koje su proverene mogućnosti, licencne granice i prava nad izlazom? |
-
-Zvanični pregled CSD-Core navodi [ConQuest, Mercury, Mogul, CSD-Editor, WebCSD i CSD Python API](https://www.ccdc.cam.ac.uk/solutions/csd-core//). CCDC podrška opisuje [My Structures/CSD-Editor tok](https://support.ccdc.cam.ac.uk/support/solutions/articles/103000306386-what-is-the-my-structures-service-) i [zašto nov zapis može prvo biti early-access](https://support.ccdc.cam.ac.uk/support/solutions/articles/103000306285-i-know-that-a-particular-crystal-structure-has-been-published-why-is-it-not-included-in-the-latest-r). Te stranice potvrđuju vendor terminologiju; ne potvrđuju našu institucijsku konfiguraciju.
-
-### Konceptualne razlike među lifecycle stanjima {#lifecycle-stanja}
-
-Jedan nenormativan način razmišljanja o životnom ciklusu razlikuje: primljen izvor, izdvojen ili ograničen zapis, tehnički parsiran sadržaj, automatski validiran nalaz, slučaj koji zahteva stručni pregled, kuriran zapis i sadržaj odobren ili povučen za određenu namenu. Nazivi, broj stanja i prelazi zavise od institucije i nisu ovde projektovani.
-
-Ključna teorijska razlika je da `parser_ok` ne dokazuje hemijsku ispravnost, a automatska validacija nije isto što i stručna ili policy odluka. „Early access“ je poslovna oznaka čije značenje mora biti poznato pre poređenja sa glavnom bazom. Za tumačenje svakog stanja važni su poreklo, primenjena pravila, upozorenja, odgovornost, dozvoljeni scope i veza sa ranijim ili kasnijim verzijama. To su semantičke kategorije, ne state schema ili workflow recept.
+`parser_ok` ne dokazuje hemijsku ispravnost, automatska validacija nije stručna ili policy odluka, a vendor oznaka kao „early access“ nije sama po sebi quality dokaz. Svako stanje ima smisla samo uz provenance, pravila, upozorenja, odgovornost, dozvoljeni scope i veze među verzijama.
 
 ## 22.4 Struktura–svojstvo nije običan SQL join po imenu
 
@@ -158,18 +121,9 @@ Pre tumačenja rezultata moraju biti jasni threat model i učesnici, dozvoljeni 
 
 FL je opravdan kada podaci zaista ne smeju da se centralizuju i kada dodatna složenost donosi merljivu korist. Nije cilj sam po sebi.
 
-## 22.7 Pitanja i odluke o relevantnosti za dve aplikacije
+## 22.7 Granica prema dve aplikacije
 
-White paper otvara teme koje mogu, ali ne moraju, biti relevantne za dve aplikacije. Njihova uloga zavisi od naučnog pitanja, dostupnih podataka, licence i dokaza:
-
-| Tema | Pitanje za globalnu pretragu | Pitanje za poređenje parova | Granica zaključka |
-|---|---|---|---|
-| curation, atom/bond typing, jedinice i provenance | da li različiti nivoi kuracije menjaju eligible korpus ili rang? | da li oba člana para imaju uporedivo značenje i poreklo? | parsiranje i kuracija nisu isto |
-| structure–property veze | postoji li validna property opservacija koja opravdava property-aware relevantnost? | mogu li se razlike vezati za istu formu, uslove i metod? | bez takve veze property nije pouzdan signal |
-| early-access/main lifecycle | da li se populacije razlikuju po quality/review scope-u? | kako nereviewed status ograničava pair claim? | poslovna oznaka nije automatski quality dokaz |
-| WebCSD/CCDC alati | da li dostupna i licencirana funkcija može služiti kao izvor ili referenca? | da li može dati proverljiv stručni signal? | capability i prava zavise od konkretne instalacije |
-| polymorph-risk indikatori | pomažu li analogije u prioritizaciji dodatne provere? | koje odvojene geometrijske, packing i H-bond razlike postoje? | indikatori nisu automatska dijagnoza |
-| federativno učenje | postoji li uopšte opravdan multi-site model cilj koji pretraga ne rešava? | postoji li learned pair cilj koji zahteva podatke više institucija? | deterministička pretraga i poređenje sami po sebi ne zahtevaju FL |
+Teme iz ovog poglavlja ograničavaju tumačenje dokaza, ali nisu same po sebi zahtevi za globalnu pretragu ili poređenje parova; te dve funkcije ne zahtevaju federativno učenje.
 
 ## 22.8 Provera znanja
 
@@ -178,7 +132,6 @@ White paper otvara teme koje mogu, ali ne moraju, biti relevantne za dve aplikac
 3. Da li Mogul „unusual torsion“ dokazuje visoku energiju ili metastabilnost?
 4. Šta tačno napušta lokaciju u tipičnom FedAvg toku?
 5. Zašto secure aggregation nije zamena za differential privacy, endpoint security ili licencu?
-6. Da li dve aplikacije iz `dve funkcionalnosti.txt` trenutno zahtevaju FL?
 
 ??? success "Odgovori"
     1. Downstream sistemi moraju znati quality/review stanje, dozvoljene upotrebe, verziju, prelaze i audit; folder ne daje tu semantiku.
@@ -186,6 +139,5 @@ White paper otvara teme koje mogu, ali ne moraju, biti relevantne za dve aplikac
     3. Ne; to je odstupanje od referentne distribucije pod datim query/filter uslovima i signal za dalju proveru.
     4. Model/update i protokolarni metadata/metrics; raw podaci mogu ostati lokalno, ali to nije dokaz da ništa o njima ne curi.
     5. Svaka kontrola pokriva drugi threat model; nijedna sama ne daje univerzalnu privatnost ni pravno pravo.
-    6. Ne. FL je tema izvornog white paper-a i mogući budući multi-site zahtev, ne implicitni deo opisa dve aplikacije.
 
-**Kriterijum prolaza:** možeš da prevedeš svih 22 strane white paper-a u proverljiva pitanja i ograničene tvrdnje, odvojiš vendor claim od lokalnog dokaza i nacrtaš FL threat model bez rečenice „raw fajlovi ne odlaze, dakle privatno je“.
+**Kriterijum prolaza:** možeš da prevedeš ključne tvrdnje white paper-a u proverljiva pitanja i ograničene tvrdnje, odvojiš vendor claim od lokalnog dokaza i nacrtaš FL threat model bez rečenice „raw fajlovi ne odlaze, dakle privatno je“.

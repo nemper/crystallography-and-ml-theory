@@ -19,31 +19,9 @@ Različita značenja pretrage mogu se razložiti kroz sledeća pitanja:
 
 Odvojena značenja sličnosti su naučno transparentnija od neobjašnjivog univerzalnog pojma „similar“. Ovo je semantičko razlaganje problema, a ne specifikacija korisničkog interfejsa.
 
-## 18.2 Šta ingest mora da razjasni
+## 18.2 Naučna dovoljnost ulaza
 
-Sledeći dijagram je **nenormativna ilustracija** uloga koje se javljaju između ulaznog CIF-a i pretrage; ne propisuje komponente, tehnologije ni redosled realizacije konkretnog sistema.
-
-```mermaid
-flowchart TD
-    U[Upload CIF] --> B[Ograničenje veličine + bezbedno čitanje]
-    B --> H[Hash + netaknut original]
-    H --> P[Dictionary-aware parse]
-    P --> QC[Syntax / chemistry / crystal QC]
-    QC --> C[Components + crystal view]
-    C --> R[Representations sa provenance-om]
-    R --> Q[Search planner]
-```
-
-Za naučno tumačenje ulaza važno je znati:
-
-- koji data block je izabran i zašto;
-- formula/atom-site/component konzistentnost;
-- ćeliju, symmetry, occupancy/disorder i coordinate availability;
-- šta je direktno iz CIF-a, šta izvedeno, a šta dodeljeno;
-- koja upozorenja ograničavaju pojedine vrste zaključka;
-- kojoj verziji izvora i interpretacionih pravila nalaz pripada.
-
-Ako CIF sadrži velike refleksione ili ugrađene text blokove, parser ih ne treba slati u ML prompt/model niti pretvarati u hemijske tokene.
+Pre pretrage mora biti jasno koji je CIF data block predmet analize; da li su formula, atom sites i komponente konzistentni; da li ćelija, simetrija, occupancy/disorder i dostupne koordinate podržavaju traženi nivo sličnosti; šta je direktno, izvedeno ili dodeljeno; i koje verzije i upozorenja ograničavaju zaključak. Veliki refleksioni ili tekstualni blokovi jesu deo izvora, ali nisu samim tim hemijska reprezentacija niti signal za ML sličnost.
 
 ## 18.3 Filter semantika
 

@@ -134,7 +134,7 @@ Originali ostaju van repoa. Puni hash manifest nalazi se u [registru ključnih t
 
 | # | Artefakt | Šta je provereno | Gde se uči |
 |---:|---|---|---|
-| 1 | `CCDC_white_paper_sharpen.pdf` | 22/22 vizuelne strane; hidden text/render konflikt na p.1–2; teme p.3–20; reference/kontakt p.21–22 | [potpuna mapa](../projekat/22-whitepaper-tokovi-fl.md#222-potpuna-mapa-22-strane-dokumenta) |
+| 1 | `CCDC_white_paper_sharpen.pdf` | 22/22 vizuelne strane; hidden text/render konflikt na p.1–2; teme p.3–20; reference/kontakt p.21–22 | [obim izvora](../projekat/22-whitepaper-tokovi-fl.md#222-potpuna-mapa-22-strane-dokumenta) |
 | 2 | `dve funkcionalnosti.txt` | globalni CIF→baza tok i all-pairs \(n(n-1)/2\) tok | mapa projekta, 18–20 |
 | 3 | `cu_n14_a.cif` | formula, cell, `P 21/c`, coordinates, reflection/refinement, quality i embedded sadržaj | 8–13, 17, praktikum |
 | 4 | `N14.mol` | 51 atoma/54 bond records i izgubljena crystal/refinement semantika | 12–13, L2 |

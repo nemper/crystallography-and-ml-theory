@@ -33,7 +33,7 @@ Lokalni CSD izvozi fokusirani su na DAP/Schiff-base motiv i veliki broj zapisa s
 4. **Digitalna hemija** - šta CIF/MOL/MOL2/SDF/SMILES čuvaju, šta gube i zašto konverzija nije neutralna.
 5. **Sličnost i aplikacije** - grafovi, otisci, deskriptori, poravnanje, pakovanje, evaluacija i dvofazna pretraga.
 
-Ako želiš prvo da vidiš format nad kojim ćeš raditi, otvori [pun, anotiran i parsabilan CIF primer](podaci/12a-anatomija-cif.md). Za statistički deo polymorph-risk toka koristi [referentne raspodele, Mogul i HBP](kristali/11a-referentne-raspodele-hbp.md). Ako želiš da proveriš da nijedna tema dostavljenog dokumenta nije izgubljena, koristi [mapu svih 22 strane white paper-a](projekat/22-whitepaper-tokovi-fl.md).
+Ako želiš prvo da vidiš format nad kojim ćeš raditi, otvori [pun, anotiran i parsabilan CIF primer](podaci/12a-anatomija-cif.md). Za statistički deo polymorph-risk toka koristi [referentne raspodele, Mogul i HBP](kristali/11a-referentne-raspodele-hbp.md). Za granice tvrdnji i teorijske teme dostavljenog dokumenta koristi [pregled obima white paper-a](projekat/22-whitepaper-tokovi-fl.md).
 
 Svako poglavlje ima isti ritam: intuitivna slika, precizna definicija, primer iz projekta, zamka, mini-vežba i kriterijum prolaza. Linkovi vode ka izvorima samo kada je korisno pročitati standard, videti interaktivnu ilustraciju ili ući u detalj koji bi nepotrebno produžio ovu knjigu.
 

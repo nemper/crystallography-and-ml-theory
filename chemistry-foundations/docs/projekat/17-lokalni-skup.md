@@ -138,25 +138,9 @@ Pretraga pokrenuta 2026. nad instalacijom iz 2022. **nije CSD snapshot iz 2026.*
 **Pouka za provenance:** release baze, verzija query alata, vreme pokretanja pretrage, vreme eksporta i vreme kasnije analize predstavljaju različite događaje. Njihovo stapanje u jednu oznaku „datum skupa“ napravilo bi ozbiljnu provenance grešku i pokvarilo temporalnu evaluaciju. Ovo je semantički zahtev, ne predlog naziva polja.
 </div>
 
-## 17.6 `.cqs` je binarni program/data objekat, ne bezazleni tekst
+## 17.6 Bezbednosni i provenance status `.cqs` artefakta
 
-Oba `.cqs` fajla su Berkeley DB B-tree fajlovi:
-
-| Osobina | `search1` | `search2` |
-|---|---:|---:|
-| magic | `0x00053162` | `0x00053162` |
-| Berkeley DB verzija | 9 | 9 |
-| page size | 8.192 B | 8.192 B |
-| broj strana | 67 | 65 |
-| subdatabases | `main`, `refcode_data`, `hitdata` | isto |
-| hit/refcode entries | 2.110 | 2.038 |
-
-Vrednosti uključuju Python protocol-1 pickle tokove. Tako se mogu pročitati query strukture, refcode rezultati, verzije i putanje — ali to stvara bezbednosni rizik.
-
-!!! danger "Nikad `pickle.load()` nad nepoverljivim CQS-om"
-    Python pickle može pri deserializaciji da pozove proizvoljan kod. Ekstenzija `.cqs`, izvor „sa fakulteta“ ili antivirusna provera nisu dokaz bezbednosti. Nepoverljivi CQS zato zahteva izolovanu, read-only analizu bez izvršavanja objekata, sa ograničenim resursima i bez pristupa mreži ili tajnama. Statička inspekcija i pouzdani kompatibilni alat imaju drugačiji bezbednosni profil od običnog unpickle-a; konkretan operativni postupak nije tema ovog poglavlja.
-
-CQS takođe otkriva lokalna korisnička imena, putanje i temp lokacije. Pre deljenja treba ga tretirati kao poverljiv artefakt, čak i kada sam query nije poslovna tajna. CQS i CIF imaju različitu namenu i bezbednosni profil; CQS se ne sme tretirati kao benigni ekvivalent CIF ulaza.
+Lokalna inspekcija oba `.cqs` fajla pokazuje binarni Berkeley DB sadržaj sa Python pickle tokovima i lokalnim putanjama. Pickle deserializacija može izvršiti kod, pa poreklo fajla nije dokaz bezbednosti; CQS može sadržati i tragove o korisniku i lokalnom okruženju. Ovaj nalaz pripada provenance-u dostavljenih upita, ne hemijskoj semantici niti ulaznom formatu budućih aplikacija.
 
 ## 17.7 Šta svaki CSD izvozni format čuva i gubi
 
@@ -448,20 +432,9 @@ Samo split po punom refcode string-u dopušta da, na primer, `ORIGII01` završi 
 !!! warning "Base refcode nije dovoljan"
     Exact-identičan SMILES cluster može da pređe granicu dve različite base-refcode porodice, kao `ORIFON` naspram `ORIGII...`. Zato je base refcode minimalna, ne konačna zaštita od leakage-a.
 
-## 17.14 Raw podaci ostaju van repoa
+<span id="1715-sta-lokalna-forenzika-znaci-za-naucni-dizajn"></span>
 
-Razlozi su i tehnički i pravni:
-
-- CSD izvozi i derived subsets podležu CCDC licenci;
-- private GitHub je i dalje kopija kod treće strane, ne licencni izuzetak;
-- CQS otkriva putanje/korisničke tragove i nosi unsafe pickle sadržaj;
-- `cu_n14_a.cif` sadrži kompletan ugrađeni HKL/RES, ne samo mali koordinatni model;
-- raw fajlovi su veliki i nepotrebni za čitanje nastavnog teksta;
-- provenance i pravo redistribucije originalnih fakultetskih fajlova nisu još formalno rešeni.
-
-Odsustvo raw fajlova iz ovog repoa ne određuje univerzalnu listu dozvoljenih budućih artefakata. Za svaki raw ili izvedeni sadržaj zasebno se proveravaju izvor i integritet, vlasništvo/licenca, poverljivost, mogućnost rekonstrukcije, transformaciono poreklo i pravo deljenja. Agregat, model ili indeks nije automatski slobodan samo zato što nije originalni CIF.
-
-## 17.15 Šta lokalna forenzika znači za naučni dizajn
+## 17.14 Šta lokalna forenzika znači za naučni dizajn
 
 ### Ulaz i reprezentacije
 
@@ -481,7 +454,9 @@ Stručna anotacija može razdvojiti valjanost motiva, scope prisustva metala, ma
 
 Članstvo u query rezultatu može biti candidate label, nikada automatski similarity rank ili konačna koordinaciona istina.
 
-## 17.16 Pitanja za proveru reproduktivnosti zaključka
+<span id="1716-pitanja-za-proveru-reproduktivnosti-zakljucka"></span>
+
+## 17.15 Pitanja za proveru reproduktivnosti zaključka
 
 - Da li broj potiče iz originalnog izvora ili je izveden pod poznatim pravilima?
 - Da li su CSD release, datum query-ja i datum analize pravilno razdvojeni?
@@ -494,7 +469,9 @@ Stručna anotacija može razdvojiti valjanost motiva, scope prisustva metala, ma
 - Da li statistika navodi parser/verziju, populaciju i denominator?
 - Da li interpretativni i licencni zaključci imaju odgovarajući stručni ili ugovorni dokaz?
 
-## 17.17 Mini-vežbe
+<span id="1717-mini-vezbe"></span>
+
+## 17.16 Mini-vežbe
 
 ### 1. Dva datuma
 
@@ -517,44 +494,47 @@ Zašto `search2` ima 2.038 record-a, ali samo 1.954 coordinate-bearing strukture
 ??? success "Odgovor"
     DAP-motif entry-je bez metala prema `4M` composition kriterijumu. To nisu svi „slobodni ligandi u hemijskom univerzumu“, već metal-free članovi ovog konkretnog query snapshot-a.
 
-### 4. CQS upload
+<span id="5-smiles-ciscenje"></span>
 
-Korisnik pokušava da uploaduje `.cqs` u javni CIF endpoint. Šta radiš?
-
-??? success "Odgovor"
-    Odbij format. CQS nije potreban za taj ugovor, sadrži Berkeley DB/pickle sadržaj i može otkriti lokalne putanje. Ako jednog dana postoji admin import, radi se izolovano i bez običnog unpickle-a.
-
-### 5. SMILES čišćenje
+### 4. SMILES čišćenje
 
 Data scientist odbacuje svih 233 `search2` entry-ja bez SMILES i kaže da je to nasumičnih 11,4%. Zašto je zaključak pogrešan?
 
 ??? success "Odgovor"
     Nedostajanje je isto u obe pretrage i koncentrisano u većim/složenijim metalnim zapisima, naročito Mn/Fe/Co/Ni. Complete-case skup menja ciljnu hemijsku distribuciju.
 
-### 6. Refcode split
+<span id="6-refcode-split"></span>
+
+### 5. Refcode split
 
 `ORIGII01` je u train-u, `ORIGII22` u test-u. Šta nije u redu?
 
 ??? success "Odgovor"
     Članovi iste refcode porodice i exact-SMILES klastera cure preko split-a. Grupisati najmanje po base refcode-u i hemijskom identitetu pre podele.
 
-### 7. N14 ime
+<span id="7-n14-ime"></span>
+
+### 6. N14 ime
 
 Da li `cu_n14_a.cif` dokazuje Cu kompleks sa izotopom 14N?
 
 ??? success "Odgovor"
     Ne. Formula nema Cu, `cu` je konzistentno sa Cu Kα zračenjem, a `N14` je label. Izotopski i elementarni identitet se ne izvode iz imena fajla.
 
-### 8. Jedna formula, jedan CN?
+<span id="8-jedna-formula-jedan-cn"></span>
+
+### 7. Jedna formula, jedan CN?
 
 CAPHEK formula ima Zn, četiri N i dva Cl. Zašto je koordinaciona signatura `N3Cl2`, a ne `N4Cl2`?
 
 ??? success "Odgovor"
     Formula obuhvata i odvojeni acetonitril i vodu. Samo tri ligandna N i dva Cl su neposredni susedi Zn; CN se određuje iz koordinacionog grafa/geometrije, ne iz ukupnog broja elemenata.
 
-## 17.18 Kriterijum prolaza
+<span id="1718-kriterijum-prolaza"></span>
 
-Poglavlje si savladao kada možeš da reprodukuješ broj zapisa po formatu, nacrtaš stvarnu logiku oba query-ja, objasniš 2022/2026 provenance razliku, pokažeš najmanje tri izvora label leakage/bias-a i objasniš zašto nepoverljivi CQS, missingness i raw CSD podaci zahtevaju različite bezbednosne i licencne granice.
+## 17.17 Kriterijum prolaza
+
+Poglavlje si savladao kada možeš da reprodukuješ broj zapisa po formatu, nacrtaš stvarnu logiku oba query-ja, objasniš 2022/2026 provenance razliku, pokažeš najmanje tri izvora label leakage/bias-a i objasniš zašto nepoverljivi CQS i missingness zahtevaju različite bezbednosne i statističke provere.
 
 ## Primarni i autoritativni izvori
 
