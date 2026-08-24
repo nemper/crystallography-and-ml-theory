@@ -24,12 +24,12 @@ Knjiga je već poređana tako da se pojmovi uvode pre upotrebe. Nemoj preskakati
 
 ## Koliko vremena
 
-Preporučena putanja je oko **100 fokusiranih sati**. To nije hiljade strana, ali nije ni vikend-kurs: kristalna sličnost spaja hemiju, geometriju, periodične sisteme i kvalitet eksperimenta.
+Preporučena putanja je oko **122 fokusirana sata kroz 15 nedelja**. To nije hiljade strana, ali nije ni vikend-kurs: kristalna sličnost spaja hemiju, geometriju, periodične sisteme i kvalitet eksperimenta.
 
 | Režim | Tempo | Namena |
 |---|---:|---|
-| održivi | 14 nedelja, 6-8 h nedeljno | paralelno sa projektovanjem i konsultacijama |
-| ubrzani | 8 nedelja, 12-14 h nedeljno | ako je prototip hitan |
+| održivi | 15 nedelja, 8-9 h nedeljno | paralelno sa projektovanjem i konsultacijama |
+| ubrzani | 8 nedelja, 15-16 h nedeljno | ako je prototip hitan |
 | referentni | bez roka | kasnije vraćanje na poglavlja tokom implementacije |
 
 Raspored nije zasnovan na broju stranica nego na izlaznim sposobnostima. Ako laboratorijsku vežbu uradiš tačno i umeš da objasniš zamke, prelaziš dalje.
@@ -73,4 +73,3 @@ U uvodnoj hemiji modeli su namerno uprošćeni. Lewisova struktura, hibridizacij
 - **pretpostavljeno** - radna hipoteza modela.
 
 Ta razlika je jedna od najvažnijih navika za ovaj projekat.
-
