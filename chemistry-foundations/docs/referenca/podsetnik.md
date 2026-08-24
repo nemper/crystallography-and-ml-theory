@@ -16,8 +16,6 @@ Ova strana sažima teorijske razlike koje treba razumeti. Nije operativna kontro
 | naučni dokaz | ekspertna relevantnost, coverage, recall/ranking i jasno ograničenje populacije | evidence po osi, coverage/status i invariance provere |
 | otvorene odluke | search modes, filteri, korpus, izlaz, prava i metrike | comparison profile, grane, agregacija, limiti, prava i metrike |
 
-Detaljna pitanja koja dostupni fajlovi ne rešavaju nalaze se u [Pitanjima i odlukama za kolege sa fakulteta](pitanja-za-fakultet.md).
-
 ## Šta tačno znači „slično“?
 
 Svaki claim može se dopuniti ovako:
@@ -67,7 +65,7 @@ Uspešna konverzija je sintaktički događaj, ne dokaz semantičke bezgubitnosti
 - potencijalna tri donorska N atoma nisu isto što i opažena tridentatna koordinacija;
 - naziv query fajla izražava ljudsku nameru, dok constraints određuju šta je stvarno pretraženo.
 
-Nameravani DAP i coordination scope ostaje fakultetska odluka Q28–Q32.
+Nameravani DAP i coordination scope ostaje nepotvrđena fakultetska odluka.
 
 ## Kristalografske invarijanse
 

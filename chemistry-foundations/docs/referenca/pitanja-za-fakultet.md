@@ -1,5 +1,8 @@
 # Pitanja i odluke za kolege sa fakulteta
 
+!!! note "Projektni registar — nije nastavna lekcija"
+    Ovaj zapis je sačuvan radi kasnijeg usaglašavanja specifikacije i traga odluka. Nije deo teorijskog kurikuluma niti preduslov za prelazak kroz nastavna poglavlja.
+
 **Status:** završni pregled dostupnog korpusa, 24. avgust 2026.
 **Namena:** jedna autoritativna lista nepoznanica koje fakultet treba da potvrdi pre specifikacije, evaluacije ili disertacionih tvrdnji. Ovo nije plan implementacije.
 

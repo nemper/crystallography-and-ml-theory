@@ -174,7 +174,7 @@ Ovo se ne čita kao „A1 veza postoji sa 72% fizičke sigurnosti“. Preciznije
 - Za torzije koristi circular distance/modove.
 - HBP poređenje razdvaja potential pairs, observed network, grouping i coordination rezultate; jedna zbirna ocena ne sme sakriti različit uzrok.
 
-Ovo su mogući načini upotrebe, ne unapred odobren feature set. Fakultet kroz Q10, Q13 i Q22 potvrđuje da li je referentni signal uopšte deo targeta. Bez obzira na format budućeg evidence-a, moraju ostati vidljivi merena veličina, referentni query/release i podrška, outlier signal, applicability i zabranjena inferencija „nije energija niti polymorph probability“.
+Ovo su mogući načini upotrebe, ne unapred odobren feature set. Dostupni izvori ne potvrđuju da li je referentni signal deo targeta; za to je potreban zaseban fakultetski odgovor. Bez obzira na format budućeg evidence-a, moraju ostati vidljivi merena veličina, referentni query/release i podrška, outlier signal, applicability i zabranjena inferencija „nije energija niti polymorph probability“.
 
 ## Tipične zamke
 

@@ -27,4 +27,4 @@ Repozitorijum namerno ne sadrži white paper, CSD izvoze, ConQuest `.cqs` upite 
 
 ## Status validacije
 
-Sadržaj je izveden iz lokalnih projektnih artefakata i proveravan prvenstveno prema IUCr, IUPAC i CCDC dokumentaciji, standardima i originalnim radovima. [Validacioni audit](docs/referenca/validacioni-audit-2026-08-23.md) beleži tri nezavisna pregleda, anonimizovano glasanje, jedinu brojčanu korekciju, zatvorene rupe i preostale neizvesnosti. Stranica `Izvori i metod validacije` razdvaja normativne izvore, primarne radove i didaktičke udžbenike.
+Sadržaj je izveden iz lokalnih projektnih artefakata i proveravan prvenstveno prema IUCr, IUPAC i CCDC dokumentaciji, standardima i originalnim radovima. [Registar ključnih tvrdnji](docs/referenca/registar-tvrdnji.md) povezuje najvažnije tvrdnje sa dokazom i granicom važenja, dok [Izvori i metod validacije](docs/referenca/izvori.md) razdvajaju normativne izvore, primarne radove i didaktičke udžbenike.

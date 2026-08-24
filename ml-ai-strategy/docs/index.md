@@ -34,5 +34,3 @@ Modul [spoljnih LLM API-ja i bezbednosti](language/08-api-llm-security.md) razdv
 Centralni modul o [cross-format i lifecycle eligibility-ju](data/09-cross-format-eligibility.md) objašnjava kako CIF/MOL/MOL2/SDF/SMILES gubici, missingness, prava i lifecycle mogu promeniti fingerprint, graf, indeks, trening skup ili evaluation denominator.
 
 [Uporedna mapa algoritamskih porodica i uslova primene](roadmap/10-optimal-stack-roadmap.md) povezuje determinističke, retrieval/ANN, klasične, periodične/deep, jezičke, property, polymorph-risk i federativne metode bez propisivanja realizacionog redosleda.
-
-[Istorijski QA snapshot od 23. avgusta 2026.](reference/final-validation-2026-08-23.md) beleži tadašnje nezavisne glasove, materijalne naučne korekcije, pokrivenost lokalnih izvora i tehničke kontrole. To je zapis o datiranoj verziji dokumentacije, ne potvrda realizovanog sistema niti aktivan plan razvoja.

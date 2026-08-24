@@ -32,6 +32,9 @@ extra_javascript:
 extra_css:
   - stylesheets/extra.css
 
+not_in_nav: |
+  reference/final-validation-2026-08-23.md
+
 nav:
   - Početna: index.md
   - Plan učenja za ML inženjera: learning/11-ml-ai-plan-ucenja.md
@@ -55,4 +58,3 @@ nav:
       - Spoljni LLM API i bezbednost: language/08-api-llm-security.md
   - Referenca:
       - Metod dokaza: reference/evidence-method.md
-      - Istorijski QA snapshot (2026-08-23): reference/final-validation-2026-08-23.md

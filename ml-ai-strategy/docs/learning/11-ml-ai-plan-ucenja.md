@@ -44,7 +44,7 @@ Uporedna mapa algoritamskih porodica čita se dva puta: prvi put radi orijentaci
 | 12 | Hemija 22 + cela [uporedna mapa](../roadmap/10-optimal-stack-roadmap.md) | O | White-paper granice, structure–property i polymorph-risk targeti, uslovi za FL i završno poređenje algoritamskih porodica. |
 | 13 | [Lokalni SLM i RAG](../language/07-local-slm-rag.md) | P | Jezička interpretacija i dokumentacioni retrieval; nije crystal representation niti naučni autoritet. |
 | 14 | [Spoljni LLM API i bezbednost](../language/08-api-llm-security.md) | R | Čita se radi razumevanja minimizacije, processor/retention razlika, prompt injection-a i granica prava. |
-| 15 | [Metod dokaza](../reference/evidence-method.md), [završni ML/AI audit](../reference/final-validation-2026-08-23.md), hemijski rečnik/zablude/izvori/audit | R | Koristi pri pisanju claim-a, proveri terminologije i završnom auditu; rešenja praktikuma tek posle sopstvenog pokušaja. |
+| 15 | [Metod dokaza](../reference/evidence-method.md), hemijski rečnik/zablude/izvori | R | Koristi pri pisanju claim-a, proveri terminologije i završnoj proveri; rešenja praktikuma tek posle sopstvenog pokušaja. |
 
 Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i svaka bibliografska stavka na njihovom kraju. Spoljne radove čitaj u celosti kada dublje proučavaš metod koji taj rad definiše, na primer ECFP, VF2, Kabsch, COMPACK/PAC, HNSW ili konkretan periodic encoder.
 
@@ -219,7 +219,7 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 
 ### Governance, white paper i uslovne teme
 
-**Čitaj:** hemija 22, celu uporednu mapu po drugi put i referentne audite; zatim teorijske granice lokalnog SLM/RAG-a i spoljnog API-ja.
+**Čitaj:** hemija 22 i celu uporednu mapu po drugi put; zatim teorijske granice lokalnog SLM/RAG-a i spoljnog API-ja.
 
 **Fokus:** white-paper pojmovi naspram state, property i evidence semantike; polymorph-risk indikator naspram tvrdnje; naučni, pravni i bezbednosni uslovi za SLM, API i FL.
 

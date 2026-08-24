@@ -188,7 +188,7 @@ Jedan boolean „jeste/nije kompleks“ skriva više različitih pitanja:
 | okruženje | koji su CN, ostali donori, geometrija i neizvesnost? |
 | dovoljnost prikaza | da li dostupni format i kvalitet uopšte dopuštaju odluku? |
 
-Ovo je pojmovna lestvica dokaza, ne propisana label schema. Konačne positive/negative/ambiguous klase mora da odobri fakultet u [Q28–Q32](../referenca/pitanja-za-fakultet.md). APHZUC zato može biti kandidat na nivou scaffold-a, ali ne sme postati lažno pozitivan dokaz N3 koordinacije.
+Ovo je pojmovna lestvica dokaza, ne propisana label schema. Konačne positive/negative/ambiguous klase zahtevaju fakultetski odobrenu operativnu definiciju. APHZUC zato može biti kandidat na nivou scaffold-a, ali ne sme postati lažno pozitivan dokaz N3 koordinacije.
 
 ## 6.10 Varijacije koje model mora da očekuje
 
@@ -219,7 +219,7 @@ Potencijalne, međusobno različite search semantike uključuju:
 - N3 koordinacija istom metalu;
 - slična koordinaciona geometrija i donor-okruženje.
 
-One nisu unapred odobreni product modovi; njihov scope potvrđuje fakultet kroz Q13–Q14. Svaki stroži nivo može biti podskup prethodnog samo ako su podaci dovoljni. Zapis bez 3D ili pouzdane konektivnosti ostavlja nepoznat odgovor na odgovarajuću osu, umesto da postane lažno negativan.
+One nisu unapred odobreni product modovi; njihov scope nije utvrđen dostupnim izvorima i mora ga potvrditi fakultet. Svaki stroži nivo može biti podskup prethodnog samo ako su podaci dovoljni. Zapis bez 3D ili pouzdane konektivnosti ostavlja nepoznat odgovor na odgovarajuću osu, umesto da postane lažno negativan.
 
 ### Aplikacija 2 — poređenje parova
 
@@ -232,7 +232,7 @@ Za dva ulazna CIF-a stručna analiza može da razdvoji:
 - CN, ostale donore i geometriju metala;
 - razliku kristalne forme, packing-a, solvata i disorder-a.
 
-Visok ligand-similarity score uz različitu koordinaciju nije greška — to su dve različite ose sličnosti. Koje od njih budući App2 mora da prikazuje ostaje odluka Q21–Q23, ne zaključak ove lekcije.
+Visok ligand-similarity score uz različitu koordinaciju nije greška — to su dve različite ose sličnosti. Koje od njih treba uključiti ostaje nepotvrđena projektna odluka, ne zaključak ove lekcije.
 
 ## 6.12 Mini-vežbe
 

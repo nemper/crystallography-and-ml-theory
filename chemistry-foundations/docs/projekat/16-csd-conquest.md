@@ -106,13 +106,7 @@ Reproduktivnost ne zavisi od jedne konkretne YAML šeme, već od toga da opis ra
 
 Druga serializacija ili terminologija je prihvatljiva ako čuva iste razlike i ne predstavlja ljudski naziv kao izvršivi constraint.
 
-## 16.9 Pitanja za naučni tim
-
-Šest ranijih pitanja nije dovoljno da zaključa scope, prava, dve aplikacije i evaluaciju. Jedina autoritativna lista sada je [Pitanja i odluke za kolege sa fakulteta](../referenca/pitanja-za-fakultet.md).
-
-Za ovo poglavlje posebno su relevantni paketi Q28–Q32: nameravani DAP scope, značenje koordinacije, status oba CQS-a, runtime reprodukcija i eligibility lokalnih izvoza. Već dokazane činjenice — broj rezultata, odnos podskupa i odsustvo metal–motiv constraint-a — ne postavljaju se ponovo kao otvorena pitanja.
-
-## 16.10 Provera znanja
+## 16.9 Provera znanja
 
 1. Šta dokazuje prisustvo nepovezanog `4M` query atoma?
 2. Zašto CSD entry nije sinonim za molekul?

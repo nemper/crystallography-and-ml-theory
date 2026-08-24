@@ -27,7 +27,7 @@ Za hipotetički query CIF objasni, bez realizacije:
 7. zašto rezultat mora pokazati coverage, evidence, warning i abstention;
 8. zašto licence određuju šta korisnik sme da vidi ili preuzme;
 9. koju vrstu stručnog gold-a bi zahtevao imenovani search claim;
-10. koje odluke iz [liste za fakultet](../referenca/pitanja-za-fakultet.md) još blokiraju tačno značenje aplikacije.
+10. koje još nepotvrđene odluke blokiraju tačno značenje aplikacije.
 
 Ovaj redosled je samo redosled objašnjavanja znanja, ne redosled buduće implementacije.
 
