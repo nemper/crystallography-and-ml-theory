@@ -23,7 +23,7 @@ Dostavljena specifikacija zahteva dva različita režima:
 | CIF protiv veoma velike baze | odziv i skalabilnost uz dobar odziv relevantnih kandidata | jeftini metapodaci i 2D/3D reprezentacije za dohvat, pa skuplje rangiranje |
 | svi parovi u malom ulaznom skupu | maksimalno verodostojno poređenje | višeslojno poravnanje molekula, geometrije, pakovanja i interakcija |
 
-Lokalni CSD izvozi fokusirani su na DAP/Schiff-base motiv i veliki broj zapisa sa metalima. Zbog toga su koordinaciona hemija, donorni atomi, denticitet i geometrija oko metala obavezne teme za razumevanje dostavljenog materijala. Da li je taj slice i domen finalnog proizvoda ili samo primer ostaje pitanje za fakultet.
+Lokalni CSD izvozi fokusirani su na 18-atomsko DAP-derived query jezgro sa dve `C=N` veze i veliki broj zapisa sa metalima. Zbog toga su koordinaciona hemija, donorni atomi, denticitet i geometrija oko metala obavezne teme za razumevanje dostavljenog materijala. Da li je taj slice i domen finalnog proizvoda ili samo primer ostaje pitanje za fakultet.
 
 ## Put kroz knjigu
 
