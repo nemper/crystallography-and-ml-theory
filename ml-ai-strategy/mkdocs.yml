@@ -32,9 +32,6 @@ extra_javascript:
 extra_css:
   - stylesheets/extra.css
 
-not_in_nav: |
-  reference/final-validation-2026-08-23.md
-
 nav:
   - Početna: index.md
   - Plan učenja za ML inženjera: learning/11-ml-ai-plan-ucenja.md

@@ -74,10 +74,6 @@ extra_javascript:
 extra_css:
   - stylesheets/extra.css
 
-not_in_nav: |
-  referenca/pitanja-za-fakultet.md
-  referenca/validacioni-audit-2026-08-23.md
-
 nav:
   - Početak:
       - Naslovna: index.md
@@ -122,5 +118,4 @@ nav:
       - Brzi podsetnik: referenca/podsetnik.md
       - Rečnik pojmova: referenca/recnik.md
       - Opasne zablude: referenca/zablude.md
-      - Registar ključnih tvrdnji: referenca/registar-tvrdnji.md
       - Izvori i metod validacije: referenca/izvori.md
