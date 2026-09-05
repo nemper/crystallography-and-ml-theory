@@ -39,7 +39,7 @@ Complete-case analiza zato ne meri automatski populaciju proizvoda. Pored kvalit
 
 Dostavljeni eksperimentalni N14 CIF, MOL i MOL2 odnose se na isti primer, ali ne prenose istu informaciju:
 
-- svi imaju 51 atom i 54 bond record-a;
+- sva tri pogleda imaju 51 atomski/site zapis i 54 zapisa o vezama; CIF site redovi ne predstavljaju broj atoma u celom periodičnom kristalu;
 - MOL označava svih 54 veza kao `single`;
 - MOL2 ima 34 `single` i 20 `un` veza;
 - CIF sadrži ćeliju, simetriju i širi eksperimentalni/geometrijski kontekst, uključujući velike tekstualne blokove;
@@ -47,7 +47,7 @@ Dostavljeni eksperimentalni N14 CIF, MOL i MOL2 odnose se na isti primer, ali ne
 
 Zaključak nije da jedna ekstenzija uvek pobeđuje. Bogati eksperimentalni CIF u ovom primeru ima eksplicitne bond zapise, dok pojednostavljen CSD CIF iz lokalnog skupa može biti bez bond loop-a. Autoritet se procenjuje po polju, view-u, provenance-u i svrsi, ne po ekstenziji.
 
-### Lokalni CSD export: missingness nije slučajna
+### Lokalni CSD export: obrasci nedostajućih reprezentacija
 
 U dostavljenom `search2` snapshot-u:
 
@@ -58,7 +58,9 @@ U dostavljenom `search2` snapshot-u:
 - MOL2 sadrži 7.805 `Du` atoma u 627 record-a;
 - 176 SD record-a nosi matching problem uz „No disordered atoms“, a 84 uz unknown disorder.
 
-Ove brojke ilustruju selection mehanizam: denominator ograničen na redove sa SMILES-om ili potpunim koordinatama može sistematski izbaciti teže metalne strukture i dati optimističan rezultat.
+Ove brojke upozoravaju na mogući selection mehanizam: denominator ograničen na redove sa SMILES-om ili potpunim koordinatama može sistematski izbaciti složenije metalne strukture i potencijalno dati optimističan rezultat. Sama odsutnost reprezentacije ne dokazuje da je konkretan zapis teži za izabrani model niti kolika bi bila promena njegove metrike.
+
+Statistički razlikuj **MCAR**, kada odsustvo ne zavisi ni od posmatranih ni od nedostajućih vrednosti; **MAR**, kada se zavisnost odsustva može objasniti posmatranim podacima; i **MNAR**, kada i nakon uslovljavanja posmatranim podacima odsustvo zavisi od nedostajućih vrednosti. Koncentracija odsutnog formata u određenoj hemijskoj grupi upozorava na selection bias, ali ove brojke same ne razlikuju MAR od MNAR niti opravdavaju konkretan imputer. Zato se prediktivna imputacija i analiza osetljivosti proveravaju pod deklarisanim pretpostavkama; originalna dostupnost i naučni status ostaju sačuvani ([Rubin: Inference and Missing Data](https://doi.org/10.1093/biomet/63.3.581), [Sterne et al., metodološka analiza](https://doi.org/10.1136/bmj.b2393)).
 
 ## Temeljni principi
 
