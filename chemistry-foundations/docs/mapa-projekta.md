@@ -24,7 +24,7 @@ flowchart TD
     T[Opis dve funkcionalnosti] --> A[Globalni dohvat]
     T --> B[Precizno poređenje parova]
     CQS[ConQuest CQS upiti] --> D[18-atomsko DAP-derived jezgro sa dve C=N veze]
-    CQS --> M[Varijanta sa bilo kojim metalom - 4M]
+    CQS --> M[Varijanta sa elementom iz grupe 4M]
     EXP[CIF/MOL/MOL2/SDF/SMI izvozi] --> R[Više reprezentacija istih CSD pogodaka]
     N14[N14 lokalni primer] --> X[Povezivanje eksperimenta, kristala i molekula]
     Q --> A
@@ -36,6 +36,8 @@ flowchart TD
 ```
 
 White paper nije tehnička specifikacija algoritma. On pouzdano postavlja principe: kustosiranje, standardni atom- i bond-tipovi, dosledne jedinice, metapodaci, veze struktura-svojstvo i kontrola kvaliteta. Tvrdnje o konkretnim indeksima, vektorskoj bazi ili graf-neuronskoj mreži zato su **projektantske hipoteze** koje tek treba eksperimentalno proveriti.
+
+`4M` je ConQuest grupa „all metals“, čija legacy definicija uključuje i Ge/Sb. To je uslov prisustva elementa u istom zapisu; nepovezani query atom ne dokazuje da je taj element koordinisan DAP motivu.
 
 ## Dve aplikacije nisu isti sistem sa drugim dugmetom
 
@@ -57,6 +59,8 @@ Filter nije samo optimizacija. Pitanje "sličan u kom smislu?" određuje da li s
 ### B. Poređenje svih parova
 
 Za \(n\) ulaza postoji \(n(n-1)/2\) neuređenih parova. Deset fajlova daje 45, sto daje 4.950, a hiljadu 499.500 parova. "Mali skup" zato nije dozvola za neograničen algoritam.
+
+Primer sa fajlovima pretpostavlja po jedan izabrani strukturni zapis iz svakog fajla. CIF može imati više data blokova: najpre odredi koji se blokovi porede, pa \(n\) računaj nad tim ulazima, kako objašnjava [poglavlje o svim parovima](19-parovi.md).
 
 Ovde ipak možemo koristiti bogatiji profil:
 
