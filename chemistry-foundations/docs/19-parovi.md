@@ -17,11 +17,13 @@ Pre bilo kakvog score-a mora biti jasno koje se komponente porede, da li je obje
 
 ## 19.2 Kvadratna složenost
 
-Za \(n\) različitih struktura broj neuređenih parova je:
+Za \(n\) izabranih ulaznih strukturnih zapisa broj neuređenih parova je:
 
 \[
 N_{pairs}=\frac{n(n-1)}{2}.
 \]
+
+Ovde se broje zapisi izabrani za poređenje, a ne broj jedinstvenih molekulskih grafova. Dva određivanja istog jedinjenja mogu biti dva legitimna ulaza. Ako CIF ima više data blokova, najpre razjasni koji blokovi predstavljaju ulaze, pa tek onda odredi \(n\); deduplikacija ne sme neopaženo smanjiti obećani obuhvat „svih parova“.
 
 | \(n\) | parova |
 |---:|---:|
@@ -142,7 +144,7 @@ Razmotrimo nenormativan primer: dva zapisa mogu imati visok 2D graph score i dob
 
 Matrica ima smisla samo za jasno imenovanu metric component. Heatmap, hijerarhijsko klasterovanje ili mreža mogu pomoći istraživanju, ali njihovo značenje zavisi od definicije distance, linkage-a, threshold-a, missing vrednosti i populacije. Vizuelni obrazac nije zamena za atomski ili periodični dokaz pojedinačnog para.
 
-Ne mešati `not comparable` sa score 0: prvo znači da odgovor nije poznat/primenljiv, drugo da je validno poređenje pokazalo odsustvo sličnosti.
+Ne mešati `not comparable` sa numeričkom nulom: prvo znači da odgovor nije poznat/primenljiv, dok značenje nule zavisi od metrike. Kod binarnog Tanimota za neprazne fingerprinte \(T=0\) znači da nema zajedničkih uključenih bitova; kod RMSD-a \(0\) znači potpuno poklapanje mapiranih koordinata posle poravnanja. Uz svaku matricu zato navedi i da li veća ili manja vrednost označava bolje poklapanje.
 
 ## 19.12 Metamorphic i adversarial testovi
 
@@ -177,7 +179,7 @@ Namerno različiti testovi:
 5. Koja promena CIF encoding-a ne sme promeniti rezultat?
 
 ??? success "Odgovori"
-    1. Nema validnog merenja, dok 0 tvrdi validno izmerenu nepodudarnost.  
+    1. Nema validnog merenja; numerička nula ima značenje određene metrike, npr. RMSD 0 označava potpuno prostorno poklapanje mapiranih atoma.
     2. Definisan common core/atom mapping, alignment i symmetry/H/stereo policy.  
     3. Inače se mogu mapirati solvent/counterion/nezavisni molekuli na pogrešne uloge.  
     4. Ne, samo generiše kandidata na lattice nivou.  
