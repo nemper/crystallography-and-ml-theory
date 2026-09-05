@@ -50,9 +50,11 @@ VF2-like algoritmi traže exact ili subgraph mapping pod eksplicitnim node/edge/
 |---|---|---|
 | exact/subgraph isomorphism | identitet ili usmereni containment | smer, atom mapping i pravila podudaranja |
 | MCS | parcijalno zajedničko jezgro | coverage obe strane, timeout i više jednako dobrih mapiranja |
-| fingerprint bound pre MCS-a | jeftina granica ili pruning | bound nije konačan mapping dokaz |
+| dokazano bezgubitna granica pre graph/MCS pretrage | odbacivanje nemogućeg match-a pod istim pravilima | mora biti opravdana za tačan cilj; proizvoljan ECFP/Tanimoto prag nije takva granica |
 
 Timeout, ambiguity ili nepoznat bond order nisu similarity nula.
+
+Fingerprint za similarity i fingerprint za substructure screening imaju različitu svrhu. [RDKit Pattern fingerprint](https://www.rdkit.org/docs/RDKit_Book.html#pattern-fingerprints) projektovan je za screening podstruktura; nizak ECFP/Tanimoto sam ne isključuje postojanje važnog zajedničkog motiva ili velikog MCS-a. Bezgubitno odsecanje zahteva dokazanu neophodnu uslovljenost ili granicu pod istom atom/bond/stereo politikom. Heurističko odbacivanje po sličnosti pripada candidate-pruned režimu i zahteva sopstvenu recall proveru.
 
 ### Komponente i assignment
 
