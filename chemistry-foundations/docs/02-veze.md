@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** Softver ne vidi "hemiju" direktno. On vidi elemente, koordinate i dodeljene veze; kvalitet tih dodela određuje graf, podstrukturnu pretragu i fingerprint.
 
+**Preduslov:** iz [poglavlja 1](01-atomi-joni-formule.md) razlikuješ element, atom, jon, formulu i neto naboj; Lewisova struktura se ovde gradi od početka.
+
 ## 2.1 Minimalni model elektrona
 
 Za ovaj projekat dovoljno je sledeće:

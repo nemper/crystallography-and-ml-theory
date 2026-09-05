@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** Ovo poglavlje spaja hemiju sa ML projektovanjem. Reprezentacija određuje koje razlike model može da vidi, a koje ne može.
 
+**Preduslovi:** veze i označeni atomi iz2–6, pa formati i standardizacija iz12–13. Periodični blok dodatno traži ćeliju, simetriju i drugi prolaz kontakata7; njegovi preduslovi navedeni su uz račun.
+
 ## 14.1 Molekulski graf
 
 Molekul se često modeluje kao označen graf \(G=(V,E)\):
@@ -170,7 +172,7 @@ Ne sabiraj ih dok nisu normalizovani, validirani i semantički objašnjeni.
 
 ## 14.8 Feature provenance i uncertainty
 
-Feature je interpretabilan samo kada uz vrednost postoji dovoljno konteksta da se razume njegova jedinica i strukturni nivo, metod i verzija, izvorni atomi/polja, parametri, neizvesnost i razlog odsustva. To su kategorije dokaza, ne propisana buduća record schema.
+Feature je interpretabilan samo kada uz vrednost postoji dovoljno konteksta da se razume njegova jedinica i strukturni nivo, metod i verzija, izvorni atomi/polja, parametri, neizvesnost i razlog odsustva. Njihov referentni status objašnjava [centralna napomena](kako-koristiti.md#teorijski-i-referentni-sloj).
 
 Posebno razdvoji:
 

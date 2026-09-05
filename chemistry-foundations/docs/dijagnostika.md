@@ -27,6 +27,8 @@ Početni rezultat od 0 je očekivan. Rezultat se ne koristi za preskakanje krist
 
 ### Kapija A - hemijski graf
 
+**Preduslovi:** poglavlja1–4; ulazna provera je samo orijentacija.
+
 Prolaz kada možeš da:
 
 - iz formule razlikuješ sastav od povezanosti;
@@ -35,6 +37,8 @@ Prolaz kada možeš da:
 - označiš funkcionalne grupe i potencijalne donor/acceptor atome u N14.
 
 ### Kapija B - 3D i koordinacija
+
+**Preduslovi:** poglavlja3–6 i11 za pojam polimorfa; polaže se iza11. Pre11 proveravaj samo geometriju i koordinacionu hemiju.
 
 Prolaz kada možeš da:
 
@@ -45,6 +49,8 @@ Prolaz kada možeš da:
 
 ### Kapija C - kristalni model
 
+**Preduslovi:** poglavlja8–10, zatim drugi prolaz7 i11. Prvi prolaz7 ne zahteva ovu kapiju.
+
 Prolaz kada možeš da:
 
 - iz \(a,b,c,\alpha,\beta,\gamma\) formiraš matricu ćelije;
@@ -53,6 +59,8 @@ Prolaz kada možeš da:
 - protumačiš occupancy, disorder, s.u., R, wR i goodness-of-fit bez rigidnih univerzalnih pragova.
 
 ### Kapija D - projektovanje sličnosti
+
+**Preduslovi:** poglavlja12–20, uključujući mapiranje, kandidatski dohvat i osnovnu evaluaciju; neuralni modeli nisu preduslov.
 
 Prolaz kada možeš da:
 

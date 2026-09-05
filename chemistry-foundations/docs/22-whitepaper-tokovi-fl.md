@@ -4,6 +4,8 @@
 
 Dostavljeni dokument *Maximising the Impact of Proprietary Structural Data* je CCDC white paper. On je koristan za problemski okvir i opis CCDC ekosistema, ali nije nezavisna evaluacija proizvoda, tehnička specifikacija naših aplikacija niti dokaz da će određeni ML metod raditi na našem skupu.
 
+**Preduslov i uslovni nastavak:** poznaješ čvrste forme i granice referentnih signala iz [11](11-cvrste-forme.md) i [11A](11a-referentne-raspodele-hbp.md), [evaluaciju](20-evaluacija.md), [prava/poreklo](21-licence-fair.md) i osnovnu razliku pretrage i poređenja iz 18–19. Osnovni prolaz proverava granice naučnih tvrdnji; property i FL razradu produbljuj samo za izabrano pitanje, uz već savladane target, parametre modela, trening i validaciju iz ML osnova.
+
 ## 22.1 Četiri nivoa tvrdnje
 
 Nemoj spajati sledeće rečenice:

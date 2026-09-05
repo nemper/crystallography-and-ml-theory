@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ, selektivno.** Ne učimo katalog reakcija. Učimo da prepoznamo hemijsko okruženje koje određuje graf, koordinaciju, interakcije i standardizaciju.
 
+**Preduslov:** umeš da prebrojiš vezne i slobodne parove i razlikuješ σ/π veze i aromatični sistem iz [poglavlja 2](02-veze.md); osnovni 3D pojmovi dolaze iz [poglavlja 3](03-geometrija.md).
+
 ## 4.1 Ugljenični skelet i funkcionalne grupe
 
 ### Tri različite donorske uloge {#donorske-uloge}

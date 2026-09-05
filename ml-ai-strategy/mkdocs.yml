@@ -37,26 +37,29 @@ watch:
   - ../site-assets
 
 nav:
-  - Početna: index.md
-  - ML/AI od nule: 00a-osnove-ml.md
-  - Plan učenja za početnika i ML inženjera: 11-ml-ai-plan-ucenja.md
-  - Scope i teorijska granica: 00-scope.md
-  - Pipeline i teorijska mapa odluka: 01-pipeline-decision-map.md
-  - Podaci i eligibility:
-      - Cross-format reconciliation i eligibility: 09-cross-format-eligibility.md
-  - Teorijska mapa:
-      - Algoritamske porodice i uslovi primene: 10-optimal-stack-roadmap.md
-  - Klasični ML:
-      - Modeli i eksperimenti: 02-classical-ml.md
-  - Globalna pretraga:
-      - Retrieval, ANN i rangiranje: 03-global-retrieval-ann-ranking.md
-  - Precizno poređenje parova:
-      - Algoritmi i evidence: 04-precise-pairwise.md
-  - Deep crystal modeli:
+  - Početak i putanja:
+      - Početna: index.md
+      - ML/AI od nule - osnovni i uslovni prolaz: 00a-osnove-ml.md
+      - Merodavna početnička putanja: 11-ml-ai-plan-ucenja.md
+      - Scope - orijentacija i granice: 00-scope.md
+      - Pipeline - orijentaciona mapa: 01-pipeline-decision-map.md
+  - Podaci i preduslovi:
+      - Cross-format i eligibility: 09-cross-format-eligibility.md
+  - Deterministička osnova - prvi prolaz:
+      - Parovi - mapping i 3D: 04-precise-pairwise.md
+      - Pretraga - exact i ANN kandidati: 03-global-retrieval-ann-ranking.md
+  - Osnovna evaluacija i modeli:
+      - Evaluacija bez neuralnih preduslova: https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/20-evaluacija.md
+      - Klasični ML - boosting i kernel pre naprednih grana: 02-classical-ml.md
+  - Povratak posle boostinga i kernel uvoda:
+      - SOAP i druge napredne grane poređenja: https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/04-precise-pairwise.md#soap-rematch-reference
+      - Učenje rangiranja: https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/03-global-retrieval-ann-ranking.md#rangiranje-primer
+  - Uslovna neuralna grana:
       - Periodični encoderi: 05-periodic-crystal-encoders.md
-      - Metric learning i evaluacija: 06-metric-learning-and-evaluation.md
-  - Jezički modeli:
-      - Lokalni SLM, kontrolisana interpretacija i RAG: 07-local-slm-rag.md
+      - Metric learning i detaljna evaluacija: 06-metric-learning-and-evaluation.md
+  - Uslovna jezička grana:
+      - Lokalni SLM i RAG: 07-local-slm-rag.md
       - Spoljni LLM API i bezbednost: 08-api-llm-security.md
-  - Referenca:
+  - Sinteza i referenca:
+      - Algoritamske porodice - drugi prolaz: 10-optimal-stack-roadmap.md
       - Metod dokaza: evidence-method.md

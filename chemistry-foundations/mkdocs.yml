@@ -84,6 +84,7 @@ nav:
       - Kako se koristi knjiga: kako-koristiti.md
       - Šta projekat zapravo traži: mapa-projekta.md
       - Plan učenja: plan-ucenja.md
+      - Nastavljeni primer kroz oba kursa: povezani-primer.md
       - Dijagnostika i kriterijumi prolaza: dijagnostika.md
   - I. Hemijski jezik:
       - 1. Atomi, elementi, joni i formule: 01-atomi-joni-formule.md
@@ -94,10 +95,11 @@ nav:
       - 5. Metali, ligandi i kompleksi: 05-kompleksi.md
       - 6. DAP Schiff-base motiv u ovom skupu: 06-dap-schiff.md
   - III. Od molekula do kristala:
-      - 7. Intermolekulske interakcije: 07-interakcije.md
+      - 7. Prvi prolaz - intuicija interakcija: 07-interakcije.md
       - 8. Kristal, rešetka i jedinična ćelija: 08-celija.md
       - 9. Simetrija, prostorne grupe i periodičnost: 09-simetrija.md
       - 10. Difrakcija, refiniranje i kvalitet: 10-difrakcija-kvalitet.md
+      - Povratak na7 - periodični kontakti: https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/07-interakcije.md#drugi-prolaz
       - 11. Polimorfi i druge čvrste forme: 11-cvrste-forme.md
       - 11A. Referentne raspodele, Mogul i HBP: 11a-referentne-raspodele-hbp.md
   - IV. Digitalna hemija:
@@ -109,10 +111,10 @@ nav:
   - V. Prevod u dve aplikacije:
       - 16. CSD i ConQuest tok podataka: 16-csd-conquest.md
       - 17. Forenzika dostavljenog skupa: 17-lokalni-skup.md
-      - 18. Globalna pretraga: 18-globalna-pretraga.md
-      - 19. Precizno poređenje parova: 19-parovi.md
-      - 20. Evaluacija i naučna validacija: 20-evaluacija.md
       - 21. Licence, FAIR i poreklo podataka: 21-licence-fair.md
+      - 19. Precizno poređenje parova: 19-parovi.md
+      - 18. Globalna pretraga: 18-globalna-pretraga.md
+      - 20. Evaluacija i naučna validacija: 20-evaluacija.md
       - 22. White paper tokovi i federativno učenje: 22-whitepaper-tokovi-fl.md
   - Opcioni praktikum:
       - Nastavne laboratorijske vežbe: laboratorije.md

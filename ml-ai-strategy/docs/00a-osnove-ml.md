@@ -4,6 +4,8 @@ Ovaj modul ne pretpostavlja iskustvo sa treniranjem modela. Dovoljni su osnovni 
 
 Hemijske pojmove — atom, veza, ligand, konformer, ćelija i kristalno pakovanje — učiš paralelno u hemijskom kursu. Ovde je dovoljno znati da ista formula ili isti molekul ne moraju značiti isti raspored u kristalu.
 
+**Prvi prolaz:** savladaj §1–7 i samoproveru na kraju ovog modula. §8 je uvod za kasniju neuralnu granu, a jezičkim modelima iz §9 vraćaš se kada izabereš SLM/RAG granu; računarske pojmove koristiš kao referencu po potrebi. Merodavni redosled nastavka daje [plan učenja](11-ml-ai-plan-ucenja.md).
+
 ## 1. Od pitanja do podatka
 
 **Algoritam** je postupak kojim se ulaz pretvara u rezultat. Mnogi važni algoritmi ništa ne uče: parser čita zapis prema pravilima, a geometrijski algoritam izračunava rastojanje. **Mašinsko učenje (ML)** podešava parametre modela pomoću primera. **AI** je širi naziv; upotreba tog naziva ne govori koji se zadatak zaista rešava.

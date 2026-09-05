@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** Ovo poglavlje postavlja rečnik bez kog se CIF polja, atom-tipovi i filteri lako pogrešno tumače.
 
+**Preduslov:** hemijsko predznanje nije potrebno; dovoljni su sabiranje, množenje i razlikovanje broja od njegove jedinice. Element, atom, jon i formula uvode se od početka, a pun račun gustine dolazi tek uz ćeliju u poglavlju 8.
+
 ## 1.1 Šta je šta
 
 **Element** je vrsta atoma određena brojem protona u jezgru, odnosno atomskim brojem \(Z\). Svaki atom sa 6 protona je ugljenik (C); sa 7 je azot (N); sa 8 kiseonik (O). Broj neutrona može da se razlikuje - to su izotopi istog elementa.

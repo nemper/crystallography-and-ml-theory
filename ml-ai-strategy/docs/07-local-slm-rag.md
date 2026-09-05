@@ -1,10 +1,12 @@
 # Lokalni SLM, kontrolisana interpretacija i RAG
 
+**Uslovna grana i preduslovi:** čitaj kada biraš jezički interfejs ili dokumentacionu pretragu. Potrebni su token, attention i RAG iz [ML uvoda §8–9](00a-osnove-ml.md), osnovna evaluacija i granice naučnog autoriteta iz [scope-a](00-scope.md). Ovaj modul nije preduslov za hemijsko ili periodično poređenje.
+
 ## Svrha modula
 
 Lokalni mali jezički model (SLM) može da olakša unos namere, terminološko razjašnjenje i objašnjenje već izračunatih rezultata. Ne predstavlja kristalnu strukturu, ne određuje hemijsku istinu i ne zamenjuje parser, prava pristupa ili determinističke algoritme.
 
-Ovo poglavlje je teorijska mapa mogućih uloga. Ne propisuje konkretan model, format razmene, izvršni servis niti način uvođenja.
+Ulogu ove teorijske mape određuje [centralna granica strategije i implementacije](00-scope.md#granica-izmeu-strategije-i-implementacije).
 
 ## Granica naučnog autoriteta
 

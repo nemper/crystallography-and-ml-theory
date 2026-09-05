@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** Ovo poglavlje prevodi naziv koji su naučnici koristili — „DAP Schiff bases“ — u proverljiv hemijski graf. Cilj nije da zapamtiš katalog jedinjenja, nego da razumeš šta je motiv, kako nastaje, zašto može da koordinira metal i šta lokalni upit zaista dokazuje.
 
+**Preduslov:** prepoznaješ karbonil, amin i imin iz [poglavlja 4](04-organska.md), a ligand, donor i denticitet iz [poglavlja 5](05-kompleksi.md). Rečnik mehanizma uvodi se pre njegove šeme.
+
 ## 6.1 Šta „DAP“ znači ovde
 
 Skraćenice u hemiji nisu globalno jedinstvene. U ovom projektu **DAP** treba čitati kao **2,6-diacetilpiridin** (*2,6-diacetylpyridine*), jer baš taj kostur rekonstruišemo iz dostavljenog ConQuest upita:
@@ -202,7 +204,7 @@ Jedan boolean „jeste/nije kompleks“ skriva više različitih pitanja:
 | okruženje | koji su CN, ostali donori, geometrija i neizvesnost? |
 | dovoljnost prikaza | da li dostupni format i kvalitet uopšte dopuštaju odluku? |
 
-Ovo je pojmovna lestvica dokaza, ne propisana label schema. Konačne positive/negative/ambiguous klase zahtevaju fakultetski odobrenu operativnu definiciju. APHZUC zato može biti kandidat na nivou scaffold-a, ali ne sme postati lažno pozitivan dokaz N3 koordinacije.
+Status lestvice dokaza objašnjen je u [centralnoj napomeni o teorijskom i referentnom sloju](kako-koristiti.md#teorijski-i-referentni-sloj). Konačne positive/negative/ambiguous klase zahtevaju fakultetski odobrenu operativnu definiciju. APHZUC zato može biti kandidat na nivou scaffold-a, ali ne sme postati lažno pozitivan dokaz N3 koordinacije.
 
 ## 6.10 Varijacije koje model mora da očekuje
 

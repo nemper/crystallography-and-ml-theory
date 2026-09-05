@@ -4,6 +4,8 @@
 
 Ovo nije „jedan embedding + vector DB“. Pouzdana pretraga je kaskada hemijskih i kristalografskih prikaza.
 
+**Preduslov i dva prolaza:** poznaješ reprezentacije i značenja sličnosti iz poglavlja 13–17, [prava i poreklo](21-licence-fair.md) i osnovno mapiranje/3D poređenje iz [19](19-parovi.md). U prvom prolazu razdvoji filtere, izbor kandidata i precizno poređenje; učenom rangiranju i kalibraciji vrati se posle [evaluacije](20-evaluacija.md) i [stabala i boostinga](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/02-classical-ml.md).
+
 ## 18.1 Značenje pre modela
 
 Različita značenja pretrage mogu se razložiti kroz sledeća pitanja:
@@ -17,7 +19,7 @@ Različita značenja pretrage mogu se razložiti kroz sledeća pitanja:
 | evidence | matched subgraph, atom mapping, score components |
 | granica zaključka | nema pouzdanog grafa; nema 3D; ambiguous disorder |
 
-Odvojena značenja sličnosti su naučno transparentnija od neobjašnjivog univerzalnog pojma „similar“. Ovo je semantičko razlaganje problema, a ne specifikacija korisničkog interfejsa.
+Odvojena značenja sličnosti omogućavaju stručno tumačenje rezultata. Ulogu ovih primera određuje [centralna napomena o teorijskom i referentnom sloju](kako-koristiti.md#teorijski-i-referentni-sloj).
 
 ## 18.2 Naučna dovoljnost ulaza
 
@@ -73,7 +75,7 @@ Za obe metrike unapred fiksirati `N`/`k`, korpus, denominator i postupanje sa up
 
 ## 18.6 Rezultat nije samo lista identifikatora
 
-Stručna interpretacija jednog pogotka zahteva više vrsta konteksta: identitet i sastav, poreklo i dozvoljeni obim, značenje ranga, obim mapiranog grafa, koordinacioni i 3D dokaz kada je primenljiv, packing/interakcione signale, kvalitet ulaza i razloge zbog kojih je neki nivo ostao neocenjen. Ovo su kategorije dokaza, ne fiksna result schema.
+Stručna interpretacija jednog pogotka zahteva više vrsta konteksta: identitet i sastav, poreklo i dozvoljeni obim, značenje ranga, obim mapiranog grafa, koordinacioni i 3D dokaz kada je primenljiv, packing/interakcione signale, kvalitet ulaza i razloge zbog kojih je neki nivo ostao neocenjen.
 
 Lokalni `dve funkcionalnosti.txt` traži i mogućnost preuzimanja CIF-a pogotka. Naučno i podatkovno mora biti jasno da li se preuzima originalni deponovani CIF ili pojednostavljeni/izvedeni eksport, iz koje verzije izvora i u kom dozvoljenom obimu. Rangirani pogodak ili dostupnost javnog metadata zapisa sami po sebi ne daju pravo redistribucije njegovog CIF-a.
 

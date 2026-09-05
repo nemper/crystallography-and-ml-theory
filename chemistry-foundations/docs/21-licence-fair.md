@@ -1,5 +1,7 @@
 # 21. Licence, FAIR i poreklo podataka
 
+**Preduslov:** razlikuješ original i namenski pogled iz [13](13-standardizacija.md), CSD određivanje i izvoz iz [16](16-csd-conquest.md) i zavisne prikaze istog objekta iz [17](17-lokalni-skup.md). Ovo poglavlje čitaš pre poređenja, pretrage i evaluacije iz 19, 18 i 20; ti postupci nisu njegovi preduslovi.
+
 ## Šta treba da umeš posle ovog poglavlja
 
 Posle ovog poglavlja treba da možeš da:

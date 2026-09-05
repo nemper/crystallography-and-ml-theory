@@ -1,5 +1,7 @@
 # 11A. Referentne raspodele, Mogul i hydrogen-bond propensity
 
+**Preduslov i dva nivoa čitanja:** poznaješ geometriju iz [3](03-geometrija.md), interakcije iz [7](07-interakcije.md), kvalitet iz [10](10-difrakcija-kvalitet.md) i stabilnost formi iz [11](11-cvrste-forme.md). U prvom prolazu savladaj značenje i granice referentnih signala; detaljan statistički račun i HBP fitting produbi za izabranu granu posle [evaluacije](20-evaluacija.md) i [klasičnih ML osnova](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/02-classical-ml.md).
+
 Ova lekcija objašnjava kako se CSD koristi kao **empirijska referenca**, a ne kao oracle. White paper na stranama 17–18 pominje Mogul, packing comparison i hydrogen-bond propensity (HBP) u proceni polymorph risk-a. Da bi taj tok imao značenje, moraš umeti da razdvojiš tri pitanja:
 
 1. da li je jedna geometrijska vrednost tipična među hemijski uporedivim fragmentima;

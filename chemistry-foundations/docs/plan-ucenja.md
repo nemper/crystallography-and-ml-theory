@@ -1,6 +1,6 @@
 # Plan učenja
 
-Ovo je redosled hemijskog i kristalografskog gradiva. Za paralelni ML/AI tok — sa prioritetima gradiva, hemijskim preduslovima i proverama razumevanja — koristi [plan učenja ML/AI dela za 2CDC](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/11-ml-ai-plan-ucenja.md).
+Ovo je sažeti hemijski deo merodavne početničke putanje kroz oba kursa. Za paralelni ML/AI tok — sa prioritetima gradiva, hemijskim preduslovima i proverama razumevanja — koristi [plan učenja ML/AI dela za 2CDC](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/11-ml-ai-plan-ucenja.md).
 
 ## Preporučeni redosled gradiva
 
@@ -12,17 +12,18 @@ Ovo je redosled hemijskog i kristalografskog gradiva. Za paralelni ML/AI tok —
 | Organski motivi | funkcionalne grupe, aromatičnost, kiseline/baze, tautomeri | prepoznaješ projektno relevantne grupe i normalizacione rizike |
 | Koordinaciona hemija | koordinaciona hemija i minimalno ligandno polje | određuješ metal, donor, ligand, denticitet, oxidation state/\(d^n\), spin/Jahn–Teller hipotezu i geometriju bez preteranog zaključka |
 | DAP domen | DAP/Schiff-base domen i lokalni upiti | rekonstruišeš nameru `search1` i `search2` bez mešanja motiva i metalnog uslova |
-| Kristalne interakcije | intermolekulske interakcije i pakovanje | razlikuješ intra/intermolekulsko i gradiš lokalni interaction graph |
+| Kristalne interakcije | 7, prvi prolaz: intuicija i D–H···A geometrija | razlikuješ intra/intermolekulsko i donorske uloge; pun periodični graf čeka8–10 |
 | Periodična ćelija | ćelija, 7 sistema/14 Bravaisovih tipova, frakcione koordinate i PBC | normalizuješ system/setting i rekonstruišeš periodične susede bez metričke/simetrijske zabune |
 | Kristalna simetrija | simetrija, space group, ASU, Z/Z' | čitaš P 21/c i razlikuješ ASU, ćeliju i superćeliju |
 | Difrakcija i kvalitet | reciprocal space, \(hkl\), XRD/PXRD, refiniranje, neizvesnost i kvalitet | izvodiš \(hkl\to d\to2\theta\), razlikuješ simulated/measured PXRD i tumačiš `cu_n14_a.cif` bez jednog „quality“ praga |
+| Periodični kontakti, drugi prolaz | povratak na7 nakon8,9 i10: simetrijske slike, metrika, occupancy i disorder | računaš kontakte uz pravilne slike i prolaziš periodičnu kapiju; formule ostaju u7 |
 | Čvrste forme | čvrste forme, referentne raspodele, Mogul i HBP | formiraš solid-form familije i tumačiš outlier/propensity/grouping bez prevođenja u energiju ili polymorph verovatnoću |
 | Formati podataka | formati, puna CIF anatomija i standardizacija | čitaš ceo sintetički CIF i praviš tabelu očuvane/izgubljene informacije pri svakoj konverziji |
 | Strukturna sličnost | grafovi, deskriptori i hijerarhijska sličnost | biraš reprezentaciju i metriku prema pitanju, ne prema popularnosti modela |
 | Projektni kontekst | obe aplikacije, evaluacija, licenca i FAIR | projektuješ retrieval/rerank i pair-comparison tok sa leakage-safe evaluacijom i dozvoljenim data plane-om |
 | Završna sinteza | svih 22 strana white paper-a, lifecycle/FL granice i završni mini-projekat | braniš state contract, evidence granice i kompletan protokol pred hemičarem, kristalografom i ML recenzentom |
 
-Redosled je pedagoški: svaka celina uvodi preduslove za one koje slede. Prelazak se zasniva na demonstriranom ishodu, a sastavni deo putanje ostaju tri obavezne remediation strane: [11A — referentne raspodele/HBP](11a-referentne-raspodele-hbp.md), [12A — pun CIF](12a-anatomija-cif.md) i [22 — potpuna white-paper mapa](22-whitepaper-tokovi-fl.md).
+Redosled uključuje dva prolaza kroz7: intuicija →8 →9 →10 →povratak na periodični račun7. Kapija A je iza4, a B i C iza11, jer B uključuje razlikovanje polimorfa. Kapija D dolazi iza18–20. [Povezani primer](povezani-primer.md) čita se u koracima, od objekta preko mapa do evaluacije. Prelazak se zasniva na demonstriranom ishodu, a sastavni deo putanje ostaju tri dopunske strane koje uvode potrebna razgraničenja, dok se stručna razrada čita uz izabranu granu:: [11A — referentne raspodele/HBP](11a-referentne-raspodele-hbp.md), [12A — pun CIF](12a-anatomija-cif.md) i [22 — potpuna white-paper mapa](22-whitepaper-tokovi-fl.md).
 
 ## Zavisnosti između modula {#zavisnosti-modula}
 
@@ -38,7 +39,8 @@ flowchart TD
     F --> G[Ćelija, sistemi,<br/>Bravais i PBC]
     G --> H[Simetrija]
     H --> I[Reciprocal space,<br/>difrakcija/PXRD i kvalitet]
-    I --> J[Čvrste forme]
+    I --> PC[Periodični kontakti: drugi prolaz7]
+    PC --> J[Čvrste forme]
     J --> R[Referentne raspodele,<br/>Mogul i HBP]
     B --> K[Formati, pun CIF<br/>i standardizacija]
     G --> K

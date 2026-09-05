@@ -1,5 +1,7 @@
 # Mapa pipeline-a i algoritamskih odluka
 
+**Preduslovi i prolazi:** [ML uvod §1–7](00a-osnove-ml.md) i [scope](00-scope.md). Prvi put pregledaj samo nazive poslova i njihove odvojene ciljeve; algoritamske tabele služe orijentaciji. Njihovo poređenje i kapije dolaze posle hemijske osnove, determinističkih metoda i evaluacije, prema [merodavnoj putanji](11-ml-ai-plan-ucenja.md).
+
 ## Zašto se problem rastavlja na poslove
 
 Jedan CIF prolazi kroz zadatke koji nemaju isti output ni istu definiciju greške. Parser može biti sintaksno tačan, retrieval može imati visok recall, a konačni ranking ipak biti hemijski pogrešan. Isto tako, dobar property regressor ne mora davati koristan similarity embedding.

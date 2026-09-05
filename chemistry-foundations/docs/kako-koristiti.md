@@ -20,7 +20,7 @@ Ako ne možeš da odgovoriš na pitanje "koju grešku bi ovaj pojam sprečio u m
 | **TREBA** | potrebno pre evaluacije prototipa i razgovora sa hemičarima/kristalografima |
 | **KASNIJE** | korisno za istraživački rad, ali nije blokator prvog validnog sistema |
 
-Knjiga je poređana tako da se preduslovi uvode pre ili uz prvu upotrebu. Nemoj preskakati module 1–3 i 7–10. Celinu skrati ili preskoči samo ako već možeš da demonstriraš njen ishod iz [plana učenja](plan-ucenja.md); za šire grupe gradiva koristi [kontrolne kapije](dijagnostika.md#kontrolne-kapije).
+Prati [merodavnu putanju kroz oba kursa](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/11-ml-ai-plan-ucenja.md). Poglavlje7 ima dva prolaza: intuicija pre8, a periodični račun nakon8–10. Broj poglavlja zato nije samostalno pravilo za svaki njegov odeljak. Nemoj preskakati module 1–3 i 7–10. Celinu skrati ili preskoči samo ako već možeš da demonstriraš njen ishod iz [plana učenja](plan-ucenja.md); za šire grupe gradiva koristi [kontrolne kapije](dijagnostika.md#kontrolne-kapije).
 
 ## Kriterijum za prelazak
 
@@ -72,3 +72,9 @@ U uvodnoj hemiji modeli su namerno uprošćeni. Lewisova struktura, hibridizacij
 - **pretpostavljeno** - radna hipoteza modela.
 
 Ta razlika je jedna od najvažnijih navika za ovaj projekat.
+
+## Osnovni i referentni sloj {#teorijski-i-referentni-sloj}
+
+Osnovnu lekciju čitaj redom: pitanje → intuicija → mali primer → definicija ili formula. Zatim pročitaj ograničenja koja određuju šta rezultat znači. Referentni okviri čuvaju tolerancije, verzije, enumeraciju, trag dokaza i reproduktivnost; otvaraj ih pri proveri konkretne metode. Termin na srpskom i originalni naziv pri prvom pojavljivanju označavaju isti pojam.
+
+Oba dela objašnjavaju naučne pojmove i uslove poređenja. Primeri dijagrama, tabela i postupaka nisu implementaciona specifikacija, šema podataka niti nalog za realizaciju aplikacija. Merodavna granica je u [scope-u ML/AI dela](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/00-scope.md#granica-izmeu-strategije-i-implementacije). Lokalna upozorenja ostaju tamo gde menjaju tumačenje konkretnog rezultata.

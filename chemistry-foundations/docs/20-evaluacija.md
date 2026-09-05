@@ -217,7 +217,7 @@ Za stohastičke modele/ANN indekse pokreni unapred određen skup ponovljenih see
 
 ## 20.11 Ilustrativna evidencija tvrdnji
 
-Sledeća tabela je nenormativan primer kako se činjenica odvaja od scope-a i dokaza; njene kolone nisu projektna schema.
+Sledeća tabela pokazuje kako se činjenica odvaja od scope-a i dokaza, u smislu [centralne napomene o nastavnim primerima](kako-koristiti.md#teorijski-i-referentni-sloj).
 
 | Tvrdnja | Precizan scope | Dokaz/izvor | Lokalni test | Confidence | Datum/verzija | Izuzeci |
 |---|---|---|---|---|---|---|

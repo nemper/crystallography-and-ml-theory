@@ -1,5 +1,7 @@
 # Uporedna mapa algoritamskih porodica i uslova primene
 
+**Dva prolaza:** posle [scope-a](00-scope.md) i osnovnog ML računa čitaj uvod i nazive porodica samo radi orijentacije. Cela mapa dolazi nakon hemijske osnove, evaluacije, klasičnog ML-a i determinističkog poređenja; neuralni i jezički detalji zahtevaju odgovarajuću uslovnu granu. Redosled i kapije određuje [plan učenja](11-ml-ai-plan-ucenja.md).
+
 ## Kako čitati ovu mapu
 
 Ova strana poredi porodice metoda relevantne za dva 2CDC problema: globalno pronalaženje srodnih struktura i precizno poređenje skupa struktura svaki-sa-svakim. Ne predstavlja izbor konkretnog sistema niti redosled realizacije.

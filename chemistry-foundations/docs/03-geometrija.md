@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** Kristalni podaci su trodimenzionalni. Graf kaže ko je povezan; geometrija kaže kako su atomi raspoređeni.
 
+**Preduslov:** iz [poglavlja 2](02-veze.md) razlikuješ vezne i slobodne elektronske parove, red veze i povezanost atoma. Za koordinatne račune potrebni su vektor, norma i skalarni proizvod iz osnovnog matematičkog uvoda; ćelija i kristalna simetrija još nisu potrebne.
+
 ## 3.1 Od Lewisovog crteža do 3D
 
 Elektronski parovi se prostorno raspoređuju. Jednostavan VSEPR model predviđa osnovne geometrije glavne grupe:

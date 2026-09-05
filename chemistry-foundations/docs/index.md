@@ -27,6 +27,8 @@ Lokalni CSD izvozi fokusirani su na 18-atomsko DAP-derived query jezgro sa dve `
 
 ## Put kroz knjigu
 
+Tačan redosled i preduslove određuje [zajednička početnička putanja](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/11-ml-ai-plan-ucenja.md). Najpre7 intuicija, zatim8–10 i povratak na7 periodične kontakte. [Nastavljeni primer Q–B–C–D](povezani-primer.md) povezuje odgovarajuće korake kroz oba kursa; pri prvom otvaranju pročitaj samo pitanje i objekte.
+
 1. **Hemijski jezik** - atom, jon, formula, veza, formalno naelektrisanje, funkcionalna grupa i 3D geometrija.
 2. **Koordinaciona hemija** - metal, ligand, donor, helat, koordinacioni broj i moguće geometrije.
 3. **Kristalografija** - jedinična ćelija, frakcione koordinate, simetrija, periodičnost, difrakcija i kvalitet modela.

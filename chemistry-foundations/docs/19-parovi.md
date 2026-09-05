@@ -2,6 +2,8 @@
 
 **Cilj druge aplikacije:** za učitani skup CIF-ova obraditi svaki neuređeni par i vratiti rastavljiv, stručno proverljiv izveštaj — ne samo matricu neobjašnjenih brojeva. Kada ulazi ne omogućavaju određeno poređenje, taj par ostaje u obuhvatu sa jasnim razlogom neocenjenog nivoa. Manji korpus omogućava više računskog vremena po paru, ali sam po sebi ne dokazuje veću naučnu tačnost od globalne pretrage; to se proverava evaluacijom.
 
+**Preduslov:** poznaješ geometriju i koordinaciju iz poglavlja 3–6, periodični model i čvrste forme iz 7–11, standardizaciju i reprezentacije iz 13–15 i [prava/poreklo](21-licence-fair.md). Prvi prolaz usmeri na dodelu komponenti, atomsku mapu i 3D račun; naprednu enumeraciju produbljuj uz izabranu metodu. Globalna pretraga iz poglavlja 18 nije preduslov.
+
 ## 19.1 Prvo definiši jedinicu poređenja
 
 Jedan upload može sadržati:
@@ -13,7 +15,7 @@ Jedan upload može sadržati:
 - disorder alternatives;
 - polymeric coordination network.
 
-Pre bilo kakvog score-a mora biti jasno koje se komponente porede, da li je objekat ligand, ceo entity ili crystal i koji nivoi imaju dovoljno podataka u oba zapisa. Ovde je **comparison plan** naziv za tu semantičku odluku, ne specifikacija softverskog objekta.
+Pre bilo kakvog score-a mora biti jasno koje se komponente porede, da li je objekat ligand, ceo entity ili crystal i koji nivoi imaju dovoljno podataka u oba zapisa. Ovde je **comparison plan** naziv za tu semantičku odluku, u smislu [centralne napomene o teorijskim primerima](kako-koristiti.md#teorijski-i-referentni-sloj).
 
 ## 19.2 Kvadratna složenost
 
@@ -187,7 +189,7 @@ Tumačenje interakcionog rezultata zavisi od definicije kontakta i korišćenih 
 
 ## 19.10 Zašto rezultat mora ostati rastavljiv
 
-Razmotrimo nenormativan primer: dva zapisa mogu imati visok 2D graph score i dobro mapiran common core, ali različite komponente, neodređenu metalnu povezanost i nedostupno packing poređenje zato što jedan zapis nema validnu ćeliju. Jedan ukupni broj bi sakrio upravo razliku koju stručnjak treba da vidi. U takvom slučaju je naučno tačnije reći da pojedini nivoi nisu ocenjeni nego izmišljati univerzalni overall score. Primer ilustruje semantiku parcijalnog rezultata, ne predlaže result schema-u.
+Razmotrimo nastavni primer: dva zapisa mogu imati visok 2D graph score i dobro mapiran common core, ali različite komponente, neodređenu metalnu povezanost i nedostupno packing poređenje zato što jedan zapis nema validnu ćeliju. Jedan ukupni broj bi sakrio upravo razliku koju stručnjak treba da vidi. U takvom slučaju pojedini nivoi ostaju neocenjeni, uz jasno naveden razlog.
 
 ## 19.11 Matrice i klasteri
 

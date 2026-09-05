@@ -1,10 +1,12 @@
 # Spoljni LLM API-ji, granica podataka i bezbednost
 
+**Uslovna grana i preduslovi:** [SLM/RAG modul](07-local-slm-rag.md), poreklo i prava iz hemijskog21 i [primenljivost podataka](09-cross-format-eligibility.md). Čitaj ako razmatraš spoljnu jezičku obradu; osnovna evaluacija struktura ne zavisi od ovog modula.
+
 ## Svrha modula
 
 Spoljni LLM API može biti predmet obrazovne ili komparativne analize za jezičke zadatke. Sam naziv providera, plaćeni nalog, privatni repozitorijum ili opcija „zero data retention“ ne daju pravo da se projektni, fakultetski ili CSD sadržaj pošalje trećoj strani.
 
-Ovo poglavlje opisuje principe klasifikacije podataka, minimizacije, retention-a, prompt-injection odbrane i vendor-neutral evaluacije. Ne određuje konkretan provider, model, tehnički interfejs niti način uvođenja.
+Ovo poglavlje opisuje principe klasifikacije podataka, minimizacije, retention-a, prompt-injection odbrane i vendor-neutral evaluacije, u okviru [centralne teorijske granice](00-scope.md#granica-izmeu-strategije-i-implementacije).
 
 ## API nije deo naučnog jezgra
 

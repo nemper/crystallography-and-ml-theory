@@ -15,9 +15,9 @@ Dokumentacija za svaku porodicu jasno razdvaja:
 - referentnu metodu i uslove fer poređenja;
 - failure modes, abstention i licencne granice.
 
-Počni od [scope-a i pravila odlučivanja](00-scope.md), a zatim koristi [mapu pipeline-a](01-pipeline-decision-map.md) da vidiš gde pripada svaka porodica algoritama.
+Posle osnovnog računa koristi [scope](00-scope.md) i [pipeline mapu](01-pipeline-decision-map.md) samo za orijentaciju. Zatim prati [jedinstvenu putanju](11-ml-ai-plan-ucenja.md): deterministička osnova → osnovna evaluacija → klasični ML/boosting/kernel → učeno rangiranje i izabrane napredne grane. Neuralni deo nije preduslov evaluacije. Korake povezuje [nastavni primer Q–B–C–D](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/povezani-primer.md).
 
-Prvi detaljni modul obrađuje [klasični ML](02-classical-ml.md): od linearnih baseline-a i Random Forest-a do boosting-a, SVM-a, GPR-a, kalibracije i conformal abstention-a.
+Modul [klasičnog ML-a](02-classical-ml.md) dolazi posle osnovne determinističke putanje i evaluacije: od linearnih baseline-a i Random Forest-a do boostinga, SVM-a, GPR-a, kalibracije i conformal abstention-a.
 
 Modul [globalne pretrage](03-global-retrieval-ann-ranking.md) razdvaja hard filtere, hemijske reprezentacije, exact/ANN candidate generation, filter-aware indeksiranje i learning-to-rank.
 

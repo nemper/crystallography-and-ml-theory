@@ -1,10 +1,12 @@
 # Cross-format reconciliation i eligibility podataka
 
+**Preduslovi:** hemijska poglavlja12–17 o formatima, standardizaciji, reprezentacijama i lokalnim poukama, kao i21 o poreklu i pravima. Prvi prolaz utvrđuje identitet, gubitak informacije i primenljivost; detaljne tabele stanja i reproduktivnosti služe referentnoj proveri. Modeli i indeksi još nisu preduslov.
+
 ## Svrha modula
 
 CIF, MOL, MOL2, SDF i SMILES nisu zamenljive ambalaže za istu informaciju. Svaki format čuva, gubi ili pretpostavlja drugačiji deo hemijskog i kristalografskog objekta. Zato fingerprint, graf, crystal embedding, indeks, trening primer ili evaluacioni denominator ne treba posmatrati kao neposredan proizvod jednog fajla.
 
-Teorijski bezbedan pogled polazi od inventara svih dostupnih verzija i reprezentacija, čuva konflikte i gubitke, a zatim bira view primeren tačnoj svrsi. Ovo poglavlje objašnjava principe; ne propisuje tehnički dizajn ili razvojni raspored.
+Teorijski bezbedan pogled polazi od inventara svih dostupnih verzija i reprezentacija, čuva konflikte i gubitke, a zatim bira view primeren tačnoj svrsi. [Centralna granica teorije](00-scope.md#granica-izmeu-strategije-i-implementacije) određuje ulogu ovih primera.
 
 Povezano je sa:
 

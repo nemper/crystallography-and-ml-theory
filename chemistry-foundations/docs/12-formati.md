@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** Format nije samo ambalaža. Svaki format čuva drugi deo hemijskog značenja, pa konverzija može tiho promeniti pitanje koje aplikacija odgovara.
 
+**Preduslov:** razlikuješ hemijsku povezanost, naboje i vodonike iz [2](02-veze.md), komponente i čvrste forme iz [11](11-cvrste-forme.md), kao i ćeliju, ASU, simetriju i kvalitet modela iz poglavlja 8–10. Ovde porediš šta pojedini zapis čuva; detaljno čitanje strukture CIF teksta sledi u [12A](12a-anatomija-cif.md).
+
 ## 12.1 Dva sveta podataka
 
 Najpre razdvoji:

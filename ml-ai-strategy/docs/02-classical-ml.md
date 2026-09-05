@@ -318,8 +318,10 @@ Kernel je sada **kovarijansa**, mera zajedničkog variranja vrednosti funkcije. 
 Kod merenja \(y=f(x)+\varepsilon\), **šum opažanja** \(\varepsilon\) opisuje odstupanje merenja od funkcije; to nije isto što i neizvesnost o nepoznatoj funkciji. Uz nezavisan Gaussov šum varijanse \(\sigma_n^2\), GPR koristi \(\mathbf K+\sigma_n^2 I\), gde je \(I\) jedinična matrica. Za nulti prior srednji nivo:
 
 \[
-\mu_*(x)=k_*^T(\mathbf K+\sigma_n^2I)^{-1}y,\qquad
-v_f(x)=K(x,x)-k_*^T(\mathbf K+\sigma_n^2I)^{-1}k_*.
+\begin{aligned}
+\mu_*(x)&=k_*^T(\mathbf K+\sigma_n^2I)^{-1}y,\\
+v_f(x)&=K(x,x)-k_*^T(\mathbf K+\sigma_n^2I)^{-1}k_*.
+\end{aligned}
 \]
 
 \(k_*\) sadrži kovarijanse novog ulaza sa trening ulazima, a \(\mathbf K\) je njihova [Gram matrica](#kernel-gram). Varijansa **novog opažanja** pri istom nezavisnom šumu je \(v_y=v_f+\sigma_n^2\). Skica koristi \(\sigma_n=0\), pa su te dve veličine iste samo u tom idealizovanom slučaju. Formule i uslovljavanje razrađuju [Rasmussen i Williams, poglavlje 2](https://gaussianprocess.org/gpml/chapters/RW2.pdf), a [zvanični GPR vodič](https://scikit-learn.org/stable/modules/gaussian_process.html) povezuje ih sa modelima šuma.
@@ -333,7 +335,7 @@ v_f(x)=K(x,x)-k_*^T(\mathbf K+\sigma_n^2I)^{-1}k_*.
 
 ### Oprez
 
-- exact trening tipično zahteva (O(n^3)) vreme i (O(n^2)) memoriju;
+- exact trening tipično zahteva \(O(n^3)\) vreme i \(O(n^2)\) memoriju;
 - predictive variance nije automatski kalibrisana greška pod distribution shift-om;
 - loš kernel daje precizno izraženu pogrešnu pretpostavku;
 - sparse/variational aproksimacije menjaju metod i zahtevaju posebnu validaciju.
@@ -345,7 +347,7 @@ v_f(x)=K(x,x)-k_*^T(\mathbf K+\sigma_n^2I)^{-1}k_*.
 **SOAP (*Smooth Overlap of Atomic Positions*)** zamenjuje oštre atomske položaje glatkim „oblačićima“ oko suseda izabranog centra. Preklapanje tih gustina omogućava poređenje blago pomerenih okruženja. Tok je:
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["Centar i susedi unutar cutoff-a"] --> B["Glatka gustina po hemijskim vrstama"]
   B --> C["Lokalni SOAP deskriptor"]
   C --> D["Matrica svih parova centara A i B"]
@@ -401,7 +403,7 @@ Za pairwise aplikaciju clustering se radi nad jednom validiranom distance kompon
 **Pitanje:** kako od već izračunatog skora naučiti prognozu učestalosti pozitivnog događaja? **Kalibraciona mapa** uči se nad izlazom zamrznutog modela: njegove težine i ulazne transformacije se u tom koraku više ne menjaju.
 
 ```mermaid
-flowchart LR
+flowchart TD
   M["Model fitovan na treningu, pa zamrznut"] --> S["Skorovi na izdvojenim kalibracionim grupama"]
   Y["Njihove poznate labele"] --> F["Fit samo kalibracione mape"]
   S --> F

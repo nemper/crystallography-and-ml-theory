@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** „Nađi slične strukture“ je nepotpun zahtev. Pre implementacije se mora reći: slične po čemu, za koju odluku, pod kojom standardizacijom i sa kakvim dokazom?
 
+**Preduslov:** iz [13](13-standardizacija.md) znaš kako namena određuje standardizovani pogled, a iz [14](14-reprezentacije.md) razlikuješ graf, fingerprint, molekulsku geometriju i periodičnu reprezentaciju. Razliku konformacije i pakovanja poveži sa [3](03-geometrija.md) i [11](11-cvrste-forme.md); algoritmi pretrage i učenje rangiranja dolaze kasnije.
+
 ## 15.1 Pet odvojenih pitanja
 
 | Nivo | Pitanje | Primer metode |

@@ -271,7 +271,7 @@ Za lokalni CAPHEK dva najveća ugla su 147,436° i 128,705°:
 To je distordovana/intermedijarna petokoordinaciona geometrija, bliža kvadratno-piramidalnom kraju mere nego trigonalno-bipiramidalnom. Ne treba je proglasiti idealnom geometrijom samo na osnovu `CN = 5`.
 
 <div class="project-link">
-**Dokazna posledica:** zaključak o geometriji treba da se može povezati sa M–D distancama, D–M–D uglovima, mapiranjem atoma, CN-om i definicijom geometrijske mere. Tekstualna etiketa „square pyramidal“ je izvedena i može biti neizvesna; ovo nije propisana record schema.
+**Dokazna posledica:** zaključak o geometriji treba da se može povezati sa M–D distancama, D–M–D uglovima, mapiranjem atoma, CN-om i definicijom geometrijske mere. Tekstualna etiketa „square pyramidal“ je izvedena i može biti neizvesna.
 </div>
 
 ## 5.8 Kontraprimeri: metal je prisutan, ali ciljna koordinacija nije dokazana
@@ -323,7 +323,7 @@ Zato se pouzdano tumačenje izvedenog koordinacionog grafa oslanja na:
 4. mogućnost povezivanja sa originalnim koordinatama i mapiranjem atoma;
 5. mogućnost `unknown/ambiguous`, a ne prinudnu etiketu.
 
-To su kategorije evidence-a, ne obavezna polja buduće implementacije.
+Status ovih dokaznih kategorija objašnjen je u [centralnoj napomeni o teorijskom i referentnom sloju](kako-koristiti.md#teorijski-i-referentni-sloj).
 
 ## 5.10 Mini-vežbe
 

@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** CIF nije binarni „crtež kristala“, već strukturisan tekst. Možeš ga otvoriti u običnom editoru, ali njegovo hemijsko i kristalografsko značenje tumačiš pomoću CIF rečnika i odgovarajućeg parsera.
 
+**Preduslov:** iz [poglavlja 12](12-formati.md) razlikuješ molekulski i kristalografski zapis, a iz poglavlja 8–10 ćeliju, simetriju, zauzeće mesta i standardnu neizvesnost. Sintaksa tagova, blokova i petlji objašnjava se ovde; prethodno iskustvo sa CIF parserom nije potrebno.
+
 Ova lekcija koristi [ceo sintetički CIF za preuzimanje](tutorial-minimal.cif). Fajl je ručno napisan za kurs, ne predstavlja eksperiment i ne sadrži CSD, fakultetske ni korisničke podatke. Zato jedini `.cif` koji se nalazi u repozitorijumu može bezbedno da se deli.
 
 ## 12A.1 Ovako CIF zaista izgleda

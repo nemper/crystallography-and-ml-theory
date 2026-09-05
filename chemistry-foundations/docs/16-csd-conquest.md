@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** Ova strana objašnjava šta lokalni izvozi jesu, šta nisu i koje semantičke, licencne i provenance obaveze postoje kada se radi sa CSD podacima. Ne propisuje buduću implementaciju.
 
+**Preduslov:** razlikuješ DAP motiv i potvrđenu koordinaciju iz [6](06-dap-schiff.md), čvrstu formu i pojedinačno određivanje iz [11](11-cvrste-forme.md), a podstrukturno pitanje i meru sličnosti iz [15](15-slicnost.md). Poznavanje razlika formata iz [12](12-formati.md) omogućava tumačenje izvoza; licencne granice se kasnije produbljuju u poglavlju 21.
+
 ## 16.1 CSD, CSD entry i refcode
 
 Cambridge Structural Database (CSD) je kurirana, licencirana baza kristalnih struktura malih organskih i metal-organskih jedinjenja. CCDC-ov pregled razvoja baze je [A Million Crystal Structures: The Whole Is Greater than the Sum of Its Parts](https://pubs.acs.org/doi/full/10.1021/acs.chemrev.9b00155). Zvanični CCDC snapshot od **1. januara 2026.** navodi 1.431.347 struktura; broj je vremenski promenljiv i ne treba ga hardkodovati kao trajnu činjenicu ([CSD Entry Summary Statistics 2026](https://www.ccdc.cam.ac.uk/media/CSD-Entries-Summary-Statistics-2026.pdf)).

@@ -1,5 +1,7 @@
 # 10. Difrakcija, refiniranje i kvalitet
 
+**Preduslov:** iz [poglavlja 8](08-celija.md) razumeš ćeliju i frakcione koordinate, a iz [poglavlja 9](09-simetrija.md) simetrijske kopije, ASU i multiplicity. Ovde učiš occupancy, disorder i neizvesnost; oni pripremaju kasniji [drugi prolaz interakcija](07-interakcije.md#drugi-prolaz), koji nije preduslov ove lekcije.
+
 ## Šta treba da umeš posle ovog poglavlja
 
 Posle ovog poglavlja treba da možeš da:

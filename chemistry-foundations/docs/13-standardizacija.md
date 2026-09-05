@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** Najskuplje greške često ne nastaju u modelu već pre njega, kada različite hemijske forme budu nevidljivo spojene ili jedna forma pogrešno rastavljena.
 
+**Preduslov:** poznaješ protonaciju i tautomere iz [4](04-organska.md), koordinacione komponente iz [5](05-kompleksi.md), čvrste forme iz [11](11-cvrste-forme.md) i očuvane/izgubljene informacije formata iz [12](12-formati.md) i [12A](12a-anatomija-cif.md). Za kristalne transformacije koristiš već uvedene promene baze i origina iz poglavlja 8–9.
+
 ## 13.1 Normalizacija nije isto što i „popravi molekul“
 
 Ovde koristimo precizne radne termine:

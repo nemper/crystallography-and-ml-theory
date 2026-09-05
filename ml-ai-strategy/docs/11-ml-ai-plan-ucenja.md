@@ -4,7 +4,7 @@ Ovo je putanja kroz kurs hemije i ML/AI teoriju, dostupna i čitaocu bez predzna
 
 Osnovna putanja organizovana je kao niz tematskih celina povezanih preduslovima i kapijama razumevanja. Nema kalendarski raspored niti procenu trajanja: napredovanje zavisi isključivo od savladanih preduslova i prolaska odgovarajućih kapija. Putanja ne uključuje implementiranje dve aplikacije, treniranje modela niti kompletno čitanje svake spoljne reference.
 
-Ovaj plan dopunjuje [postojeći plan učenja hemije](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/plan-ucenja.md). Hemijski plan daje redosled domenskog gradiva; ova strana govori kada je to gradivo dovoljno savladano za određenu ML/AI odluku.
+Ovaj plan usklađuje [sažeti plan učenja hemije](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/plan-ucenja.md). Hemijski plan daje redosled domenskog gradiva; ova strana govori kada je to gradivo dovoljno savladano za određenu ML/AI odluku.
 
 !!! info "Granica ovog plana"
     Tokom učenja pišeš kratke obrazložene skice, uporedne tabele i očekivane ishode na ilustrativnim primerima. Plan ostaje na pojmovima, pretpostavkama i dokazima; ne projektuje konkretan sistem niti izvodi praktične sistemske probe.
@@ -20,34 +20,29 @@ Ovaj plan dopunjuje [postojeći plan učenja hemije](https://github.com/nemper/c
 
 ## Prioriteti i tačan redosled čitanja
 
-Oznake u tabeli znače:
+Ovo je **merodavna početnička putanja kroz oba dela**. Navigacija i kratki hemijski plan prikazuju isti redosled preduslova. Oznake: **O — obavezno jezgro**, **U — uslovna grana**, **R — referentni detalji**. Uslovna grana postaje obavezna kada izabereš njen metod ili tvrdnju; njena ograničenja važe i kada je čitaš samo radi orijentacije.
 
-- **O — obavezno:** potrebno za sledeću kapiju;
-- **P — preporučeno:** potrebno pre odgovarajuće napredne teme, ali ne blokira ranije gradivo;
-- **R — referenca:** otvara se tokom dizajna, error analysis-a ili audita; ne čita se linearno unapred.
-
-Uporedna mapa algoritamskih porodica čita se dva puta: prvi put radi orijentacije, a drugi put u celosti nakon osnovnih hemijskih i ML/AI preduslova, kada već možeš da osporiš primenljivost svake porodice.
-
-| Red | Dokumentacija | Prioritet | Kada i zašto |
+| Red | Čitanje | Prioritet | Preduslov i izlaz |
 |---:|---|---|---|
-| 0 | [ML/AI od nule](00a-osnove-ml.md) | O za početnika | Osnovni račun, uzorak/feature/labela, vektori/grafovi, fitting, split, metrike, GNN/attention i jezički modeli; iskusan čitalac najpre prolazi samoproveru. |
-| 1 | Hemija: naslovna, „Šta projekat zapravo traži“, plan i dijagnostika | O | Pre svega: razdvoji sastav, graf, konformer, kristal i eksperimentalni model. |
-| 2 | ML/AI: [početna](index.md), [scope](00-scope.md) i [mapa pipeline-a](01-pipeline-decision-map.md) | O | Definiši dva problema, funkcije pipeline-a i razliku između referentnih i learned metoda. |
-| 3 | [Uporedna mapa algoritamskih porodica](10-optimal-stack-roadmap.md) | O | Prvi, orijentacioni prolaz kroz objekte, targete i uslove primene; nije realizacioni plan. |
-| 4 | Hemija 1–6: atomi/formule, veze, 3D/stereo, organski minimum, koordinaciona hemija i DAP/Schiff-base | O | Preduslov za svaki 2D graf, fingerprint, motif, metal/donor i stereo target. |
-| 5 | Hemija 7–11A: interakcije, ćelija, simetrija, kvalitet, čvrste forme, referentne raspodele/HBP | O | Preduslov za periodične grafove, packing, polimorfe, PXRD, uncertainty i crystal modele. |
-| 6 | Hemija 12–17: formati, pun CIF, standardizacija, reprezentacije, sličnost, CSD/ConQuest i lokalni skup | O | Pre bilo kog dataseta, feature-a ili modela; ovde se vidi stvarni cross-format gubitak i selection bias. |
-| 7 | Hemija 21 + [cross-format i lifecycle eligibility](09-cross-format-eligibility.md) | O | FAIR, prava, provenance i lifecycle dopunjuju pojmovnu osnovu za sve naredne ML/AI teme. |
-| 8 | Hemija 19 + [precizno pairwise poređenje](04-precise-pairwise.md) | O | App 2 se uči prva jer se najveći deo može validirati bez pune CSD baze i bez ML-a. |
-| 9 | Hemija 18 i 20 + [globalni retrieval, ANN i ranking](03-global-retrieval-ann-ranking.md) | O | Razdvoji exact filter, candidate recall, semantic recall, qrels i finalni ranking. |
-| 10 | [Klasični ML](02-classical-ml.md) | O | Čitaj kada razumeš target, group/time split i determinističke reference. |
-| 11 | [Periodični crystal encoderi](05-periodic-crystal-encoders.md), pa [metric learning i evaluacija](06-metric-learning-and-evaluation.md) | P | Ne počinji dok ne razumeš periodične/stereo invarijanse, exact oracle i gold/split protokol. |
-| 12 | Hemija 22 + cela [uporedna mapa](10-optimal-stack-roadmap.md) | O | White-paper granice, structure–property i polymorph-risk targeti, uslovi za FL i završno poređenje algoritamskih porodica. |
-| 13 | [Lokalni SLM i RAG](07-local-slm-rag.md) | P | Jezička interpretacija i dokumentacioni retrieval; nije crystal representation niti naučni autoritet. |
-| 14 | [Spoljni LLM API i bezbednost](08-api-llm-security.md) | R | Čita se radi razumevanja minimizacije, processor/retention razlika, prompt injection-a i granica prava. |
-| 15 | [Metod dokaza](evidence-method.md), hemijski rečnik/zablude/izvori | R | Koristi pri pisanju claim-a, proveri terminologije i završnoj proveri; rešenja praktikuma tek posle sopstvenog pokušaja. |
+| 0 | [ML/AI od nule](00a-osnove-ml.md), §1–7 i samoprovera osnovnih pojmova | O | bez ML predznanja; račun, target, učenje, split i osnovne metrike; neuralne §8–9 ostavi za kasnije |
+| 1 | početne strane, hemijska mapa projekta i dijagnostika; [scope](00-scope.md), [pipeline mapa](01-pipeline-decision-map.md) i uvod [uporedne mape](10-optimal-stack-roadmap.md) | O, samo orijentacija | imenuj dva problema i nivoe tvrdnji; katalozi algoritama se još ne polažu |
+| 2 | hemija 1–6 | O | veze, geometrija i donorstvo pre koordinacije; Kapija A nakon4 |
+| 3 | hemija7 prvi prolaz →8 →9 →10 →7 drugi prolaz | O | intuicija kontakta pre ćelije; pun periodični račun i njegova kapija tek nakon simetrije, occupancy i disorder-a |
+| 4 | hemija11; 11A osnovno značenje referentnih signala | O; tehnički11A je U/R | polimorf, stabilnost, kinetika i granice propensity/outlier tvrdnji; Kapije B i C iza11 |
+| 5 | hemija12,12A,13–17; [povezani primer](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/povezani-primer.md) do mapa i geometrije | O; inventari17 su R | formati, namenski pogled, periodični graf, sličnost i pouke lokalnog preseka |
+| 6 | hemija21 i [cross-format/lifecycle](09-cross-format-eligibility.md) | O; detalji R | granice prava, identiteta i primenljivosti pre evaluacije |
+| 7 | hemija19 i osnovni mapping/3D deo [pairwise lekcije](04-precise-pairwise.md) | O | komponentna i atomska mapa pre RMSD-a; napredni SOAP i enumeraciju odloži |
+| 8 | hemija18 i mehanika exact/ANN u [retrieval lekciji](03-global-retrieval-ann-ranking.md) | O | prvi prolaz do kandidata; učenje rangiranja još preskoči |
+| 9 | hemija20: stručne ocene, split, metrike, kalibracioni tok i grupno poređenje | O | osnovna evaluacija bez neuralnih modela; imenioce proveri na Q/B/C/D |
+| 10 | [Klasični ML](02-classical-ml.md): linearne reference, stabla/boosting, kernel i kalibracija | O | učenje i evaluacija prethode izboru modela; boosting prethodi LambdaMART-u; kernel prethodi SOAP-u |
+| 11 | povratak na [pairwise](04-precise-pairwise.md) pakovanje/evidence i [retrieval](03-global-retrieval-ann-ranking.md) učenje rangiranja | O za osnovno poređenje; pojedinačne porodice U | SOAP/REMatch prvo kroz numerički primer u02; MCS enumeracija, PQ/LSH detalji prema izabranoj grani |
+| 12 | PCA/PCR/PLS, GPR, SOAP/REMatch ili split-conformal iz02 | U | produbi samo izabranu porodicu; svaki blok ima sopstveni račun i granice |
+| 13 | povratak na00a neuralne osnove → [periodični encoderi](05-periodic-crystal-encoders.md) → [metric learning](06-metric-learning-and-evaluation.md) | U | periodični graf, grupe, evaluacija, log/softmax i negativi pre trening gubitaka |
+| 14 | hemija22 i cela uporedna mapa, drugi prolaz | O za granice tvrdnji; property/FL razrada U | pregled dopuštenih naučnih tvrdnji posle osnovnih metoda; FL samo uz dodatne preduslove |
+| 15 | [SLM/RAG](07-local-slm-rag.md), [spoljni API](08-api-llm-security.md) | U | zasebno jezičko pitanje; njegov izbor ne menja naučni autoritet geometrije |
+| 16 | [Metod dokaza](evidence-method.md), rečnik, zablude, izvori i referentni okviri | R | otvaraj uz konkretnu proveru; rešenja vežbi posle sopstvenog pokušaja |
 
-Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i svaka bibliografska stavka na njihovom kraju. Spoljne radove čitaj u celosti kada dublje proučavaš metod koji taj rad definiše, na primer ECFP, VF2, Kabsch, COMPACK/PAC, HNSW ili konkretan periodic encoder.
+Obavezno jezgro čuva razgraničenja sastava, grafa, konformacije, pakovanja, svojstva i kvaliteta dokaza. Ne zahteva računanje svake algoritamske porodice ni čitanje svakog primarnog rada u celosti. Detalj postaje preduslov tek za odgovarajuću uslovnu granu.
 
 ## Hemijski preduslovi po ML/AI temi
 
@@ -70,7 +65,7 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 
 ### Početnički most: od podataka do procene uspeha
 
-**Čitaj:** [ML/AI od nule](00a-osnove-ml.md), po redosledu njegovih deset celina. Istovremeno počni hemijske osnove; za prve ML proračune nije potrebno detaljno znanje kristalografije.
+**Čitaj:** [ML/AI od nule](00a-osnove-ml.md), §1–7, pa samoproveru osnovnog računa; §8–9 čitaj pre izabrane neuralne ili jezičke grane. Istovremeno počni hemijske osnove; za prve ML proračune nije potrebno detaljno znanje kristalografije.
 
 **Fokus:** uzorak naspram feature-a i labele, deterministički algoritam naspram učenja, skalar/vektor/matrica, loss i parametri, trening/validation/kalibracija/test, precision/recall/nDCG i značenje uzdržavanja.
 
@@ -110,13 +105,13 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 
 ### 3D, ćelija i periodični susedi
 
-**Čitaj:** hemija 7–8.
+**Čitaj:** hemija7 samo [prvi prolaz](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/07-interakcije.md#prvi-prolaz), zatim8. Periodične kontakte i L4 odloži do sledeće celine.
 
 **Fokus:** frakcione i Cartesian koordinate, metric tensor, PBC i činjenica da fizički objekat ne prestaje na ivici nacrtane ćelije.
 
-**Projektantska vežba:** ručno prođi kroz ilustrativan proračun iz L3/L4 i u tabeli zabeleži očekivano ponašanje kontakta pri wrap-u, translaciji, rotaciji i promeni redosleda atoma.
+**Projektantska vežba:** pretvori jednostavne frakcione koordinate u kartezijanske i objasni fizički smisao ponavljanja ćelije. Iz prvog prolaza7 protumači D–H···A ugao bez enumeracije simetrijskih slika.
 
-**Kapija:** umeš da obrazložiš koje udaljenosti moraju ostati iste i koji podaci o simetrijskoj operaciji i periodičnoj slici bi se kasnije čuvali.
+**Kapija prvog prolaza:** razlikuješ hemijsku ulogu i geometriju kontakta i umeš da preračunaš koordinate u zadatoj ćeliji. Potpuna kapija periodičnih suseda dolazi nakon9–10.
 
 ### Simetrija, kvalitet i neizvesnost
 
@@ -127,6 +122,14 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 **Projektantska vežba:** opiši jednu ekvivalentnu promenu zapisa i jednu stvarnu promenu strukture, pa za nekoliko problema kvaliteta odredi očekivani status.
 
 **Kapija:** ekvivalentan zapis ne tretiraš kao novi kristal, a odsutan ili loš input ne pretvaraš u score 0.
+
+### Povratak na periodične kontakte
+
+**Čitaj:** [drugi prolaz hemije7](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/07-interakcije.md#drugi-prolaz), nakon8–10.
+
+**Fokus:** simetrijska slika, translacija, metrika kose ćelije, zauzeće mesta i nered u modelu pre brojanja suseda.
+
+**Vežba i kapija:** prođi sačuvani periodični račun i L4; objasni zašto promena predstavnika ne menja fizički kontakt i zašto alternativna disorder mesta nisu nezavisno prisutni puni atomi.
 
 ### Polimorfi, packing i referentni signali
 
@@ -168,16 +171,6 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 
 **Kapija:** razumeš zašto svaki par i svaka grana moraju imati stanje i zašto smer A→B može menjati coverage, ali ne i simetrične veličine.
 
-### Deterministički App 2: packing i evidence
-
-**Čitaj:** dovrši pairwise modul 4.9–4.21.
-
-**Fokus:** uloge i granice COMPACK/PAC, CrystalCMP, SOAP–REMatch, PXRD i interaction networks; primenljivost i licencna dostupnost.
-
-**Projektantska vežba:** skiciraj predložak evidence-rich izveštaja i ručno popuni nekoliko normalnih, failure i ambiguous slučajeva. Ako metoda nije dostupna ili validirana, predviđeni izlaz je precizan status, ne improvizovani rezultat.
-
-**Kapija:** drugi inženjer iz tvoje skice može nedvosmisleno razumeti budući pair universe, mapping, parametre, statuse i evidence.
-
 ### App 1: exact i višekanalni candidate retrieval
 
 **Čitaj:** hemija 18 i retrieval modul 3.1–3.12.
@@ -188,25 +181,43 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 
 **Kapija:** umeš da objasniš set-equality zahtev za hard filter i zašto ANN evaluacija mora imati exact oracle iste reprezentacije i metrike.
 
-### Reranking, qrels i retrieval evaluacija
-
-**Čitaj:** retrieval modul 3.13–3.22 i hemiju 20, sa fokusom na claim, gold, split i metrike.
-
-**Fokus:** infrastructure Recall@N, expert candidate Recall@N i end-to-end nDCG/Recall; pool, unjudged primeri, hard negatives i granica candidate/reranker greške.
-
-**Projektantska vežba:** na malom zamišljenom skupu napravi vodič za slepu graded-relevance anotaciju i ručno obrazloži jedan tok exact → candidate → rerank, uključujući izgubljen relevantan kandidat.
-
-**Kapija:** candidate miss ne pripisuješ rerankeru, stare search grupe nisu gold i novi neocenjeni vrh rezultata zahteva dopunu pool-a.
-
 ### Split, baseline-i, kalibracija i analiza grešaka
 
-**Čitaj:** dovrši hemiju 20, zatim klasični ML i sekcije 6.8–6.12 metric-learning modula.
+**Čitaj:** hemiju20 u celosti i osnovni evaluacioni račun iz00a. Sekcije6.8–6.12 su kasnija detaljna referenca; nisu preduslov ovog bloka.
 
 **Fokus:** estimand pre splita; query/family grouping, 1D warm/cold, 2D cold/cold i temporal holdout; nezavisne grupe naspram broja parova.
 
 **Projektantska vežba:** nacrtaj leakage-safe train/validation/calibration/test podelu, tabelu budućih baseline-a i odluka, pa protumači zamišljene rezultate za intervale, worst slice, kalibraciju i risk–coverage. Ne treniraš modele.
 
 **Kapija:** model, prag i calibrator se ne biraju na finalnom testu, raw score nije verovatnoća i **KEEP BASELINE** je ispravan ishod kada nema praktičnog dobitka.
+
+### Klasični ML pre učenog rangiranja i kernela nad okruženjima
+
+**Čitaj:**02 linearne reference, stablo i prosečavanje, dva boosting koraka, kernel/Gram uvod i kalibraciju zamrznutog modela.
+
+**Preduslov:** loss, split i evaluacione metrike iz prethodnog bloka. **Vežba:** ponovi račun reziduala, sastavi malu Gram matricu i odvoji fit kalibratora od izbora praga.
+
+**Kapija:** umeš da objasniš šta uči sledeće stablo i zašto proizvoljna sličnost nije automatski validan kernel. Tek sada čitaj LambdaMART i, ako biraš SOAP, njegov numerički uvod u02. PCA/PLS, GPR i conformal razrada su uslovni nastavci.
+
+### Deterministički App 2: packing i evidence
+
+**Čitaj:** posle kernel uvoda u02 dovrši pairwise modul4.9–4.21; SOAP/REMatch prvo prati kroz njegov mali primer u02. Specifične metode produbljuj po izabranoj grani.
+
+**Fokus:** uloge i granice COMPACK/PAC, CrystalCMP, SOAP–REMatch, PXRD i interaction networks; primenljivost i licencna dostupnost.
+
+**Projektantska vežba:** skiciraj predložak evidence-rich izveštaja i ručno popuni nekoliko normalnih, failure i ambiguous slučajeva. Ako metoda nije dostupna ili validirana, predviđeni izlaz je precizan status, ne improvizovani rezultat.
+
+**Kapija:** drugi inženjer iz tvoje skice može nedvosmisleno razumeti budući pair universe, mapping, parametre, statuse i evidence.
+
+### Reranking, qrels i retrieval evaluacija
+
+**Čitaj:** posle stabala i boostinga u02 retrieval modul3.13–3.22; osnova evaluacije iz hemije20 već je preduslov.
+
+**Fokus:** infrastructure Recall@N, expert candidate Recall@N i end-to-end nDCG/Recall; pool, unjudged primeri, hard negatives i granica candidate/reranker greške.
+
+**Projektantska vežba:** na malom zamišljenom skupu napravi vodič za slepu graded-relevance anotaciju i ručno obrazloži jedan tok exact → candidate → rerank, uključujući izgubljen relevantan kandidat.
+
+**Kapija:** candidate miss ne pripisuješ rerankeru, stare search grupe nisu gold i novi neocenjeni vrh rezultata zahteva dopunu pool-a.
 
 ### Periodični graf i encoder contract
 
@@ -240,6 +251,8 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 
 ## Kapije prelaza
 
+Kapije ispituju tek pročitane preduslove. G4 u prvom prolazu proverava mapping/3D; specifični kernel/packing dokazi dodaju se nakon02. G5 prvo proverava dohvat kandidata, a učeno rangiranje tek posle boostinga i G6. G7 i G8 važe samo za izabrane uslovne grane.
+
 | Kapija | Prelaziš kada razumeš i možeš da obrazložiš | Ne prolazi ako |
 |---|---|---|
 | G−1 — ML i matematički minimum | uzorak/feature/labelu, normu i skalarni proizvod, fitting/split, Tanimoto i recall na malom primeru | brojevi 0–1 se automatski nazivaju verovatnoćom ili se ista struktura u više formata broji kao nezavisni skup |
@@ -247,9 +260,9 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 | G1 — hemijski graf i koordinacija | DAP motif, stereo, charge, component i donor mapping na ilustrativnom primeru | formula, filename ili samo prisustvo metala glume povezanost |
 | G2 — crystal i 3D | očekivano PBC/symmetry/setting/basis i stereo ponašanje | RMSD prethodi atom mapping-u ili cell/space group glume packing dokaz |
 | G3 — data core | union inventar, lineage, purpose view, lifecycle i denominator accounting na malom primeru | silent overwrite, inner-join drop ili missing status postaje vrednost |
-| G4 — deterministički App 2 | pair universe, branch state, evidence, simetriju i usmereni coverage | non-assessed grana nestaje, postaje nula ili dobija relation labelu |
-| G5 — App 1 retrieval | exact filter/oracle, multichannel coverage i tri nivoa retrieval evaluacije | ANN brzina glumi hemijsku tačnost ili reranker skriva candidate miss |
-| G6 — supervised evaluacija | leakage-safe gold/qrels, split, kalibraciju i error-analysis plan | stare grupe, duplikati ili finalni test utiču na trening i tuning |
+| G4 — deterministički App 2, posle hemije19 i osnovnog04 | pair universe, branch state, evidence, simetriju i usmereni coverage | non-assessed grana nestaje, postaje nula ili dobija relation labelu |
+| G5 — osnovni App 1, posle exact/ANN mehanike | exact filter/oracle, multichannel coverage i tri nivoa retrieval evaluacije | ANN brzina glumi hemijsku tačnost ili reranker skriva candidate miss |
+| G6 — evaluacija, posle hemije20 i osnovnog02 | leakage-safe gold/qrels, split, kalibraciju i error-analysis plan | stare grupe, duplikati ili finalni test utiču na trening i tuning |
 | G7 — deep modeli | fer poređenje za critical slice, invarijanse, resurse i licence | jedan random split, seed ili label budžet se smatra dovoljnim dokazom |
 | G8 — uslovne teme | koje dodatno pitanje rešavaju SLM, API, polymorph-risk ili FL i koje pretpostavke zahtevaju | sama oznaka „AI“, „LLM“ ili „FL“ služi kao opravdanje |
 
