@@ -60,7 +60,7 @@ kuriran identitet forme
 → nezavisno izmereni PXRD/thermal/spectroscopic i ciljano crystallisation potvrđivanje
 ```
 
-Nijedan korak ne sme da bude prećutno zamenjen prethodnim. Simulirani PXRD iz istog CIF-a je koristan derivat modela, ali nije nezavisan dokaz; [lekcija o difrakciji](10-difrakcija-kvalitet.md#simulirani-naspram-izmerenog-pxrd-a) daje potreban measurement/simulation manifest. [GSK/CCDC rad](https://pubs.rsc.org/en/content/articlehtml/2021/ce/d1ce00665g) podržava užu tvrdnju da su se analizirani proprietary i javni skup razlikovali u relevantnom solid-form prostoru; ne dokazuje univerzalno povećanje tačnosti svakog polymorph predictor-a.
+Nijedan korak ne sme da bude prećutno zamenjen prethodnim. Simulirani PXRD iz istog CIF-a je koristan derivat modela, ali nije nezavisan dokaz; [lekcija o difrakciji](10-difrakcija-kvalitet.md#simulirani-naspram-izmerenog-pxrd-a) navodi potreban kontekst merenja i simulacije. [GSK/CCDC rad](https://pubs.rsc.org/en/content/articlehtml/2021/ce/d1ce00665g) podržava užu tvrdnju da su se analizirani proprietary i javni skup razlikovali u relevantnom solid-form prostoru; ne dokazuje univerzalno povećanje tačnosti svakog polymorph predictor-a.
 
 ## 22.6 Federativno učenje, od mehanizma do threat model-a
 

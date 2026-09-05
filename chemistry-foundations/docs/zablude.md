@@ -206,7 +206,7 @@ Weights ne sadrže lako čitljiv CIF. Da li mogu u javni repo?
 
 ## Gde proveriti detalje
 
-- hemijski identitet i veze: [poglavlja 1–4](01-atomi-joni-formule.md);
+- hemijski identitet i veze: poglavlja [1](01-atomi-joni-formule.md), [2](02-veze.md), [3](03-geometrija.md) i [4](04-organska.md);
 - koordinaciona hemija: [poglavlje 5](05-kompleksi.md);
 - interakcije, ćelija i kvalitet: [interakcije](07-interakcije.md), [ćelija](08-celija.md), [difrakcija](10-difrakcija-kvalitet.md);
 - forme, referentne raspodele i stabilnost: [čvrste forme](11-cvrste-forme.md), [Mogul/HBP](11a-referentne-raspodele-hbp.md);

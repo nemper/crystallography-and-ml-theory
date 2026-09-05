@@ -70,7 +70,7 @@ n'_{ij}=U^{-1}n_{ij}+s_i-s_j,\qquad
 A'(f'_j+n'_{ij}-f'_i)=A(f_j+n_{ij}-f_i).
 \]
 
-Celobrojnost \(U^{-1}\) čuva translacione oznake u \(\mathbb Z^3\). Ovo obuhvata i promenu predstavnika iz primera; superćelija sa većom apsolutnom determinantom dodatno zahteva atomske kopije, kao u [konstrukciji superćelije](09-simetrija.md). Formula se koristi kao zajednička stručna referenca za deterministički i neuralni deo.
+Celobrojnost \(U^{-1}\) čuva translacione oznake u \(\mathbb Z^3\). Ovo obuhvata i promenu predstavnika iz primera; superćelija sa većom apsolutnom determinantom dodatno zahteva atomske kopije, kao u [konstrukciji superćelije](08-celija.md#supercelija-2x1x1). Formula se koristi kao zajednička stručna referenca za deterministički i neuralni deo.
 
 Kristal nije samo graf asimetrične jedinice. Simetrijske operacije i translacije stvaraju periodične slike. Kontakt preko granice ćelije može biti najvažnija H-veza u mreži.
 
