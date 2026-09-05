@@ -64,7 +64,9 @@ U `N14.mol2` rastojanja od N1 do O1 i O2 su praktično jednaka:
 | N1-O1 | 1,22731 Å |
 | N1-O2 | 1,22732 Å |
 
-Ipak, oba MOL2 bond zapisa imaju tip `1`, dok je N atom tipovan kao `N.3`, a O kao `O.2`. To je formalna digitalna reprezentacija, ne potpuna teorija nitro elektronske strukture. Geometrija i bond typing ovde se ne smeju slepo izjednačiti.
+Ipak, oba MOL2 bond zapisa imaju tip `1`, dok je N atom tipovan kao `N.3`, a O kao `O.2`. Ti tipovi zajedno nisu valenciono dosledan Lewisov prikaz neutralne nitro-grupe. To je problem eksportovanog atom/bond typing-a koji treba proveriti, a ne alternativna, jednako valjana Lewisova forma.
+
+Za nitro-grupu vezanu za organski ostatak R dve uobičajene rezonantne forme su \(\mathrm{R-N^{+}(=O)-O^{-}}\), uz zamenu uloga dva O atoma u drugoj formi. N ima četiri vezna para i formalni naboj +1, jednostruko vezani O ima −1, a dvostruko vezani O nulu; grupa je ukupno neutralna. Rezonanca objašnjava delokalizaciju i slične N–O dužine, ali sama dužina ne određuje jedinstvenu digitalnu dodelu veza i naboja. Standardizacija treba da sačuva original, proveri ceo motiv i zabeleži korekciju pre računanja fingerprinta ili donor/acceptor etiketa.
 
 ## 2.5 Aromatičnost
 
