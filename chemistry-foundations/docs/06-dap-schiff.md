@@ -145,12 +145,12 @@ Fajl `2 - Kompleksi sa DAP SB.cqs` sadrži isti 18-atomski povezani motiv i još
 AT19  4M
 ```
 
-CCDC ConQuest vodič definiše `4M` kao zbir grupa `1M + 2M + TR + LN + AN`, odnosno sve metalne elemente ([ConQuest User Guide](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf)). Atom 19 je u query objektu **nepovezan**: nema vezu, kontakt, distance constraint niti uslov da pripada istoj molekulskoj komponenti kao DAP motiv.
+CCDC ConQuest vodič definiše `4M` kao zbir grupa `1M + 2M + TR + LN + AN`, pod nazivom „bilo koji metal“ ([ConQuest User Guide](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf)). Ta legacy taksonomija preko `2M` uključuje i Ge i Sb; nije potpuno ista kao svaka školska podela na metale i metaloide. Atom 19 je u query objektu **nepovezan**: nema vezu, kontakt, distance constraint niti uslov da pripada istoj molekulskoj komponenti kao DAP motiv.
 
 Tačna logika je:
 
 \[
-\text{search2} = \text{DAP motiv} \land \text{metal negde u istom CSD entry-ju}.
+\text{search2} = \text{DAP motiv} \land \text{4M element negde u istom CSD entry-ju}.
 \]
 
 Netačna, jača interpretacija bila bi:
@@ -164,7 +164,7 @@ Lokalni izvozi to potvrđuju brojčano:
 - `search1`: 2.110 rezultata;
 - `search2`: 2.038 rezultata;
 - `search2` je tačan podskup `search1` u istom redosledu nakon filtriranja;
-- razlika od 72 entry-ja je metal-free deo `search1`;
+- razlika od 72 entry-ja je deo `search1` bez `4M` elemenata, odnosno metal-free pod tom taksonomijom;
 - svih 2.038 `search2` formula sadrži bar jedan `4M` element.
 
 ## 6.8 Kontraprimeri su važniji od lakih pozitivnih primera
