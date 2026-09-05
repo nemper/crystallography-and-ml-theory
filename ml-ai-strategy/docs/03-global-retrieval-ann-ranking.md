@@ -33,6 +33,32 @@ Exact ECFP/count fingerprint + Tanimoto daje transparentnu 2D referencu. Za svak
 !!! warning "Prerequisite korpusa"
     Nijedan kanal ne indeksira „redove koji imaju odgovarajući format“ bez accounting-a. [Cross-format i lifecycle eligibility ugovor](09-cross-format-eligibility.md) određuje purpose-specific canonical view, fallback za entry bez SMILES/2D/3D pogleda, lifecycle inclusion politiku, denominatore i uslove pod kojima izvedeni rezultat više nije važeći.
 
+## Prvi prolaz: jedan ceo upit {#primer-celog-upita}
+
+Pretpostavimo coordination-mode query sa DAP motivom i Cu zahtevom.
+
+1. Parser napravi parent/coordination reprezentacije i prijavi ambiguity.
+2. Korisnik potvrdi da li scope zahteva samo pripadnost istom entry-ju ili koordinaciju sva tri mapirana DAP N atoma.
+3. ACL i metadata engine izdvoje dozvoljene Cu zapise.
+4. Exact motif indeks potvrdi DAP podgraf.
+5. 2D fingerprint kanal vrati kandidate do kvote izabrane prema search mode-u i recall krivi.
+6. Coordination kanal vrati zasebno budžetiran skup, uključujući neke kandidate sa nižim 2D score-om.
+7. Unija se deduplikuje, ali čuva poreklo kanala.
+8. Exact mapping proveri koji Cu je vezan za koje donor atome.
+9. Geometrija izračuna CN, uglove i distortion samo kada su koordinate dovoljne.
+10. Ranker sortira prema unapred definisanoj semantici relevantnosti koordinacionog motiva.
+11. Obrazložen rezultat odvojeno navodi:
+    - DAP subgraph coverage;
+    - Cu scope;
+    - donor mapping;
+    - geometry status;
+    - quality/missing warnings;
+    - score/model/index verzije.
+
+Kandidat sa Cu kao counterion može imati visok 2D Tanimoto, ali mora pasti na coordination dokazu. Kandidat sa različitim perifernim supstituentom može imati niži 2D score, a biti mnogo relevantniji po lokalnoj koordinaciji — razlog za multichannel retrieval.
+
+**Preduslovi i čitalački slojevi.** Za osnovni postupak dovoljni su [vektori, rastojanja i ML evaluacija](00a-osnove-ml.md). Prvi prolaz prati [mali račun pretrage](#mehanika-ann) i [MinHash potpise](#minhash-primer). Zatim kroz hemiju20 i klasični ML savladaj [stabla i boosting](02-classical-ml.md#stabla-i-boosting), pa se u drugom prolazu vrati na [stručno ocenjen upit i učenje rangiranja](#rangiranje-primer). Ugovori u §3.1 i memorijske/reproduktivne pojedinosti u §3.7–3.8 i §3.19 služe stručnom referentnom prolazu.
+
 ## 3.1 Četiri odvojena ugovora
 
 ### Ugovor reprezentacije
@@ -194,6 +220,46 @@ Visok Tanimoto može nastati zbog velikog zajedničkog dela dok je ključni dono
 
 ## 3.5 Exact referenca pre ANN-a
 
+### Iste tačke, četiri različita postupka {#mehanika-ann}
+
+**Pitanje:** kako ubrzati pronalaženje suseda, i gde se pritom može izgubiti pravi rezultat? Posmatrajmo zaseban nastavni vektorski primer sa upitom \(q=(0,0)\). Koordinate su bezdimenzioni izmišljeni deskriptori, ne atomski položaji niti tvrdnja o hemijskoj relevantnosti.
+
+| Tačka | Vektor | Kvadrat rastojanja do \(q\) |
+|---|---|---|
+| \(x_1\) | \((0{,}9,0{,}2)\) | \(0{,}81+0{,}04=0{,}85\) |
+| \(x_2\) | \((0{,}4,0{,}9)\) | \(0{,}16+0{,}81=0{,}97\) |
+| \(x_3\) | \((1{,}5,0)\) | \(2{,}25\) |
+| \(x_4\) | \((2{,}5,1)\) | \(7{,}25\) |
+| \(x_5\) | \((4,1)\) | \(17\) |
+| \(x_6\) | \((4{,}5,2)\) | \(24{,}25\) |
+
+**Exact Flat** računa svih šest rastojanja i vraća poredak \(x_1,x_2,x_3,x_4,x_5,x_6\). Kvadriranje nenegativnog rastojanja ne menja taj poredak. Ovaj potpuni rezultat je referenca (*oracle*) za aproksimaciju iste metrike.
+
+**HNSW** koristi graf susedstva da dođe do obećavajućeg dela skupa. Zamislimo ručno zadat gornji sloj \(x_5\leftrightarrow x_3\), a donji sloj sa sledećim ivicama:
+
+```text
+x6 — x5 — x3 — x2
+           |
+           x4 — x1
+```
+
+Pretraga iz \(x_5\) prelazi u \(x_3\), jer rastojanje pada sa \(17\) na \(2{,}25\). U donjem sloju razmatra \(x_2\) i \(x_4\). Sa samo jednim zadržanim najboljim kandidatom ostaje \(x_2\), a put preko udaljenijeg \(x_4\) se odbacuje: najbliži \(x_1\) nije ni pregledan. Šira pretraga koja zadrži i proširi \(x_4\) otkriva \(x_1\). Parametar `efSearch` kontroliše širinu skupa kandidata koji pretraga održava; nije broj vraćenih rezultata niti unapred tačan broj obrađenih čvorova. Ovo je namerno mali graf koji pokazuje moguć promašaj, a ne tvrdnja da bi HNSW izgradnja baš ovako povezala ovih šest tačaka. Mehanizam slojeva i zadržavanja kandidata opisuje [izvorni HNSW rad](https://arxiv.org/abs/1603.09320).
+
+**IVF-Flat** najpre deli iste tačke prema najbližem unapred naučenom predstavniku particije (*coarse centroid*). Radi ručnog računa zadajmo predstavnike \(c_1=(0,1)\), \(c_2=(2,0)\), \(c_3=(5,1)\). Njima pripadaju liste \(\{x_2\}\), \(\{x_1,x_3,x_4\}\), \(\{x_5,x_6\}\). Na primer, \(x_1\) je bliži \(c_2\) nego \(c_1\), jer su kvadratna rastojanja \(1{,}25<1{,}45\). Upit je, međutim, bliži \(c_1\): njegove kvadratne udaljenosti do predstavnika su \(1,4,26\). Zato `nprobe=1` otvara samo prvu listu i vraća \(x_2\), propuštajući \(x_1\). Sa `nprobe=2` otvara i drugu listu i nalazi \(x_1\); sa sve tri liste i bez dodatnog ograničenja skeniranja pregledao bi ceo skup. `nlist` je broj particija, a `nprobe` broj otvorenih particija po upitu.
+
+**PQ — kvantizacija po delovima (*product quantization*)** može promeniti poredak i kada su obe tačke pronađene. Podelimo svaki 2D vektor u dva jednodimenzionalna dela. Za prvi deo zadajmo rečnik predstavnika (*codebook*) \([0,1,3,5]\), a za drugi \([0,0{,}5,2,3]\), sa identifikatorima od 0 do 3. Svaki deo menjamo najbližim predstavnikom:
+
+| Tačka | Kodovi dva dela | Rekonstrukcija | Približno \(d^2(q,x)\) |
+|---|---|---|---|
+| \(x_1=(0{,}9,0{,}2)\) | \((1,0)\) | \((1,0)\) | \(1\) |
+| \(x_2=(0{,}4,0{,}9)\) | \((0,1)\) | \((0,0{,}5)\) | \(0{,}25\) |
+
+Query ostaje u punoj preciznosti, a tabeliraju se njegova rastojanja do predstavnika delova; zbir dve tabelarne vrednosti daje približno rastojanje do kodiranog kandidata. Sada \(x_2\) izgleda bliže od \(x_1\), iako exact račun kaže suprotno. Rečnici su nastavna ilustracija kompresione greške; u stvarnom PQ-u uče se nad odgovarajućim trening uzorkom. IVF-PQ dodaje ovu grešku rastojanja na već postojeće preskakanje IVF listi. Osnovu takvog računanja daje [izvorni PQ rad](https://doi.org/10.1109/TPAMI.2010.57).
+
+**Pouka:** HNSW i IVF mogu izostaviti tačku iz kandidata; PQ može pogrešno poređati pronađene tačke. Ponovni exact račun nad \(\{x_1,x_2\}\) ispravlja PQ poredak, ali nad samim \(\{x_2\}\) ne može vratiti \(x_1\). Zato se najpre meri obuhvat kandidata, zatim finalni poredak, pa tek onda memorijska korist. Ovi mali računi ne mere brzinu niti biraju najbolji indeks za stvaran korpus.
+
+### Stručni sloj: uslovi exact reference
+
 Validacija svakog približnog indeksa zahteva exact oracle nad zamrznutim evaluation snapshot-om:
 
 ```text
@@ -304,6 +370,29 @@ IVF-Flat okvirno zahteva `(4d + 8)N` bajtova za vektore i ID-jeve, plus coarse c
 PQ je racionalan samo kada je memorija stvarno ograničenje i kada IVF/PQ candidate faza ima prihvatljiv `candidate Recall@N` prema Flat oracle-u. Full-precision rerank zatim preuređuje pronađeni pool i meri finalni `Recall@K`; ne može oporaviti true neighbor koji je candidate faza izostavila.
 
 ## 3.9 MHFP6, MinHash i LSH
+
+### Od okruženja do potpisa i kandidata {#minhash-primer}
+
+**Pitanje:** možemo li veliki skup molekulskih okruženja sažeti tako da slični skupovi često dobiju isti deo potpisa? Uzmimo nastavne identifikatore okruženja \(a,b,c,d,e\), uz skupove \(Q=\{a,b,c\}\), \(B=\{a,b,d\}\), \(C=\{c,e\}\), \(D=\{b,c,d\}\). Imena objekata prate [matični primer](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/povezani-primer.md#objekti); tokeni su dodatna izmišljena reprezentacija za račun, nisu izvedeni iz spoljnog fajla niti iz geometrije primera.
+
+Za svaki skup koristimo **ista** četiri rangiranja svih tokena. Najlevlji token ima rang 1. MinHash komponenta je najmanji rang tokena koji se nalazi u datom skupu:
+
+| Permutacija, od ranga 1 do 5 | Minimum za Q | Minimum za B | Minimum za C | Minimum za D |
+|---|---|---|---|---|
+| \(a,b,c,d,e\) | \(a:1\) | \(a:1\) | \(c:3\) | \(b:2\) |
+| \(b,d,e,c,a\) | \(b:1\) | \(b:1\) | \(e:3\) | \(b:1\) |
+| \(c,e,a,d,b\) | \(c:1\) | \(a:3\) | \(c:1\) | \(c:1\) |
+| \(e,c,b,a,d\) | \(c:2\) | \(b:3\) | \(e:1\) | \(c:2\) |
+
+Potpisi su zato \(h(Q)=(1,1,1,2)\), \(h(B)=(1,1,3,3)\), \(h(C)=(3,3,1,1)\), \(h(D)=(2,1,1,2)\). Procena Jaccard sličnosti je udeo jednakih komponenti: za Q/B je \(2/4=0{,}5\), za Q/C \(1/4=0{,}25\), a za Q/D \(3/4=0{,}75\). Exact Jaccard vrednosti originalnih skupova su redom \(2/4=0{,}5\), \(1/4=0{,}25\) i \(2/4=0{,}5\): poslednji par pokazuje grešku kratkog potpisa.
+
+Za nezavisne uniformno slučajne permutacije, verovatnoća istog minimuma jednaka je Jaccard sličnosti: prvi token iz unije mora pripasti preseku. Prosek \(L\) takvih indikatora procenjuje \(J\), sa varijansom \(J(1-J)/L\) u tom idealizovanom modelu. U praktičnom kodu koriste se hash porodice, čije zavisnosti i kolizije treba proveriti; četiri ovde ručno odabrane permutacije samo objašnjavaju postupak.
+
+**Uslovna LSH grana.** Hashiranje osetljivo na lokalnost (*locality-sensitive hashing*) može potpise podeliti u dve trake (*bands*) po dve komponente. Kandidat se bira ako se sa Q poklopi cela prva **ili** cela druga traka. B se bira preko prve \((1,1)\), D preko druge \((1,2)\), dok se C ne bira ni preko jedne. Potom se nad B i D ponovo računa exact Jaccard originalnih skupova i skuplji stručni dokazi. Propušteni C se tim ponovnim rangiranjem ne može vratiti.
+
+Uz idealno nezavisne MinHash komponente, \(b\) traka od po \(r\) komponenti daje verovatnoću kandidature \(1-(1-J^r)^b\). Za \(b=r=2\) i \(J=0{,}5\) to je \(1-(1-0{,}25)^2=0{,}4375\), ne garancija za jedan konkretan potpis. Ovde je broj komponenti \(L=br\). Duži potpis smanjuje grešku procene sličnosti, dok raspored traka određuje propuštanje kandidata i veličinu kandidatnog skupa; promena oba parametra mora razdvojiti ova dva efekta. Ovu klasičnu MinHash/LSH konstrukciju izvodi [autorski udžbenik, poglavlje 3.3–3.4](https://infolab.stanford.edu/~ullman/mmds/ch3n.pdf).
+
+### Stručni sloj: MHFP reprezentacija i dve vrste greške
 
 [MHFP6](https://doi.org/10.1186/s13321-018-0321-8) pravi set SMILES zapisa kružnih atomskih okruženja prečnika do šest veza (radijus tri), uz prstenske SMILES prema izvornom shingling pravilu, i koristi MinHash. To omogućava locality-sensitive hashing za približnu Jaccard sličnost; broj 6 nije radijus okruženja.
 
@@ -418,6 +507,37 @@ ANN score nikada nije dovoljan kao finalni naučni score. Ako je candidate vecto
 
 ## 3.13 Learning-to-rank: kada i koji model
 
+### Jedan upit, tri zapisa iste supervizije {#rangiranje-primer}
+
+**Pitanje:** šta model treba da nauči iz stručnog redosleda kandidata? Nastavljamo [isti sintetički upit Q](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/povezani-primer.md#kandidati). Ekspert daje kandidatu B ocenu 2 — vrlo koristan precedent; kandidatu C ocenu 1 — delimično koristan; kandidatu D ocenu 0 — nije koristan za definisani upit. Ocene su nastavne, vezane za isti kriterijum relevantnosti; nisu procenti niti merenja strukturalne udaljenosti.
+
+Neka \(x(Q,j)\) sadrži dostupne dokaze o upitu i kandidatu \(j\), a \(s_j=f(x(Q,j))\) bude skor modela. Iste ocene daju različite jedinice supervizije:
+
+| Pristup | Zapis trening uzorka | Šta ulazi u gubitak | Šta model predviđa |
+|---|---|---|---|
+| pointwise — pojedinačni red | \((Q,B,2),(Q,C,1),(Q,D,0)\) | predikcija i ocena svakog reda; npr. regresiono \((s_j-y_j)^2\), ili odgovarajući klasifikacioni/ordinalni gubitak | ocenu, distribuciju klasa ili skor kandidata |
+| pairwise — preferencija za isti upit | \((Q,B\succ C),(Q,B\succ D),(Q,C\succ D)\) | razlika dva skora; npr. \(\ln(1+\exp(-(s_i-s_j)))\) kada \(i\succ j\) | skorove čije razlike uređuju kandidate |
+| listwise — cela lista upita | \((Q,[B,C,D],[2,1,0])\) | svi skorovi i ocene grupe; npr. cross-entropy između softmax raspodela ocena i skorova | međusobno usklađene skorove i rang-listu |
+
+Listwise primer bira \(p_j=\exp(y_j)/\sum_k\exp(y_k)\), \(\hat p_j=\exp(s_j)/\sum_k\exp(s_k)\) i \(-\sum_jp_j\ln\hat p_j\); to je jedna konkretna konstrukcija, ne definicija svakog listwise metoda. [Logaritamski i softmax uvod](00a-osnove-ml.md#log-exp-softmax) objašnjava ove operacije. Sva tri reda/preferencije dele upit, pa nisu tri nezavisne hemijske grupe.
+
+**Par u App 2 je druga jedinica.** Labela „kristali B i C imaju isti parent graf“ odnosi se na jednu relaciju dva kristala. Preferencija \(B\succ C\mid Q\) poredi korisnost **dva kandidata za treći, zajednički upit**. Binarne App 2 labele postaju ranking ocene tek ako zaseban protokol definiše upit, kandidate i njihovu relevantnost; ne pretvaraju se u preferencije nasumičnim spajanjem parova.
+
+### Zašto zamena na vrhu menja nDCG
+
+Izaberimo \(gain(y)=2^y-1\), popust \(1/\log_2(r+1)\) za poziciju \(r\) i cutoff 3. Sve tri ocene su poznate. Tada
+
+\[
+DCG@3=\sum_{r=1}^{3}\frac{2^{y_r}-1}{\log_2(r+1)},\qquad
+nDCG@3=\frac{DCG@3}{IDCG@3}.
+\]
+
+Idealna lista B,C,D ima \(IDCG=3+1/\log_2 3+0=3{,}63093\). Lista C,B,D ima \(DCG=1+3/\log_2 3=2{,}89279\), pa \(nDCG=0{,}79671\). Zamena prva dva mesta košta \(0{,}20329\) nDCG jedinica. Zamena donja dva mesta daje B,D,C, \(DCG=3+1/2=3{,}5\) i \(nDCG=0{,}96394\): gubitak je samo \(0{,}03606\). To pokazuje dejstvo izabrane gain/discount formule; nije univerzalna tvrdnja da su sve greške pri vrhu uvek veće.
+
+Ako retrieval propusti C i vrati samo B,D, idealni denominator za end-to-end nDCG ostaje definisan poznatim ocenama B,C,D; ne smanjuje se na preživeli skup da bi promašaj nestao. U kontrolisanom eksperimentu samo sa rerankerima može se zasebno koristiti zajednički zamrznut kandidatni skup, ali se to tako imenuje. LambdaMART u nastavku povezuje značaj zamena sa sekvencijalnim korekcijama već objašnjenim u [boostingu](02-classical-ml.md#stabla-i-boosting).
+
+### Stručni sloj: izbor porodice i granice labela
+
 ### Režim bez labela
 
 Koristi se verzionisana transparentna formula ili lexicographic pravilo po search mode-u. Na primer:
@@ -489,7 +609,7 @@ Boosted trees mogu dobiti monotone constraints, ali samo za bezuslovno poznate o
 
 ### Semantika labele
 
-Svaka ocena mora biti vezana za query, search mode i kandidata, uz grade, rastavljive graph/coordination/geometry/packing odluke, razloge, anotatore, adjudikaciju i stepen pouzdanosti. Tačan tehnički format je implementacioni izbor.
+Svaka ocena mora biti vezana za query, search mode i kandidata, uz grade, rastavljive graph/coordination/geometry/packing odluke, razloge, anotatore, adjudikaciju i stepen pouzdanosti.
 
 Ocena `2` u scaffold mode-u nije ista semantika kao `2` u packing mode-u. Zato su potrebni odvojeni rankeri ili eksplicitan mode input i zasebne slice metrike; iz zajedničke numeričke oznake ne sledi zajednički target.
 
@@ -641,29 +761,11 @@ Svi modeli u jednom poređenju dobijaju isti training/test candidate-pool policy
 
 ## 3.18 Primer jednog query-ja
 
-Pretpostavimo coordination-mode query sa DAP motivom i Cu zahtevom.
-
-1. Parser napravi parent/coordination reprezentacije i prijavi ambiguity.
-2. Korisnik potvrdi da li scope zahteva samo pripadnost istom entry-ju ili koordinaciju sva tri mapirana DAP N atoma.
-3. ACL i metadata engine izdvoje dozvoljene Cu zapise.
-4. Exact motif indeks potvrdi DAP podgraf.
-5. 2D fingerprint kanal vrati kandidate do kvote izabrane prema search mode-u i recall krivi.
-6. Coordination kanal vrati zasebno budžetiran skup, uključujući neke kandidate sa nižim 2D score-om.
-7. Unija se deduplikuje, ali čuva poreklo kanala.
-8. Exact mapping proveri koji Cu je vezan za koje donor atome.
-9. Geometrija izračuna CN, uglove i distortion samo kada su koordinate dovoljne.
-10. Ranker sortira prema unapred definisanoj semantici relevantnosti koordinacionog motiva.
-11. Obrazložen rezultat odvojeno navodi:
-    - DAP subgraph coverage;
-    - Cu scope;
-    - donor mapping;
-    - geometry status;
-    - quality/missing warnings;
-    - score/model/index verzije.
-
-Kandidat sa Cu kao counterion može imati visok 2D Tanimoto, ali mora pasti na coordination dokazu. Kandidat sa različitim perifernim supstituentom može imati niži 2D score, a biti mnogo relevantniji po lokalnoj koordinaciji — razlog za multichannel retrieval.
+Ceo coordination-mode upit nalazi se [na početku lekcije](#primer-celog-upita). Nakon ovog prolaza njegovih jedanaest koraka povezuju se sa odvojenim ugovorima reprezentacije, metrike, indeksa i relevantnosti. [Nastavljeni sintetički primer](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/povezani-primer.md#evaluacija) dodaje proverljive imenioce: propušten relevantan kandidat C ostaje retrieval greška i kada je pronađeni B ispravno poređen i stavljen prvi.
 
 ## 3.19 Kategorije reproducibilnosti
+
+Ovaj referentni sloj prati centralnu [granicu teorije i implementacije](00-scope.md#granica-izmeu-strategije-i-implementacije).
 
 Reproduktivna definicija retrieval rezultata povezuje:
 
@@ -679,7 +781,7 @@ Reproduktivna definicija retrieval rezultata povezuje:
 
 Indeks je izvedeni prikaz, ne source of truth. Promena standardizacije, aromaticity modela, fingerprint parametra, embedding weights-a, distance normalizacije ili corpus/permission konteksta znači da stari izvedeni rezultat više nije ista eksperimentalna konfiguracija. Mešanje nekompatibilnih verzija reprezentacije, mape entiteta, indeksa i rankera nije validno poređenje.
 
-Za IVF/PQ reproduktivnost uključuje training sample, centroid/codebook/OPQ definiciju i seed; za HNSW uključuje insertion ordering i thread režim. Cost poređenje dodatno navodi cold/warm stanje, batch/concurrency uslove i peak memoriju. Tačan zapis, cache ključ i lifecycle mehanizam su implementacioni izbori, a ne algoritamska specifikacija.
+Za IVF/PQ reproduktivnost uključuje training sample, centroid/codebook/OPQ definiciju i seed; za HNSW uključuje insertion ordering i thread režim. Cost poređenje dodatno navodi cold/warm stanje, batch/concurrency uslove i peak memoriju.
 
 Faiss dokumentuje da paralelni HNSW `add` ima nespecificiran ordering i da neke numeričke operacije nisu bit-exact između okruženja ([reproducibility napomene](https://github.com/facebookresearch/faiss/wiki/Threads-and-asynchronous-calls)). Zato seed i konfiguracija sami nisu dovoljni za audit stvarno korišćenog artefakta.
 
