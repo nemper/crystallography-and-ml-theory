@@ -12,7 +12,7 @@ Tražimo kandidate koji dele označeno molekulsko jezgro sa upitom **Q**, uz sli
 | Objekat | Glavna komponenta | Dodatna komponenta | Značenje |
 |---|---|---|---|
 | Q | 4 teška atoma: C₁, N₂, O₃, C₄ | jedan predstavnik O dodatne komponente W | upit |
-| Q* | isti atomi, veze i komponente kao Q, promenjen redosled i koordinatni okvir | ista W | drugi zapis istog fizičkog objekta |
+| Q\* | isti atomi, veze i komponente kao Q, promenjen redosled i koordinatni okvir | ista W | drugi zapis istog fizičkog objekta |
 | B | 5 teških atoma: odgovarajuće jezgro C₁, N₂, O₃ i dva dodatna C | odgovarajuća W | analog, sa stvarno promenjenim fragmentom i geometrijom |
 | C | označeno jezgro dostupno u 2D pogledu | nema podataka potrebnih za periodično poređenje | relevantan kandidat za molekulsko pitanje |
 | D | nema traženog označenog jezgra | nije bitno za ovaj upit | nerelevantan kandidat |
@@ -25,9 +25,9 @@ Izvorni nastavni opis Q čuva sve komponente, njihove veze, koordinate i oznaku 
 
 | Pogled | Šta je dostupno | Dopušten zaključak |
 |---|---|---|
-| označeni 2D graf | Q, Q*, B, C i D | podudaranje motiva i grafovska pokrivenost |
-| koordinate mapiranog jezgra | Q, Q* i B | RMSD tog jezgra nakon poravnanja |
-| nastavna skica susednih centara | Q, Q* i B | razlika u navedenim položajima suseda |
+| označeni 2D graf | Q, Q\*, B, C i D | podudaranje motiva i grafovska pokrivenost |
+| koordinate mapiranog jezgra | Q, Q\* i B | RMSD tog jezgra nakon poravnanja |
+| nastavna skica susednih centara | Q, Q\* i B | razlika u navedenim položajima suseda |
 | pun periodični eksperimentalni model | nijedan objekat ovog primera | nema stvarnog packing/COMPACK rezultata |
 
 Za C je molekulsko pitanje ocenjivo, dok periodično ostaje **nije ocenjeno: nedostaje ulaz**. Taj status nije dokaz različitog pakovanja niti numerička nula. Nastavak: [izbor reprezentacije](14-reprezentacije.md#147-multimodalni-zapis-ne-jedna-magicna-reprezentacija).
@@ -49,7 +49,7 @@ Zašto se komponentna mapa traži globalno prikazuje [mala matrica dodele](19-pa
 
 Sva rastojanja su u Å. Koordinate jezgra Q su:
 
-| Mapirani atom | Q | Q* | B |
+| Mapirani atom | Q | Q\* | B |
 |---|---|---|---|
 | C₁ | (0; 0; 0) | (5; −1; 0) | (5; −1; 0) |
 | N₂ | (2; 0; 0) | (5; 1; 0) | (5; 1,2; 0) |
@@ -62,7 +62,7 @@ R=\begin{pmatrix}0&-1&0\\1&0&0\\0&0&1\end{pmatrix},\qquad
 t=(5,-1,0)^T,\qquad q_i^*=Rq_i+t.
 \]
 
-To je rotacija od 90° oko z-ose, sa determinantom +1, pa ne uključuje refleksiju. Za Q* se istim pravilom transformiše **ceo** fizički model, uključujući dodatnu komponentu i susede. Menjanje samo glavnog molekula unutar nepomerene okoline ne bi bilo isto prekodiranje kristala.
+To je rotacija od 90° oko z-ose, sa determinantom +1, pa ne uključuje refleksiju. Za Q\* se istim pravilom transformiše **ceo** fizički model, uključujući dodatnu komponentu i susede. Menjanje samo glavnog molekula unutar nepomerene okoline ne bi bilo isto prekodiranje kristala.
 
 Težište mapiranog jezgra Q je \(\bar q=(2/3,2/3,0)\). Njegove centrirane koordinate su:
 
@@ -71,7 +71,7 @@ p_1=(-2/3,-2/3,0),\quad p_2=(4/3,-2/3,0),\quad
 p_3=(-2/3,4/3,0).
 \]
 
-Težište Q* je \((13/3,-1/3,0)\). Posle oduzimanja tog težišta i primene \(R^T\), Q* daje upravo \(p_i\). Zato je **RMSD(Q,Q*) = 0 Å**, uz poznatu mapu svih izabranih atoma. To proverava ekvivalentnost zapisa.
+Težište Q\* je \((13/3,-1/3,0)\). Posle oduzimanja tog težišta i primene \(R^T\), Q\* daje upravo \(p_i\). Zato je **RMSD(Q,Q\*) = 0 Å**, uz poznatu mapu svih izabranih atoma. To proverava ekvivalentnost zapisa.
 
 U B je jezgro uvećano za faktor 1,1 pre iste rotacije i translacije: \(b_i=R(1,1q_i)+t\). Njegovo težište je \((64/15,-4/15,0)\). Posle centriranja i povratne rotacije dobijamo \(1,1p_i\); preostala odstupanja su \(0,1p_i\). U poravnanju ne dopuštamo skaliranje, jer bi ono sakrilo stvarnu geometrijsku razliku.
 
@@ -94,17 +94,17 @@ Ovde je poznata povratna rotacija i optimalna rigidna rotacija za ovaj uniformno
 | isto jezgro / teški atomi celog opisa sa W | 3/5 = 60% | 3/6 = 50% |
 | komponentno dodeljene komponente / sve komponente | 2/2 | 2/2 |
 
-Komponentna dodela W→W ne dodaje automatski W u RMSD jezgra. Potpuno poklapanje Q–Q* može se proveriti nad svim atomima; račun iz tabele koordinata pokazuje samo tri izabrana. Nastavak: [tumačenje RMSD-a](15-slicnost.md#154-rmsd-i-geometrijska-slicnost) i [poređenje parova](19-parovi.md#geometrijsko-poredenje).
+Komponentna dodela W→W ne dodaje automatski W u RMSD jezgra. Potpuno poklapanje Q–Q\* može se proveriti nad svim atomima; račun iz tabele koordinata pokazuje samo tri izabrana. Nastavak: [tumačenje RMSD-a](15-slicnost.md#154-rmsd-i-geometrijska-slicnost) i [poređenje parova](19-parovi.md#geometrijsko-poredenje).
 
 ## Molekul i njegovo okruženje
 
-Zamisli susedne molekulske centre u okviru poravnatog jezgra Q na pomerajima (4;0;0) i (0;4;0), a u B na (4;0;0) i (0;5;0) Å. Jedan pomeraj je isti, drugi se razlikuje za 1 Å. U Q* se oba suseda rotiraju i transliraju zajedno sa Q i posle povratne transformacije ostaju ista.
+Zamisli susedne molekulske centre u okviru poravnatog jezgra Q na pomerajima (4;0;0) i (0;4;0), a u B na (4;0;0) i (0;5;0) Å. Jedan pomeraj je isti, drugi se razlikuje za 1 Å. U Q\* se oba suseda rotiraju i transliraju zajedno sa Q i posle povratne transformacije ostaju ista.
 
 Ovo pokazuje zašto slična molekulska geometrija ne određuje raspored suseda. **Dva centra nisu periodični kristalni klaster, a ova skica nije COMPACK proračun.** Za jači zaključak nedostaju kompletne molekulske orijentacije, ćelija, simetrija, politika klastera i validirano poređenje. Jedan izmereni pomeraj ne dokazuje polimorfizam.
 
 ## Jedan uspešan par i jedan propušten kandidat {#kandidati}
 
-Za nastavno molekulsko pitanje stručna rubrika dodeljuje B ocenu **2** (najrelevantniji), C ocenu **1** (relevantan) i D ocenu **0**. Ocene su zadate za vežbu, nisu rezultat stvarne ekspertize. Sva tri kandidata su ocenjena; pozitivna relevantnost znači ocena > 0. Q* se ne broji kao nezavisna struktura u evaluacionom korpusu.
+Za nastavno molekulsko pitanje stručna rubrika dodeljuje B ocenu **2** (najrelevantniji), C ocenu **1** (relevantan) i D ocenu **0**. Ocene su zadate za vežbu, nisu rezultat stvarne ekspertize. Sva tri kandidata su ocenjena; pozitivna relevantnost znači ocena > 0. Q\* se ne broji kao nezavisna struktura u evaluacionom korpusu.
 
 Pretpostavimo da iscrpna pretraga izabranog deskriptora daje top-2 **[B,C]**, a kandidatski indeks vraća **[B,D]**. Naknadno rangiranje uspešno stavlja B na prvo mesto, a poređenje Q–B iz prethodnog koraka daje RMSD 0,1333 Å sa navedenom pokrivenošću. C se nije našao među kandidatima; rangiranje ne može da vrati kandidata koji mu nije dostavljen.
 
@@ -119,6 +119,6 @@ Brojevi prva dva reda su slučajno jednaki: exact lista potiče iz deskriptora, 
 
 ## Šta bi evaluacija morala da proveri {#evaluacija}
 
-Za ovaj upit razlikujemo uspešno ocenjen par Q–B od propuštenog relevantnog C i neocenjenog periodičnog nivoa. Za generalizaciju su potrebni dodatni nezavisni upiti/familije; Q i Q* uvek ostaju u istoj grupi. Model, njegov kalibrator i pragovi biraju se pre završnog testa.
+Za ovaj upit razlikujemo uspešno ocenjen par Q–B od propuštenog relevantnog C i neocenjenog periodičnog nivoa. Za generalizaciju su potrebni dodatni nezavisni upiti/familije; Q i Q\* uvek ostaju u istoj grupi. Model, njegov kalibrator i pragovi biraju se pre završnog testa.
 
 Vežba proverava da li su brojioci, imenioci, mapa i naučno pitanje dosledni. **Jedan upit i jedan geometrijski par ne određuju interval pouzdanosti niti dokazuju superiornost metode.** Za sledeći korak pročitaj [grupno resamplovanje](20-evaluacija.md#grupno-resamplovanje), a zatim [ML evaluaciju](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/06-metric-learning-and-evaluation.md).
