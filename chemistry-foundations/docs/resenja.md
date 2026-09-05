@@ -100,7 +100,7 @@ Za L5 ne postoji unapred zadata lista „pravih“ interakcija bez izabranog kon
 - drugi dodaje atom 19 tipa `4M`;
 - `4M` je ConQuest legacy element-grupa nazvana „all metals“, koja uključuje i Ge/Sb; koristi se softverska definicija, ne univerzalna podela elemenata na metale i nemetale;
 - atom 19 je nepovezana query component;
-- minimalni zaključak: isti CSD entry sadrži motiv i metal;
+- minimalni zaključak: isti CSD entry sadrži motiv i element iz `4M` grupe, uz navedenu softversku definiciju;
 - metal–DAP koordinacija zahteva zasebnu proveru connectivity/geometrije i component membership-a.
 
 ## L7 — ključne forenzičke vrednosti
