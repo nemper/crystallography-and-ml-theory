@@ -26,8 +26,7 @@
 }
 
 .md-typeset .mermaid-course {
-  display: flex;
-  justify-content: center;
+  display: block;
   max-width: 100%;
   margin: 1rem 0;
   overflow-x: auto;
@@ -37,8 +36,16 @@
 }
 
 .md-typeset .mermaid-course svg {
-  max-width: 100%;
+  display: block;
+  max-width: none;
   height: auto;
+  /* Auto margins center small diagrams without hiding an overflowing left edge. */
+  margin-inline: auto;
+}
+
+.md-typeset .mermaid-course:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
 }
 
 .md-typeset mjx-container[jax="CHTML"] {
