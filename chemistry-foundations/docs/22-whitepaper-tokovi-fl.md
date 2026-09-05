@@ -103,6 +103,10 @@ Raw CIF ne mora da napusti lokaciju, ali kroz mrežu i dalje prolaze model/updat
 
 [Deep Leakage from Gradients](https://proceedings.neurips.cc/paper_files/paper/2019/file/60a6c4002cc7b29142def8871531281a-Paper.pdf) je konkretan dokaz da update informacije mogu otkriti trening input u određenim uslovima. Secure aggregation skriva pojedinačne update-e od koordinatora pod svojim threat model-om; ne štiti automatski endpoint, finalni model, malicious clients niti rešava licencu.
 
+**Diferencijalna privatnost (DP)** postavlja formalnu granicu tome koliko se raspodela objavljenog izlaza može promeniti kada se doda ili ukloni jedna unapred definisana zaštićena jedinica. Parametri \(\varepsilon\) i \(\delta\) opisuju tu granicu; nisu procenat „privatnosti“ niti mera tačnosti modela. Najpre se mora odrediti da li štitimo jedan kristalografski zapis, celu familiju povezanih zapisa ili doprinos jedne institucije. Garancija za pojedinačni zapis ne postaje automatski garancija za celu instituciju.
+
+U DP-SGD primeru **clipping** ograničava normu doprinosa gradijenta pojedinačnog primera, a zatim se dodaje odgovarajuće podešen slučajan šum i prati kumulativni gubitak privatnosti kroz korake učenja ([Abadi et al. 2016](https://research.google/pubs/deep-learning-with-differential-privacy/)). Sam clipping, grupisanje primera u batch ili proizvoljan šum nisu dokaz DP-a. Secure aggregation može sakriti pojedinačne doprinose tokom sabiranja; DP ograničava šta se može zaključiti iz objavljenog rezultata pod navedenom definicijom susednih skupova. Zbog toga se ove kontrole mogu dopunjavati.
+
 ### Hemijska heterogenost je centralni, ne sporedni problem
 
 Za partnerske podatke ne sme se bez provere pretpostaviti IID — da su primeri nezavisni i potiču iz iste raspodele. Partneri mogu biti heterogeni zato što:
