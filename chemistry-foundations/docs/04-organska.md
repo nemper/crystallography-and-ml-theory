@@ -34,7 +34,7 @@ Iz prvog lokalnog CSD zapisa, `CAPHAG`, sistematsko ime opisuje pyridine-2,6-diy
 - dve bočne `C=N` jedinice;
 - promenljivim terminalnim supstituentima.
 
-Takav tridentatni N-donor raspored može koordinisati metal, ali prisustvo motiva samo po sebi ne dokazuje koordinaciju. Zato `search1` traži motiv, dok `search2` dodaje odvojeni `4M` atom-uslov za prisustvo bilo kog metala. Čak i tada treba proveriti da li je metal zaista povezan sa tri donor-atoma; "u istom kristalnom zapisu" nije isto što i "koordinisan ovim ligandom".
+Takav tridentatni N-donor raspored može koordinisati metal, ali prisustvo motiva samo po sebi ne dokazuje koordinaciju. Zato `search1` traži motiv, dok `search2` dodaje odvojeni `4M` atom-uslov za prisustvo člana ConQuest grupe „bilo koji metal“, čija taksonomija uključuje i Ge i Sb. Čak i tada treba proveriti da li je taj centar zaista povezan sa tri donor-atoma; "u istom kristalnom zapisu" nije isto što i "koordinisan ovim ligandom".
 
 ## 4.3 Kiselina i baza: dva modela koja nam trebaju
 
