@@ -94,7 +94,7 @@ MOL zato ne prenosi očiglednu iminsku/aromatičnu/nitro bond-order hemiju. MOL2
 
 Strukturne distance u CIF-u podržavaju razumnu hemiju: P–C 1,841–1,853 Å uz trigonalno-piramidalni P(III) centar; nitro N–O 1,2272/1,2274 Å; hydrazone-like C=N 1,2825 Å i N–N 1,3608 Å. Ove tvrdnje se ne bi smele rekonstruisati iz V2000 bond orders ovog konkretnog MOL fajla.
 
-<div class="project-link">
+<div class="project-link" markdown="1">
 **Pouka za parsiranje:** `cu_n14_a.cif` pokazuje da mali koordinatni model može biti upakovan sa višemegabajtnim semicolon-delimited HKL blokom. Resource-bounded čitanje i razlikovanje refleksionog teksta od hemijskih reprezentacija zato su bezbednosno i naučno važni; ova činjenica ne propisuje parser arhitekturu niti konkretan fixture.
 </div>
 
@@ -333,7 +333,7 @@ local audit: August 2026; ponovljena provera agregata September 2026
 
 Pretraga pokrenuta 2026. nad instalacijom iz 2022. **nije CSD snapshot iz 2026.** Raspon publication year-a lokalnih rezultata 1967–2022 dodatno je konzistentan sa starim cutoff-om.
 
-<div class="project-link">
+<div class="project-link" markdown="1">
 **Pouka za provenance:** release baze, verzija query alata, vreme pokretanja pretrage, vreme eksporta i vreme kasnije analize predstavljaju različite događaje. Njihovo stapanje u jednu oznaku „datum skupa“ napravilo bi ozbiljnu provenance grešku i pokvarilo temporalnu evaluaciju. Ovo je semantički zahtev, ne predlog naziva polja.
 </div>
 

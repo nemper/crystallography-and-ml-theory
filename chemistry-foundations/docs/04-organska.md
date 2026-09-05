@@ -131,7 +131,7 @@ Canonical SMILES može grupisati samo ono što je zapisano njegovim stereooznaka
 
 ## 4.8 Posledice za aplikacije
 
-<div class="project-link">
+<div class="project-link" markdown="1">
 **Filteri:** elementi i formula se dopunjuju functional-group/substructure filterima. DAP motiv je eksplicitni podgraf; "metal complex" zahteva proveru metal-ligand povezanosti/okruženja, ne samo metal u formuli.
 
 **Feature-i:** broj donora, acceptora, rotatable bonds, aromatic rings i formal charge su korisni samo uz dokumentovanu protonation/aromaticity policy.

@@ -113,7 +113,7 @@ Donorska sposobnost može da se promeni kada:
 - ligand koristi samo jedan ili dva N, premošćuje više metala ili ostane nekoordinisan;
 - konkurentni anjoni/rastvarači zauzmu koordinaciona mesta.
 
-<div class="project-link">
+<div class="project-link" markdown="1">
 **Semantička posledica:** potencijalna tri donorska mesta liganda moraju se razlikovati od stvarno opažene dentatnosti i mapiranih M–N odnosa u konkretnom kompleksu. Jedna neobjašnjena etiketa „denticity = 3“ izgubila bi razliku između dizajna liganda i opažene strukture.
 </div>
 

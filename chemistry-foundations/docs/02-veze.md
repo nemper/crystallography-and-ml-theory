@@ -184,7 +184,7 @@ Kod rendgenske kristalografije direktno se meri difrakcija, iz nje se modeluje e
 
 ## 2.9 Posledice za aplikacije
 
-<div class="project-link">
+<div class="project-link" markdown="1">
 **Pre bilo kog fingerprinta:** definiši politiku za formalne naboje, protonaciju, implicitne H, aromatičnost, delokalizovane i metal-ligand veze. Čuvaj i original i standardizovanu reprezentaciju, uz verziju softvera i upozorenja.
 
 **Za poređenje:** odvoji "ista povezanost pod našom normalizacijom" od "isti zapis bond tipova". Neslaganje parsera mora biti dijagnostika, ne automatski hemijska razlika.

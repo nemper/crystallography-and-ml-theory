@@ -28,7 +28,7 @@ Na primer, azot može da donira slobodni elektronski par cinku. Strelica `N → 
 | „Metal je vezan za neki azot“ | konkretna M–N veza ili geometrijski potvrđen kontakt |
 | „DAP Schiff-base ligand koordinira metal preko N3 džepa“ | mapirana su baš tri ciljna DAP azota i potvrđena njihova veza sa istim metalom |
 
-<div class="project-link">
+<div class="project-link" markdown="1">
 **Projektna posledica:** filter „metal prisutan“ ne sme u korisničkom interfejsu da bude nazvan „metal koordinisan ligandu“. To su različite operacije nad različitim slojevima podataka.
 </div>
 
@@ -233,7 +233,7 @@ Ako je razmak \(\Delta_o\) mali prema dodatnoj energiji sparivanja \(P\), isplat
 
 CAPHEK sadrži Zn(II), približno \(d^{10}\). Njegovu intermedijarnu petokoordinisanu geometriju zato ne treba automatski nazvati spin- ili first-order Jahn–Teller efektom; ligandna arhitektura, sterika, koordinacione veze i packing ostaju stvarni uzroci koje treba proveriti.
 
-<div class="project-link">
+<div class="project-link" markdown="1">
 **Za similarity model:** metal, oxidation state/\(d^n\), spin kada je eksperimentalno ili pouzdano anotiran, donor set, CN, continuous-shape mera i pojedinačne distance moraju biti odvojeni feature-i. Elektronski očekivana distorzija nije „šum koji treba ispeglati“. Za lanthanide/actinide centre, hapticitet i metalne klastere aktiviraj poseban applicability flag umesto nasilnog primenjivanja ovog jednostavnog \(d\)-orbitalnog modela.
 </div>
 
@@ -270,7 +270,7 @@ Za lokalni CAPHEK dva najveća ugla su 147,436° i 128,705°:
 
 To je distordovana/intermedijarna petokoordinaciona geometrija, bliža kvadratno-piramidalnom kraju mere nego trigonalno-bipiramidalnom. Ne treba je proglasiti idealnom geometrijom samo na osnovu `CN = 5`.
 
-<div class="project-link">
+<div class="project-link" markdown="1">
 **Dokazna posledica:** zaključak o geometriji treba da se može povezati sa M–D distancama, D–M–D uglovima, mapiranjem atoma, CN-om i definicijom geometrijske mere. Tekstualna etiketa „square pyramidal“ je izvedena i može biti neizvesna.
 </div>
 

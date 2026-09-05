@@ -123,7 +123,7 @@ Međutim, ne želimo nužno invarijantnost na refleksiju, promenu stereokemije, 
 
 ## 3.7 Posledice za aplikacije
 
-<div class="project-link">
+<div class="project-link" markdown="1">
 **Globalna pretraga:** 2D graf je brz i robustan prema koordinatnom frame-u; 3D deskriptori daju oblik/konformaciju, ali zahtevaju definisanu protonaciju, atom mapping i tretman conformer ensemble-a.
 
 **Poređenje parova:** vrati odvojeno molecular RMSD, torsion differences i packing match. Nikada ne nazivaj jedan RMSD "crystal similarity" ako je izračunat samo na asymmetric-unit molekulu.
