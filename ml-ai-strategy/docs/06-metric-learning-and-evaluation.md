@@ -196,7 +196,7 @@ Svaki hard negative eksplicitno navodi ciljnu relaciju. Isti par može biti nega
 
 ## 6.6 Self-supervised pretraining
 
-[Crystal Twins](https://arxiv.org/abs/2205.01893) koristi 428.275 neoznačenih struktura, CGCNN encoder, Barlow Twins objective i random perturbation/atom/edge masking; rezultat validira fine-tuned **property prediction** na sedam skupova. [CrysGNN](https://openreview.net/forum?id=Y33JsvNrn1o) pretrenira na približno 800.000 crystal graph-ova i takođe pokazuje property-prediction transfer. Njegovi node reconstruction zadaci jesu self-supervised, ali graph-level deo rekonstruiše space group i bira contrastive positive/negative preko crystal-system informacije; zato je preciznije reći **symmetry-metadata-informed pretraining**, ne potpuno label-free graph SSL. Space-group i normalizovani crystal-system podaci ulaze u shortcut, split i pretraining-overlap audit; raw export label i reported/coordinate setting ostaju zasebni provenance, ne paralelne klase. Nijedan rad sam po sebi ne dokazuje 2CDC retrieval metricu.
+[Crystal Twins](https://arxiv.org/abs/2205.01893) koristi 428.275 neoznačenih struktura, CGCNN encoder, Barlow Twins objective i random perturbation/atom/edge masking; rezultat validira fine-tuned **property prediction** na sedam skupova. [CrysGNN](https://doi.org/10.1609/aaai.v37i6.25892) pretrenira na približno 800.000 crystal graph-ova i takođe pokazuje property-prediction transfer. Njegovi node reconstruction zadaci jesu self-supervised, ali graph-level deo rekonstruiše space group i bira contrastive positive/negative preko crystal-system informacije; zato je preciznije reći **symmetry-metadata-informed pretraining**, ne potpuno label-free graph SSL. Space-group i normalizovani crystal-system podaci ulaze u shortcut, split i pretraining-overlap audit; raw export label i reported/coordinate setting ostaju zasebni provenance, ne paralelne klase. Nijedan rad sam po sebi ne dokazuje 2CDC retrieval metricu.
 
 ### Augmentation contract je target-specific
 
@@ -254,7 +254,7 @@ Bezbedne opcije su cross-match nad profile-invariantnim node/local-environment f
 
 ### Multi-output umesto jednog procenta
 
-Ilustrativni izlaz može istovremeno tvrditi da je parent graph isti uz exact dokaz, da je coordination relacija različita zbog različitog mapiranog donor seta i da packing nije ocenjen zbog nerešenog disorder-a. Svaka grana zato nosi svoj ishod, naučnu relacionu labelu samo kada je ocenjiva, probability samo kada je kalibrisana, objašnjenje razloga i evidence coverage. U tom obrascu agregatna odluka abstain-uje umesto da neocenjen packing pretvori u nulu.
+Ilustrativni izlaz može istovremeno tvrditi da je parent graph isti uz exact dokaz, da je coordination relacija različita zbog različitog mapiranog donor seta i da packing nije ocenjen zbog nerešenog disorder-a. Svaka grana zato nosi svoj ishod, naučnu relacionu labelu samo kada je ocenjiva, objašnjenje razloga i evidence coverage. Ako model daje procenu verovatnoće, izlaz nosi i status i rezultat provere kalibracije. Nekalibrisana procena i dalje je verovatnosna prognoza, ali se korisniku ne predstavlja kao potvrđeno pouzdana učestalost događaja u ciljnoj populaciji. U tom obrascu agregatna odluka abstain-uje umesto da neocenjen packing pretvori u nulu.
 
 Jedan overall model ne sme prosekom sakriti hard mismatch ili neocenjenu ključnu granu.
 
@@ -297,7 +297,7 @@ Cold query grupe \(V,C,E\) su međusobno i prema izabranom cold key-u disjunktne
 - budući release se ne koristi za hard-negative mining;
 - rezultat se zove prospective samo ako nijedan upstream artifact nije video post-cutoff strukture.
 
-Random pair split je nevalidan: `A–B` u train-u i `A–C` u testu dele endpoint i često većinu features. Efektivni uzorak je broj nezavisnih query/family/endpoint grupa, ne broj \(n(n-1)/2\) parova.
+Random pair split ne podržava ovde definisanu tvrdnju o novim endpoint-ima/familijama: `A–B` u train-u i `A–C` u testu dele endpoint i često većinu features. Predikcija **novih parova već poznatih struktura** može biti zaseban legitiman warm/warm zadatak, ali se tako imenuje, sprečava preklapanje istog/inverznog para i zadržava kontrolu zavisnosti parova. Ne predstavlja se kao cold-structure ili prospective generalizacija. Efektivni uzorak zavisi od nezavisnih query/family/endpoint grupa i njihovih zavisnosti, ne samo od broja \(n(n-1)/2\) parova.
 
 ### Zavisnost parova i intervali
 
@@ -525,7 +525,7 @@ Tačan tehnički format i infrastrukturni mehanizmi nisu naučni zahtevi; navede
 
 - jedan universal embedding za sve relacije;
 - property-pretrained latent cosine prikazan kao crystal similarity;
-- random pair split;
+- random pair split predstavljen kao test novih struktura/familija;
 - mining pre split-a ili iz validation/test pool-a;
 - svi in-batch kandidati tretirani kao negatives;
 - pretvaranje nepoznatog ili neocenjenog kandidata u oznaku nula;
