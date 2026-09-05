@@ -518,7 +518,7 @@ CCDC alat za strukturne i metadata upite; `.cqs` je binarni query/session objeka
 CCDC alati: vizuelizacija/analiza kristala; distribucije geometrije iz CSD-a; programski pristup funkcijama i podacima u granicama licence. „API“ ovde znači application programming interface, ne active pharmaceutical ingredient.
 
 **Hydrogen-bond propensity (HBP)**
-Statistički model zasnovan na funkcionalnim grupama, fitting evidence-u i logističkoj regresiji za potencijalne donor–acceptor ishode. Individual propensity, observed H-veza, network grouping i coordination score su različiti output-i; nijedan sam nije polymorph probability ili lattice energy.
+Statistički model zasnovan na funkcionalnim grupama, fitting evidence-u i logističkoj regresiji za potencijalne donor–acceptor ishode. Individual propensity, observed H-veza, network grouping i coordination score su različiti output-i; nijedan sam nije polymorph probability ili lattice energy. HBP coordination score odnosi se na ostvarivanje H-veza oko donora/prihvatilaca, a ne na metalni koordinacioni broj iz koordinacione hemije; [lekcija 11A](11a-referentne-raspodele-hbp.md) razdvaja ta značenja.
 
 **API (active pharmaceutical ingredient)**  
 Farmaceutski aktivna supstanca. U dokumentaciji uvek razjasni da li `API` znači aktivni sastojak ili programski interfejs.
@@ -651,10 +651,10 @@ U retrieval-u, recall@k meri udeo relevantnih objekata pronađenih u prvih \(k\)
 MRR naglašava rank prvog relevantnog rezultata; MAP prosečnu precision kroz relevantne pogodke; nDCG podržava graded relevance i jače vrednuje vrh rangiranja.
 
 **Calibration**  
-Saglasnost predviđene verovatnoće sa empirijskom učestalošću. Score 0,9 nije 90% verovatnoća bez kalibracije za taj domen.
+Saglasnost predviđene verovatnoće sa empirijskom učestalošću: među slučajevima kojima model dodeljuje približno 0,9 očekuje se približno 90% pozitivnih ako je dobro kalibrisan u tom domenu. Model može davati loše kalibrisane verovatnosne procene; sirov skor sličnosti nema automatski ni tu probabilističku interpretaciju.
 
 **Brier score / calibration error**  
-Brier meri kvadratnu grešku probabilističkih prognoza; calibration error grupisano odstupanje confidence-a od učestalosti. Navedi implementaciju/binning.
+Brier meri kvadratnu grešku probabilističkih prognoza, uključujući nekalibrisane procene; nije čista mera kalibracije jer zavisi i od sposobnosti razlikovanja ishoda i raspodele podataka. Calibration error meri grupisano odstupanje procena od učestalosti. Navedi implementaciju/binning; [dokumentacija o kalibraciji](https://scikit-learn.org/stable/modules/calibration.html) objašnjava zašto manji Brier ne garantuje bolju kalibraciju.
 
 **Uncertainty / evidence confidence**  
 Uncertainty opisuje neizvesnost predikcije/parametra; evidence confidence pouzdanost ulaza i reprezentacije. Visok model score može imati nizak evidence confidence.
@@ -690,7 +690,7 @@ Lokalni skupovi nisu nezavisno i isto distribuirani: različite laboratorije ima
 Kriptografski protokol kojim server uči agregat update-a bez uvida u pojedinačni update, pod modelom pretnji. Ne sprečava sve inferencije iz konačnog modela/agregata.
 
 **Differential privacy (DP)**  
-Formalna statistička garancija ograničenog uticaja jednog zapisa/učesnika, uz parametre \(\varepsilon,\delta\), clipping i noise. Privatnost ima kumulativni budžet i utility trade-off.
+Formalna granica promene raspodele objavljenog izlaza između susednih skupova koji se razlikuju za unapred definisanu zaštićenu jedinicu, npr. zapis ili učesnika, uz parametre \(\varepsilon,\delta\). Garancija zavisi od te definicije i kumulativnog obračuna privatnosti. Clipping gradijenata i odgovarajuće podešen šum čine jedan ML postupak, DP-SGD, a nisu sama definicija ili dovoljan dokaz DP-a; vidi [objašnjenje u lekciji 22](22-whitepaper-tokovi-fl.md).
 
 **Gradient/model leakage**  
 Mogućnost rekonstrukcije ili inferencije o podacima iz gradients, update-a, modela ili izlaza. „Nismo poslali raw CIF“ nije dokaz bezbednosti.
