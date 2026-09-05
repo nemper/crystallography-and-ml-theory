@@ -4,6 +4,32 @@
 
 ## 4.1 Ugljenični skelet i funkcionalne grupe
 
+### Tri različite donorske uloge {#donorske-uloge}
+
+**Pitanje:** šta tačno „donor“ daje? Isti atom može imati više uloga, ali one se proveravaju odvojeno:
+
+| Proces | Skica | Šta znači donor, a šta akceptor? |
+|---|---|---|
+| koordinacija metalu | `N: → M` | N kao Lewisova baza donira slobodni elektronski par metalnom centru koji ga prima |
+| vodonična veza | `D–H···A` | D–H je H-donorska grupa, D donor-atom sa vezanim H; A je H-akceptor čija elektronska gustina učestvuje u interakciji sa H |
+| Brønstedovo kiselo-bazno reagovanje | `D–H + :B ⇌ D⁻ + H–B⁺` | kiselina predaje proton H⁺ bazi; skica je bilans za neutralne početne D–H i B |
+
+Dvotačka označava slobodni elektronski par; tačkasta linija označava kandidata za vodoničnu vezu. **Vodonična veza ne podrazumeva nužno prenos protona**: u osnovnom prikazu H ostaje vezan za D. Koordinaciono donorstvo odnosi se na elektronski par, a H-donorstvo na D–H grupu; zato reč „donor“ bez dopune nije dovoljna.
+
+### Mali primer: piridin → piridinijum
+
+Piridinski N ima slobodni par izvan aromatičnog sistema. Pri protonaciji taj par gradi N–H vezu: `piridin-N: + H⁺ ⇌ piridin-NH⁺`.
+
+| Mesto u navedenom hemijskom stanju | Donor para metalu | H-akceptor | H-donor |
+|---|---|---|---|
+| N neutralnog piridina | tipično da | tipično da | ne, nema N–H |
+| N piridinijuma | ne preko ranijeg slobodnog para | ne u uobičajenoj klasifikaciji | da, ima N–H |
+| O neutralnog karbonila | moguće, zavisi od metala i okruženja | tipično da | ne, nema O–H |
+
+Piridinijum može u kiselo-baznoj reakciji predati proton odgovarajućoj bazi; samo opažanje njegove N–H···A geometrije ne dokazuje da se to dogodilo. Raspoloživost para objašnjava [π-brojanje piridina i pirola](02-veze.md#25-aromaticnost), a [geometrija vodonične veze](07-interakcije.md#vodonicna-veza-donor-vodonik-akceptor-i-geometrija) kasnije dodaje rastojanja i ugao. Sledeća tabela opisuje tipične mogućnosti; protonacija, rezonanca i koordinacija mogu promeniti konkretnu ulogu.
+
+### Tabela funkcionalnih grupa
+
 **Funkcionalna grupa** je lokalni raspored atoma sa prepoznatljivim hemijskim ponašanjem. Za projekat su najvažnije:
 
 | Grupa/motiv | Prepoznavanje | Zašto je važno |
@@ -11,19 +37,19 @@
 | alkane/alkyl | pretežno C-C/C-H single veze | fleksibilnost, disperzija, rotatable bonds |
 | alkene/alkyne | C=C / C≡C | rigidnost, geometrija, stereokemija |
 | arene | aromatični karbociklus | planarnost, delokalizacija, π kontakti |
-| heteroarene | aromatični prsten sa N/O/S | donor/acceptor svojstva; npr. pyridine N |
-| alcohol/phenol | O-H | H-bond donor i često acceptor; acid-base kontekst |
-| ether | C-O-C | acceptor, fleksibilnost |
-| carbonyl | C=O | jak dipol; acceptor; osnova aldehida/ketona |
+| heteroarene | aromatični prsten sa N/O/S | piridinski N: tipično metalni donor i H-akceptor; pirolski N–H: H-donor |
+| alcohol/phenol | O-H | H-donor i često H-akceptor; mogućnost koordinacije preko O zavisi od protonacije i okruženja |
+| ether | C-O-C | H-akceptor i mogući metalni donor preko O; nije H-donor preko tog O; fleksibilnost |
+| carbonyl | C=O | jak dipol; O je H-akceptor i mogući metalni donor, bez O–H nije H-donor; osnova aldehida/ketona |
 | carboxylic acid/carboxylate | COOH / COO⁻ | protonacija, soli, rezonanca, snažne mreže |
-| ester/amide | C(=O)O / C(=O)N | rezonanca menja bazičnost i rotacionu rigidnost; neutralni amide N obično nije H-bond acceptor niti tipičan metalni donor, ali N-H može biti H-bond donor; carbonyl O je acceptor |
-| amine | N sa single vezama/lone pair | baza i ligand, osim kada je lone pair delokalizovan/protonovan |
-| imine | C=N | DAP Schiff-base motiv; geometrija i N donor |
+| ester/amide | C(=O)O / C(=O)N | rezonanca menja bazičnost i rotacionu rigidnost; neutralni amidni N obično nije H-akceptor niti tipičan metalni donor, ali N–H može biti H-donor; karbonilni O je H-akceptor i moguće koordinaciono mesto |
+| amine | N sa single vezama/lone pair | slobodni par: Lewisova baza, mogući metalni donor i H-akceptor; N–H: mogući H-donor; protonacija menja uloge |
+| imine | C=N | DAP Schiff-base motiv; neutralni iminski N tipično je metalni donor i H-akceptor; H-donorstvo zahteva vezani H |
 | nitro | vezani \(\mathrm{NO_2}\) rezonantni sistem | formalni naboji, približno jednake N-O veze, jak polarni motiv |
 | halogen | C-F/Cl/Br/I ili halidni jon | veličina, polarizabilnost, anion/ligand, halogen bonding |
 | phosphine/phosphoryl motivi | P sa organskim/O susedima | promenljiva valenca, ligand/dipol; zahteva tačno tipovanje |
 
-[OpenStax Organic Chemistry: functional groups](https://openstax.org/books/organic-chemistry/pages/3-1-functional-groups) je dobar vizuelni atlas. Za projekat je dovoljno da grupu prepoznaš i navedeš tip veze, tipičan naboj/protonaciju i moguću donor/acceptor ulogu.
+[OpenStax Organic Chemistry: functional groups](https://openstax.org/books/organic-chemistry/pages/3-1-functional-groups) je dobar vizuelni atlas. Za projekat je dovoljno da grupu prepoznaš i navedeš tip veze, tipičan naboj/protonaciju i odvojeno moguću metalnu donorsku, H-donorsku i H-akceptorsku ulogu.
 
 ## 4.2 DAP Schiff-base motiv
 
@@ -79,10 +105,7 @@ Ne postoji univerzalno ispravno "neutralize everything" pravilo. Za pretragu lig
 
 ## 4.5 Aromatičnost i heteroatomi
 
-Pyridine N i pyrrole N su oba u aromatičnom prstenu, ali lone pair nema istu ulogu:
-
-- pyridine-tip lone pair ne pripada aromatičnom \(\pi\) sekstetu i tipično može biti baza/metal donor;
-- pyrrole-tip lone pair doprinosi aromatičnosti i mnogo je manje raspoloživ na isti način.
+Piridinski N i pirolski N su oba u aromatičnom prstenu, ali njihov slobodni par nema istu ulogu. U [izvedenom brojanju šest π-elektrona](02-veze.md#25-aromaticnost) piridinski par ostaje izvan seksteta, dok pirolski par daje dva njegova elektrona. Zato neutralni piridinski N tipično može biti metalni donor i H-akceptor, a neutralni pirolski N–H H-donor, uz mnogo slabiju raspoloživost njegovog para za prve dve uloge.
 
 Zato atom-label "N.ar" sam bez hemijskog okruženja nije dovoljan za donor/acceptor klasifikaciju. SMARTS/feature definicije moraju biti verzionisane i testirane.
 

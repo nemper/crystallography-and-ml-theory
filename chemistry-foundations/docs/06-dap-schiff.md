@@ -35,12 +35,26 @@ potencijalni donorski niz: N_imine – N_pyridine – N_imine
 \text{DAP bis(imine)} + 2\,\mathrm{H_2O}.
 \]
 
-Na nivou jedne karbonilne grupe korisna mentalna slika je:
+### Rečnik pre mehanizma
 
-1. nukleofilni N primarnog amina napada elektrofilni karbonilni C;
-2. nastaje tetraedarski intermedijer, često opisan kao karbinolamin nakon proton transfera;
-3. proton transferi pripremaju odlazak vode;
-4. eliminacija vode i deprotonovanje daju `C=N`.
+**Pitanje:** šta znači da azot „napada“ ugljenik? Nukleofil (*nucleophile*) donosi elektronski par za novu vezu. Azot neutralnog primarnog amina koristi isti slobodni par koji smo upoznali kod [Lewisovog donorstva](04-organska.md#donorske-uloge). Elektrofil (*electrophile*) prima taj par; karbonilni C je elektronski osiromašen jer O privlači elektronsku gustinu veze C=O. „Nukleofilni napad“ ovde znači nastanak C–N veze uz pomeranje π-para C=O ka O, tako da C ne dobije pet veznih parova.
+
+**Intermedijer** ili međuproizvod jeste vrsta koja nastaje u jednom koraku i troši se u sledećem. **Prenos protona** menja koji atom nosi H⁺, često uz pomoć rastvarača ili kiseline/baze; to nije prenos celog neutralnog H atoma. **Eliminacija** u ovom primeru uklanja malu molekulu vode iz međuproizvoda uz nastanak C=N veze.
+
+### Jedna karbonilna grupa, od početka do imina
+
+U sledećoj nastavnoj šemi R¹ i R² su grupe vezane za karbonilni C, a R³ je supstituent aminskog N. Svaka strelica može obuhvatiti više protonskih koraka:
+
+```text
+R¹–C(=O)–R² + H₂N:–R³
+        ⇌ R¹–C(O⁻)(NH₂⁺–R³)–R²       nastaje C–N, π-par ide ka O
+        ⇌ R¹–C(OH)(NH–R³)–R²         prenos protona: karbinolamin
+        ⇌ [R¹–C(OH₂⁺)(NH–R³)–R²]    protonacija OH, priprema vode
+        ⇌ [R¹–C(=NH⁺–R³)–R²] + H₂O  eliminacija: iminski N formira π-vezu
+        ⇌ R¹–C(=N–R³)–R² + H⁺       deprotonovanje: imin
+```
+
+Treća strelica podrazumeva dodavanje H⁺ iz kiseline, a završna ga vraća; protonski donor i akceptor nisu posebno nacrtani. Šema ilustruje tok atoma i elektronskog para, a nije tvrdnja da svaka prikazana vrsta mora biti izdvojiva niti da su svi elementarni koraci isti u svakom rastvaraču. Karbinolaminski C je tetraedarski, za razliku od približno planarnog karbonilnog/iminskog C. Neto za jednu grupu ostaje `karbonil + primarni amin ⇌ imin + H₂O`, pa za dve grupe nastaju dve vode. [OpenStax mehanizam nastanka imina](https://openstax.org/books/organic-chemistry/pages/19-8-nucleophilic-addition-of-amines-imine-and-enamine-formation) razrađuje ulogu kiseline i povratne reakcije.
 
 Reakcija je ravnotežna. Acid/base uslovi, voda, rastvarač, temperatura i stabilnost proizvoda mogu promeniti ishod. „Pomešali smo keton i amin“ nije dovoljan dokaz da je nastao čist bis-iminski ligand; identitet se potvrđuje analitikom i strukturom.
 

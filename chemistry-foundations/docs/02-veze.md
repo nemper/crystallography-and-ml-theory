@@ -15,15 +15,60 @@ Za ovaj projekat dovoljno je sledeće:
 
 ## 2.2 Lewisova struktura
 
-Lewisov crtež prati valentne elektrone kao:
+**Pitanje:** kako iz formule saznati koliko veza i slobodnih parova treba nacrtati? Počni od raspoloživih valentnih elektrona, pa proveri njihov utrošak. Za neutralne atome koji nam prvi trebaju:
+
+| Atom | Valentni elektroni | Početni cilj u jednostavnoj Lewisovoj strukturi |
+|---|---:|---|
+| H | 1 | duet: 2 elektrona oko H |
+| C | 4 | oktet: 8 elektrona oko C |
+| N | 5 | oktet: 8 elektrona oko N |
+| O | 6 | oktet: 8 elektrona oko O |
+
+Lewisov crtež prati te elektrone kao:
 
 - crte između atoma - deljeni elektronski parovi;
 - tačke na atomu - nevezani parovi (lone pairs);
 - zagrade i superskript - neto naboj jedinke.
 
-Za elemente druge periode C, N, O i F korisno je pravilo okteta, ali ono ima izuzetke. Metali, elektron-deficitarne i hipervalentne vrste ne treba siliti u jednostavan organski obrazac.
+**Elektronski par** sadrži dva elektrona. Jednostruka veza deli jedan par, a slobodni par ostaje nevezan. **Broj susednih atoma**, **zbir redova veza** (vezivna valenca u ovom jednostavnom modelu) i **naboj** nisu ista veličina: karbonilni C može imati tri suseda i zbir redova veza četiri; N u NH₃ ima tri jednostruke veze i naboj nula. Naboj se proverava raspodelom elektrona, a ne brojem nacrtanih crta.
 
-[OpenStax Lewisov uvod](https://openstax.org/books/chemistry-2e/pages/7-3-lewis-symbols-and-structures) daje postupak za jednostavne vrste.
+### Postupak od formule do crteža
+
+1. Saberi valentne elektrone svih atoma; za svaki pozitivan jedinični naboj oduzmi jedan elektron, a za negativan dodaj jedan.
+2. Izaberi hemijski smislen skelet i poveži susede jednostrukim vezama. H je terminalan. Formula sama ne bira između svih mogućih izomera.
+3. Za svaku vezu potroši dva elektrona. H tada ima duet; preostalim elektronima popuni oktete terminalnih atoma, pa centralnog atoma.
+4. Ako centralnom atomu nedostaje oktet, proveri da li slobodni par suseda može dati dodatni vezni par, odnosno višestruku vezu.
+5. Prebroj sve elektrone ponovo, a zatim formalne naboje i njihov zbir.
+
+### Potpun primer: NH₃ i NH₄⁺
+
+Za **NH₃** raspolažemo sa \(5+3\times1=8\) elektrona. Tri N–H veze troše šest, pa preostala dva čine jedan slobodni par na N:
+
+```text
+       :
+   H – N – H       NH₃: 3 vezna para + 1 slobodni par
+       |
+       H
+```
+
+Svaki H okružuju dva elektrona njegove veze. N okružuje \(6+2=8\) elektrona, ali se pri sabiranju ukupnih elektrona svaki deljeni par računa samo jednom.
+
+Za **NH₄⁺** imamo \(5+4\times1-1=8\) elektrona. Četiri N–H veze troše svih osam; na N ne ostaje slobodni par:
+
+```text
+  [    H    ]⁺
+  [    |    ]
+  [ H– N –H ]      NH₄⁺: 4 vezna para, bez slobodnog para
+  [    |    ]
+  [    H    ]
+```
+
+N ponovo ima oktet, a svaki H duet. Crtež prikazuje povezanost; prostorni oblik sledi u [poglavlju 3](03-geometrija.md#31-od-lewisovog-crteza-do-3d).
+
+!!! note "Granice osnovnog modela"
+    Pravilo okteta je koristan početni postupak za C, N, O i F, ali ima izuzetke. Metali, elektron-deficitarne i hipervalentne vrste ne treba da se silom uklapaju u jednostavan organski obrazac.
+
+[OpenStax Lewisov uvod](https://openstax.org/books/chemistry-2e/pages/7-3-lewis-symbols-and-structures) daje dodatne vežbe; gornji postupak je samostalan obavezni uvod.
 
 ## 2.3 Formalni naboj
 
@@ -36,6 +81,17 @@ q_\mathrm{formal}=V-N-\frac{B}{2},
 gde je \(V\) broj valentnih elektrona slobodnog atoma, \(N\) broj nevezanih elektrona, a \(B\) broj elektrona u vezama.
 
 Formalni naboj je konzistentno knjigovodstvo, ne direktno izmerena lokalna količina. Zbir formalnih naboja mora dati neto naboj jedinke. Ovo je važno kod protonacije, soli, nitro-grupa i metalnih kompleksa.
+
+Sada su ulazi u formulu poznati iz sopstvenog crteža (oznaka \(N\) u formuli znači broj nevezanih elektrona, ne simbol elementa azota):
+
+| Jedinka i atom | \(V\) | \(N\) | \(B\) | \(q_\mathrm{formal}\) |
+|---|---:|---:|---:|---|
+| N u NH₃ | 5 | 2 | 6 | \(5-2-6/2=0\) |
+| svaki H u NH₃ | 1 | 0 | 2 | \(1-0-2/2=0\) |
+| N u NH₄⁺ | 5 | 0 | 8 | \(5-0-8/2=+1\) |
+| svaki H u NH₄⁺ | 1 | 0 | 2 | \(1-0-2/2=0\) |
+
+Ukupno: NH₃ ima \(0+3\times0=0\), a NH₄⁺ ima \(+1+4\times0=+1\). **Protonacija** \(\mathrm{NH_3+H^+\rightarrow NH_4^+}\) koristi slobodni par N za novu N–H vezu; proton ne donosi elektron. NH₃ ima tri vezna domena i jedan slobodni par, pa je trigonalno-piramidalan; NH₄⁺ ima četiri vezna domena, pa je tetraedarski. Slobodni par NH₃ može se donirati metalu ili prihvatiti vodoničnu vezu; NH₄⁺ nema taj raspoloživi par, ali njegove N–H grupe mogu biti donori vodonične veze. [Različita značenja donorstva](04-organska.md#donorske-uloge) razdvojena su pre funkcionalnih grupa. Nitro-grupa u sledećem odeljku je složeniji nastavak ovog istog knjigovodstva.
 
 ## 2.4 Red veze i rezonanca
 
@@ -70,7 +126,30 @@ Za nitro-grupu vezanu za organski ostatak R dve uobičajene rezonantne forme su 
 
 ## 2.5 Aromatičnost
 
-Aromatični sistemi imaju cikličnu delokalizaciju elektrona i karakterističnu geometriju/stabilnost. U klasičnim organskim primerima koristi se Hückelovo \(4n+2\) pravilo za planarni konjugovani ciklus. Za cheminformatiku je još važnije:
+Aromatični sistemi imaju cikličnu delokalizaciju elektrona i karakterističnu geometriju/stabilnost. **Pitanje:** koji elektroni se broje u Hückelovom pravilu? Broje se elektroni u neprekinutom prstenu preklopljenih \(p\)-orbitala, odnosno u cikličnom \(\pi\)-sistemu; ne svi valentni elektroni niti elektroni \(\sigma\)-veza.
+
+U benzenu svaki od šest C daje po jedan takav elektron: \(6\times1=6\). Isti broj dobija se brojanjem tri \(\pi\)-para u Kekulé crtežu: \(3\times2=6\). To su dva načina brojanja istih elektrona.
+
+Za jednostavan planarni potpuno konjugovani ciklus Hückelov uslov glasi:
+
+\[
+N_\pi=4n+2,\qquad n=0,1,2,\ldots
+\]
+
+\(n\) je nenegativan ceo broj koji proverava dopušteni broj elektrona; nije broj prstenova niti broj dvostrukih veza. Za šest elektrona, \(n=(6-2)/4=1\).
+
+| Prsten | Doprinos atoma \(\pi\)-sistemu | Gde je slobodni par N? | Posledica za neutralni N |
+|---|---|---|---|
+| benzen | šest C × 1 = 6 elektrona | nema N | tri delokalizovana \(\pi\)-para |
+| piridin | pet C × 1 + N × 1 = 6 | u orbitali približno u ravni prstena, izvan \(\pi\)-sistema | par je tipično dostupan za vezivanje metala ili prihvatanje H-veze; N nema vezani H |
+| pirol | četiri C × 1 + N par × 2 = 6 | u \(p\)-orbitali normalnoj na ravan prstena, deo \(\pi\)-sistema | par nije uobičajeno raspoloživ kao kod piridina; neutralni N–H je H-donor, N obično nije H-akceptor |
+
+```text
+piridin: N p-elektron (1) → π prsten; slobodni par (2) ostaje izvan njega
+pirol:   N slobodni par (2) → π prsten; nema dodatnog nezavisnog N para
+```
+
+Ovde je pirol neutralni N–H oblik. Deprotonacija ili druga promena hemijskog stanja zahteva novu analizu. [OpenStax poređenje piridina i pirola](https://openstax.org/books/organic-chemistry/pages/15-5-aromatic-heterocycles-pyridine-and-pyrrole) prikazuje orbitalni položaj parova. Same vrednosti \(4n+2\) nisu dovoljne bez cikličnosti, planarnosti i konjugacije. Za cheminformatiku je dodatno važno:
 
 > aromatičnost u fajlu je rezultat određenog modela i algoritma percepcije.
 
