@@ -78,6 +78,7 @@ U B je jezgro uvećano za faktor 1,1 pre iste rotacije i translacije: \(b_i=R(1,
 \[
 \sum_i\|p_i\|^2=8/9+20/9+20/9=16/3,
 \]
+
 \[
 \mathrm{RMSD}(Q,B)=\sqrt{\frac{1}{3}\sum_i\|0,1p_i\|^2}
 =\sqrt{\frac{1}{100}\frac{16}{9}}=\frac{2}{15}\approx0,1333\ \text{Å}.
