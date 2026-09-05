@@ -76,6 +76,8 @@ Nasumičan record split može staviti povezane refcode redeterminations, istu co
 
 Pre split-a radi dedup/family analysis nad podacima koji su dozvoljeni za taj postupak; ne koristi test labels za tuning.
 
+Kod učenja iz parova nije dovoljno nasumično podeliti redove `(A, B)`. Ako je `(A, B)` u treningu, a `(A, C)` u testu, model već poznaje strukturu A. Za claim o **novim strukturama ili familijama** najpre podeli osnovne strukture/familije, pa formiraj parove unutar odgovarajućih split-ova. Namerno testiranje novih kombinacija već poznatih struktura jeste drugi legitiman cilj, ali ga tako i nazovi. Milion parova nastalih od malog broja struktura ne predstavlja milion nezavisnih hemijskih opažanja.
+
 ## 20.6 Baselines pre ML-a
 
 Svaki složeni model se poredi sa transparentnim baseline-ima:
@@ -111,13 +113,15 @@ Za count-based precision/recall prijavi **query-macro** i **pooled-micro** rezul
 - agreement sa ekspertskim component labels;
 - rank correlation kada eksperti daju poredak;
 - classification precision/recall za validirane thresholds;
-- calibration error i Brier score **samo** za kalibrisanu predikciju verovatnoće ekspertske relevantnosti za precizno definisan claim; sirovi similarity score i input/evidence confidence nisu verovatnoće i za njih Brier score nema ovu interpretaciju;
+- calibration error i Brier score za **predikciju verovatnoće** ekspertske relevantnosti za precizno definisan claim; prethodna kalibracija nije uslov da se ove metrike izračunaju — njima se mogu oceniti i nekalibrisane verovatnosne prognoze. Sirovi similarity score i input/evidence confidence nisu automatski verovatnoće;
 - symmetry: \(s(A,B)=s(B,A)\) gde metric to zahteva;
 - invariance/metamorphic pass rate;
 - coverage i razlog neuporedivosti;
 - runtime/memory po pair kategoriji.
 
 Clustering se ocenjuje tek nakon definisanja ciljnih grupa; lepa heatmap nije naučna validacija.
+
+Za binarni ishod \(y_i\in\{0,1\}\) i predikciju \(p_i=P(y_i=1)\), uobičajeni binarni Brier score je \(\frac{1}{m}\sum_{i=1}^{m}(p_i-y_i)^2\); manja vrednost je bolja. Ako sistem predvidi 0,8 za jedan stvarno relevantan par, doprinos je \((0,8-1)^2=0,04\). To ocenjuje verovatnosnu prognozu, a ne samo kalibraciju: na rezultat utiče i koliko model razlikuje relevantne od nerelevantnih slučajeva. Za proveru kalibracije zato posmatraj i slaganje predviđenih verovatnoća sa opaženim učestalostima, uz dovoljno nezavisnih primera ([scikit-learn: Brier score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.brier_score_loss.html), [kalibracija verovatnoća](https://scikit-learn.org/stable/modules/calibration.html)).
 
 ## 20.8 Slice analiza
 
@@ -141,7 +145,7 @@ Missing SMILES/failed conversion je poseban slice, jer lokalni dokazi ne podrža
 Sistem treba da razlikuje:
 
 - **similarity score** — vrednost određene metrike;
-- **probability of expert relevance** — kalibrisana procena za konkretan claim;
+- **probability of expert relevance** — modelom iskazana procena verovatnoće za konkretan claim, čija se kalibracija posebno proverava;
 - **confidence in input/representation** — kvalitet dokaza;
 - **coverage** — deo objekta koji je uopšte poređen.
 
