@@ -28,5 +28,23 @@ document$.subscribe(async () => {
 
   if (nodes.length > 0) {
     await mermaid.run({ nodes });
+
+    nodes.forEach((diagram) => {
+      const svg = diagram.querySelector("svg");
+      const width = svg?.viewBox.baseVal.width;
+
+      if (Number.isFinite(width) && width > 0) {
+        // Preserve Mermaid's font size instead of shrinking wide diagrams.
+        svg.style.width = `${width}px`;
+        svg.style.maxWidth = "none";
+      }
+
+      diagram.tabIndex = 0;
+      diagram.setAttribute("role", "region");
+      diagram.setAttribute(
+        "aria-label",
+        "Dijagram. Širi sadržaj možete pomerati strelicama ulevo i udesno.",
+      );
+    });
   }
 });
