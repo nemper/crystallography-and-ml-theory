@@ -2,6 +2,7 @@
 site/
 .local-site/
 .cache/
+.pytest_cache/
 tmp/
 __pycache__/
 *.py[cod]
@@ -21,14 +22,6 @@ Thumbs.db
 *.pdf
 *.local.csv
 *.local.json
-
-# Only explicitly reviewed, redistributable fixtures may override these rules.
-!fixtures/open/**/*.cif
-!fixtures/open/**/*.mol
-!fixtures/open/**/*.mol2
-!fixtures/open/**/*.sd
-!fixtures/open/**/*.sdf
-!fixtures/open/**/*.smi
 
 # Hand-written teaching fixture published with the MkDocs site. This exact file
 # contains no CSD, faculty or user-supplied structure data.

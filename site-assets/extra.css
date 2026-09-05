@@ -18,13 +18,6 @@
   background: color-mix(in srgb, var(--md-accent-fg-color) 8%, transparent);
 }
 
-.md-typeset .concept-card {
-  border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: 0.4rem;
-  padding: 0.8rem 1rem;
-  margin: 0.8rem 0;
-}
-
 .md-typeset .mermaid-course {
   display: block;
   max-width: 100%;
