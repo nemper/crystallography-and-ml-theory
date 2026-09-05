@@ -1,5 +1,7 @@
 # 9. Simetrija, prostorne grupe i periodičnost
 
+**Preduslov:** iz [poglavlja 8](08-celija.md) koristiš matricu ćelije, frakcione koordinate, wrap i razliku fizičkog kristala od njegovog koordinatnog opisa. Ovde se uvode simetrijske operacije, ASU i multiplicity.
+
 ## Šta treba da umeš posle ovog poglavlja
 
 Posle ovog poglavlja treba da možeš da:
@@ -345,26 +347,7 @@ Skor fizičke sličnosti treba da ostane isti unutar numeričke tolerancije.
 
 ## Simetrija i periodični susedi
 
-Za atom \(j\), operaciju \(s\) i lattice translation \(\mathbf n\):
-
-\[
-\mathbf f_{j,s,\mathbf n}
-=
-\mathbf R_s\mathbf f_j+\mathbf t_s+\mathbf n.
-\]
-
-Udaljenost od atoma \(i\) računa se:
-
-\[
-d_{ij}^{(s,\mathbf n)}
-=
-\left\|
-\mathbf A
-\left(
-\mathbf f_{j,s,\mathbf n}-\mathbf f_i
-\right)
-\right\|_2.
-\]
+Sada znaš kako se iz ASU dobijaju fizičke atomske kopije. Pre kontaktnog računa savladaj [zauzeće mesta](10-difrakcija-kvalitet.md#occupancy-koliko-je-kristalografsko-mesto-zauzeto) i [nered modela](10-difrakcija-kvalitet.md#disorder-i-displacement-parametri) u poglavlju 10, pa se vrati na [drugi prolaz poglavlja 7](07-interakcije.md#drugi-prolaz). U [glavnom računu periodičnih suseda](07-interakcije.md#kako-se-stvarno-nalaze-periodicni-susedi) na jednom mestu su formule za simetrijsku sliku, dodatnu ćelijsku translaciju i fizičko rastojanje, uz upozorenje o kosim ćelijama.
 
 U [N14 primeru periodičnog kontakta iz poglavlja 7](07-interakcije.md#lokalni-n14-primer-kontakt-koji-nije-u-atomskom-loop-u), O2 kontakt nije dobijen iz originalnog O2 reda, već iz operacije 2 i translacije \((1,0,0)\):
 

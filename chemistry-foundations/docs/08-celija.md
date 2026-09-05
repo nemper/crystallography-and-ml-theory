@@ -1,5 +1,7 @@
 # 8. Kristal, rešetka i jedinična ćelija
 
+**Preduslov:** znaš fizičko rastojanje i vektor položaja iz [poglavlja 3](03-geometrija.md) i završio si [prvi prolaz interakcija](07-interakcije.md#kapija-prvog-prolaza). Periodična kontaktna pretraga još nije preduslov; frakcione koordinate i matrica ćelije uvode se ovde.
+
 ## Šta treba da umeš posle ovog poglavlja
 
 Posle ovog poglavlja treba da možeš da:
@@ -347,6 +349,33 @@ Opseg treba izvesti iz cut-off radijusa i geometrije ćelije ili prepustiti vali
 
 ## Jedinična ćelija nije jedinstvena
 
+### Najpre izgradi superćeliju 2×1×1 {#supercelija-2x1x1}
+
+**Pitanje:** kako udvostručiti opisnu ćeliju, a zadržati iste fizičke atome? Zadrži origin i uzmi \(\mathbf a'=2\mathbf a\), \(\mathbf b'=\mathbf b\), \(\mathbf c'=\mathbf c\). Nova ćelija obuhvata dve stare ćelije duž \(\mathbf a\), pa joj trebaju obe atomske kopije stare ćelije.
+
+Atom sa starom frakcionom koordinatom \((x,y,z)\) ima kopiju u sledećoj staroj ćeliji na \((x+1,y,z)\). U novoj ćeliji isti položaji imaju koordinate:
+
+\[
+\mathbf f'_0=(x/2,y,z),\qquad
+\mathbf f'_1=((x+1)/2,y,z).
+\]
+
+Na nastavnom primeru sa starom osom dužine 10 Å, \(x=0,2\) i ostalim koordinatama nula, dva položaja su na 2 Å i 12 Å od origina. Nova osa ima 20 Å, a nove koordinate su 0,1 i 0,6: \(20\times0,1=2\) Å i \(20\times0,6=12\) Å. Atomi su ostali na istim mestima; promenila se jedinica kojom opisujemo njihov položaj.
+
+U matričnom zapisu:
+
+\[
+\mathbf A'=\mathbf A\mathbf P,\qquad
+\mathbf P=\operatorname{diag}(2,1,1),\qquad
+\mathbf f'_k=\mathbf P^{-1}[\mathbf f+(k,0,0)^\mathsf T],\quad k=0,1.
+\]
+
+Provera važi i za kosu ćeliju: \(\mathbf A'\mathbf f'_k=\mathbf A[\mathbf f+(k,0,0)^\mathsf T]\). Dakle, očuvani su kartezijanski položaji obe kopije. Postupak se ponavlja za **svaki** atom potpunog starog ćelijskog sadržaja, sa istim hemijskim identitetom i pravilima alternativa. Zapremina i sadržaj ćelije se udvostručuju, a lokalne veze, gustina i beskonačna struktura ostaju isti.
+
+Ako bismo samo udvostručili \(\mathbf a\), ostavili stare frakcione koordinate i izostavili drugu kopiju, dobili bismo fizički izmenjen atomski raspored. To nije ekvivalentan superćelijski opis.
+
+### Opšta promena baze
+
 Ako su kolone \(\mathbf A\) stara baza, a \(\mathbf P\) matrica promene baze:
 
 \[
@@ -367,7 +396,10 @@ Metric tensor se menja kao:
 
 Ako je \(\mathbf P\) celobrojna unimodularna matrica, \(|\det\mathbf P|=1\), dobija se druga baza iste rešetke i iste zapremine. Ona je primitivna **ako je i početna baza primitivna**; unimodularna transformacija čuva primitivnost, ali ne pretvara centriranu konvencionalnu ćeliju u primitivnu.
 
-Ako je \(\mathbf P\) celobrojna matrica i \(|\det\mathbf P|=m>1\), nova baza razapinje podrešetku indeksa \(m\) u rešetki razapetoj početnom bazom i njena ćelija ima \(m\) puta veću zapreminu. Da bi takav supercell predstavljao isti beskonačni kristal, atomski motiv se ne „uvećava“ proizvoljno: generiše se \(m\) translacionih kopija, po jedan coset representative početne rešetke u odnosu na podrešetku, zatim se uklanjaju periodični duplikati.
+Ako je \(\mathbf P\) celobrojna matrica i \(|\det\mathbf P|=m>1\), njena ćelija ima \(m\) puta veću zapreminu. Da bi superćelija predstavljala isti beskonačni kristal, generiše se \(m\) odgovarajućih translacionih kopija starog ćelijskog sadržaja, a zatim se uklanjaju periodični duplikati. U izvedenom primeru \(m=2\), a pomaci su \((0,0,0)\) i \((1,0,0)\) u starim frakcionim koordinatama.
+
+??? note "Napredno: podrešetka i koseti"
+    Nova baza razapinje podrešetku indeksa \(m\) u rešetki razapetoj početnom bazom. **Koset** (*coset*) je klasa starih translacija koje se međusobno razlikuju za novu rešetkastu translaciju. Bira se jedan predstavnik svake klase da bi se dobile atomske kopije. Za 2×1×1 klase razlikuju parni i neparni pomaci duž stare ose a, predstavljeni sa 0 i 1. Ovaj naziv nije potreban da bi se izveo gornji konstrukcioni račun.
 
 Ako se origin pomeri za \(\mathbf o\), nove frakcione koordinate su:
 
@@ -466,7 +498,7 @@ To odgovara <code>_exptl_crystal_density_diffrn 1.363</code>. Saglasnost provera
 - round-trip i atom-mapping validaciju;
 - \(Z\), izvedeni \(Z'\) samo kada je metod opravdan, i confidence.
 
-Ovo su kategorije potrebne za tumačenje ekvivalentnosti i gubitka informacije, ne propisana record schema ili budući tok skladištenja.
+Ove kategorije služe tumačenju ekvivalentnosti i gubitka informacije; njihov status opisuje [centralna napomena o teorijskom i referentnom sloju](kako-koristiti.md#teorijski-i-referentni-sloj).
 
 ## Posledice za dve aplikacije
 

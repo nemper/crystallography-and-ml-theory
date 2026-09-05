@@ -1,11 +1,18 @@
 # 7. Intermolekulske interakcije
 
+**Dva prolaza.** Prvi prolaz traži [veze i slobodne parove](02-veze.md), [dužinu i ugao](03-geometrija.md#32-tri-osnovne-geometrijske-velicine) i [različite donorske uloge](04-organska.md#donorske-uloge). Čitaj do [kapije prvog prolaza](#kapija-prvog-prolaza), zatim savladaj [ćeliju i koordinate](08-celija.md), [simetriju i ASU](09-simetrija.md) i [zauzeće mesta i nered modela](10-difrakcija-kvalitet.md#occupancy-koliko-je-kristalografsko-mesto-zauzeto). Tek posle poglavlja 10 vrati se na [periodične kontakte u drugom prolazu](#drugi-prolaz).
+
 ## Šta treba da umeš posle ovog poglavlja
 
-Posle ovog poglavlja treba da možeš da:
+Posle **prvog prolaza** treba da možeš da:
 
 - razlikuješ hemijsku vezu, geometrijski kontakt i fizički podržanu intermolekulsku interakciju;
 - objasniš osnovne uloge elektrostatike, disperzije, odbijanja, vodoničnih i halogenih veza;
+- izračunaš jednostavnu udaljenost i ugao kandidata za vodoničnu vezu;
+- objasniš zašto kraće rastojanje nije nužno povoljnije.
+
+Posle **drugog prolaza**, uz ćeliju, simetriju i zauzeće mesta, treba da možeš da:
+
 - pronađeš susede koji prelaze granicu jedinične ćelije;
 - koristiš simetrijske operacije i celobrojne translacije pri traženju kontakata;
 - izračunaš udaljenost i ugao kandidata za vodoničnu vezu;
@@ -13,30 +20,15 @@ Posle ovog poglavlja treba da možeš da:
 - predstaviš kristal kao periodični kontaktni graf sa poreklom i neizvesnošću svake ivice;
 - prevedeš interakcije u objašnjive feature-e za obe 2CDC aplikacije.
 
-## Minimalni kristalografski most
-
-Za računanje kontakata potrebna je sledeća notacija, pre njenog punog izvođenja u poglavljima [8](08-celija.md) i [9](09-simetrija.md). Matrica ćelije \(\mathbf A=[\mathbf a\ \mathbf b\ \mathbf c]\) prevodi frakcionu koordinatu \(\mathbf f\) u kartezijansku koordinatu \(\mathbf r=\mathbf A\mathbf f\). Periodično ekvivalentni položaji zadovoljavaju
-
-\[
-\mathbf f\sim\mathbf f+\mathbf n,
-\qquad \mathbf n\in\mathbb Z^3.
-\]
-
-Operacija prostorne grupe \(s\) deluje kao
-
-\[
-\mathbf f'=\mathbf R_s\mathbf f+\mathbf t_s.
-\]
-
-Ovde \(\mathbf n\) opisuje celobrojne translacije izabranom ćelijom. Kod centrirane konvencionalne ćelije centrirajući pomaci moraju biti uključeni u puni skup simetrijskih translacija \(\mathbf t_s\).
-
-Zato se susedi ne traže samo među redovima asimetrične jedinice: iz nje se generišu simetrijske slike, zatim njihove celobrojno translirane kopije. Simetrijske kopije koje se poklope unutar tolerancije deduplikuju se samo kada predstavljaju isto kristalografsko mesto i slažu se vrsta atoma, occupancy i disorder identitet; sama blizina nije dovoljna. Ishod kontakta za isto fizičko atomsko mapiranje treba da ostane isti pod ekvivalentnim \((\mathbf R_s,\mathbf t_s,\mathbf n)\) zapisima, dok se konkretni zapis čuva kao provenance njegovog pronalaženja.
+## Prvi prolaz: hemijska i fizička intuicija {#prvi-prolaz}
 
 ## Intuicija: molekul se ne završava ivicom nacrtane ćelije
 
 Molekulski graf govori koji su atomi hemijski povezani unutar komponente. Kristal, međutim, nastaje kada se molekuli, joni ili koordinacioni entiteti periodično rasporede i međusobno utiču. Najbliži sused nekog atoma često nije u istoj nacrtanoj ćeliji niti u istoj asimetričnoj jedinici.
 
 Zamisli atom blizu desne strane periodične slike. Njegov najbliži sused može biti tik preko leve strane sledeće slike:
+
+Sledeća šema služi orijentaciji; račun simetrijskih kopija pripada drugom prolazu.
 
 ~~~mermaid
 flowchart LR
@@ -75,6 +67,17 @@ U_{\mathrm{el}}(r)=
 
 On dobro pokazuje znak i zavisnost od udaljenosti, ali molekuli nisu zbir fiksnih tačkastih formalnih naboja, a efektivna permitivnost kristala nije univerzalna konstanta.
 
+| Simbol | Značenje i SI jedinica |
+|---|---|
+| \(U_{\mathrm{el}}\) | potencijalna energija jednog para, J |
+| \(r>0\) | razmak dve tačkaste čestice, m |
+| \(q_i,q_j\) | njihovi naboji sa znakom, C (kulon) |
+| \(\varepsilon_0\) | permitivnost vakuuma, F/m odnosno C²/(J·m) |
+| \(\varepsilon_r\) | relativna permitivnost homogenog medijuma u ovom modelu, bezdimenziona |
+| \(\pi\) | matematička konstanta, približno 3,14159 |
+
+Nula energije izabrana je za beskonačno razdvojene čestice, \(U_{\mathrm{el}}(\infty)=0\). Suprotni znaci naboja daju negativnu energiju, isti znaci pozitivnu. Ako su naboji zapisani u jedinicama elementarnog naboja, a razmak u Å, pre SI računa moraju se pretvoriti u C i m. Molarna energija dobija se množenjem energije jednog para Avogadrovim brojem; jedinice ne treba mešati.
+
 Kombinacija kratkodometnog odbijanja i disperzione privlačnosti često se ilustruje Lennard-Jones izrazom:
 
 \[
@@ -87,6 +90,36 @@ U_{\mathrm{LJ}}(r)=4\varepsilon
 \]
 
 Ova jednačina je dobra intuicija za postojanje optimalnog razmaka. Nije dokaz da stvarni kristalni kontakt prati baš tu parametrizaciju, niti opisuje usmerenost, polarizaciju, transfer naboja ili višestruke kolektivne efekte.
+
+Ovde je \(\sigma\) parametar dužine u istim jedinicama kao \(r\), a \(\varepsilon>0\) parametar energije u istim jedinicama kao \(U_{\mathrm{LJ}}\): J po paru ili dosledno kJ/mol u molarnom zapisu. **LJ \(\varepsilon\) je dubina energetskog minimuma; nije permitivnost \(\varepsilon_0\) ni relativna permitivnost \(\varepsilon_r\).** Izraz takođe bira \(U_{\mathrm{LJ}}(\infty)=0\).
+
+### Zašto kraći kontakt nije nužno povoljniji
+
+Član \(+4\varepsilon(\sigma/r)^{12}\) je odbojni doprinos, a \(-4\varepsilon(\sigma/r)^6\) privlačni. Pri smanjivanju razmaka prvi raste brže. Nastavni prikaz ukupne krive označava nulu, minimum i obe strane minimuma; horizontalni razmaci u skici nisu u razmeri:
+
+```text
+U/ε
+ ↑    ╲  odbojna sila: r < r_min
+ │     ╲
+0├──────●────────────────────────────────────→ r/σ
+ │       ╲  σ: U=0                  _________  U → 0⁻
+ │        ╲                    ____/
+ │         ╲              ____/    privlačna sila: r > r_min
+−1          ╰────●───────╯
+                 minimum: r_min/σ = 2^(1/6) ≈ 1,122
+```
+
+\(U=0\) je na \(r=\sigma\), dok je minimum na \(r_\min=2^{1/6}\sigma\), sa \(U(r_\min)=-\varepsilon\). Na minimumu se odbojni i privlačni **doprinosi sili** poništavaju; doprinosi energiji tada su \(+\varepsilon\) i \(-2\varepsilon\). Negativna ukupna energija zato nije sinonim za privlačnu silu: između \(\sigma\) i \(r_\min\) energija jeste negativna, ali približavanje povećava energiju i sila je odbojna.
+
+| \(r/\sigma\) | \(U/\varepsilon\) | Tumačenje |
+|---:|---:|---|
+| 0,9 | +6,636 | veliko kratkodometno odbijanje |
+| 1 | 0 | nula energije na konačnom razmaku |
+| \(2^{1/6}\approx1,122\) | −1 | minimum |
+| 2 | −0,06152 | slaba preostala privlačnost |
+| \(\infty\) | 0 | razdvojeni partneri, referentna nula |
+
+Na minimumu je \((\sigma/r)^6=1/2\), pa formula daje \(4\varepsilon(1/4-1/2)=-\varepsilon\). [LAMMPS dokumentacija LJ izraza](https://docs.lammps.org/pair_lj.html) izričito razlikuje \(\sigma\) od položaja minimuma. Nijedna od ove dve parne formule nije potpun model kristalne energije; broj kratkih kontakata ne određuje termodinamičku stabilnost.
 
 ## Vodonična veza: donor, vodonik, akceptor i geometrija
 
@@ -107,6 +140,10 @@ gde je D donor atom, H vodonik vezan za donor, a A akceptor. Za procenu se obič
 Pravolinijskiji raspored je često geometrijski ubedljiviji, ali ne postoji jedan univerzalni prag koji bez izuzetka važi za sve donore, akceptore, temperature i kvalitet strukture. IUPAC definicija naglašava privlačnu interakciju i dokaz koji prevazilazi samo proizvoljan cutoff.
 
 Tipični kandidati uključuju O-H i N-H donore. O i N mogu biti akceptori, ali ne u svakom stanju: protonacija, rezonanca, pozitivni naboj ili koordinacija metalu mogu promeniti njihovu sposobnost prihvatanja H-veze. Zbog toga feature <code>element == O</code> nije dovoljan.
+
+### Prvi mali geometrijski račun
+
+Uzmi nastavne kartezijanske položaje u Å: D=(0,0,0), H=(1,0,0), A=(3,0,0), sa hemijski smislenim D–H i akceptorom A. Tada je \(d(\mathrm{D,H})=1\) Å, \(d(\mathrm{H,A})=2\) Å i \(d(\mathrm{D,A})=3\) Å. Vektori iz vrha H su \((-1,0,0)\) i \((2,0,0)\); njihov skalarni proizvod je −2, a proizvod normi 2. Zato je \(\cos\theta=-1\) i \(\angle\mathrm{D-H-A}=180^\circ\). Geometrija je pravolinijska; još nije izračunata energija interakcije. Ovde nema ćelije ni simetrijskih operacija: sledeće lekcije omogućavaju isti račun kada je A periodična slika. [Donorstvo H-veze i protonski transfer](04-organska.md#donorske-uloge) ostaju različiti pojmovi.
 
 ### Položaj vodonika je deo neizvesnosti
 
@@ -162,6 +199,20 @@ R_{\mathrm{norm}}=
 
 Negativan \(\Delta_{\mathrm{vdW}}\), odnosno \(R_{\mathrm{norm}}<1\), označava razmak kraći od zbira izabrane tabele radijusa. To je screening signal. Rezultat zavisi od tabele radijusa, protonacije, kvaliteta koordinata i hemijskog tipa atoma. Aplikacija mora čuvati naziv i verziju korišćenog skupa radijusa.
 
+## Kapija prvog prolaza {#kapija-prvog-prolaza}
+
+Pre odlaska u [poglavlje 8](08-celija.md) objasni razliku kontakta i interakcije, izračunaj tri dužine i ugao gornjeg D–H···A primera i pokaži na LJ krivoj zašto \(r=0,9\sigma\) nije povoljniji od minimuma. Periodične primere i završnu kapiju radi tek po povratku posle poglavlja [8](08-celija.md), [9](09-simetrija.md) i [10](10-difrakcija-kvalitet.md).
+
+## Drugi prolaz: periodični kontakti {#drugi-prolaz}
+
+**Preduslovi:** znaš \(\mathbf r=\mathbf A\mathbf f\), fizičko rastojanje u kosoj ćeliji, simetrijsku operaciju i razliku ASU–ćelija–periodični nastavak iz [8](08-celija.md) i [9](09-simetrija.md), kao i occupancy/disorder iz [10](10-difrakcija-kvalitet.md#occupancy-koliko-je-kristalografsko-mesto-zauzeto). Sledeći kratki podsetnik povezuje kvalitet modela sa kontaktima; formule punog kontaktnog računa imaju glavno mesto u narednom odeljku.
+
+### Pre računa: zauzeće mesta i nered modela
+
+**Zauzeće mesta** (*occupancy*) govori koji udeo ekvivalentnih kristalografskih mesta zauzima navedena vrsta ili modelovana alternativa; nije verovatnoća da je atom „tačan“. **Nered** (*disorder*) znači da jedinstven uredan položaj/raspored ne opisuje sve ćelije ili celo vreme merenja. Model zato može sadržati međusobno isključive atomske alternative. Ako su dve orijentacije molekula zastupljene sa 0,6 i 0,4, ne smemo sve njihove atome proglasiti istovremeno prisutnim i izbrojati lažne kontakte među alternativama. Proizvod occupancy vrednosti sam ne daje zajedničku verovatnoću kontakta bez pretpostavke o zavisnosti alternativa.
+
+Broj simetrijskih kopija mesta (*multiplicity*) odvojen je od occupancy; specijalno mesto može imati manje različitih kopija uz puno zauzeće. Pre geometrije odaberi hemijski konzistentnu alternativu ili odvojeno prikaži moguće kontakte. [Detalji zauzeća](10-difrakcija-kvalitet.md#occupancy-koliko-je-kristalografsko-mesto-zauzeto) i [nereda i pomeranja](10-difrakcija-kvalitet.md#disorder-i-displacement-parametri) pripadaju kasnijoj stručnoj proveri kvaliteta.
+
 ## Kako se stvarno nalaze periodični susedi
 
 Neka matrica ćelije \(\mathbf A\) ima vektore \(\mathbf a,\mathbf b,\mathbf c\) kao kolone. Frakcionu koordinatu atoma \(j\), \(\mathbf f_j\), simetrijska operacija \(s\) pretvara u:
@@ -201,6 +252,10 @@ Pouzdan tok je:
 5. ukloni duplikate nastale na specijalnim pozicijama;
 6. tek zatim primeni hemijsko tipiziranje i geometrijske kriterijume;
 7. uz svaku ivicu sačuvaj operaciju, translaciju, udaljenost, uglove i confidence.
+
+### Referentni sloj: simetrijske kopije i deduplikacija
+
+Kod centrirane konvencionalne ćelije centrirajući pomaci moraju biti uključeni u puni skup simetrijskih translacija \(\mathbf t_s\). Susedi se ne traže samo među redovima ASU: iz nje se generišu simetrijske slike, zatim njihove celobrojno translirane kopije. Kopije se deduplikuju samo kada predstavljaju isto kristalografsko mesto unutar tolerancije i slažu se vrsta atoma, occupancy i disorder identitet; sama blizina nije dovoljna. Ishod kontakta za isto fizičko atomsko mapiranje treba da ostane isti pod ekvivalentnim \((\mathbf R_s,\mathbf t_s,\mathbf n)\) zapisima, dok se konkretni zapis čuva kao trag porekla (*provenance*) kontakta.
 
 !!! warning "Frakcioni prostor nije euklidski ekran"
     Razlika frakcionih koordinata nema jedinicu Å i njena obična Euklidska norma nije fizička udaljenost. Kod kose ćelije ni zaokruživanje svake komponente razlike na najbliži ceo broj nije uvek dovoljno za nalaženje najkraće slike. Koristi metric tensor ili proverenu periodičnu neighbor-search implementaciju.
@@ -272,7 +327,7 @@ Da bi periodični kontakt mogao da se protumači i reprodukuje, evidence mora da
 | rule set i verzija | pragovi i atom typing se menjaju |
 | quality/uncertainty | disorder, occupancy, H treatment, s.u. |
 
-Tabela je pojmovni model evidence-a, ne propisana edge schema. Graf treba da bude invarijantan na izbor origina, ekvivalentne jedinične ćelije i redosled atoma. Sirovi symmetry-operation indeks nije stabilan između dva ekvivalentna CIF zapisa, pa služi za provenance unutar konkretnog zapisa, ne kao globalni feature ID.
+Status dokazne tabele objašnjen je u [centralnoj napomeni o teorijskom i referentnom sloju](kako-koristiti.md#teorijski-i-referentni-sloj). Graf treba da bude invarijantan na izbor origina, ekvivalentne jedinične ćelije i redosleda atoma. Sirovi symmetry-operation indeks nije stabilan između dva ekvivalentna CIF zapisa, pa služi za provenance unutar konkretnog zapisa, ne kao globalni feature ID.
 
 ## Zašto je ovo relevantno za dve aplikacije
 
@@ -351,7 +406,7 @@ Isti kontakt je u drugom CIF-u generisan operacijom broj 4 umesto broj 2. Da li 
 ??? success "Odgovor"
     Ne ako je fizičko mapiranje isto. Indeks operacije je lokalni provenance podatak. Kanonski kontaktni deskriptor treba da zavisi od hemijskih partnera, geometrije i periodične topologije, a ne od redosleda operacija u fajlu.
 
-## Kriterijum prolaza
+## Kriterijum prolaza: drugi prolaz {#kriterijum-prolaza}
 
 Poglavlje si savladao kada iz <code>cu_n14_a.cif</code> možeš da reprodukuješ N2-H2N···O2 geometrijski kandidat, navedeš tačnu simetrijsku operaciju i translaciju, objasniš zašto je to kandidat a ne automatski energetski dokaz i predložiš invarijantan zapis ivice za obe aplikacije.
 
