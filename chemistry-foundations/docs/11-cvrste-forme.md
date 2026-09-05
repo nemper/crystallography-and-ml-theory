@@ -44,7 +44,7 @@ Jedan hemijski entitet može imati više formi. Jedna forma može imati više re
 
 ### Polimorf
 
-Polimorfi imaju isti hemijski sastav, ali različitu kristalnu strukturu. Razlika može biti:
+Polimorfi su različite kristalne strukture istog hemijskog materijala, uz isti sastav. U molekulskom slučaju sama jednakost sumarne formule nije dovoljna: različiti konstitucioni izomeri nisu time postali polimorfi; moraju se proveriti identitet komponenti, stereokemija i stehiometrija. Razlika između polimorfa može biti:
 
 - samo u pakovanju gotovo iste konformacije;
 - u molekulskoj konformaciji i pakovanju;
