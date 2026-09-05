@@ -81,7 +81,7 @@ Svaka grana vraća jedan od statusa:
 
 Ove kategorije opisuju ishod izvršenja grane, ne naučnu klasu relacije. Naučna labela postoji samo kada je grana ocenjena; packing relacija, na primer, može biti ista, povezana ili različita. Dvosmislenost, neprimenljivost, nedostajući ulaz, blokada kvalitetom, istek vremena i neuspeh ostaju bez naučne labele. Parcijalnost takođe nije packing klasa: opisuje se coverage-om obe strane, brojem poklopljenih molekula, RMSD-om i evidence-om o ograničenju ili upozorenju.
 
-Nedostajući ulaz, istek vremena i neuspeh nisu score 0. Nula tvrdi da je završeno validno poređenje našlo minimalnu sličnost; neocenjen ishod tvrdi da merenje nije dobijeno. Prikaz sme objediniti više takvih ishoda kao „nije ocenjeno“, ali izvorne kategorije i odsustvo naučne labele moraju ostati razlučivi.
+Nedostajući ulaz, istek vremena i neuspeh nisu score 0. Značenje numeričke nule zavisi od završene mere: Tanimoto 0 znači odsustvo zajedničkih uključenih osobina za nepraznu uniju, dok RMSD 0 znači nulto odstupanje mapiranih koordinata. Neocenjen ishod znači da rezultat mere nije dobijen i nema nijedno od tih značenja. Prikaz sme objediniti više takvih ishoda kao „nije ocenjeno“, ali izvorne kategorije i odsustvo naučne labele moraju ostati razlučivi.
 
 ## 4.3 All-pairs računanje
 
@@ -487,6 +487,8 @@ Relevantne su:
 [Weisfeiler–Lehman subtree kernel](https://www.jmlr.org/papers/v12/shervashidze11a.html) je efikasan način poređenja discrete-labeled graph neighborhoods, ali nije potpuni graph-isomorphism dokaz i može imati collisions/ograničenu diskriminaciju. Graph edit distance je intuitivan, ali exact račun može biti nepraktičan; svaka aproksimacija mora čuvati edit-cost semantiku. Optimal transport nad motif/local-environment features može dati soft poređenje, ali regularization i cost matrica postaju deo metode.
 
 H-bond rezultat je posebno osetljiv na H positions, protonation, disorder i temperature. Ishod u kojem veza nije detektovana nije isto što i dokaz da interakcija fizički ne postoji.
+
+Profil dodatno razlikuje originalne X–H koordinate od geometrije nakon neutron-normalizacije dužine X–H veze. Takva normalizacija je dokumentovana korekcija modela i može promeniti H···A rastojanje i D–H···A ugao; nije dokaz da su H položaji u konkretnom uzorku izmereni neutronima. Poređenje koristi istu deklarisanu H politiku na obe strane, uz očuvan original i poreklo transformacije ([CCDC API: normalizacija vodonika](https://downloads.ccdc.cam.ac.uk/documentation/API/modules/molecule_api.html#ccdc.molecule.Molecule.normalise_hydrogens)).
 
 ## 4.13 Disorder, occupancy i multiple models
 
