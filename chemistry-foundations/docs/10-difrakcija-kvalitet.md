@@ -288,7 +288,7 @@ Kristalografski model je prostorni i vremenski prosek ogromnog broja ćelija. Ak
 
 Model može koristiti alternativne atomske pozicije, parcijalne occupancy vrednosti i grupe koje se međusobno isključuju. Atomic displacement parameters, Uiso ili Uani, opisuju prostornu raspodelu rasipanja oko srednjeg položaja. Velika ili izrazito anizotropna vrednost može biti stvarno kretanje, disorder, loš tip atoma ili drugi model problem; nije samostalna dijagnoza.
 
-U lokalnom fajlu većina nevodonikovih atoma ima anizotropne U parametre. Većina H atoma je geometrijski postavljena riding modelom, dok je H2N naveden sa eksperimentalno refiniranim položajem. Zato ni svi atomi unutar istog CIF-a nemaju istu epistemološku težinu.
+U lokalnom fajlu većina nevodonikovih atoma ima anizotropne U parametre. Većina H atoma je geometrijski postavljena riding modelom, dok je H2N naveden sa eksperimentalno refiniranim položajem. Zato ni svi atomi unutar istog CIF-a nemaju istu epistemološku težinu. Čak i slobodno refiniran H u konvencionalnom rendgenskom modelu može dati sistematski prekratku X–H internuklearnu dužinu; [poglavlje 7 objašnjava razliku i neutronsku normalizaciju](07-interakcije.md#rendgenski-i-normalizovani-h-nisu-iste-koordinate). Pri poređenju H-veza zato proveri i koordinatnu konvenciju H, a ne samo njegovu s.u.
 
 ## Apsolutna struktura i granica stereokemijskog zaključka {#apsolutna-struktura-i-granica-stereokemijskog-zakljucka}
 
