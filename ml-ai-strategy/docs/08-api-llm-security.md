@@ -169,13 +169,13 @@ Isti model ne treba istovremeno da generiše gold, odgovara i bude jedini sudija
 
 ### Rule of three
 
-Ako se u \(n\) nezavisnih testova ne vidi nijedan kritični događaj, jednostrana približna 95% gornja granica rizika je:
+Ako se u \(n\) nezavisnih Bernoulli testova sa zajedničkom verovatnoćom kritičnog događaja ne vidi nijedan takav događaj, jednostrana 95% binomna gornja granica i njena aproksimacija su:
 
 \[
 p_{upper}=1-0.05^{1/n}\approx\frac{3}{n}.
 \]
 
-Zato „0 od 100“ ne dokazuje nulti rizik; približna gornja granica je oko 3%. Ovo je screening argument, ne security proof. Nezavisnost testova i realističnost napada jednako su važni kao njihov broj.
+Zato „0 od 100“ ne dokazuje nulti rizik; približna gornja granica je oko 3%. Ovo je screening argument, ne security proof. Granica se odnosi na populaciju i postupak uzorkovanja koje testovi predstavljaju, ne na svaki budući adaptivni napad. Parafraze istog napada i namerno odabran challenge skup nisu automatski nezavisan reprezentativan uzorak ([Hanley i Lippman-Hand](https://doi.org/10.1001/jama.1983.03330370053031)).
 
 ## Česte greške
 
