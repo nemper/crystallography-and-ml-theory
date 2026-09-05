@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** Ako ovo poglavlje savladaš, moći ćeš da razlikuješ zapis koji samo sadrži metal od stvarnog koordinacionog kompleksa i da pravilno čitaš lokalno okruženje metala. To je osnovna hemijska kontrola za obe 2CDC aplikacije.
 
+**Preduslov:** poznaješ [slobodni par i formalni naboj](02-veze.md), [geometriju oko atoma](03-geometrija.md) i [doniranje elektronskog para](04-organska.md#donorske-uloge). Redosled ovde je donor i ligand → koordinacioni broj i denticitet → oksidacioni bilans → d-broj → elektronsko tumačenje geometrije.
+
 ## 5.1 Četiri ideje koje ne smeju da se pomešaju
 
 Koordinaciona hemija proučava **centralni atom ili jon**, najčešće metal, i atome ili grupe koji su za njega neposredno vezani. Ti partneri su **ligandi**, a atom liganda koji se neposredno vezuje za metal je **donor-atom**.
@@ -118,76 +120,7 @@ U `search2` ima 2.038 entry-ja, ali samo 1.954 imaju eksportovane atomske koordi
 
 Najčešći neposredni tipovi suseda u istom grafu bili su N (12.041 metal–N ivica), O (6.307), C (2.647), Cl (1.635), S (461), Br (162), F (122), P (117) i I (58). Jedan metal može doprineti više ivica i više tipova, pa ovo nisu brojevi entry-ja.
 
-## 5.5 Koordinacioni broj ne određuje sam geometriju {#coordination-geometry}
-
-**Koordinaciona geometrija** opisuje prostorni raspored donor-atoma oko centra. Isti CN može imati različite geometrije:
-
-| CN | Česti idealizovani modeli | Šta moraš proveriti |
-|---:|---|---|
-| 2 | linearna, savijena | ugao D–M–D |
-| 3 | trigonalno-planarna, trigonalno-piramidalna | planarnost i uglovi |
-| 4 | tetraedarska, kvadratno-planarna | uglovi, dijagonale i elektronska konfiguracija |
-| 5 | kvadratno-piramidalna, trigonalno-bipiramidalna | dva najveća ugla i continuous-shape mera |
-| 6 | oktaedarska, trigonalno-prizmatična, distorzije | trans/cis uglovi i raspored lica |
-| 7+ | više mogućih poliedara | puna 3D analiza; naziv iz CN nije dovoljan |
-
-Realni kompleksi su skoro uvek distordovani: veze nisu identične, helatni prstenovi ograničavaju uglove, a packing i dodatni ligandi pomeraju idealne pozicije.
-
-### CAPHEK i mera τ₅
-
-Za petokoordinisani centar korisna je [Addisonova mera](https://doi.org/10.1039/DT9840001349):
-
-\[
-\tau_5 = \frac{\beta-\alpha}{60^\circ},
-\]
-
-gde su \(\beta\) i \(\alpha\) dva najveća ugla oko metala. Idealna kvadratna piramida ima \(\tau_5=0\), a idealna trigonalna bipiramida \(\tau_5=1\).
-
-Za lokalni CAPHEK dva najveća ugla su 147,436° i 128,705°:
-
-\[
-\tau_5 = \frac{147{,}436-128{,}705}{60} \approx 0{,}312.
-\]
-
-To je distordovana/intermedijarna petokoordinaciona geometrija, bliža kvadratno-piramidalnom kraju mere nego trigonalno-bipiramidalnom. Ne treba je proglasiti idealnom geometrijom samo na osnovu `CN = 5`.
-
-<div class="project-link">
-**Dokazna posledica:** zaključak o geometriji treba da se može povezati sa M–D distancama, D–M–D uglovima, mapiranjem atoma, CN-om i definicijom geometrijske mere. Tekstualna etiketa „square pyramidal“ je izvedena i može biti neizvesna; ovo nije propisana record schema.
-</div>
-
-### Minimalni ligand-field most: zašto elektroni utiču na geometriju
-
-VSEPR i sam koordinacioni broj nisu dovoljni za prelazne metale. Pet \(d\)-orbitala izolovanog jona imaju isti energetski nivo u idealizovanom sfernom okruženju, ali ligandi dolaze iz određenih pravaca. Njihove elektrostatičke i kovalentne interakcije zato **cepaju** te nivoe. Crystal-field model je korisna elektrostatička aproksimacija; ligand-field opis je širi i uključuje kovalentno mešanje orbitala. Ovde nam ne trebaju multipleti ni spektroskopske derivacije — samo strukturne posledice.
-
-Prvi korak je približan \(d^n\) broj. Za uobičajene komplekse \(d\)-bloka:
-
-\[
-n_d \approx \text{broj grupe metala}-\text{oksidaciono stanje}.
-\]
-
-Zato su Fe(II) približno \(d^6\), Cu(II) \(d^9\), a Zn(II) \(d^{10}\). Ovo koristi **nezavisno** određeno oksidaciono stanje; postupak bilansa sledi u [§5.7](#57-formalno-naelektrisanje-ukupni-naboj-i-oksidaciono-stanje). Oksidaciono stanje se ne čita iz MOL2 charge kolone, a ovo jednostavno pravilo za \(d^n\) ne prenosi se mehanički na \(f\)-elemente ili složeno organometalno electron counting.
-
-| Idealizovana geometrija | Kvalitativno cepanje \(d\)-orbitala | Projektno važna posledica |
-|---|---|---|
-| octahedral | \(t_{2g}=(d_{xy},d_{xz},d_{yz})\) niže; \(e_g=(d_{z^2},d_{x^2-y^2})\) više | za neke \(d^4\)–\(d^7\) konfiguracije odnos splitting-a \(\Delta_o\) i pairing energije daje high- ili low-spin stanje |
-| tetrahedral | \(e=(d_{z^2},d_{x^2-y^2})\) niže; \(t_2=(d_{xy},d_{xz},d_{yz})\) više | splitting je obično manji nego u odgovarajućem octahedral slučaju, pa su mnogi 3d tetrahedral kompleksi high spin |
-| square planar | \(d_{x^2-y^2}\), usmeren pravo ka četiri liganda, obično je najviši | česta je jaka stabilizacija square-planar \(d^8\) konfiguracije, naročito kod 4d/5d metala; to nije pravilo iz samog CN=4 |
-
-**High spin** znači da se, kada je izbor moguć, više orbitala popunjava nesparenim elektronima pre dodatnog sparivanja; **low spin** daje više sparivanja u nižim orbitalama. Odluku menjaju metal, oxidation state, donor-atomi, geometrija i ligandno polje. Spin može promeniti M–donor distance — na primer, popunjavanje orbitala sa izraženim antibonding karakterom često produžava veze — ali se spin stanje ne sme retroaktivno „dokazati“ samo jednom dužinom.
-
-**Jahn–Teller efekat** kaže da nelinearan sistem sa orbitalno degenerisanim elektronskim osnovnim stanjem može sniziti energiju distorzijom koja uklanja degeneraciju. Klasičan strukturni obrazac je pseudo-octahedral Cu(II), \(d^9\), sa četiri kraće približno ekvatorijalne i dve duže aksijalne veze. Međutim:
-
-- nije svaka aksijalna elongacija dokaz Jahn–Teller efekta;
-- različiti ligandi, helatni strain, packing, disorder i temperatura mogu dati sličnu distorziju;
-- dinamička i statička distorzija ne moraju izgledati isto u jednom prosečnom kristalnom modelu.
-
-CAPHEK sadrži Zn(II), približno \(d^{10}\). Njegovu intermedijarnu petokoordinisanu geometriju zato ne treba automatski nazvati spin- ili first-order Jahn–Teller efektom; ligandna arhitektura, sterika, koordinacione veze i packing ostaju stvarni uzroci koje treba proveriti.
-
-<div class="project-link">
-**Za similarity model:** metal, oxidation state/\(d^n\), spin kada je eksperimentalno ili pouzdano anotiran, donor set, CN, continuous-shape mera i pojedinačne distance moraju biti odvojeni feature-i. Elektronski očekivana distorzija nije „šum koji treba ispeglati“. Za lanthanide/actinide centre, hapticitet i metalne klastere aktiviraj poseban applicability flag umesto nasilnog primenjivanja ovog jednostavnog \(d\)-orbitalnog modela.
-</div>
-
-## 5.6 Denticitet i helatacija
+## 5.5 Denticitet i helatacija
 
 **Denticitet** je broj donor-grupa jednog liganda koje su vezane za isti centralni atom ([IUPAC](https://goldbook.iupac.org/terms/view/D01594)).
 
@@ -207,7 +140,7 @@ Važne nijanse:
 - isti ligand u drugom kristalu može biti mono-, bi-, tridentatan, protonovan, premošćujući ili potpuno nekoordinisan;
 - helatni efekat je termodinamička tendencija, ne pravilo da svaki polidentatni ligand u svakoj situaciji mora koristiti sva mesta.
 
-## 5.7 Formalno naelektrisanje, ukupni naboj i oksidaciono stanje
+## 5.6 Formalno naelektrisanje, ukupni naboj i oksidaciono stanje {#oksidacioni-bilans}
 
 Ova tri pojma rešavaju različite računovodstvene probleme.
 
@@ -243,6 +176,103 @@ pa se cink opisuje kao Zn(II). Acetonitril i voda u odvojenim komponentama su ne
 
 !!! danger "Ne čitaj oksidaciono stanje iz MOL2 charge kolone"
     `USER_CHARGES`, `NO_CHARGES`, `M  CHG` ili formalni naboj u eksportovanom SMILES-u opisuju konkretnu reprezentacionu šemu. Oni nisu automatski oksidaciona stanja. U lokalnom APHZUC SMILES-u uranijumski fragment čak nosi reprezentacioni zapis koji se ne sme doslovno prevesti u oksidaciono stanje bez hemijskog bilansa i provere strukture.
+
+## 5.7 Od d-broja i ligandnog polja do geometrije
+
+**Pitanje:** zašto isti broj donora ne određuje jednoznačno oblik kompleksa? Elektroni ne zauzimaju sve prostorne rasporede podjednako povoljno. Prvo iz već poznatog oksidacionog stanja prebrojimo \(d\)-elektrone, zatim pogledamo njihov raspored po orbitalama.
+
+Prvi korak je približan \(d^n\) broj. Za uobičajene komplekse \(d\)-bloka:
+
+\[
+n_d \approx \text{broj grupe metala}-\text{oksidaciono stanje}.
+\]
+
+Zato su Fe(II) približno \(d^6\), Cu(II) \(d^9\), a Zn(II) \(d^{10}\). Ovo koristi **nezavisno** određeno oksidaciono stanje; postupak bilansa već je izveden u [§5.6](#oksidacioni-bilans). Oksidaciono stanje se ne čita iz MOL2 charge kolone, a ovo jednostavno pravilo za \(d^n\) ne prenosi se mehanički na \(f\)-elemente ili složeno organometalno electron counting.
+
+Na nastavnom kompleksnom jonu \([\mathrm{Fe(H_2O)_6}]^{2+}\), šest neutralnih liganada daje \(x+6\times0=+2\), pa je Fe(II). Fe je u grupi 8: \(8-2=6\), odnosno \(d^6\). Šest O donora daje CN=6; tek sada razmatramo njegovo idealizovano oktaedarsko elektronsko okruženje.
+
+### Orbitala, par i energetski nivo
+
+Jedna orbitala može sadržati najviše dva elektrona suprotnih spinova, što označavamo kao `[↑↓]`; `[↑]` je nesparen elektron, a `[ ]` prazna orbitala. Pet d-orbitala zato ukupno može primiti deset elektrona. Energetski nivo opisuje energiju zauzimanja orbitale u ovom modelu. **Degenerisane** orbitale imaju jednaku energiju; to ne znači da su isti prostorni oblik. U grupi orbitala iste energije elektroni prvo zauzimaju različite orbitale sa paralelnim spinovima, pa se zatim sparuju.
+
+VSEPR i sam koordinacioni broj nisu dovoljni za prelazne metale. Pet \(d\)-orbitala imaju isti nivo u idealizovanom sfernom okruženju, ali ligandi dolaze iz određenih pravaca. Njihove interakcije zato razdvajaju te nivoe. **Model kristalnog polja** (*crystal-field model*) je elektrostatička aproksimacija; **ligandno polje** (*ligand field*) uključuje i kovalentno mešanje orbitala.
+
+### Dva popunjavanja istog oktaedarskog d⁶ modela
+
+Tri niže orbitale zovu se \(t_{2g}\), a dve više \(e_g\). Razlika njihovih energija je \(\Delta_o>0\). Ovo je idealizovan dijagram jednog centra; visina predstavlja energiju, ne položaj atoma:
+
+```text
+energija ↑       VISOKI SPIN                 NISKI SPIN
+
+više e_g         [↑]   [↑]                   [ ]   [ ]
+                  ↕ Δₒ                       ↕ Δₒ
+niže t₂g         [↑↓]  [↑]  [↑]              [↑↓]  [↑↓]  [↑↓]
+
+ukupno           4 + 2 = 6 elektrona         6 + 0 = 6 elektrona
+nespareni        4                           0
+parovi           1                           3
+```
+
+Ako je razmak \(\Delta_o\) mali prema dodatnoj energiji sparivanja \(P\), isplativije je zauzeti više orbitale nego formirati još dva para: dobija se **visoki spin** (*high spin*). Ako je \(\Delta_o\) velik, prednost ima **niski spin** (*low spin*). Sa zajedničkom nulom nižeg nivoa, grubo knjigovodstvo daje \(E_\mathrm{HS}=2\Delta_o+P\), \(E_\mathrm{LS}=3P\), pa \(E_\mathrm{HS}-E_\mathrm{LS}=2(\Delta_o-P)\). Ovo poredi samo dva popunjavanja istog idealizovanog d⁶ modela; nije ukupna energija kompleksa niti univerzalna formula za spin-prelaz. [OpenStax prikaz cepanja i spina](https://openstax.org/books/chemistry-2e/pages/19-3-spectroscopic-and-magnetic-properties-of-coordination-compounds) daje širi orbitalni prikaz.
+
+### Stručna referenca: druge geometrije i granice zaključka
+
+| Idealizovana geometrija | Kvalitativno cepanje \(d\)-orbitala | Projektno važna posledica |
+|---|---|---|
+| octahedral | \(t_{2g}=(d_{xy},d_{xz},d_{yz})\) niže; \(e_g=(d_{z^2},d_{x^2-y^2})\) više | za neke \(d^4\)–\(d^7\) konfiguracije odnos splitting-a \(\Delta_o\) i pairing energije daje high- ili low-spin stanje |
+| tetrahedral | \(e=(d_{z^2},d_{x^2-y^2})\) niže; \(t_2=(d_{xy},d_{xz},d_{yz})\) više | splitting je obično manji nego u odgovarajućem octahedral slučaju, pa su mnogi 3d tetrahedral kompleksi high spin |
+| square planar | \(d_{x^2-y^2}\), usmeren pravo ka četiri liganda, obično je najviši | česta je jaka stabilizacija square-planar \(d^8\) konfiguracije, naročito kod 4d/5d metala; to nije pravilo iz samog CN=4 |
+
+**High spin** znači da se, kada je izbor moguć, više orbitala popunjava nesparenim elektronima pre dodatnog sparivanja; **low spin** daje više sparivanja u nižim orbitalama. Odluku menjaju metal, oxidation state, donor-atomi, geometrija i ligandno polje. Spin može promeniti M–donor distance — na primer, popunjavanje orbitala sa izraženim antibonding karakterom često produžava veze — ali se spin stanje ne sme retroaktivno „dokazati“ samo jednom dužinom.
+
+**Jahn–Teller efekat** kaže da nelinearan sistem sa orbitalno degenerisanim elektronskim osnovnim stanjem može sniziti energiju distorzijom koja uklanja degeneraciju. Klasičan strukturni obrazac je pseudo-octahedral Cu(II), \(d^9\), sa četiri kraće približno ekvatorijalne i dve duže aksijalne veze. Međutim:
+
+- nije svaka aksijalna elongacija dokaz Jahn–Teller efekta;
+- različiti ligandi, helatni strain, packing, disorder i temperatura mogu dati sličnu distorziju;
+- dinamička i statička distorzija ne moraju izgledati isto u jednom prosečnom kristalnom modelu.
+
+CAPHEK sadrži Zn(II), približno \(d^{10}\). Njegovu intermedijarnu petokoordinisanu geometriju zato ne treba automatski nazvati spin- ili first-order Jahn–Teller efektom; ligandna arhitektura, sterika, koordinacione veze i packing ostaju stvarni uzroci koje treba proveriti.
+
+<div class="project-link">
+**Za similarity model:** metal, oxidation state/\(d^n\), spin kada je eksperimentalno ili pouzdano anotiran, donor set, CN, continuous-shape mera i pojedinačne distance moraju biti odvojeni feature-i. Elektronski očekivana distorzija nije „šum koji treba ispeglati“. Za lanthanide/actinide centre, hapticitet i metalne klastere aktiviraj poseban applicability flag umesto nasilnog primenjivanja ovog jednostavnog \(d\)-orbitalnog modela.
+</div>
+
+### Koordinacioni broj ne određuje sam geometriju {#coordination-geometry}
+
+**Koordinaciona geometrija** opisuje prostorni raspored donor-atoma oko centra. Isti CN može imati različite geometrije:
+
+| CN | Česti idealizovani modeli | Šta moraš proveriti |
+|---:|---|---|
+| 2 | linearna, savijena | ugao D–M–D |
+| 3 | trigonalno-planarna, trigonalno-piramidalna | planarnost i uglovi |
+| 4 | tetraedarska, kvadratno-planarna | uglovi, dijagonale i elektronska konfiguracija |
+| 5 | kvadratno-piramidalna, trigonalno-bipiramidalna | dva najveća ugla i continuous-shape mera |
+| 6 | oktaedarska, trigonalno-prizmatična, distorzije | trans/cis uglovi i raspored lica |
+| 7+ | više mogućih poliedara | puna 3D analiza; naziv iz CN nije dovoljan |
+
+Realni kompleksi su skoro uvek distordovani: veze nisu identične, helatni prstenovi ograničavaju uglove, a packing i dodatni ligandi pomeraju idealne pozicije.
+
+#### CAPHEK i mera τ₅
+
+Za petokoordinisani centar korisna je [Addisonova mera](https://doi.org/10.1039/DT9840001349):
+
+\[
+\tau_5 = \frac{\beta-\alpha}{60^\circ},
+\]
+
+gde su \(\beta\) i \(\alpha\) dva najveća ugla oko metala. Idealna kvadratna piramida ima \(\tau_5=0\), a idealna trigonalna bipiramida \(\tau_5=1\).
+
+Za lokalni CAPHEK dva najveća ugla su 147,436° i 128,705°:
+
+\[
+\tau_5 = \frac{147{,}436-128{,}705}{60} \approx 0{,}312.
+\]
+
+To je distordovana/intermedijarna petokoordinaciona geometrija, bliža kvadratno-piramidalnom kraju mere nego trigonalno-bipiramidalnom. Ne treba je proglasiti idealnom geometrijom samo na osnovu `CN = 5`.
+
+<div class="project-link">
+**Dokazna posledica:** zaključak o geometriji treba da se može povezati sa M–D distancama, D–M–D uglovima, mapiranjem atoma, CN-om i definicijom geometrijske mere. Tekstualna etiketa „square pyramidal“ je izvedena i može biti neizvesna; ovo nije propisana record schema.
+</div>
 
 ## 5.8 Kontraprimeri: metal je prisutan, ali ciljna koordinacija nije dokazana
 
