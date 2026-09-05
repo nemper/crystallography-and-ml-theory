@@ -154,7 +154,7 @@ Lokalni multi-block CSD CIF ima 51 jedinstven tag. Dobar je za:
 - frakcione koordinate kada postoji 3D model;
 - pojedine quality/descriptive fields.
 
-Ali ovaj **pojednostavljeni CSD CIF eksport** nema bond loop, occupancy niti ADP podatke. Atom loop sadrži label, element, frakcione koordinate i CSD radius. Zato ne treba iz njega očekivati isti nivo kao iz originalnog publication/deposition CIF-a niti samostalno smatrati graf eksplicitno zadatim.
+Ali ovaj **pojednostavljeni CSD CIF eksport** nema bond loop, occupancy niti ADP podatke. Atom-site petlja sadrži label, element i frakcione koordinate; CSD poluprečnici su u odvojenoj atom-type petlji (`_atom_type_symbol`, `_atom_type_radius_bond`). Zato ne treba iz njega očekivati isti nivo kao iz originalnog publication/deposition CIF-a niti samostalno smatrati graf eksplicitno zadatim.
 
 | Pretraga | Svi CIF blokovi | Sa atom loop-om/koordinatama | Bez njih |
 |---|---:|---:|---:|
