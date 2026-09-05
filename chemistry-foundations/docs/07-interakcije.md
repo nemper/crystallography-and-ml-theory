@@ -118,6 +118,12 @@ d(\mathrm{N2-H2N})=0.876(19)\ \text{Å}.
 
 To je korisnije od potpuno implicitnog H, ali ni tada ne treba zanemariti standardnu neizvesnost i kvalitet ostatka modela.
 
+### Rendgenski i normalizovani H nisu iste koordinate
+
+Rendgensko zračenje rasipa se na elektronskoj gustini, dok neutroni daju informacije o položajima jezgara. Kod konvencionalnog rendgenskog refiniranja sa sfernim atomskim modelom elektronska gustina vezanog H pomerena je ka vezi, pa su dobijene X–H dužine tipično kraće od internuklearnih. To važi i kada je položaj H slobodno refiniran; napredniji asferni modeli mogu znatno smanjiti ovu razliku. [IUCr istraživanje IAM/TAAM modela](https://journals.iucr.org/b/issues/2020/03/00/px5019/) objašnjava zašto „refiniran H“ nije automatski precizan položaj jezgra.
+
+Pri **neutronskoj normalizaciji** H se pomera duž postojeće X–H veze do izabrane referentne internuklearne dužine. To menja H···A udaljenost i D–H···A ugao, dok D···A ostaje isti. Referentne dužine zavise od pravila i hemijskog okruženja; normalizacija nije novo merenje niti opravdanje da se prepišu izvorne koordinate. [CCDC opis normalizacije](https://downloads.ccdc.cam.ac.uk/documentation/API/modules/molecule_api.html#ccdc.molecule.Molecule.normalise_hydrogens) i [Allen–Bruno studija referentnih X–H dužina](https://doi.org/10.1107/S0108768110012048) daju osnovu ovog postupka. Sačuvaj raw geometriju i zasebno izvedenu geometriju sa metodom i ciljnom X–H dužinom. Svi N14 brojevi u nastavku računati su iz originalnih, nenormalizovanih CIF koordinata.
+
 ## Ostale projektno relevantne interakcije
 
 ### Jonske i charge-assisted interakcije
