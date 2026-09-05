@@ -88,7 +88,7 @@ Prisustvo metala u entry-ju nije isto što i direktna koordinacija mapiranog don
 | COMPACK/Packing Similarity | klaster molekula u kristalu | lokalnu packing sličnost pod parametrima metode | dostupnost/licenca i definicija molekulske jedinice |
 | PAC | packing alignment/cluster odnos | nezavisan packing signal prema objavljenoj metodi | primenljivost i nezavisna validacija metode |
 | CrystalCMP | odabrana molekulska vrsta u kristalu | species-specific crystal poređenje | nije automatski primenljiv na coordination networks |
-| SOAP–REMatch | lokalna okruženja i agregaciju sličnosti | soft geometrijski signal | species, cutoff, kernel i stereo/reflection semantika |
+| SOAP sa REMatch ili zasebnim adapted-average kernelom | lokalna okruženja i eksplicitnu agregaciju | soft geometrijski signal | različite konstrukcije i PSD/domenski uslovi; species, cutoff i stereo semantika |
 | simulated PXRD | difrakcioni obrazac izveden iz strukture | komplementaran signal o periodičnom rasporedu | simulacija iz istog CIF-a nije nezavisan eksperimentalni dokaz |
 | interaction network | tipizirane intermolekulske veze/motivi | odnos mreža interakcija | zavisi od pravila detekcije, mapiranja i coverage-a |
 

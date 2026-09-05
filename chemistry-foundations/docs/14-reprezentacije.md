@@ -47,6 +47,8 @@ Deskriptor nije neutralan. „Broj H-bond acceptora“ zavisi od protonacije i f
 
 Extended-connectivity/circular fingerprint algoritmi iterativno opisuju lokalna atomska okruženja do određenog radijusa, a zatim ih mapiraju u skup ili bit-vektor. Osnovni rad je [Rogers i Hahn, 2010](https://pubs.acs.org/doi/10.1021/ci100050t); praktična implementacija i parametri su opisani u [RDKit vodiču](https://www.rdkit.org/docs/GettingStartedInPython.html).
 
+**Radijus je broj koraka kroz veze, ne udaljenost u Å.** Radijus 0 opisuje centralni atom; radijus 1 dodaje njegove neposredne susede, a radijus 2 i susede tih suseda. Oznaka ECFP4 se uobičajeno odnosi na dijametar 4, odnosno radijus 2; RDKit Morgan koristi parametar radijusa. Bit-vektor beleži prisustvo okruženja pomoću 0/1, dok count-vektor beleži i broj pojavljivanja. To su različite reprezentacije i zahtevaju odgovarajuću definiciju mere sličnosti.
+
 Važni parametri:
 
 - atom invariants/features;
@@ -95,6 +97,8 @@ flowchart LR
     MCS --> G3[3D geometry rerank]
     G3 --> PK[Packing/interactions ako je cilj]
 ```
+
+Ova kaskada je korisna kada je sličan molekulski graf deo definicije relevantnosti. Ako tražimo isti koordinacioni ili packing motiv među hemijski različitim strukturama, strogo odbacivanje po 2D fingerprintu može ukloniti pravi pogodak. Tada treba drugačije generisati kandidate ili sjediniti više skupova kandidata i izmeriti šta svaki korak propušta.
 
 Za drugu aplikaciju, gde su ulazi već izabran skup CIF-ova, mogu se uporedo izračunati:
 

@@ -38,7 +38,8 @@ watch:
 
 nav:
   - Početna: index.md
-  - Plan učenja za ML inženjera: 11-ml-ai-plan-ucenja.md
+  - ML/AI od nule: 00a-osnove-ml.md
+  - Plan učenja za početnika i ML inženjera: 11-ml-ai-plan-ucenja.md
   - Scope i teorijska granica: 00-scope.md
   - Pipeline i teorijska mapa odluka: 01-pipeline-decision-map.md
   - Podaci i eligibility:

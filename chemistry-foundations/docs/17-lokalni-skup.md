@@ -3,7 +3,7 @@
 **Prioritet: MORAŠ.** Ova strana je data sheet lokalnog materijala: šta je direktno pročitano iz fajlova, šta je izvedeno, gde reprezentacije gube podatke i zašto skup nije gotov ML ground truth.
 
 !!! info "Granica dokaza"
-    Sve brojke označene kao lokalne potiču iz snapshot-a dostavljenog u folderu `2CDC` i proverene su nad tim fajlovima 22. avgusta 2026. One nisu statistika današnjeg punog CSD-a. Originalni CSD izvozi, `.cqs`, eksperimentalni CIF/MOL fajlovi i ugrađeni HKL podaci **nisu commit-ovani u ovaj dokumentacioni repo**; ovde su samo agregati, metod i minimalni didaktički primeri. Pre bilo kakvog javnog objavljivanja ili distribuiranja derivata potrebna je licencna provera.
+    Sve brojke označene kao lokalne potiču iz snapshot-a dostavljenog u folderu `2CDC`. Prvobitna beleška nosi datum 22. avgusta 2026; agregati formata i metadata ponovo su provereni 5. septembra 2026. pomoću Gemmi 0.7.5 i zasebnog čitanja MOL2/SDF/SMILES zapisa. One nisu statistika današnjeg punog CSD-a. Originalni CSD izvozi, `.cqs`, eksperimentalni CIF/MOL fajlovi i ugrađeni HKL podaci **nisu commit-ovani u ovaj dokumentacioni repo**; ovde su samo agregati, metod i minimalni didaktički primeri. Pre bilo kakvog javnog objavljivanja ili distribuiranja derivata potrebna je licencna provera.
 
 ## 17.1 Tri sloja: izvor, nalaz i interpretacija
 
@@ -24,7 +24,7 @@ Naziv fajla nije poseban četvrti izvor istine. `2 - Kompleksi sa DAP SB.cqs` op
 `dve funkcionalnosti.txt` definiše dva različita proizvoda:
 
 1. **Globalna pretraga:** jedan uploadovani CIF se pretvara u hemijske/kristalografske reprezentacije, filtrira se i poredi sa velikom CSD kolekcijom; rezultat je rangirana lista sličnih struktura. Tekst predlaže slojeve za metadata, vektorsku i graf pretragu, ali ne definiše metriku relevantnosti ni ground truth.
-2. **Poređenje svakog para:** za `n` uploadovanih CIF-ova računa se `n(n−1)/2` parova uz skuplje i preciznije grafovsko, geometrijsko, packing i interaction poređenje.
+2. **Poređenje svakog para:** za `n` uploadovanih CIF-ova obrađuje se `n(n−1)/2` parova uz detaljnije grafovsko, geometrijsko, packing i interaction poređenje. Veća tačnost je cilj iz zahteva; manji broj ulaza omogućava skuplje metode, ali sam po sebi ne dokazuje da će one biti tačnije.
 
 To je product brief, ne hemijska specifikacija. Pojmovi „sličan“, „tip jedinjenja“, „osobina“ i „preciznije“ tek treba da se pretvore u merljive ugovore.
 
@@ -86,7 +86,7 @@ Oba `.cqs` sadrže isti povezani 2D connectivity motiv:
 
 `search1` nema dodatni metalni criterion. To **ne znači** da zabranjuje metale; zato sadrži svih 2.038 metal-containing članova `search2` i još 72 metal-free zapisa.
 
-`search2` dodaje nepovezan devetnaesti atom tipa `4M`. ConQuest vodič definiše `4M = 1M + 2M + TR + LN + AN`, odnosno sve metalne elemente. U query objektu ne postoji:
+`search2` dodaje nepovezan devetnaesti atom tipa `4M`. ConQuest vodič definiše `4M = 1M + 2M + TR + LN + AN`, odnosno svoju grupu metalnih elemenata. U nju preko `2M` ulaze i Ge i Sb; izrazi „metal-containing“ i „metal-free“ u ovoj forenzici prate tu softversku grupu. U query objektu ne postoji:
 
 - bond-order veza od `AT19` do jednog od tri DAP N;
 - contact/distance constraint;
@@ -129,7 +129,7 @@ Ovo daje dve različite vremenske ose:
 ```text
 data cutoff: najkasnije CSD June 2022 update
 search/save event: tragovi iz June 2026
-local audit: August 2026
+local audit: August 2026; ponovljena provera agregata September 2026
 ```
 
 Pretraga pokrenuta 2026. nad instalacijom iz 2022. **nije CSD snapshot iz 2026.** Raspon publication year-a lokalnih rezultata 1967–2022 dodatno je konzistentan sa starim cutoff-om.
@@ -222,16 +222,16 @@ Poslednjih 84 odgovara record-ima bez upotrebljivog koordinatnog modela. Status 
 | exact unique SMILES | 1.722 | 1.661 |
 | redundantni redovi | 155 | 144 |
 
-Istih 233 zajednička metal-containing entry-ja nedostaje u oba SMILES izvoza; svih 72 metal-free članova razlike imaju SMILES. Nedostajanje zato nije slučajno. U `search2` ono pogađa oko 11,4% entry-ja i naročito složenije Mn/Fe/Co/Ni zapise.
+Istih 233 zajednička metal-containing entry-ja nedostaje u oba SMILES izvoza; svih 72 metal-free članova razlike imaju SMILES. Nedostajanje zato ima obrazac povezan sa sastavom i izvozom, pa se ne sme bez provere pretpostaviti da je potpuno slučajno. To samo po sebi ne određuje formalni MCAR/MAR/MNAR mehanizam. U `search2` ono pogađa oko 11,4% entry-ja, uz zastupljenost složenijih Mn/Fe/Co/Ni zapisa.
 
 Od 1.805 dostupnih `search2` SMILES-a:
 
 - 1.306 ima više komponenti razdvojenih tačkom, oko 72,4%;
 - 769 sadrži eksplicitne znakove naboja;
 - broj komponenti ide do 5;
-- najduži red ima 1.114 karaktera.
+- najduži SMILES string ima 1.114 karaktera; ceo red sa tabulatorom i refcode-om ima 1.121 karakter bez završetka reda.
 
-SMILES-only model bi zato trenirao nad sistematski lakšim podskupom i izgubio baš deo metalnih kompleksa relevantnih za projekat.
+SMILES-only model bi zato trenirao nad selektovanim podskupom i izgubio deo metalnih zapisa relevantnih za projekat. Da li su preostali primeri za određeni ML zadatak lakši mora se posebno ispitati; to ne sledi samo iz dostupnosti izvoza.
 
 ## 17.8 N14: jedan identitet, tri vrlo nejednake reprezentacije
 
@@ -285,7 +285,8 @@ Strukturne distance u CIF-u podržavaju razumnu hemiju: P–C 1,841–1,853 Å u
 
 | Polje | Dostupno / 2.038 |
 |---|---:|
-| formula, ćelija, space group, godina | 2.038 |
+| formula, parametri ćelije, godina | 2.038 |
+| H–M oznaka prostorne grupe | 2.035 |
 | atom koordinate | 1.954 |
 | R factor | 2.023 |
 | CCDC deposition number | 1.838 |
@@ -295,16 +296,16 @@ Strukturne distance u CIF-u podržavaju razumnu hemiju: P–C 1,841–1,853 Å u
 | preparation text | 290 |
 | common name | 50 |
 
-`?`, `.`, odsutno polje i broj nula moraju ostati različita stanja. Na primer, common name nedostaje za ogromnu većinu; to nije prazan string koji model sme da tumači kao hemijsku osobinu.
+`?`, `.`, odsutno polje i broj nula moraju ostati različita stanja. Tri zapisa nemaju poznatu H–M oznaku grupe, iako postoje parametri ćelije; potrebno je proveriti ostale simetrijske podatke pre periodičnog poređenja. Na primer, common name nedostaje za ogromnu većinu; to nije prazan string koji model sme da tumači kao hemijsku osobinu.
 
 ### R faktori
 
-- medijana lokalnog R: 0,051;
+- medijana lokalnog R: 0,0512 (zaokruženo 0,051);
 - maksimum: 0,1711;
 - 71 zapisa ima `R > 0,10`;
 - 15 nema R.
 
-U svih 2.023 record-a u kojima postoje oba polja, `_refine_ls_wR_factor_gt` je tačno jednak `_refine_ls_R_factor_gt`. Ta dva eksportovana polja zato se u ovom snapshot-u ne smeju koristiti kao dva nezavisna quality feature-a; equality verovatno odražava export mapping i zahteva proveru prema izvornom entry-ju/API-ju.
+U svih 2.023 record-a u kojima postoje oba polja, `_refine_ls_wR_factor_gt` je tačno jednak `_refine_ls_R_factor_gt`. Izvoz uz ta polja izričito navodi da su obe vrednosti dobijene iz jednog CSD polja; taj komentar se javlja 2.023 puta. Ovo je dokaz dupliranog izvoznog mapiranja, pa ta polja nisu dva nezavisna pokazatelja kvaliteta. Stvarni ponderisani R ne može se rekonstruisati iz njihove jednakosti: zahteva izvorni eksperimentalni/refinement zapis ili drugi pouzdan podatak.
 
 Godine publikovanja u lokalnom `search2` idu od 1967. do 2022, sa medijanom 2012. To je istorijska raspodela ovog query subset-a, a ne ravnomeran temporalni uzorak.
 

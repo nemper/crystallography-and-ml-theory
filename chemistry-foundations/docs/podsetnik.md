@@ -60,7 +60,7 @@ Uspešna konverzija je sintaktički događaj, ne dokaz semantičke bezgubitnosti
 
 - oba sačuvana upita sadrže isto povezano 18-atomsko DAP query jezgro sa dve `C=N` veze;
 - drugi dodaje nepovezani `4M` atom;
-- `4M` dokazuje metal negde u istom entry-ju, ne DAP–metal koordinaciju;
+- `4M` zahteva element iz ConQuest legacy grupe „all metals“ negde u istom entry-ju (grupa uključuje i Ge/Sb); ne dokazuje DAP–metal koordinaciju;
 - `search2` je strogi podskup `search1`, ali membership nije coordination gold;
 - potencijalna tri donorska N atoma nisu isto što i opažena tridentatna koordinacija;
 - naziv query fajla izražava ljudsku nameru, dok constraints određuju šta je stvarno pretraženo.

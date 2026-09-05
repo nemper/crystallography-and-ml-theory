@@ -2,7 +2,7 @@
 
 ## Glavni zaključak
 
-Za 2CDC trenutno **ne postoji objavljen benchmark koji dokazuje da su CGCNN, SchNet, DimeNet, MEGNet, ALIGNN, Matformer ili neki universal interatomic potential optimalni za CSD-like crystal similarity, retrieval ili COMPACK-ekvivalentnost**. Njihovi najpoznatiji rezultati uglavnom su property prediction, energija/sile ili materials-discovery zadaci. To su drugačiji targeti.
+U izvorima pregledanim za ovo poglavlje do 5. septembra 2026. **nije nađen benchmark koji dokazuje da su CGCNN, SchNet, DimeNet, MEGNet, ALIGNN, Matformer ili neki universal interatomic potential optimalni za konkretan 2CDC CSD-like crystal similarity, retrieval ili COMPACK-ekvivalentnost zadatak**. To je granica ovog pregleda, ne dokaz da nijedan relevantan rad ne postoji. Njihovi ovde citirani rezultati uglavnom su property prediction, energija/sile ili materials-discovery zadaci. To su drugačiji targeti.
 
 Zato deep model ne zamenjuje deterministički dokaz iz modula za [precizno pairwise poređenje](04-precise-pairwise.md). Njegove legitimne uloge su:
 

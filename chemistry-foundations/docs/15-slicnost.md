@@ -21,6 +21,8 @@ Dve strukture mogu biti identične na prvom i drugom nivou, a različite polymor
 - **similarity search** rangira po numeričkoj meri — prag je projektna odluka;
 - **MCS** traži najveću zajedničku podstrukturu pod zadatim pravilima i može biti skup/višeznačan.
 
+Kod MCS-a „najveća“ mora imati kriterijum: broj atoma, broj veza ili druga unapred definisana veličina, uz odluku da li zajednički podgraf mora biti povezan. Ograničenje vremena može dati najbolji dotad pronađen podgraf bez dokaza da je globalno najveći; taj status treba prijaviti, kao u [RDKit MCS dokumentaciji](https://www.rdkit.org/docs/source/rdkit.Chem.rdFMCS.html). Substructure i MCS zato nisu zamenljivi sa brzim fingerprint rangiranjem.
+
 CCDC dokumentacija razdvaja [search pristupe](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/search_philosophy.html), [substructure searching](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/substructure_searching.html) i [similarity searching](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/similarity_searching.html).
 
 ## 15.3 Tanimoto nad binarnim fingerprintima
@@ -38,6 +40,8 @@ T=\frac{6}{10+8-6}=0.50.
 \]
 
 Vrednost zavisi od fingerprinta, radius-a, bit length-a, stereochemistry i standardizacije. „Tanimoto 0.8“ bez tih podataka nije reproducibilna činjenica. Isti prag nema isto značenje za male i velike molekule, različite hemijske domene ili različite ciljeve.
+
+Formula iznad važi za **binarna prisustva**. Kod count-vektora postoji više proširenja i mora se navesti tačno korišćena formula. Ako su oba skupa bitova prazna, imenilac je nula; softverska konvencija za taj slučaj nije dokaz hemijskog identiteta. Posebno, neuspešno parsiran ili prazan atomski zapis iz lokalnog izvoza ne sme postati „savršeno sličan“ drugom neuspešnom zapisu.
 
 ## 15.4 RMSD i geometrijska sličnost
 
@@ -57,6 +61,8 @@ Ali rezultat zavisi od:
 - disorder/occupancy izbora.
 
 Zato izveštaj prikazuje i \(N\), mapping coverage, RMSD, maksimum odstupanja i policy, ne samo jednu decimalu.
+
+Za RMSD izražen u Å manja vrednost znači bolje prostorno poklapanje; to još nije similarity score na skali 0–1. Poravnanje treba ograničiti na rotacije i translacije kada hiralnost mora biti očuvana: dozvoljena refleksija mogla bi veštački poklopiti enantiomere.
 
 ## 15.5 Packing similarity
 

@@ -12,6 +12,8 @@ Elektronski parovi se prostorno raspoređuju. Jednostavan VSEPR model predviđa 
 | 3 | trigonalno planaran | 120° |
 | 4 | tetraedarski | 109,5° |
 
+**Elektronski domen** je jedan pravac vezivanja ili jedan nevezani par oko centralnog atoma; jednostruka, dvostruka i trostruka veza prema jednom susedu računaju se svaka kao jedan domen. Tabela opisuje raspored domena. Oblik molekula opisuje samo položaje atoma: CH₄ ima tetraedarski oblik, NH₃ trigonalno-piramidalni, a H₂O savijeni, iako u sva tri primera centralni atom ima četiri domena. Zato broj domena nije isto što i broj vezanih atoma.
+
 Lone pairs odbijaju drugačije od bonding pairs, pa stvarni uglovi odstupaju. Hibridizacije `sp`, `sp2`, `sp3` su koristan model lokalne geometrije i vezivanja, ali nisu dovoljne za sve metale ili delokalizovane sisteme. [OpenStax: molekulska struktura i polaritet](https://openstax.org/books/chemistry-2e/pages/7-6-molecular-structure-and-polarity) daje vizuelne primere.
 
 ## 3.2 Tri osnovne geometrijske veličine
@@ -40,13 +42,24 @@ Promena redosleda atoma može promeniti koji je atom vrh; naziv ugla zato mora �
 
 Za A-B-C-D porede se ravni ABC i BCD. Potpisani ugao je tipično u opsegu \((-180^\circ,180^\circ]\). On opisuje rotaciju oko centralne veze B-C i presudan je za konformaciju. Zbog kružne prirode, prosečna vrednost uglova +179° i -179° nije 0°; potrebna je circular statistics.
 
+Za račun iz koordinata postavi \(\mathbf b_1=\mathbf r_B-\mathbf r_A\), \(\mathbf b_2=\mathbf r_C-\mathbf r_B\), \(\mathbf b_3=\mathbf r_D-\mathbf r_C\) i normale \(\mathbf n_1=\mathbf b_1\times\mathbf b_2\), \(\mathbf n_2=\mathbf b_2\times\mathbf b_3\). Jedna eksplicitna konvencija je:
+
+\[
+\phi=\operatorname{atan2}\!\left(
+\frac{\mathbf b_2}{\lVert\mathbf b_2\rVert}\cdot(\mathbf n_1\times\mathbf n_2),
+\mathbf n_1\cdot\mathbf n_2
+\right).
+\]
+
+`atan2(y,x)` čuva kvadrant i znak; rezultat u radijanima pretvara se u stepene množenjem sa \(180/\pi\). Ako su A–B–C ili B–C–D kolinearni, odgovarajuća normala je nula i torzija nije definisana. Na primer, za A=(0,1,0), B=(0,0,0), C=(1,0,0), D=(1,0,1) gornja konvencija daje +90°. Red atoma i konvenciju znaka treba zabeležiti pre poređenja sa drugim alatom.
+
 ## 3.3 Konstitucija, konfiguracija i konformacija
 
 | Pojam | Šta se razlikuje | Da li obična rotacija oko single veze pomaže? |
 |---|---|---|
 | konstitucioni izomer | povezanost atoma | ne |
 | konfiguracioni stereoizomer | prostorni raspored koji se ne menja običnom slobodnom rotacijom; interkonverzija zahteva prolazak kroz dovoljno visoku barijeru | ne |
-| konformer | 3D oblik istog grafa/konfiguracije | da, u principu |
+| konformer | 3D oblik istog grafa/konfiguracije | često da; u prstenu su promene torzija međusobno povezane |
 
 „Zahteva kidanje veze“ korisna je intuicija za neke konfiguracione promene,
 ali nije univerzalna definicija. Na primer, inverzija piramidalnog N može
@@ -61,6 +74,8 @@ Objekat je hiralan ako se ne može poklopiti sa sopstvenom slikom u ogledalu. Pa
 ### E/Z i cis/trans
 
 Ograničena rotacija oko double veze može dati različite konfiguracije. SMILES, MOL/SDF i CIF ne čuvaju stereokemiju na isti način; prazna stereo oznaka ne mora značiti da je molekul ahiralan, već da informacija nije određena ili nije preneta.
+
+Za alken čija oba C atoma nose po dva različita supstituenta, E/Z oznaka se dobija poređenjem prioriteta po Cahn–Ingold–Prelog (CIP) pravilima na svakom kraju dvostruke veze. Viši atomski broj neposredno vezanog atoma daje viši prioritet; izjednačenje zahteva poređenje sledećih suseda po tim pravilima. Dve grupe višeg prioriteta na istoj strani daju **Z**, a na suprotnim stranama **E**. Prioritet nije isto što i prostorna veličina grupe. Cis/trans opisuje odnos izabranih grupa i nije univerzalna zamena za E/Z. [OpenStax: E/Z označavanje](https://openstax.org/books/organic-chemistry/pages/7-5-alkene-stereochemistry-and-the-e-z-designation) daje postupak i primere.
 
 ## 3.4 Konformaciona energija nije kristalna stabilnost
 

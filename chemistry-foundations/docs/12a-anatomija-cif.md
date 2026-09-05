@@ -70,6 +70,8 @@ Ovo je mali, sintaksno validan **CIF 1.1 data block**, ali nije publication-read
 
 Autoritativna pravila za tokene, quoting, komentare, `loop_`, `?`, `.`, višeredni tekst i brojeve sa nesigurnošću daje [IUCr CIF 1.1 sintaksa](https://www.iucr.org/resources/cif/spec/version1.1/cifsyntax). Značenje pojedinačnih data names ne određuje izgled imena, već [IUCr core CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core1).
 
+Missing-value značenje imaju samostalni **nenavodnički** tokeni `?` i `.`. Znak `'?'` u navodnicima ili `?` unutar semicolon-delimited tekstualnog polja sintaksno je tekst, čak i kada ga je autor upotrebio kao placeholder. Upravo tako je zapisano systematic-name polje lokalnog N14 CIF-a. Parser treba da očuva tu razliku; kasnija kuracija može prepoznati placeholder uz trag izmene.
+
 !!! warning "Zagrada nije interval ni množenje"
     U `5.6400(10)` cifre u zagradi odnose se na poslednje cifre vrednosti. Dakle, s.u. je 0,0010. To samo po sebi ne znači da je „prava vrednost sigurno između 5,6390 i 5,6410“; standardna nesigurnost nije tvrda granica.
 
@@ -94,7 +96,7 @@ Ovde su `fract_x`, `fract_y` i `fract_z` **frakcione koordinate** u bazisu jedin
 Redosled nije obavezan, a mnoga polja mogu nedostajati. Tipičan small-molecule CIF može sadržati:
 
 1. identitet bloka, audit istoriju, autora i bibliografiju;
-2. formulu, relativnu molarnu masu i opis uzorka;
+2. formulu, relativnu formulsku masu i opis uzorka;
 3. parametre ćelije, prostornu grupu, (Z), temperaturu i gustinu;
 4. instrument, talasnu dužinu, strategiju prikupljanja i obradu refleksija;
 5. detalje rešavanja i refiniranja, R faktore, restraints i upozorenja;
@@ -111,6 +113,8 @@ Atom-site petlja obično opisuje **asimetričnu jedinicu**, ne listu svakog atom
 ```text
 ćelija + prostorna grupa/simetrija + atom sites + occupancy/disorder
 ```
+
+U sintetičkom NaCl primeru nema eksplicitne petlje simetrijskih operacija: kristalografski alat ih mora dobiti iz pouzdane tabele za zadatu grupu `F m -3 m`. Čisto tekstualni CIF parser to ne mora da ume. U ovom konkretnom slučaju ekvivalentne pozicije daju četiri Na i četiri Cl u konvencionalnoj ćeliji, u skladu sa `Z=4`; specijalne pozicije se ne broje više puta. Kod realnih grupa treba proveriti i setting i izbor koordinatnog početka, jer sam broj grupe ne određuje uvek ceo koordinatni prikaz.
 
 Parser zatim primenjuje simetrijske operacije i celobrojne translacije. Ako izvučeš samo atom-site redove i protumačiš ih kao izolovan molekul, možeš izgubiti simetrijskog suseda, preseći molekul preko granice ćelije ili pogrešno zaključiti da kontakt ne postoji.
 

@@ -32,7 +32,7 @@ Relevantne algoritamske porodice su:
 - rigidno 3D poravnanje: Kabsch tek posle atom mapping-a;
 - coordination: više candidate neighbor setova + donor mapping + continuous shape measures;
 - packing: validirana COMPACK/Packing Similarity implementacija kao moguća referenca kada je dostupna/licencirana; PAC kao nezavisna metoda poređenja;
-- soft local/crystal similarity: chemically constrained SOAP–REMatch kada domen primenljivosti prolazi;
+- soft local/crystal similarity: SOAP sa eksplicitno izabranom globalnom agregacijom — REMatch ili zaseban chemically constrained average kernel — kada domen primenljivosti prolazi;
 - powder signal: jasno parametrizovan simulated-PXRD/VC-PWDF-like komplement, ne jedini dokaz;
 - interaction networks: exact motif/fingerprint referenca i složenije WL/graph/optimal-transport alternative;
 - ML meta-model: logistic/RF/GBDT tek uz ciljane ekspertske labele i odvojene indikatore ishoda svake grane.
@@ -100,6 +100,8 @@ neuređenih parova. Za 2.110 struktura to je 2.224.995 parova.
 **Candidate-pruned:** jeftin prefilter bira parove za skupu granu. To je aproksimacija; UI i export prikazuju da neke kombinacije nisu analizirane, a prefilter mora imati recall benchmark prema full referenci.
 
 Ne nazivati candidate-pruned matricu „svim precizno upoređenim parovima“.
+
+Izvorni `dve funkcionalnosti.txt` zahteva poređenje svakog ulaznog CIF-a sa svakim drugim. Zato tom zahtevu odgovara full all-pairs režim. Candidate-pruned režim je ovde samo zasebna moguća proširena upotreba; ne ispunjava taj zahtev umesto punog poređenja. Manji broj ulaza omogućava više računanja po paru, ali veća tačnost mora biti izmerena, ne sledi automatski iz manjeg skupa.
 
 ### Računske posledice
 
@@ -393,7 +395,7 @@ Method paper ne daje automatski pravo korišćenja CCDC implementacije ili podat
 
 Kada prava i domen primenljivosti to dopuštaju, COMPACK/Packing Similarity može biti referentna metoda zbog direktne veze sa CSD praksom. PAC pruža nezavisno poređenje sa drugačijim cluster-shape informacijama. Njihova neslaganja su informativan skup za slepo stručno ocenjivanje, ali objavljeni threshold-i nisu univerzalni i ne prenose se bez target-specifične kalibracije. Svaki metod treba da prijavi matched \(N\), RMSD, cluster shape/coverage, parametre i failure reason.
 
-## 4.10 SOAP–REMatch i optimal transport
+## 4.10 SOAP, REMatch i hemijski ograničena agregacija
 
 [SOAP](https://doi.org/10.1103/PhysRevB.87.184115) predstavlja lokalno atomsko okruženje glatkom atomskom gustinom i standardnim power-spectrum kernelom invariantnim na rotaciju i refleksiju. [REMatch](https://doi.org/10.1039/C6CP00415F) kombinuje matricu lokalnih sličnosti u globalni kernel kroz entropy-regularized matching; srodan computational princip je [Sinkhorn regularizovani optimal transport](https://papers.nips.cc/paper/2013/hash/af21d0c97db2e27e13572cbf59eb343d-Abstract.html).
 
@@ -408,11 +410,13 @@ Kada prava i domen primenljivosti to dopuštaju, COMPACK/Packing Similarity mož
 - izbor centara i pondera;
 - full crystal, selected molecule ili local environment nivo.
 
-SOAP–REMatch je privlačan jer daje soft similarity i kernel za GPR/clustering. Standardni SOAP je reflection-invariant, pa sam ne razlikuje enantiomerna/ogledalska lokalna okruženja; REMatch ne može povratiti odbačenu chirality informaciju. Stereo-sensitive profil zato zadržava exact stereochemical gate ili koristi posebno validiran parity/chirality-sensitive deskriptor.
+SOAP sa izabranom agregacijom daje soft similarity za eksploraciju i poređenje. Za GPR ili kernel metode treba dodatno opravdati pozitivnu semidefinitnost baš te globalne konstrukcije: za svaku konačnu listu struktura i realni vektor težina \(c\), matrica sličnosti \(K\) mora zadovoljiti \(c^T K c\ge0\). Proizvoljan best-match maksimum ili hemijsko ograničavanje matching-a ne nasleđuje taj uslov samo zato što lokalni SOAP kernel jeste validan.
 
-Običan globalni assignment može i upariti lokalna okruženja koja nisu isti atom underlying molekula. Noviji [chemically constrained molecular-crystal SOAP rad](https://doi.org/10.1021/acs.cgd.5c01220) uvodi ograničenja na analogous atoms istog underlying molekula, ali je validiran u užem organic molecular-crystal domenu. Pre upotrebe se proveravaju chemical identity, finite-molecule status, \(Z'\), molecular symmetry i dokumentovani uslovi positive-semidefinite kernel-a. Salts, co-crystals, metal complexes, promenljivi \(Z'\) i coordination networks zahtevaju zasebnu validaciju.
+Standardni SOAP je reflection-invariant, pa sam ne razlikuje enantiomerna/ogledalska lokalna okruženja; REMatch ne može povratiti odbačenu chirality informaciju. Stereo-sensitive profil zato zadržava exact stereochemical gate ili posebno validiran parity/chirality-sensitive deskriptor.
 
-SOAP–REMatch je primenljiv samo kada applicability uslovi prolaze i kada hemijska ograničenja potiču iz exact atom/component mapping-a. SOAP score nije packing identitet bez poređenja prema nezavisnim packing metodama i ekspertima. Za ostale domene metod nije primenljiv ili daje samo eksperimentalni signal bez kernel-validity claim-a.
+Običan globalni assignment može upariti lokalna okruženja hemijski neekvivalentnih atoma. [Martin, Ceriotti i Day (2025)](https://doi.org/10.1021/acs.cgd.5c01220) zato uvode **adapted average SOAP kernel**, zasebnu konstrukciju u odnosu na REMatch: prosečavaju samo poređenja analognih atoma istog osnovnog molekula i dozvoljenih molekulskih simetrijskih mapiranja. Taj rad nije definicija „chemically constrained REMatch-a“. Validiran je na užem skupu organskih molekulskih kristala. Autori ograničavaju konstrukciju na skupove sa istim \(Z'\) ili asimetričnim osnovnim molekulom; kombinacija promenljivog \(Z'\) i simetričnog molekula ne zadržava njihovo PSD jamstvo. Primeri sa simetričnim molekulima tretiraju ih kao rigidne; opšti fleksibilni simetrični slučaj nije razrađen.
+
+Pre upotrebe se zato proveravaju chemical identity, konačnost molekula, \(Z'\), molekulska simetrija i pravila agregacije. Salts, co-crystals, metalni kompleksi i coordination networks zahtevaju zasebnu validaciju. SOAP score nije packing identitet bez nezavisnog packing/ekspertnog poređenja. Ako se uvede hemijski ograničen REMatch, to je dodatno definisana metoda sa sopstvenom validacijom, a ne automatska primena navedenog adapted-average rada.
 
 ## 4.11 PXRD kao komplementarna grana
 
@@ -659,7 +663,7 @@ Capacity procena treba da koristi rep distribucije vremena i memorije, ne samo p
 | metal neighbor set | distance/radii candidates | multi-policy sensitivity, expert-calibrated ili ChemEnv-like pravilo | cutoff i oxidation/donor pretpostavke moraju biti eksplicitne |
 | geometry label | angles/distances | CSM vector + ambiguity ili supervised classifier | classifier zahteva ciljane labele |
 | packing | cell candidate signal | licenciran/validiran COMPACK, PAC ili CrystalCMP | finite-molecule/domain i rights uslovi se razlikuju |
-| soft crystal metric | simple periodic descriptors | domain-gated, chemically constrained SOAP–REMatch ili periodic GNN | score nije packing identitet bez spoljne validacije |
+| soft crystal metric | simple periodic descriptors | SOAP–REMatch, zaseban adapted-average SOAP ili periodic GNN | agregacija i domen su eksplicitni; score nije packing identitet, a GPR zahteva validan kernel |
 | powder signal | fixed-bin cosine/correlation | validiran VC-PWDF-like ili learned model | fizička simulaciona definicija i odgovarajući podaci su obavezni |
 | interactions | typed motif fingerprint | exact mapping + motif/network, WL/OT ili graph model | tipovi ivica i protonation/disorder politika menjaju značenje |
 | combined decision | branch report | target-specific kalibrisan tree ili deep pair model | zahteva ekspertske labele i ne sme sakriti branch statuse |

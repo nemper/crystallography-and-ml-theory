@@ -73,6 +73,8 @@ Za obe metrike unapred fiksirati `N`/`k`, korpus, denominator i postupanje sa up
 
 Stručna interpretacija jednog pogotka zahteva više vrsta konteksta: identitet i sastav, poreklo i dozvoljeni obim, značenje ranga, obim mapiranog grafa, koordinacioni i 3D dokaz kada je primenljiv, packing/interakcione signale, kvalitet ulaza i razloge zbog kojih je neki nivo ostao neocenjen. Ovo su kategorije dokaza, ne fiksna result schema.
 
+Lokalni `dve funkcionalnosti.txt` traži i mogućnost preuzimanja CIF-a pogotka. Naučno i podatkovno mora biti jasno da li se preuzima originalni deponovani CIF ili pojednostavljeni/izvedeni eksport, iz koje verzije izvora i u kom dozvoljenom obimu. Rangirani pogodak ili dostupnost javnog metadata zapisa sami po sebi ne daju pravo redistribucije njegovog CIF-a.
+
 Score bez explanation-a ne omogućava stručnjaku da otkrije da je rezultat visok samo zbog velikog zajedničkog aromatičnog dela, a ključni metal environment različit.
 
 ## 18.7 Failure-aware ponašanje

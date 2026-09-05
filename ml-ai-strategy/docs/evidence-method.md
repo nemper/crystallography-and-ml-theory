@@ -1,5 +1,11 @@
 # Metod dokaza i validacije
 
+## Lokalni scope i opšta teorija imaju različite izvore
+
+Za pitanje **šta ovaj projekat traži i šta njegovi primeri sadrže**, polazni dokaz su `2CDC/dve funkcionalnosti.txt`, dostavljeni white paper i konkretni lokalni fajlovi. Online rad ne može dokazati sadržaj nepročitanog lokalnog CIF-a, razlog članstva u search grupi ili prava konkretnog korisnika. Za pitanje **kako algoritam radi i pod kojim uslovima tvrdnja važi**, koriste se primarni i zvanični izvori ispod.
+
+Provera dokumentacije nije isto što i reprodukcija algoritma ili benchmark nad punim CSD-om. Pregled citiranih radova ograničava tvrdnje na njihov target, korpus i protokol; neuspešan pristup stranici ne dokazuje da je citat netačan, ali ni da je njegov sadržaj nezavisno potvrđen.
+
 ## Hijerarhija izvora
 
 Tvrdnje se proveravaju sledećim redom:

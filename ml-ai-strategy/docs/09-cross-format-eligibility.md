@@ -52,7 +52,7 @@ Zaključak nije da jedna ekstenzija uvek pobeđuje. Bogati eksperimentalni CIF u
 U dostavljenom `search2` snapshot-u:
 
 - postoji 2.038 entry-ja;
-- 1.954 ima upotrebljiv coordinate/atom model, a 84 nema;
+- 1.954 ima dostupan coordinate/atom model, a 84 nema; sama dostupnost još ne potvrđuje naučnu validnost ni primenljivost svake geometrijske grane;
 - 1.805 ima SMILES, a 233 nema;
 - istih 233 nedostaje i u `search1`, koncentrisano u složenijim metalnim zapisima;
 - MOL2 sadrži 7.805 `Du` atoma u 627 record-a;
@@ -133,7 +133,7 @@ Dva mapirana izolovana Cartesian molekula mogu se Kabsch-poravnati i bez ćelije
 | exact/subgraph/MCS | node/edge/stereo politika i dozvoljen mapping | konflikt ili timeout ostaje vidljiv |
 | mapped molecular 3D | koordinatni sistem i atom mapping | nema RMSD tvrdnje |
 | coordination | metal/donor kandidati, distance/radii politika i ambiguity | vraća evidence o ograničenju, ne izmišljenu vezu |
-| periodic encoder/packing | validna ćelija, simetrija, site i image podaci | periodična grana nije primenljiva |
+| periodic encoder/packing | validna ćelija, simetrija, site i image podaci | nedostaje ulaz za periodičnu tvrdnju; „neprimenljivo“ je drugi status, npr. finite-molecule packing metod nad beskonačnom mrežom |
 | dokumentni RAG | odobren tekst, verzija i locator | dokument ne ulazi u corpus |
 | property model | target vezan za material/solid form, metod, uslove i vreme | nema pouzdane supervised labele |
 

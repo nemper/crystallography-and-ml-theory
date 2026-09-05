@@ -71,7 +71,7 @@ Koristi:
 
 L1/Lasso bira sparse skup, L2/Ridge stabilizuje korelisane features, a Elastic Net kombinuje oba efekta. Koeficijent nije hemijski uzrok: korelacija, transformacija i interakcije određuju tumačenje.
 
-**Ilustrativni 2CDC primer:** logistički model prima ECFP similarity, common-core coverage, donor-set match, RMSD, packing coverage, quality flags i missing-status indikatore. Output je kalibrisana verovatnoća tačno definisane ekspertske labele, ne „procenat univerzalne sličnosti“.
+**Ilustrativni 2CDC primer:** logistički model prima ECFP similarity, common-core coverage, donor-set match, RMSD, packing coverage, quality flags i missing-status indikatore. Output je procena verovatnoće tačno definisane ekspertske labele, ne „procenat univerzalne sličnosti“. Sama logistička funkcija ne garantuje kalibraciju: pogrešna specifikacija, regularizacija, promenjena učestalost klasa ili domen mogu je narušiti. Kalibracija se proverava na nezavisnim grupama i po potrebi popravlja, kao u §2.11 ([zvanična dokumentacija o kalibraciji](https://scikit-learn.org/stable/modules/calibration.html)).
 
 ## 2.3 k-nearest neighbors
 
@@ -102,7 +102,11 @@ Za 2CDC kNN je baseline i explanation aid, ne konačni globalni ranking engine.
 
 ## 2.4 Random Forest
 
+**Stablo odlučivanja** deli primere nizom uslova nad osobinama, npr. „da li je common-core coverage veći od praga?“. U listu daje procenu klase ili numeričke vrednosti iz trening primera koji su do njega stigli. Trening bira podele koje popravljaju zadati kriterijum; nije dokaz da je izabrani prag univerzalno hemijsko pravilo.
+
 [Random Forest](https://doi.org/10.1023/A:1010933404324) gradi mnogo stabala nad bootstrap uzorcima i nasumičnim podskupovima features, pa agregira njihove rezultate.
+
+Bootstrap ovde znači uzorkovanje trening redova **sa vraćanjem**, pa neki red može biti izabran više puta, a neki nijednom. **Out-of-bag (OOB)** predikcija za red koristi stabla u čijem bootstrap uzorku taj red nije bio. Ako druga verzija iste strukture ili par koji deli endpoint jeste u uzorku, OOB i dalje može biti optimističan; zato ne zamenjuje grupisanu evaluaciju.
 
 ### Zašto odgovara projektu
 
@@ -150,7 +154,7 @@ Boosting sekvencijalno dodaje slaba stabla koja popravljaju trenutni loss. [XGBo
 - heterogeneous tabular deskriptori;
 - pairwise relevance sa mnogo nelinearnih interakcija;
 - property prediction kada labela nije dovoljno velika za end-to-end GNN;
-- LambdaMART/listwise reranking kada postoje query-grupisane graded relevance labele.
+- LambdaMART ili listwise reranking kada postoje query-grupisane ocene relevantnosti. LambdaMART koristi pairwise gradijente ponderisane promenom ranking metrike; labele mogu biti binarne ili višestepene.
 
 Na 30 QSAR skupova je [XGBoost poređen sa RF i neuralnim mrežama](https://doi.org/10.1021/acs.jcim.6b00591), ali rezultat iz bioaktivnosti ne prenosi se automatski na kristalno pakovanje. [MoleculeNet](https://doi.org/10.1039/C7SC02664A) dodatno podržava da kernel SVM i tree ensemble metode ostaju ozbiljni kandidati u data-scarce režimu.
 
@@ -165,6 +169,8 @@ Na 30 QSAR skupova je [XGBoost poređen sa RF i neuralnim mrežama](https://doi.
 ## 2.7 SVM i SVR
 
 [Support-vector machines](https://doi.org/10.1007/BF00994018) traže marginu u originalnom ili kernel-induced prostoru.
+
+Margina je razmak između granice odluke i najbližih relevantnih trening primera — support vectors. **Kernel** računa skalarni proizvod u eksplicitnom ili implicitnom feature prostoru, \(K(x,z)=\phi(x)^T\phi(z)\), čime linearna granica u tom prostoru može postati nelinearna u originalnom. Nije svaka proizvoljna similarity funkcija validan kernel: potrebna je simetrična pozitivno semidefinitna Gram matrica. SVR analogno uči numerički target uz definisan tolerisani pojas greške.
 
 ### Dobar režim
 
@@ -208,7 +214,7 @@ Broj komponenti bira se unutar inner CV-a; preprocessing se fituje samo na treni
 
 - desetine do niske hiljade skupih, dobro definisanih property labela;
 - aktivno učenje ili Bayesian optimization kada je akviziciona odluka deo cilja;
-- SOAP/REMatch ili drugi validan kernel nad strukturama;
+- SOAP ili drugi kernel nad strukturama sa opravdanom pozitivnom semidefinitnošću; izbor globalne agregacije/matching-a mora posebno zadovoljiti taj uslov (videti §4.10);
 - scenario gde lokalna smoothness pretpostavka ima hemijski smisao.
 
 ### Oprez
@@ -302,7 +308,7 @@ Efektivni (n) je broj nezavisnih compound/scaffold/solid-form grupa, ne broj sko
 | Posao | Transparentna referenca | Porodice koje vredi porediti | Uslov primenljivosti |
 |---|---|---|---|
 | 2D retrieval | exact ECFP/count + Tanimoto | optimizovan exact, representation-matched ANN, learned embedding | ANN meri aproksimaciju iste reprezentacije; learned embedding je nova semantička hipoteza |
-| tabular pair relevance | logistički model | RF/ExtraTrees, kalibrisan GBDT, LambdaMART | LambdaMART zahteva graded query labele |
+| tabular pair relevance | logistički model | RF/ExtraTrees, kalibrisan GBDT, LambdaMART | LambdaMART zahteva query grupe i ocene relevantnosti, binarne ili višestepene |
 | mali property regression | mean + Ridge | RF/ExtraTrees/GBDT, SVR, GPR | izbor zavisi od efektivnog broja grupa, kernela i uncertainty cilja |
 | veći property skup sa validnim 3D | descriptor model | tree ensemble ili periodic/geometric GNN | 3D model mora pokazati korist na grouped/OOD evaluaciji |
 | review triage | stručna pravila | kalibrisan linearni ili tree model, conformal reject sloj | target je prioritet pregleda, ne naučna validnost |

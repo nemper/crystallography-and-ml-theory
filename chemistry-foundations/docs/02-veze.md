@@ -47,6 +47,12 @@ U osnovnom modelu:
 
 Višestruka veza je obično kraća i jača od odgovarajuće jednostruke, ali "obično" zavisi od istih elemenata i sličnog okruženja.
 
+### Zašto se kasnije pojavljuju σ, π i konjugacija
+
+U osnovnom orbitalnom modelu **σ-veza** nastaje preklapanjem orbitala duž ose između jezgara, dok **π-veza** uključuje bočno preklapanje, sa elektronskom gustinom sa obe strane te ose. Obična jednostruka veza ima jedan σ doprinos, dvostruka jedan σ i jedan π, a trostruka jedan σ i dva π doprinosa. To objašnjava zašto je rotacija oko izolovane dvostruke veze ograničena: menja se preklapanje π-orbitala.
+
+**Konjugacija** znači da susedne odgovarajuće orbitale mogu povezano da se preklapaju preko više atoma, kao u nizu `C=C–C=C`. Elektroni tada nisu opisani samo jednim izolovanim parom atoma. To je most ka rezonanci, aromatičnosti i rigidnosti amida, a ne dodatna vrsta bond koda u fajlu. [OpenStax: višestruke veze](https://openstax.org/books/chemistry-2e/pages/8-3-multiple-bonds) ilustruje σ/π preklapanje.
+
 Neke vrste ne može verno opisati jedna Lewisova forma. Kod **rezonance** više crteža ima isti raspored jezgara, a različitu formalnu raspodelu elektrona. Prava vrsta ne skače između crteža; elektronska struktura je rezonantni hibrid. [OpenStax objašnjenje rezonance](https://openstax.org/books/chemistry-2e/pages/7-4-formal-charges-and-resonance) pokazuje zašto jednake N-O dužine u nitritu ne odgovaraju jednoj fiksnoj single i jednoj double vezi.
 
 ### Lokalni dokaz
@@ -117,4 +123,3 @@ Kod rendgenske kristalografije direktno se meri difrakcija, iz nje se modeluje e
     5. Ne; može samo značiti da charges nisu izračunate ili zapisane.
 
 **Kriterijum prolaza:** uz jedan lokalni zapis jasno označi šta je element, koordinata, dodeljeni atom-tip, dodeljeni bond tip, formalni naboj i parcijalni naboj.
-

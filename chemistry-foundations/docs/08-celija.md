@@ -367,7 +367,7 @@ Metric tensor se menja kao:
 
 Ako je \(\mathbf P\) celobrojna unimodularna matrica, \(|\det\mathbf P|=1\), dobija se druga baza iste rešetke i iste zapremine. Ona je primitivna **ako je i početna baza primitivna**; unimodularna transformacija čuva primitivnost, ali ne pretvara centriranu konvencionalnu ćeliju u primitivnu.
 
-Ako je \(|\det\mathbf P|=m>1\), nova baza razapinje podrešetku indeksa \(m\) i njena ćelija ima \(m\) puta veću zapreminu. Da bi takav supercell predstavljao isti beskonačni kristal, atomski motiv se ne „uvećava“ proizvoljno: generiše se \(m\) translacionih kopija, po jedan coset representative početne rešetke u odnosu na podrešetku, zatim se uklanjaju periodični duplikati.
+Ako je \(\mathbf P\) celobrojna matrica i \(|\det\mathbf P|=m>1\), nova baza razapinje podrešetku indeksa \(m\) u rešetki razapetoj početnom bazom i njena ćelija ima \(m\) puta veću zapreminu. Da bi takav supercell predstavljao isti beskonačni kristal, atomski motiv se ne „uvećava“ proizvoljno: generiše se \(m\) translacionih kopija, po jedan coset representative početne rešetke u odnosu na podrešetku, zatim se uklanjaju periodični duplikati.
 
 Ako se origin pomeri za \(\mathbf o\), nove frakcione koordinate su:
 
@@ -398,15 +398,13 @@ Reduced-cell search je dobar kandidat-generator za slične rešetke. Nije dovolj
 - broj molekula u CIF atomskom loop-u;
 - broj redova posle symmetry expansion-a.
 
-\(Z'\), čita se „Z prime“, u jednostavnom molekulskom slučaju označava broj kristalografski nezavisnih formula units u asimetričnoj jedinici.
-
-Ako je multiplicity opšte pozicije \(m\), a sve jedinice su na opštim pozicijama:
+\(Z'\), čita se „Z prime“, u molekulskom opisu označava broj formula units u asimetričnoj jedinici. Uz dosledno izabranu hemijsku formulu, ćeliju i multiplicity opšte pozicije \(m\), standardna definicija daje:
 
 \[
-Z=mZ'.
+Z'=\frac{Z}{m},\qquad Z=mZ'.
 \]
 
-Ovo nije univerzalna formula bez provere. Specijalne pozicije, višekomponentne forme, polimerne mreže, disorder i parcijalne occupancy vrednosti zahtevaju račun preko site multiplicity-ja i stehiometrije.
+Specijalne pozicije ne ukidaju ovaj odnos: mogu dati razlomljeno \(Z'\), na primer polovinu molekula nezavisno navedenu u ASU. Ono što ne sme da se radi jeste da se broj redova atomskog loop-a ili broj celih nacrtanih molekula proglasi za \(Z'\). Višekomponentne forme, polimerne mreže, disorder i parcijalne occupancy vrednosti zahtevaju proveru šta predstavlja formula unit i da li se sastav iz site multiplicity-ja i occupancy-ja slaže sa prijavljenim \(Z\). Definicija i granice tumačenja dati su u [IUCr rečniku za Z i Z′](https://dictionary.iucr.org/Z_and_Z%27).
 
 Za N14:
 

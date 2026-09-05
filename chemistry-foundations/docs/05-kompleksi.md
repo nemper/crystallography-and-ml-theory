@@ -135,7 +135,7 @@ Realni kompleksi su skoro uvek distordovani: veze nisu identične, helatni prste
 
 ### CAPHEK i mera τ₅
 
-Za petokoordinisani centar korisna je Addisonova mera:
+Za petokoordinisani centar korisna je [Addisonova mera](https://doi.org/10.1039/DT9840001349):
 
 \[
 \tau_5 = \frac{\beta-\alpha}{60^\circ},

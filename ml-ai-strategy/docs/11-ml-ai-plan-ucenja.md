@@ -1,6 +1,6 @@
 # Plan učenja ML/AI dela za 2CDC
 
-Ovo je putanja kroz postojeći kurs hemije i ML/AI strategiju za inženjera koji već zna da trenira, validira i isporuči ML sistem, ali tek gradi domensko znanje iz hemije i kristalografije. Plan ne ponavlja teoriju iz postojećih poglavlja. On određuje **redosled, preduslove, projektantske vežbe i dokaze razumevanja**.
+Ovo je putanja kroz kurs hemije i ML/AI teoriju, dostupna i čitaocu bez predznanja iz obe oblasti. Početnik prvo prolazi [ML/AI od nule](00a-osnove-ml.md); iskusan ML inženjer može taj modul koristiti kao dijagnostiku i preći dalje tek kada ume da reši njegove primere. Plan određuje **redosled, preduslove, projektantske vežbe i dokaze razumevanja**; nije pretpostavka da čitalac već zna da trenira i validira model.
 
 Osnovna putanja organizovana je kao niz tematskih celina povezanih preduslovima i kapijama razumevanja. Nema kalendarski raspored niti procenu trajanja: napredovanje zavisi isključivo od savladanih preduslova i prolaska odgovarajućih kapija. Putanja ne uključuje implementiranje dve aplikacije, treniranje modela niti kompletno čitanje svake spoljne reference.
 
@@ -16,7 +16,7 @@ Ovaj plan dopunjuje [postojeći plan učenja hemije](https://github.com/nemper/c
 3. **Determinističko jezgro prethodi ML-u.** Parser, standardizacija, hard filteri, atom/component mapping i periodična geometrija nisu poslovi za generativni model.
 4. **`UNKNOWN` nije nula.** Dvosmisleno, odsutno, neprimenljivo, blokirano kvalitetom, isteklo i neuspešno nisu ista stanja i nijedno automatski ne postaje negativna labela ili similarity `0`.
 5. **Restricted podaci ostaju u odobrenom data-plane-u.** Raw CSD i fakultetski sadržaj ne kopira se radi vežbe; primer mora biti otvoren, sintetički ili eksplicitno dozvoljen za tu svrhu.
-6. **Ne uči opšti ML ponovo.** Linearni modeli, tree ensemble-i, GNN, metric learning i kalibracija obrađuju se kroz 2CDC targete, splitove, failure slice-ove i uslove fer evaluacije.
+6. **Ne preskači osnovne ML međukorake.** Najpre razjasni uzorak, reprezentaciju, target, loss, učenje, split i metrike u uvodnom modulu. Linearne modele, tree ensemble-e, GNN, metric learning i kalibraciju zatim poveži sa 2CDC targetima. Ranije znanje može skratiti ponavljanje, ali ne zamenjuje proveru razumevanja.
 
 ## Prioriteti i tačan redosled čitanja
 
@@ -30,6 +30,7 @@ Uporedna mapa algoritamskih porodica čita se dva puta: prvi put radi orijentaci
 
 | Red | Dokumentacija | Prioritet | Kada i zašto |
 |---:|---|---|---|
+| 0 | [ML/AI od nule](00a-osnove-ml.md) | O za početnika | Osnovni račun, uzorak/feature/labela, vektori/grafovi, fitting, split, metrike, GNN/attention i jezički modeli; iskusan čitalac najpre prolazi samoproveru. |
 | 1 | Hemija: naslovna, „Šta projekat zapravo traži“, plan i dijagnostika | O | Pre svega: razdvoji sastav, graf, konformer, kristal i eksperimentalni model. |
 | 2 | ML/AI: [početna](index.md), [scope](00-scope.md) i [mapa pipeline-a](01-pipeline-decision-map.md) | O | Definiši dva problema, funkcije pipeline-a i razliku između referentnih i learned metoda. |
 | 3 | [Uporedna mapa algoritamskih porodica](10-optimal-stack-roadmap.md) | O | Prvi, orijentacioni prolaz kroz objekte, targete i uslove primene; nije realizacioni plan. |
@@ -66,6 +67,16 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 | Federativno učenje | 21–22 | FL nije zamena za licencu niti automatska privatnost; bez opravdanog multi-site targeta odluka je **DEFER**. |
 
 ## Tematske celine po redosledu preduslova
+
+### Početnički most: od podataka do procene uspeha
+
+**Čitaj:** [ML/AI od nule](00a-osnove-ml.md), po redosledu njegovih deset celina. Istovremeno počni hemijske osnove; za prve ML proračune nije potrebno detaljno znanje kristalografije.
+
+**Fokus:** uzorak naspram feature-a i labele, deterministički algoritam naspram učenja, skalar/vektor/matrica, loss i parametri, trening/validation/kalibracija/test, precision/recall/nDCG i značenje uzdržavanja.
+
+**Vežba:** bez gledanja rešenja ponovi Tanimoto primer, izračunaj 45 parova za 10 ulaza i objasni zašto candidate miss ne može ispraviti reranker. Nacrtaj četiri odvojene grupe podataka i smesti sve formate istog primera u jednu grupu.
+
+**Kapija:** umeš da čitaš oznake u osnovnim formulama i da razlikuješ izračunatu geometriju, procenu verovatnoće i rang. Ako ne umeš, vrati se relevantnoj celini uvoda pre detaljnog algoritamskog modula.
 
 ### Problem pre algoritma
 
@@ -231,6 +242,7 @@ Za osnovnu putanju su obavezna sva glavna hemijska poglavlja 1–22, ali ne i sv
 
 | Kapija | Prelaziš kada razumeš i možeš da obrazložiš | Ne prolazi ako |
 |---|---|---|
+| G−1 — ML i matematički minimum | uzorak/feature/labelu, normu i skalarni proizvod, fitting/split, Tanimoto i recall na malom primeru | brojevi 0–1 se automatski nazivaju verovatnoćom ili se ista struktura u više formata broji kao nezavisni skup |
 | G0 — claim i prava | objekat, target, scope, evidence, rights pitanja, abstention i stop-uslov za svaki output | nepoznata licenca se prećutno tretira kao dozvola |
 | G1 — hemijski graf i koordinacija | DAP motif, stereo, charge, component i donor mapping na ilustrativnom primeru | formula, filename ili samo prisustvo metala glume povezanost |
 | G2 — crystal i 3D | očekivano PBC/symmetry/setting/basis i stereo ponašanje | RMSD prethodi atom mapping-u ili cell/space group glume packing dokaz |

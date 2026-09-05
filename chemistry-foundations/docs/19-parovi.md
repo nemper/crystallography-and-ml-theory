@@ -1,6 +1,6 @@
 # 19. Precizno poređenje parova
 
-**Cilj druge aplikacije:** za učitani skup CIF-ova izračunati svako potrebno poređenje i vratiti rastavljiv, stručno proverljiv izveštaj — ne samo matricu neobjašnjenih brojeva.
+**Cilj druge aplikacije:** za učitani skup CIF-ova obraditi svaki neuređeni par i vratiti rastavljiv, stručno proverljiv izveštaj — ne samo matricu neobjašnjenih brojeva. Kada ulazi ne omogućavaju određeno poređenje, taj par ostaje u obuhvatu sa jasnim razlogom neocenjenog nivoa. Manji korpus omogućava više računskog vremena po paru, ali sam po sebi ne dokazuje veću naučnu tačnost od globalne pretrage; to se proverava evaluacijom.
 
 ## 19.1 Prvo definiši jedinicu poređenja
 
@@ -155,6 +155,8 @@ Ista struktura treba da ostane ista nakon:
 - ekvivalentnog \(P\,2_1/c\leftrightarrow P\,2_1/n\) setting-a;
 - invertibilne basis/conventional-cell promene;
 - validnog različitog SMILES atom ordering-a.
+
+Ove promene moraju očuvati **isti fizički periodični model**. Rotira se cela struktura zajedno sa ćelijom; kod promene bazisa ili početka dosledno se transformišu koordinate i simetrijske operacije. Za dva primitivna bazisa istu rešetku garantuje celobrojna transformacija sa determinantom ±1. Prelaz na ne-primitivnu konvencionalnu ćeliju dodatno zahteva odgovarajući broj i raspored ekvivalentnih atomskih mesta. Proizvoljno skaliranje ćelije ili rotacija samo atomskih koordinata nisu ekvivalentno prekodiranje kristala.
 
 Namerno različiti testovi:
 

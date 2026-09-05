@@ -26,7 +26,7 @@ Svaki sloj ima različit zadatak:
 4. **reranker** koristi skuplje, rastavljive dokaze da preuredi mali skup;
 5. **kalibracija/abstention** vezuju odluku za tačno definisan target.
 
-Exact ECFP/count fingerprint + Tanimoto daje transparentnu 2D referencu. Za svaku dense reprezentaciju exact Flat je oracle prema kome se mere HNSW, IVF i PQ varijante; njihov izbor zavisi od recall–latency–memory kompromisa, filtera i troška kompresije. Porodica rerankera zavisi od dostupne supervizije: pravila su prikladna bez labela, pointwise modeli za nezavisne relevance labele, a LambdaMART tek za stvarne query-grupisane graded relevance labele.
+Exact ECFP/count fingerprint + Tanimoto daje transparentnu 2D referencu. Za svaku dense reprezentaciju exact Flat je oracle prema kome se mere HNSW, IVF i PQ varijante; njihov izbor zavisi od recall–latency–memory kompromisa, filtera i troška kompresije. Porodica rerankera zavisi od dostupne supervizije: pravila su prikladna bez labela, pointwise modeli za pojedinačne relevance labele, a LambdaMART za stvarne query-grupisane ocene relevantnosti, binarne ili višestepene.
 
 **Granica prema tekstualnom RAG-u:** svaki „dense embedding“ u ovom poglavlju znači validiranu reprezentaciju molekula, koordinacionog okruženja, 3D oblika ili periodične strukture. Dokumentacioni RAG, BM25, sentence embeddings i jezički rerankeri imaju drugi korpus, drugi relevance contract i drugi indeks. Generic text embedding CIF teksta nije crystal-similarity reprezentacija.
 
@@ -305,7 +305,7 @@ PQ je racionalan samo kada je memorija stvarno ograničenje i kada IVF/PQ candid
 
 ## 3.9 MHFP6, MinHash i LSH
 
-[MHFP6](https://doi.org/10.1186/s13321-018-0321-8) pravi set kružnih substructure SMILES shingles do šest veza i koristi MinHash, čime omogućava locality-sensitive hashing za približnu Jaccard sličnost.
+[MHFP6](https://doi.org/10.1186/s13321-018-0321-8) pravi set SMILES zapisa kružnih atomskih okruženja prečnika do šest veza (radijus tri), uz prstenske SMILES prema izvornom shingling pravilu, i koristi MinHash. To omogućava locality-sensitive hashing za približnu Jaccard sličnost; broj 6 nije radijus okruženja.
 
 To ga čini smislenom alternativom za veliki 2D korpus, ali ne i drop-in ECFP ekvivalentom:
 
@@ -346,7 +346,7 @@ Filtered recall se meri prema exact top-`K'` **unutar istog filtriranog skupa**,
 R_{filtered}@K'=\frac{|ANN_K(q,F)\cap Exact_{K'}(q,F)|}{K'},
 \]
 
-uz tie-aware varijantu iz §3.16. Izveštaj slice-uje filter selectivity i korelaciju filtera sa vector prostorom; retki nasumični filter nije dovoljan test.
+uz tie-aware varijantu iz §3.16. Ako je `K'=0`, recall nije definisan: odvojeno se proverava da je rezultat prazan i prijavljuje broj takvih upita, bez dodeljivanja lažnog recall-a 0 ili 1. Izveštaj slice-uje filter selectivity i korelaciju filtera sa vector prostorom; retki nasumični filter nije dovoljan test.
 
 ### Ilustrativni cost režimi
 
@@ -452,10 +452,12 @@ Dobar je kandidat kada postoje:
 
 - mnogi query-ji;
 - više kandidata po query-ju;
-- graded labels, na primer `0/1/2`;
+- query-grupisane ocene sa razlikama relevantnosti; višestepene `0/1/2` daju bogatiji signal od binarnih;
 - dovoljno hard negatives;
 - query-grouped trening API;
 - stabilne, rastavljive tabularne features.
+
+Višestepene ocene nisu matematički preduslov: i binarne `0/1` ocene mogu trenirati LambdaMART ako su vezane za stvarne query grupe sa razlikama relevantnosti. [LightGBM dokumentacija](https://lightgbm.readthedocs.io/en/stable/Parameters.html#label_gain) definiše dobitke za celobrojne relevance labele. Višestepene ocene daju bogatiju superviziju; nasumično spajanje nepovezanih parova u izmišljeni query ne daje validan ranking zadatak.
 
 Nije opravdan kada je „labela“ samo Tanimoto threshold ili stari rule score. Tada model u najboljem slučaju imitira postojeću formulu, a može dodati leakage.
 
@@ -631,7 +633,7 @@ Optimalna kombinacija je najmanja koja ispunjava ekspertni recall uz dozvoljeni 
 
 ### Reranker porodice
 
-Transparentna pravila, logistički/ordinalni modeli i tree ensembles odgovaraju različitim količinama i vrstama supervizije. LambdaMART zahteva query-grupisane graded labele, dok hemijski cross-encoder ima smisla samo kada zajednička obrada dve strukturisane reprezentacije donosi merljivu korist koja opravdava trošak.
+Transparentna pravila, logistički/ordinalni modeli i tree ensembles odgovaraju različitim količinama i vrstama supervizije. LambdaMART zahteva query-grupisane ocene relevantnosti, binarne ili višestepene, dok hemijski cross-encoder ima smisla samo kada zajednička obrada dve strukturisane reprezentacije donosi merljivu korist koja opravdava trošak.
 
 Ovde „cross-encoder“ znači model koji zajednički prima dve strukturisane hemijske/grafovske/periodične reprezentacije i trenira se na crystal-relevance labelama. Ne znači generic jezički cross-encoder nad sirovim CIF tekstom.
 
@@ -696,7 +698,7 @@ Ranker features poput originalnog ranka, kanala i candidate multiplicity menjaju
 | 3D candidate | validiran shape descriptor | learned geometric embedding | molekulski oblik nije crystal packing |
 | candidate merge | unija sa per-channel poreklom | rule-based ili learned fusion | learned fusion zahteva labele i ablation kanala |
 | rerank bez labela | lexicographic/rule formula | nema opravdanog supervised modela | pseudo-supervision ne stvara novu relevantnost |
-| rerank sa labelama | logistički/ordinalni model | tree ensemble ili LambdaMART | LambdaMART zahteva query-grupisane grades |
+| rerank sa labelama | logistički/ordinalni model | tree ensemble ili LambdaMART | LambdaMART zahteva query-grupisane ocene, binarne ili višestepene |
 | finalna odluka | rastavljive score komponente | kalibracija i abstention | nikad jedan neobjašnjiv „procenat sličnosti“ |
 
 ## 3.21 Anti-patterni

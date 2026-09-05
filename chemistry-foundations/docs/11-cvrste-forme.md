@@ -29,6 +29,8 @@ Zbog toga isti molekulski graf ne određuje jedinstven čvrsti materijal. Promen
 
 ## Četiri nivoa identiteta
 
+U farmaceutskim primerima **API** znači *active pharmaceutical ingredient*, odnosno aktivna farmaceutska supstanca. To je drugo značenje skraćenice od programskog API-ja (*application programming interface*) u ML/AI delu projekta.
+
 | Nivo | Pitanje | Primer identifikatora |
 |---|---|---|
 | hemijski entitet | koji su povezanost atoma, stereokemija i protonaciono stanje? | InChI, standardizovani molekulski graf |
@@ -140,11 +142,13 @@ Kako se gradi i tumači referentna geometrijska raspodela, zašto su torzije kru
 
 ## Termodinamički minimum
 
-Pri konstantnoj temperaturi i pritisku, ravnotežno stabilna forma ima najnižu Gibbsovu slobodnu energiju:
+Pri konstantnoj temperaturi, pritisku i ukupnom sastavu, ravnotežno stabilno stanje ima najnižu Gibbsovu slobodnu energiju. Za poređenje polimorfa istog sastava koristi se ista količina supstance, na primer jedan mol iste formula unit:
 
 \[
 G = H - TS
 \]
+
+Ovde je \(H\) entalpija, \(S\) entropija, a \(T\) apsolutna temperatura. U računima po molu i \(G\), \(H\) i \(S\) odnose se na tu istu molarnu osnovu. Ne možeš samo uporediti sirove \(G\) vrednosti anhidrata i hidrata sa različitim brojem molekula vode: potrebno je bilansirati i vodu razmenjenu sa okolinom. Tada stabilnost zavisi i od njenog hemijskog potencijala, odnosno aktivnosti vode pri zadatim uslovima. [Eksperimentalna studija hidrata/anhidrata karbamazepina](https://doi.org/10.1021/op7001497) pokazuje zašto se redosled stabilnosti može promeniti sa aktivnošću vode pri istoj temperaturi.
 
 Za dve forme A i B:
 

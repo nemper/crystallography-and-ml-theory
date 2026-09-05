@@ -121,9 +121,9 @@ Rezultat je lista sa razlogom za svaki rang, a ne rečenica „AI kaže 92% sli�
 
 Složeniji metod može se smatrati opravdanim samo ako:
 
-1. pobeđuje zamrznuti baseline na unapred definisanoj primarnoj metrici;
+1. pokazuje praktično poboljšanje unapred definisane primarne metrike ili unapred zadatu non-inferiority uz značajnu računsku/operativnu korist;
 2. ne pogoršava kritični worst-slice preko dogovorene margine;
-3. paired interval razlike isključuje praktično beznačajnu korist;
+3. paired interval razlike podržava izabranu tvrdnju o poboljšanju ili non-inferiority margini; sama tačkasta pobeda nije dovoljna;
 4. calibration/OOD i abstention testovi prolaze;
 5. latencija, memorija i operativni trošak staju u budžet;
 6. rezultat zadržava potreban atomski/periodični evidence;

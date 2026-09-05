@@ -48,7 +48,7 @@ Reakcija je ravnotežna. Acid/base uslovi, voda, rastvarač, temperatura i stabi
 
 IUPAC definiše **imine** kao jedinjenja sa motivom `RN=CR2`; aldehidni i ketonski analozi razlikuju se kao aldimini i ketimini ([imines](https://goldbook.iupac.org/terms/view/I02957)). **Schiffove baze** su imini kod kojih N nosi hidrokarbilnu grupu, `R2C=NR′`, uz `R′ ≠ H` ([Schiff bases](https://goldbook.iupac.org/terms/view/S05498)).
 
-U našem DAP motivu svaki iminski C potiče od ketona i vezan je za `CH3` i piridinski kostur; zato su to ketiminske Schiff-base ruke kada iminski N nosi organski supstituent.
+U našem DAP motivu svaki iminski C potiče od ketona i vezan je za `CH3` i piridinski kostur; zato su to ketiminske Schiff-base ruke kada iminski N nosi hidrokarbilni supstituent, kao arilnu grupu u CAPHAG-u. Samo prisustvo `C=N` i nekog organskog ostatka nije dovoljno za tu užu klasifikaciju: neposredno vezani N–N ili N–O supstituent traži razlikovanje hidrazonskog odnosno oksimskog tipa i pregled kompletne strukture.
 
 ## 6.3 CAPHAG kao konkretna reakcijska provera
 

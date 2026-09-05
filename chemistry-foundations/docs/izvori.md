@@ -1,6 +1,6 @@
 # Izvori i metod validacije
 
-**Datum poslednje provere linkova i navedenih verzija: 2026-08-22.**
+**Poslednji sadržajni pregled: 2026-09-05.** Lokalni nalazi ponovo su provereni nad dostavljenim fajlovima, a primarni izvori za naučne korekcije i ključne dinamičke tvrdnje otvoreni tokom pregleda. Ovo nije tvrdnja da je svaki bibliografski link ili svaka softverska mogućnost lokalno reprodukovana; za to su potrebni odgovarajući runtime, podaci i dozvole.
 
 !!! danger "Dinamičke i licencne tvrdnje moraju ponovo da se provere"
     CCDC licenca, Conditions of Use, portfolio/proizvodi, API ponašanje, dokumentacija i broj CSD zapisa mogu se promeniti. Proveri ih **pre svakog izdanja, deployment-a, novog načina obrade, deljenja ili objavljivanja**, a ne samo na datum ove stranice. Merodavan je ugovor konkretne institucije i pisano tumačenje vlasnika podataka; ova knjiga nije pravni savet.
@@ -220,6 +220,7 @@ IUPAC izvori određuju hemijsku nomenklaturu i preporučene definicije. Online G
 | [Crystal structure](https://dictionary.iucr.org/Crystal_structure) | kristalna struktura naspram molekula/rešetke |
 | [Unit cell](https://dictionary.iucr.org/Unit_cell) | ćelija i njena translaciona uloga |
 | [Asymmetric unit](https://dictionary.iucr.org/Asymmetric_unit) | minimalni nezavisni deo space-group prostora |
+| [Z and Z′](https://dictionary.iucr.org/Z_and_Z%27) | definicija \(Z'=Z/m\), uključujući razlomljene vrednosti na specijalnim pozicijama; numeričke primere proveriti nezavisno |
 | [Space group](https://dictionary.iucr.org/Space_group) | grupa operacija periodične simetrije |
 | [Lattice system](https://dictionary.iucr.org/Lattice_system) | razlika lattice-system i crystal-system klasifikacije |
 | [Miller indices](https://dictionary.iucr.org/Miller_indices) | značenje \((hkl)\) ravni/refleksije |
@@ -351,7 +352,7 @@ Ovi izvori su korisni za implementaciju, ali se njihova software/version semanti
 - [Open Babel format overview](https://openbabel.org/docs/FileFormats/Overview.html) — format conversion mogućnosti; uspešna konverzija nije dokaz očuvanja značenja;
 - [spglib symmetry dataset](https://spglib.readthedocs.io/en/stable/dataset.html) — standardization/symmetry output polja i verzije;
 - [MIT OCW 3.091 Solid-State Chemistry](https://ocw.mit.edu/courses/3-091-introduction-to-solid-state-chemistry-fall-2018/) — dodatni edukativni most za rešetke i čvrsto stanje;
-- [GO FAIR: difference between FAIR and Open](https://www.go-fair.org/resources/faq/ask-question-difference-fair-data-open-data/) — praktično objašnjenje; normativni claim vraćaj na originalni FAIR rad.
+- [GO FAIR Foundation: FAIR principi](https://www.gofair.foundation/fair-principles) — F1, A1.2 i A2 povezuju trajni identitet, kontrolisan pristup i dostupnost metapodataka; normativni claim vraćaj na originalni FAIR rad.
 
 ## Lokalni artefakti: šta mogu, a šta ne mogu da dokažu
 

@@ -98,7 +98,7 @@ Celobrojna knjigovodstvena dodela elektrona unutar izabrane Lewisove strukture. 
 Formalni broj dobijen jonskom aproksimacijom raspodele veznih elektrona. Koristan je za metalnu hemiju, ali se ne čita pouzdano samo iz oznake elementa ili koordinacionog broja.
 
 **Parcijalni naboj**  
-Modelom dodeljena necela raspodela elektronskog naboja na atomima. Zavisi od metode; `NO_CHARGES` u MOL2 znači da takav model nije dodeljen, ne da su atomi nepolarni.
+Modelom dodeljen neto naboj atoma, obično necelobrojan, ali može biti i nula. Zavisi od načina raspodele elektronske gustine; `NO_CHARGES` u MOL2 znači da takav model nije dodeljen, ne da su atomi nepolarni.
 
 **Hemijska veza**  
 Stabilizujuća interakcija koja drži atome u hemijskoj celini. Granice između „jonske“, „kovalentne“ i „koordinacione“ nisu tri nepovezana fizička prekidača.
@@ -148,7 +148,7 @@ Izabrano osnovno molekulsko jezgro za poređenje. Nema jednu univerzalnu definic
 U ovom projektu DAP znači 2,6-diacetilpiridin. Lokalni ConQuest upiti sadrže 18-atomsko DAP-derived query jezgro sa dve `C=N` veze. Sama podstrukturna podudarnost ne dokazuje da je pogodak bis-imin ili Schiffova baza; to zahteva proveru neposrednog supstituenta na svakom `C=N` azotu u kompletnoj strukturi. Tačan pozitivni opseg (supstituenti, protonacija, donor set, bridging) mora potvrditi naučni tim.
 
 **Schiffova baza / imin**  
-Schiffova baza se uobičajeno odnosi na iminski proizvod kondenzacije primarnog amina i karbonilnog jedinjenja; ključni motiv je C=N. Iminski N može biti donor, ali protonacija i supstitucija menjaju ponašanje.
+Imin sadrži motiv C=N. U užoj [IUPAC definiciji Schiffove baze](https://old.goldbook.iupac.org/html/S/S05498.html), na iminskom N je vezana hidrokarbilna grupa, npr. alkil ili aril; tipičan put nastanka je kondenzacija primarnog amina i karbonilnog jedinjenja. Sama C=N veza zato nije dovoljna etiketa: oksim C=N–OH i hidrazon C=N–N pripadaju drugim klasama. Iminski N može biti donor, ali protonacija i supstitucija menjaju ponašanje.
 
 **Kiselina/baza po Brønsted–Lowryju**  
 Kiselina donira proton; baza prima proton. Acid–base stanje menja formalni naboj, H-bond uloge, komponente i često čvrstu formu.
@@ -305,7 +305,7 @@ Broj simetrijski ekvivalentnih mesta generisanih iz jednog atom site-a u ćeliji
 Broj prijavljenih formula units u jediničnoj ćeliji. Zavisi od izabrane formule i ćelije; nije atomski broj.
 
 **\(Z'\) („Z prime“)**  
-U jednostavnom molekulskom slučaju broj kristalografski nezavisnih formula units u ASU. Za specijalne pozicije, polimere, disorder i složene višekomponentne forme zahteva pažljiviju definiciju.
+Broj formula units u ASU prema izabranoj hemijskoj formuli: \(Z'=Z/m\), gde je \(m\) multiplicity opšte pozicije prostorne grupe za istu ćeliju. Važi i za specijalne pozicije, kada \(Z'\) može biti razlomak. Samo u jednostavnom molekulskom slučaju ovaj broj može se čitati kao broj celih nezavisnih molekula. Za polimere, disorder i višekomponentne forme posebno objasni izbor formule i ASU sadržaj. [IUCr definicija](https://dictionary.iucr.org/Z_and_Z%27).
 
 **Kristalno pakovanje (packing)**  
 Periodični način rasporeda i orijentacije molekula/komponenti. Isti molekul može imati različit packing; ista ćelija/space group nije dovoljan dokaz istog packing-a.
@@ -406,7 +406,7 @@ Kristal/dataset koji sadrži dve ili više domena povezane određenom transforma
 IUCr validacioni servis i skup testova. Alert je strukturisan signal za proveru/objašnjenje, ne automatska presuda; odsustvo alert-a ne dokazuje hemijsku istinu.
 
 **CIF**  
-Crystallographic Information Framework: samopisujući tekstualni format zasnovan na data names, blokovima, loop tabelama i rečnicima. Može sadržati koordinatni model, eksperiment, strukture faktora i ugrađene tekstualne blokove.
+Crystallographic Information **File** je tekstualni format sa data names, blokovima i loop tabelama. Ista skraćenica označava i Crystallographic Information **Framework**, širi okvir koji obuhvata rečnike i pravila razmene/validacije. Fajl može sadržati koordinatni model, eksperiment, strukturne faktore i ugrađene tekstualne blokove. [IUCr razjašnjenje](https://www.iucr.org/what-we-do/digital-standards/cif).
 
 ## Čvrste forme i termodinamika
 
@@ -488,7 +488,7 @@ Formalna definicija polja, tipova, jedinica, odnosa i dozvoljenih vrednosti. CIF
 MDL connection-table format za jedan molekulski zapis: atomi, veze i opcione koordinate/properties. Ne čuva periodičnost kristala.
 
 **MOL2**  
-Tripos format sa atom/bond tipovima, substructure i opcionalnim charges. Tipovi poput `C.ar` ili `N.3` su dodela modela/izvoznika.
+Tripos format sa atom/bond tipovima, substructure i opcionalnim charges. Opciona sekcija `CRYSIN` može čuvati parametre ćelije i oznaku simetrije; to ne garantuje potpun periodični model niti očuvanje CIF occupancy/refinement konteksta. Tipovi poput `C.ar` ili `N.3` su dodela modela/izvoznika.
 
 **SDF**  
 Structure Data File: niz MOL zapisa razdvojenih sa `$$$$`, uz property polja. Zahteva eksplicitnu dataset schemu i missing/unit pravila.
@@ -598,13 +598,13 @@ Verzionisan paket definicija: objekti, standardizacija, metrike, parametri, tež
 Prva faza brzo vraća širok kandidatni skup sa visokim recall-om; druga primenjuje skuplje, preciznije metode. Candidate recall je obavezna metrika.
 
 **ANN**  
-Approximate nearest-neighbor pretraga. Brža je od exact pretrage, ali može propustiti susede; indeks i parametri moraju biti evaluirani.
+Approximate nearest-neighbor pretraga: traži približne najbliže susede. Cilj je brži dohvat uz mogući gubitak suseda; na malom ili jako filtriranom skupu tačna pretraga može biti brža. Indeks i parametri moraju biti evaluirani nad istim korpusom i metrikom.
 
 **Coverage**  
 Udeo objekta/podataka koji je zaista poređen ili ocenjen. Nizak RMSD na tri atoma može imati loš coverage.
 
 **Score / distance / probability**  
-Score je vrednost određene funkcije; distance meri razdvojenost prema metric/semi-metric definiciji; probability je kalibrisana verovatnoća događaja. Ne koristiti reči kao sinonime.
+Score je vrednost određene funkcije; distance meri razdvojenost prema navedenoj definiciji; probability je verovatnoća imenovanog događaja. Model može dati probabilističku procenu koja je loše kalibrisana: tek provera kalibracije ispituje slaganje sa opaženim učestalostima. Sirov skor sličnosti nema automatski probabilističko značenje.
 
 ## ML, evaluacija i privatnost
 
@@ -742,14 +742,14 @@ Stanje u kome se raw evidence čuva, ali se sadržaj ne pušta u canonical indek
 | cell / packing | izbor translacione kutije / raspored sadržaja kroz periodični prostor |
 | \(Z\) / \(Z'\) | formula units u ćeliji / nezavisni sadržaj ASU u jednostavnom slučaju |
 | occupancy / multiplicity | populacija mesta / broj symmetry-equivalent mesta |
-| formal charge / oxidation state / partial charge | Lewis knjigovodstvo / jonska formalizacija / modelovana necela raspodela |
+| formal charge / oxidation state / partial charge | Lewis knjigovodstvo / jonska formalizacija / metodom dodeljen neto naboj, obično necelobrojan |
 | salt / cocrystal | jonske komponente/proton transfer / višekomponentna jednofazna forma po konvenciji |
 | solvat / polymorph | promenjen sastav rastvaračem / drugi arrangement iste supstance |
 | solubility / dissolution rate | ravnotežna količina / kinetika rastvaranja |
 | R / wR / GoF | različite objective/statističke veličine |
 | restraint / constraint | meko pravilo / tvrda algebrajska veza |
 | missing / 0 | nema poznate vrednosti / poznata nulta vrednost |
-| score / probability / confidence | vrednost metrike / kalibrisana učestalost / pouzdanost dokaza |
+| score / probability / confidence | vrednost funkcije / verovatnoća događaja, uz zasebnu proveru kalibracije procene / pouzdanost dokaza |
 | similar / same | task-specific blizina / identitet po eksplicitnoj definiciji |
 | FAIR / open | upravljivost i ponovna upotreba / prava javnog pristupa-upotrebe |
 | private repo / licence | kontrola pristupa hostu / pravna dozvola kopiranja i deljenja |

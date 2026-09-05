@@ -37,7 +37,7 @@ Dozvola za jedno ne povlači automatski ostala. Download dugme nije licenca za r
 - naučni rezultati mogu biti objavljeni uz odgovarajuću citaciju i u granicama ugovora;
 - zajednički akademsko-komercijalni projekti mogu zahtevati posebno odobrenje.
 
-Važeći [CCDC Standard Licence Agreement](https://www.ccdc.cam.ac.uk/licence-agreement/) i ugovor konkretne institucije imaju prednost nad ovim sažetkom.
+Merodavan je ugovor konkretne institucije, uz [CCDC informacije o standardnoj licenci](https://www.ccdc.cam.ac.uk/licence-agreement/). Javna [CCDC stranica o redistribuciji](https://support.ccdc.cam.ac.uk/support/solutions/articles/103000339607-can-i-redistribute-data-from-the-csd-) potvrđuje da bulk deljenje izvornog CSD sadržaja izvan organizacije nije dozvoljeno standardnim pristupom i da za izvedene podatke ili modele treba proveriti konkretne ugovorne uslove. Javni izvori provereni su 5. septembra 2026; njihov sažetak ne utvrđuje koju licencu ima ovaj projekat.
 
 ### Zašto CSD izvozi nisu u ovom repou
 
@@ -67,7 +67,7 @@ Originalni [FAIR Guiding Principles](https://doi.org/10.1038/sdata.2016.18) zna�
 
 | Slovo | Princip | Konceptualna posledica |
 |---|---|---|
-| F - Findable | podatak i metadata imaju stabilan identitet i mogu se pronaći | identitet ne treba da zavisi od filename-a ili trenutne lokacije |
+| F - Findable | podatak i metadata imaju globalno jedinstven, trajan identitet i mogu se pronaći | identitet ne treba da zavisi od filename-a ili trenutne lokacije |
 | A - Accessible | postoji standardizovan postupak pristupa | pristup može zahtevati autentikaciju i autorizaciju |
 | I - Interoperable | koriste se formalni jezici, rečnici i kvalifikovane veze | značenje jedinica, relacija i termina mora biti deljivo |
 | R - Reusable | značenje, poreklo, licence i domenski standardi su dovoljno bogati | ponovna upotreba zavisi od konteksta, kvaliteta i dozvole |
@@ -81,7 +81,7 @@ Princip A1.2 eksplicitno dozvoljava autentikaciju i autorizaciju kada su potrebn
 - licenca i dozvoljene namene su eksplicitne;
 - semantika i provenance ostaju dostupni u dozvoljenom obimu.
 
-[GO FAIR objašnjenje FAIR naspram Open](https://www.go-fair.org/resources/faq/ask-question-difference-fair-data-open-data/) sažima princip kao „as open as possible, as closed as necessary“. Obrnuto takođe važi: fajl može biti javno dostupan, ali ne-FAIR ako nema stabilan identifikator, šemu, provenance, mašinski čitljivu licencu ili dosledne jedinice.
+[GO FAIR objašnjenje standardizovanog pristupa](https://www.gofair.foundation/a1) primenjuje isti princip na otvoren i ograničen pristup. Obrnuto takođe važi: fajl može biti javno dostupan, ali ne-FAIR ako nema stabilan identifikator, šemu, provenance, mašinski čitljivu licencu ili dosledne jedinice.
 
 !!! warning "FAIR nije quality sertifikat"
     FAIR pomaže da se podatak pronađe, pristupi mu, poveže i ponovo upotrebi. Ne garantuje da je kristalografski model tačan, da je property dobro izmeren ili da ML skup nema bias. Quality i FAIR su povezani, ali različiti kontrolni slojevi.
@@ -120,7 +120,7 @@ Hash dokazuje da je konkretan niz bajtova isti; ne dokazuje da je sadržaj tača
 - SHELXL-2013 za refinement;
 - ugrađene <code>_shelx_res_file</code> i <code>_shelx_hkl_file</code> blokove.
 
-Istovremeno, systematic/common name, melting point, diffraction source i deo publication metadata polja imaju <code>?</code>. To znači „nepoznato/nije dato“, ne praznu nulu. Fajl zato nije samodovoljan dokaz o vlasništvu, dozvoli upotrebe, identitetu uzorka ili svim eksperimentalnim svojstvima.
+Istovremeno, common name, melting point, diffraction source i deo publication metadata polja imaju nenavodnički token <code>?</code>, odnosno nepoznatu vrednost. Systematic-name polje sadrži znak <code>?</code> unutar višerednog tekstualnog polja: ljudski deluje kao placeholder, ali sintaksno je string, što parser i kasnija kuracija treba da razlikuju. Ni jedno ni drugo nije broj nula. Fajl zato nije samodovoljan dokaz o vlasništvu, dozvoli upotrebe, identitetu uzorka ili svim eksperimentalnim svojstvima.
 
 Ugrađeni HKL podaci takođe znače da fajl sadrži više od atomskih koordinata. Pravilo eksportovanja „dozvoljen je CIF“ mora precizirati da li uključuje structure factors i refinement source.
 
@@ -163,9 +163,9 @@ Kod korisničkih CIF-ova potrebno je razjasniti pravo na obradu, poverljivost, r
 
 ## Kako restricted podaci mogu biti FAIR
 
-FAIR ne zahteva objavljivanje sadržaja CSD-a. Restricted podatak može imati stabilan identitet i bogate metadata bez otkrivanja koordinata, standardizovan ali kontrolisan pristup, interoperabilne rečnike i jedinice, eksplicitnu licencu i pun provenance. Informacija o postojanju ili povlačenju zapisa može ostati dostupna samo u meri koju ugovor dozvoljava.
+FAIR ne zahteva objavljivanje sadržaja CSD-a. Restricted podatak može imati stabilan identitet i bogate metadata bez otkrivanja koordinata, standardizovan ali kontrolisan pristup, interoperabilne rečnike i jedinice, eksplicitnu licencu i pun provenance. Princip [A2](https://www.gofair.foundation/a2) traži da metadata ostanu dostupni i kada sam podatak više nije dostupan. Ako ugovor ograničava i metadata, opiši dozvoljeni obuhvat i preostalo ograničenje FAIR usklađenosti; privatnost pristupa nije opravdanje da se princip trajnosti metadata izostavi.
 
-Persistent identifier može biti interni i ne mora otkriti sadržaj. „Ne postoji za neovlašćenog korisnika“ i „postoji, ali zahteva dozvolu“ su različite policy odluke, a FAIR sam ne bira između njih.
+Identifikator ne mora otkriti sadržaj i može se razrešavati kroz interni kontrolisani servis. Ipak, [F1](https://www.gofair.foundation/f1) zahteva globalnu jedinstvenost i trajnost: lokalni broj `123` bez trajnog imenskog prostora i upravljanja identitetom nije dovoljan. „Ne postoji za neovlašćenog korisnika“ i „postoji, ali zahteva dozvolu“ jesu različite odluke pristupa, čiji uticaj na pronalaženje i dostupnost metadata treba navesti.
 
 ## Tipične zamke
 
@@ -210,7 +210,7 @@ Parser nalazi docking tekst na naslovnoj strani, ali render ga ne prikazuje. Št
 Model je treniran nad CSD-derived fingerprintima. Da li je dovoljno što model weights ne sadrže čitljive CIF redove?
 
 ??? success "Odgovor"
-    Ne. Model može biti ugovorno izvedeni materijal i može memorisati ili omogućiti inference o podacima. Potrebna je licencna analiza, test rekonstrukcije/memorisanja i, kada uslovi zahtevaju, prethodno pisano odobrenje CCDC-a.
+    Ne. Model može biti ugovorno izvedeni materijal i može memorisati ili omogućiti inference o podacima. Potrebna je licencna analiza i, kada uslovi zahtevaju, prethodno pisano odobrenje CCDC-a. Test rekonstrukcije/memorisanja može proceniti tehnički rizik, ali dobar rezultat testa ne daje pravo distribucije.
 
 ### 5. Istek licence
 
@@ -227,7 +227,10 @@ Poglavlje si savladao kada možeš da objasniš kako se pristup, obrada, deljenj
 
 - [CCDC CSD Portfolio Conditions of Use](https://downloads.ccdc.cam.ac.uk/documentation/API/conditions_of_use.html)
 - [CCDC Standard Licence Agreement](https://www.ccdc.cam.ac.uk/licence-agreement/)
+- [CCDC: Can I redistribute data from the CSD?](https://support.ccdc.cam.ac.uk/support/solutions/articles/103000339607-can-i-redistribute-data-from-the-csd-)
 - [Wilkinson et al. 2016: FAIR Guiding Principles](https://doi.org/10.1038/sdata.2016.18)
-- [GO FAIR: FAIR nije isto što i Open](https://www.go-fair.org/resources/faq/ask-question-difference-fair-data-open-data/)
+- [GO FAIR: standardizovan pristup otvorenim i ograničenim podacima](https://www.gofair.foundation/a1)
+- [GO FAIR: globalno jedinstveni i trajni identifikatori](https://www.gofair.foundation/f1)
+- [GO FAIR: metadata ostaju dostupni](https://www.gofair.foundation/a2)
 - [IUCr: Crystallographic Information Framework](https://dictionary.iucr.org/Crystallographic_Information_Framework)
 - [W3C PROV-O](https://www.w3.org/TR/prov-o/)

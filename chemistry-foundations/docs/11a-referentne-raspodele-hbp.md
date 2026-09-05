@@ -76,6 +76,8 @@ z_\mathrm{robust}
 \approx2.81.
 \]
 
+Faktor 1,4826 daje MAD-u skalu standardne devijacije za normalnu raspodelu; ne dokazuje da je konkretna hemijska raspodela normalna i ne pretvara ovaj signal automatski u p-vrednost. Račun zahteva \(\mathrm{MAD}>0\). Kada je MAD nula, na primer zbog jednakih ili jako zaokruženih vrednosti, ovaj skor nije definisan: treba prijaviti ograničenje i pregledati raspodelu ili koristiti drugi opravdan opis rasipanja. [Zvanična R dokumentacija za MAD](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html) objašnjava faktor skaliranja; neki alati vraćaju već skalirani MAD, pa ga ne treba pomnožiti dva puta.
+
 Oba broja kažu: kandidat je na dugom repu **ove konkretne** raspodele. Ne kažu zašto. Najmanje četiri hipoteze ostaju otvorene:
 
 1. atom/bond mapping, protonacija ili disorder model je pogrešan;
@@ -110,6 +112,8 @@ d_\mathrm{circ}(\alpha,\beta)
 \]
 
 Za torzione raspodele zato ne koristi slepo linearnu sredinu i standardnu devijaciju preko granice \(-180/180^\circ\). Koristi circular statistics, periodičnu kernel density ili eksplicitne modove. Ako su konformacije grupisane oko \(60^\circ\) i \(180^\circ\), globalna sredina može pasti u oblast gde nema nijednog realnog konformera.
+
+Gornji izraz pretpostavlja da su oba ugla već svedena na isti osnovni interval dužine 360°. Za proizvoljan broj punih obrtaja najpre izračunaj \(\delta=\operatorname{wrap}_{[-180,180)}(\alpha-\beta)\), pa koristi \(|\delta|\); inače zapis 540° može proizvesti pogrešan rezultat u naivnoj formuli.
 
 ## Kako hydrogen-bond propensity metod radi
 

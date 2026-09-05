@@ -95,7 +95,7 @@ Translation subgroup zatim ponavlja sve dobijene položaje kroz ceo kristal.
 \end{aligned}
 \]
 
-Četvrta operacija se može zapisati sa drugim celobrojnim translacionim predstavnikom, na primer dodavanjem celih brojeva komponentama. To ne pravi novu fizičku operaciju.
+Četvrta operacija se može zapisati sa drugim celobrojnim translacionim predstavnikom, na primer dodavanjem celih brojeva komponentama. Time se dobija ista klasa operacija **modulo ćelijske translacije**, pa su wrap-ovani položaji isti. U punom beskonačnom prostoru to ipak jesu različite operacije: mogu dati atome u različitim ćelijama. Pri računu konkretnog kontakta promena predstavnika zato mora biti praćena suprotnom promenom image/translacionog vektora, tako da se sačuva ista fizička kopija atoma.
 
 U standardnoj interpretaciji:
 
@@ -105,6 +105,12 @@ U standardnoj interpretaciji:
 - point-group tip je \(2/m\).
 
 Ovaj kratki opis nije zamena za punu listu operacija. Položaj osa/ravni zavisi od origin-a i setting-a.
+
+### Simetrija kristala i hiralnost molekula
+
+Inverzija menja hiralni molekul u njegovu suprotnu enantiomernu sliku. Zato uređen kristal koji zaista pripada centrosimetričnoj grupi, kao što je \(P\,2_1/c\), ne može sadržati samo jedan enantiomer hiralnih molekula: ako su oni prisutni, simetrija zahteva i suprotnu sliku. To ne dokazuje da je svaki pojedinačni molekul u takvoj grupi ahiralan.
+
+Uređeni enantiomerno čisti molekulski kristali pripadaju jednoj od 65 **Sohncke** grupa, koje imaju samo translacije, rotacije i screw operacije. Sama Sohncke grupa ipak ne dokazuje enantiomernu čistoću molekulskog sadržaja; treba pregledati sve nezavisne komponente i eksperimentalni dokaz. Hiralnost molekula, hiralnost pakovanja i apsolutna struktura zato su odvojena pitanja. Videti [IUCr: Sohncke grupe](https://dictionary.iucr.org/Sohncke_groups) i [simetrija i enantiomerno čisti kristali](https://journals.iucr.org/j/issues/2026/03/00/dv5030/index.html); eksperimentalna granica obrađena je u [poglavlju 10](10-difrakcija-kvalitet.md#apsolutna-struktura-i-granica-stereokemijskog-zakljucka).
 
 ## Generisanje četiri C1 položaja
 

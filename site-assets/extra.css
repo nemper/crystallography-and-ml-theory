@@ -31,6 +31,9 @@
   max-width: 100%;
   margin: 1rem 0;
   overflow-x: auto;
+  /* Mermaid uses a fixed light palette, including text outside diagram nodes. */
+  background: #ffffff;
+  border-radius: 0.35rem;
 }
 
 .md-typeset .mermaid-course svg {

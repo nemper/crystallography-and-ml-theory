@@ -38,17 +38,17 @@ flowchart TD
 
 ## 13.3 Logičke zavisnosti standardizacije
 
-Sledeći redosled objašnjava stručnu zavisnost — na primer, original i charge moraju biti poznati pre parent transformacije — a ne plan realizacije projekta:
+Sledeći redosled objašnjava stručnu zavisnost — na primer, izvorni i dodeljeni naboji moraju biti razdvojeni pre parent transformacije — a ne plan realizacije projekta. Komponente, veze i protonacija često se razjašnjavaju zajedno, uz ponovnu proveru; CIF ne mora već sadržati pouzdan molekulski graf:
 
 1. **Identifikuj datoteku** po sadržaju, ne samo ekstenziji; sačuvaj hash.
 2. **Parsiraj bez prepisivanja originala** i sakupi sva upozorenja.
 3. **Validiraj CIF prema rečniku** i osnovnim numeričkim/relacionim pravilima.
-4. **Inventariši komponente**: glavna organska vrsta, metal, counterion, coformer, solvent, voda.
-5. **Sačuvaj formalne naboje i protonaciju** pre bilo kakve parent transformacije.
-6. **Obradi disorder i occupancy** kao eksplicitnu neizvesnost, ne kao duplikate atoma.
-7. **Dodeli/oceni veze** uz izvor pravila i confidence; metalne veze tretiraj posebno.
+4. **Sačuvaj prijavljeni sastav, naboje i H mesta**, uključujući šta nije poznato; ne izmišljaj nulti naboj kada ga izvor ne daje.
+5. **Obradi disorder i occupancy** kao eksplicitnu neizvesnost, ne kao duplikate atoma.
+6. **Preuzmi ili izvedi i proveri veze** uz izvor pravila i confidence; metalne veze i periodičnu povezanost tretiraj posebno.
+7. **Inventariši komponente i proveri njihovu protonaciju/naboje**: glavna organska vrsta, metal, counterion, coformer, solvent, voda. Ako su veze ili H neodređeni, zadrži tu neodređenost i po potrebi ponovi prethodnu proveru.
 8. **Primeni task-specific policy** nad kopijom.
-9. **Ponovo izračunaj** formulu, charge balance i druge invariants.
+9. **Ponovo izračunaj** formulu, charge balance gde su naboji poznati i druge invariants.
 10. **Upiši provenance**: alat, verzija, parametri, timestamp, warnings i pre/posle hash.
 
 ## 13.4 Identitet ima hijerarhiju

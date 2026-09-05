@@ -2,7 +2,7 @@
 
 Ova dokumentacija odgovara na teorijsko pitanje: **koje porodice algoritama mogu da opišu pojedine delove dva 2CDC problema, pod kojim pretpostavkama i uz kakva ograničenja dokaza?**
 
-Ako dokumentaciju koristiš kao put učenja, prati [plan za ML inženjera](11-ml-ai-plan-ucenja.md). On povezuje redosled gradiva sa hemijskim preduslovima i proverama razumevanja, bez projektovanja ili implementiranja aplikacija tokom učenja.
+Ako počinješ bez ML/AI predznanja, prvo pročitaj [ML/AI od nule](00a-osnove-ml.md), sa osnovnim pojmovima, matematičkim oznakama i rešenim primerima. Zatim prati [plan učenja za početnika i ML inženjera](11-ml-ai-plan-ucenja.md). On povezuje redosled gradiva sa hemijskim preduslovima i proverama razumevanja, bez projektovanja ili implementiranja aplikacija tokom učenja.
 
 Ne tražimo jedan univerzalni model. Globalni retrieval, precizno poređenje kristala, procena svojstava, objašnjenje rezultata i eventualni jezički interfejs imaju različite ciljeve, greške, podatke i kriterijume dokaza. Jezički model nije zahtev izvornog brief-a; posmatra se samo kao opcioni UX sloj nad determinističkim naučnim jezgrom.
 

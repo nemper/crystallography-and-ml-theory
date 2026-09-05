@@ -72,7 +72,7 @@ U najjednostavnijem FedAvg obrascu koordinator pošalje model \(w_t\) odabranim 
 w_{t+1}=\sum_{k\in S_t}\frac{n_k}{\sum_{j\in S_t}n_j}\,w_{t+1}^{(k)},
 \]
 
-gde je \(n_k\) broj lokalnih trening primera koji učestvuju u rundi. Originalni obrazac je [McMahan et al. 2017](https://proceedings.mlr.press/v54/mcmahan17a.html).
+gde je \(S_t\) skup lokacija izabranih za rundu, a \(n_k\) veličina lokalnog trening skupa lokacije \(k\) korišćenog za taj update; ponavljanje istih primera kroz više epoha ne povećava ovaj broj. Model je skup usaglašenih numeričkih parametara \(w\), a update je njihova promena posle lokalnog učenja. Ako dve lokacije imaju 40 i 60 primera, njihove težine u ovom proseku su 0,4 i 0,6. Potrebni su ista arhitektura i isto značenje parametara/reprezentacija; ne mogu se proizvoljno prosečiti dva različito definisana modela. Originalni obrazac je [McMahan et al. 2017](https://proceedings.mlr.press/v54/mcmahan17a.html).
 
 ```mermaid
 sequenceDiagram
@@ -105,7 +105,7 @@ Raw CIF ne mora da napusti lokaciju, ali kroz mrežu i dalje prolaze model/updat
 
 ### Hemijska heterogenost je centralni, ne sporedni problem
 
-Partneri gotovo sigurno nisu IID:
+Za partnerske podatke ne sme se bez provere pretpostaviti IID — da su primeri nezavisni i potiču iz iste raspodele. Partneri mogu biti heterogeni zato što:
 
 - imaju različite scaffold-e, metale, solid forms i razvojne faze;
 - mere svojstva različitim protokolima i jedinicama;

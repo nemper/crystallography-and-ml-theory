@@ -14,6 +14,8 @@ Primer proverljivog cilja:
 
 Drugi claim je ograničen, merljiv i navodi populaciju, task, metric i uslove važenja.
 
+Proveri i matematičku ostvarivost cilja: ako upit ima \(R_q\) relevantnih zapisa, najveći mogući recall@100 iznosi \(\min(100,R_q)/R_q\). Sa 200 relevantnih zapisa ni savršeno rangiranje ne može preći 50% recall@100. Primer sa 95% zato zahteva odgovarajuću populaciju i broj relevantnih zapisa; broj 95% ovde nije dokazana performansa niti projektni zahtev iz `2CDC`.
+
 ## 20.2 Ground truth je višeslojna odluka
 
 Jedan par može biti sličan na jednom, a različit na drugom nivou. Ekspertska odluka zato može razdvojiti dimenzije kao što su:
@@ -100,6 +102,8 @@ Ako ML ne popravlja relevantnu metricu uz prihvatljivu cenu/objašnjivost, nije 
 - latency p50/p95 i index freshness;
 - error rate po parse/representation statusu.
 
+Za jedan upit sa \(R_q>0\) relevantnih zapisa u dozvoljenom korpusu, ako je među prvih \(k\) rezultata \(h_q\) relevantno, onda su \(\mathrm{recall@k}=h_q/R_q\) i, kada postoji \(k\) rangiranih mesta, \(\mathrm{precision@k}=h_q/k\). Na primer, 4 relevantna pogotka u prvih 10 uz ukupno 8 relevantnih daju recall 0,50 i precision 0,40. Ako se vraća manje od \(k\) rezultata, unapred odredi da li prazna mesta računaju kao promašaji ili koristiš imenilac broja vraćenih; te dve konvencije nisu ista metrika. Neocenjen kandidat nije automatski negativan: nepotpuna ekspertska anotacija ograničava i procenu ukupnog \(R_q\), pa prijavi obuhvat anotacije.
+
 Za count-based precision/recall prijavi **query-macro** i **pooled-micro** rezultat sa eksplicitnim brojiocem i imeniocem. MAP i nDCG prijavi kao prosek query-level vrednosti; svaki alternativni ponderisani agregat mora imati navedenu formulu i težine, a ne samo oznaku „micro“. Pre otvaranja test skupa definiši politiku za query bez ijednog relevantnog zapisa: recall je tada nedefinisan, pa takve upite ne pretvaraj proizvoljno u nulu ili jedinicu; prijavi njihov broj/udeo odvojeno i oceni false-positive ili abstention ponašanje. Denominator i politika moraju pratiti svaku tabelu rezultata.
 
 ### Pair comparator
@@ -163,7 +167,7 @@ Sledeća tabela je nenormativan primer kako se činjenica odvaja od scope-a i do
 
 | Tvrdnja | Precizan scope | Dokaz/izvor | Lokalni test | Confidence | Datum/verzija | Izuzeci |
 |---|---|---|---|---|---|---|
-| `4M` znači svi metali | ConQuest atom group | CCDC vodič | oba `.cqs` | high | query snapshot | ne dokazuje koordinaciju |
+| `4M` je ConQuest grupa „svih metala“ | softverska grupa uključuje i Ge/Sb | CCDC vodič | oba `.cqs` | high | query snapshot | ne dokazuje koordinaciju niti univerzalnu taksonomiju |
 | search2 je podskup search1 | lokalni export | refcode set diff | 2038/2110 | high | SHA-256 snapshot | samo dostavljeni fajlovi |
 
 Za interpretativni claim koristi dve nezavisne stručne potvrde gde je moguće. Za ponašanje CCDC alata i licence koristi zvanični, datirani izvor.

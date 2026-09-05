@@ -24,7 +24,7 @@ SMI nije potpuna record lista. Razlika 233 u oba skupa je signal konverzije/repr
 ## L0A — ceo sintetički CIF
 
 - uz repozitorijumski propisane LF završetke redova, SHA-256 je `E6740DCB099445C3D4C30B94213CBCE915A844E81AFF39306F6FAFBB5BC9B6DE`;
-- očekuje se jedan data block, 26 data items i atom-site loop sa šest kolona i dva reda, `Na1`/`Cl1`;
+- očekuje se jedan data block sa 26 različitih data names: 20 skalarnih stavki i šest kolona jedne petlje; Gemmi zato vraća 21 stavku bloka (20 parova + jedan loop), a ne 26; atom-site loop ima dva reda, `Na1`/`Cl1`;
 - `5.6400(10)` znači \(5.6400\pm0.0010\ \text{Å}\) na nivou standardne neizvesnosti zapisa;
 - `?` znači unknown, a `.` not applicable/inapplicable u datom kontekstu;
 - \(V=a^3=179.406144\ \text{Å}^3\), što se slaže sa zaokruženih 179,41 Å³;
@@ -90,11 +90,15 @@ Mala odstupanja poslednjih cifara dolaze od zaokruživanja i konvencije ispisa. 
 
 Lokalni CIF je monoklinski, \(P\,2_1/c\), International Tables broj 14, sa \(Z=4\). Za atom na opštoj poziciji očekuju se četiri symmetry-equivalent položaja u conventional cell-u. Precizne operacije čitaj iz CIF/dictionary-aware biblioteke i čuvaj zajedno sa translation image-om; nemoj ih pamtiti kao neprovereni string.
 
+## L5 — kontakt i interakciona hipoteza
+
+Za L5 ne postoji unapred zadata lista „pravih“ interakcija bez izabranog kontakta i pravila. Ispravno rešenje navodi atome, periodičnu sliku, distancu, dostupnost/izvor H položaja i hemijsku ulogu, pa odvaja geometrijskog kandidata od zaključka o H-vezi. Ako H položaj ili protonacija nisu poznati, dozvoljen ishod je `ambiguous`, uz tačno navedeni nedostajući dokaz.
+
 ## L6 — query semantika
 
 - oba query-ja dele isto povezano 18-atomsko DAP query jezgro sa dve `C=N` veze;
 - drugi dodaje atom 19 tipa `4M`;
-- `4M` znači svi metali;
+- `4M` je ConQuest legacy element-grupa nazvana „all metals“, koja uključuje i Ge/Sb; koristi se softverska definicija, ne univerzalna podela elemenata na metale i nemetale;
 - atom 19 je nepovezana query component;
 - minimalni zaključak: isti CSD entry sadrži motiv i metal;
 - metal–DAP koordinacija zahteva zasebnu proveru connectivity/geometrije i component membership-a.
@@ -112,6 +116,14 @@ Lokalni CIF je monoklinski, \(P\,2_1/c\), International Tables broj 14, sa \(Z=4
 
 Tačne counts po svakoj error kategoriji zavise od precizne parser definicije. U izveštaju uvek navedi definiciju, npr. šta znači „empty molecule“ i da li `Du` brojiš po atomu ili record-u.
 
+## L8–L10 — rubrike za zadatke bez jednog numeričkog odgovora
+
+**L8:** top 10 zavisi od upita i profila, pa ne postoji univerzalno tačna rang-lista. Rešenje je potpuno kada daje isti rezultat pri ponavljanju istog profila, prikazuje isključene zapise i objašnjava promene ranga pri promeni radius-a ili standardizacije. Za tri hard negatives navedi zajednički signal i ciljnu razliku, npr. sličan ligand uz drugačiju koordinacionu geometriju. Sam visok Tanimoto nije potvrda da je kandidat relevantan za pakovanje.
+
+**L9:** oceni par rubrikom ispod. Ne izmišljaj nedostajući koordinacioni ili packing dokaz radi ukupnog skora. Za nivo koji nije deo imenovanog pitanja zapiši `not applicable`, a za nivo kome nedostaju ulazi `missing input`; obrazloži oba.
+
+**L10:** redosled atoma/komponenti i alternativni validni SMILES obilazak moraju očuvati rezultate istog semantičkog objekta. Rigidna rotacija/translacija čuva molekulske distance; za kristal mora se dosledno transformisati ceo model, uključujući ćeliju, koordinate i simetriju. Periodični wrap i ekvivalentan ASU/setting moraju očuvati fizičko pakovanje. Uklanjanje stereo oznake smanjuje dokaz identiteta; odvajanje metala menja koordinacioni graf; dodavanje vode menja puni kristalni sastav, dok unapred definisan parent-only rezultat može ostati isti. To nisu tri bezuslovne invarijanse.
+
 ## Ocena evidence-rich para
 
 | Stavka | 0 | 1 | 2 |
@@ -125,7 +137,7 @@ Tačne counts po svakoj error kategoriji zavise od precizne parser definicije. U
 | quality | ignorisana | jedan R value | multi-field compatibility + missing/error status |
 | conclusion | universal scalar | component scores | task claim + confidence + abstention where needed |
 
-Maksimum je 16. Za prolaz treba najmanje 13 i nijedna nula u component, coordination, packing ili quality redu kada su ti nivoi deo claim-a.
+Ako je svih osam redova primenljivo, maksimum je 16, a za prolaz treba najmanje 13. Red koji po unapred izabranom pitanju nije primenljiv označi `N/A` i izuzmi iz maksimuma; prag je 13/16 dostupnih bodova, zaokružen naviše (npr. šest primenljivih redova: najmanje 10/12). Nivo potreban za claim kome samo nedostaje dokaz ostaje u oceni, ne postaje `N/A`. Ni u jednom primenljivom component, coordination, packing ili quality redu ne sme biti nula. Ovo je nastavna rubrika, ne validirani naučni prag.
 
 ## L11 — referenca i PXRD kontrola
 

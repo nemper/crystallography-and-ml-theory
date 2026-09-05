@@ -49,6 +49,8 @@ F(hkl)=\sum_j f_j
 
 Ovde je \(f_j\) faktor rasipanja atoma \(j\), a \(x_j,y_j,z_j\) njegove frakcione koordinate. Detektor meri intenzitet, ali ne i fazu kompleksnog \(F\); to je suština faznog problema. Rešenje strukture daje početni model, a refiniranje podešava njegove parametre da bi izračunati podaci bolje odgovarali merenim.
 
+U ovoj pojednostavljenoj sumi \(j\) obuhvata sve atome jedinične ćelije, uključujući simetrijske kopije, uz puno zauzeće i zanemareno atomsko pomeranje. U stvarnom računu svaki doprinos nosi occupancy i displacement faktor, a atomski faktor rasipanja zavisi od ugla/rezolucije i zračenja. Suma samo preko redova ASU bez simetrijskog proširenja nije isti račun.
+
 U <code>cu_n14_a.cif</code> piše:
 
 - Cu K\(\alpha\) zračenje, \(\lambda=1.54178\ \text{Å}\);
@@ -64,9 +66,15 @@ Odnos 4.237 refleksija prema 284 parametra je približno 14,9. To je korisna inf
 
 Za širi uvod vidi [IUCr definiciju refiniranja](https://dictionary.iucr.org/Refinement), a za formalna značenja CIF polja [IUCr Core CIF dictionary](https://www.iucr.org/resources/cif/dictionaries).
 
+### Constraint i restraint nisu isto
+
+**Constraint** nameće tačnu vezu između parametara ili fiksira vrednost, pa smanjuje broj nezavisnih parametara. U riding modelu položaj H prati geometriju roditeljskog atoma. **Restraint** uvodi ciljnu geometriju sa težinom/neizvesnošću: odstupanje je dozvoljeno, ali doprinosi funkciji koja se minimizuje. Zato lokalnih `0 restraints` ne znači da su svi položaji nezavisno određeni — N14 istovremeno ima riding H atome i slobodnije refiniran H2N. Ovo razlikovanje objašnjava i broj parametara i neizvesnost geometrije. [IUCr rečnik restraints/constraints](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core_restraints) daje formalnu razliku.
+
 ## Reciprocal space: operativni most \(hkl\rightarrow d\rightarrow2\theta\)
 
-Real-space ćeliju opisuju \(\mathbf a,\mathbf b,\mathbf c\). Uz konvenciju bez faktora \(2\pi\), recipročna baza je:
+Millerovi indeksi \((hkl)\) su celi brojevi koji opisuju orijentaciju i period ravni u odnosu na ćeliju. U frakcionim koordinatama ravni zadovoljavaju \(hx+ky+lz=m\), gde je \(m\) ceo broj. Ako je neki indeks nula, ravni su paralelne toj osi; \((000)\) ne definiše familiju sa konačnim razmakom. Na primer, \((200)\) daje ravni \(x=m/2\), pa u kubnoj ćeliji imaju razmak \(a/2\). U difrakciji indekse ne svodiš automatski na najmanji odnos: `(100)` i `(200)` su različite refleksije duž istog recipročnog pravca. [IUCr: Millerovi indeksi](https://dictionary.iucr.org/Miller_indices).
+
+Real-space ćeliju opisuju \(\mathbf a,\mathbf b,\mathbf c\). Za desnoruku bazu, sa \(V=\mathbf a\cdot(\mathbf b\times\mathbf c)>0\), i konvenciju bez faktora \(2\pi\), recipročna baza je:
 
 \[
 \mathbf a^*=\frac{\mathbf b\times\mathbf c}{V},\qquad
@@ -207,7 +215,7 @@ wR je često numerički veći od konvencionalnog R jer nije ista formula ni ista
 
 ## Goodness of fit: da li su ostaci saglasni sa težinama
 
-Za least-squares refiniranje:
+Za least-squares refiniranje bez restraints, kao u lokalnom N14 primeru:
 
 \[
 S =
@@ -281,6 +289,12 @@ Kristalografski model je prostorni i vremenski prosek ogromnog broja ćelija. Ak
 Model može koristiti alternativne atomske pozicije, parcijalne occupancy vrednosti i grupe koje se međusobno isključuju. Atomic displacement parameters, Uiso ili Uani, opisuju prostornu raspodelu rasipanja oko srednjeg položaja. Velika ili izrazito anizotropna vrednost može biti stvarno kretanje, disorder, loš tip atoma ili drugi model problem; nije samostalna dijagnoza.
 
 U lokalnom fajlu većina nevodonikovih atoma ima anizotropne U parametre. Većina H atoma je geometrijski postavljena riding modelom, dok je H2N naveden sa eksperimentalno refiniranim položajem. Zato ni svi atomi unutar istog CIF-a nemaju istu epistemološku težinu.
+
+## Apsolutna struktura i granica stereokemijskog zaključka {#apsolutna-struktura-i-granica-stereokemijskog-zakljucka}
+
+3D koordinate omogućavaju da se nekoj nacrtanoj molekulskoj konfiguraciji dodeli stereooznaka, ali same ne dokazuju da je odabrana pravilna enantiomerna slika eksperimentalnog uzorka. Za necentrosimetričan kristal **apsolutna struktura** razlikuje model od njegove inverzne slike. Rendgenski dokaz može koristiti razlike intenziteta Friedelovih parova \((h,k,l)\) i \((-h,-k,-l)\) usled anomalnog rasipanja, uz odgovarajuću analizu, na primer Flack parametar sa njegovom s.u. Kada je signal nedovoljan, zaključak ostaje neodređen ili se oslanja na nezavisan hemijski dokaz.
+
+Apsolutna konfiguracija odnosi se na molekul, a apsolutna struktura na kristal. Lokalni N14 ima centrosimetričnu grupu \(P\,2_1/c\), za koju takav izbor apsolutne strukture nije primenljiv; to nije manjkavost CIF-a. Skor poravnanja ne sme prikriti nedostajuću ili neprimenljivu stereoinformaciju. [IUCr: absolute structure](https://dictionary.iucr.org/Absolute_structure).
 
 ## Još četiri broja koja treba čuvati
 

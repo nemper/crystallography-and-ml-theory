@@ -18,9 +18,9 @@ flowchart LR
     SMI -. "ne može pouzdano vratiti" .-> CIF
 ```
 
-## 12.2 CIF: Crystallographic Information Framework
+## 12.2 CIF: datoteka i Crystallographic Information Framework {#122-cif-crystallographic-information-framework}
 
-CIF je tekstualni, samopisujući format zasnovan na **data names** i rečnicima. Autoritativna definicija pojedinačnih polja je [IUCr core CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core); praktični uvod je [IUCr CIF guide](https://www.iucr.org/__data/assets/pdf_file/0019/22618/cifguide.pdf).
+CIF datoteka (*Crystallographic Information File*) koristi tekstualni, samopisujući format zasnovan na **data names** i rečnicima. Širi *Crystallographic Information Framework* obuhvata i standarde i rečnike koji daju značenje zapisu. Autoritativna definicija pojedinačnih polja je [IUCr core CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core); praktični uvod je [IUCr CIF guide](https://www.iucr.org/__data/assets/pdf_file/0019/22618/cifguide.pdf).
 
 Za pun, bezbedan i parsabilan primer pređi odmah i [anatomiju jednog CIF fajla](12a-anatomija-cif.md). Tamo možeš da preuzmeš sintetički `.cif` i pročitaš svaku vrstu reda bez objavljivanja licenciranog projekta/CSD sadržaja.
 
@@ -92,6 +92,8 @@ Pored elementa, atom često dobija softverski **atom type** poput `C.ar` ili `N.
 
 Lokalni `N14.mol2` kaže `NO_CHARGES` i daje nule u charge koloni. To znači da **parcijalni naboji nisu dodeljeni**. Ne znači da je svaka lokalna raspodela elektronske gustine ravnomerna, niti da molekul nema polarne veze.
 
+MOL2 može sadržati i opcionu sekciju `@<TRIPOS>CRYSIN` sa parametrima ćelije i oznakom prostorne grupe; lokalni `N14.mol2` je sadrži. Zato nije tačno da svaki MOL2 nužno gubi svu kristalografsku informaciju. Ipak, prisustvo `CRYSIN` ne vraća kompletan CIF: izbor atoma/komponenti, disorder, eksperimentalni metapodaci i podrška parsera i dalje ograničavaju periodičnu analizu.
+
 ## 12.5 SDF: mnogo MOL zapisa i svojstva
 
 Structure Data File je niz MOL zapisa razdvojenih sa:
@@ -113,11 +115,13 @@ SDF je zgodan za skupove molekula i labels/deskriptore. Ipak, naziv polja, jedin
 
 SMILES kodira atome i veze kao tekst:
 
-- `CCO` — lanac C-C-O;
+- `CCO` — etanol, lanac C-C-O; vodonici se u ovom zapisu podrazumevaju prema pravilima valence;
 - `c1ccncc1` — aromatični šestoprsten sa jednim N;
 - `C(=N)N` — grananje i double veza;
 - `[Na+].[Cl-]` — dve nepovezane jonske komponente;
 - `@`, `/` i `\` mogu kodirati određene stereoodnose ako su prisutni.
+
+Brojevi u `c1ccncc1` označavaju zatvaranje prstena, ne broj atoma niti red veze. Veliko `C` i malo `c` razlikuju alifatični/nearomatični i aromatični prikaz ugljenika. SMILES tačka označava prekid neposrednog povezivanja; nema značenje CIF missing-value tačke.
 
 [Daylight SMILES theory](https://www.daylight.com/dayhtml/doc/theory/) opisuje jezik. Bitne posledice:
 
@@ -133,8 +137,8 @@ SMILES kodira atome i veze kao tekst:
 |---|---|
 | CIF → MOL/SDF | ćelija, simetrija, pakovanje, većina eksperimentalnih metapodataka; izbor komponente i veze |
 | CIF → SMILES | sve prethodno plus 3D koordinate i konformacija |
-| MOL2 → MOL | detaljni atom/bond tipovi, substructure i parcijalni charge model |
-| SDF → SMILES | 3D, većina property polja, često component/stereo detalji |
+| MOL2 → MOL | detaljni atom/bond tipovi, substructure, parcijalni charge model i eventualni `CRYSIN` podaci |
+| SDF → SMILES | 3D i većina property polja; komponente i podržani stereo mogu se očuvati, ali to zavisi od export policy-ja |
 | SMILES → 3D | generisana konformacija je hipoteza; nije eksperimentalna kristalna geometrija |
 
 [Open Babel format documentation](https://openbabel.org/docs/FileFormats/Overview.html) može objasniti sintaksu konverzija, ali hemijski smisao rezultata i dalje mora biti testiran.

@@ -1,5 +1,7 @@
 # Scope i teorijska pravila poređenja
 
+Ako su termini feature, target, embedding, recall, kalibracija ili train/test novi, počni od [ML/AI od nule](00a-osnove-ml.md). Taj modul objašnjava matematičke oznake i sadrži rešene primere; ova strana zatim određuje granice projekta.
+
 ## Dva problema, više algoritamskih porodica
 
 ### Aplikacija 1: globalna pretraga

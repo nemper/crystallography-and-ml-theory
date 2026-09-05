@@ -114,6 +114,8 @@ BM25 je jaka referenca kada upiti sadrže tačne oznake, refcode, DOI, CIF tag, 
 
 Field-aware indeks može različito tretirati naslov, tag, refcode i telo, ali parametri i tokenizer moraju odgovarati jeziku i korpusu.
 
+U formuli je \(q\) upit, \(d\) dokument/odlomak, \(t\) termin, \(f(t,d)\) broj njegovih pojavljivanja, \(|d|\) dužina dokumenta, a `avgdl` prosečna dužina. `IDF` daje veću težinu terminima koji su ređi u korpusu; njena tačna varijanta se navodi. Parametar \(k_1\) kontroliše zasićenje doprinosa ponovljenog termina, a \(b\) jačinu korekcije za dužinu. BM25 score nije verovatnoća da je odgovor tačan.
+
 ### Dense bi-encoder
 
 Dense retrieval mapira upit i dokument u zajednički vektorski prostor. Može pomoći kod sinonima, parafraza i višejezičnih upita, ali može propustiti retke identifikatore i tačne stringove. Njegov embedding prostor je model- i revizija-specifičan.
@@ -127,6 +129,8 @@ Reciprocal Rank Fusion kombinuje rang-liste bez pretpostavke da su njihovi skoro
 \]
 
 RRF je koristan kada leksički i semantički kanal nalaze komplementarne dokumente. Ne popravlja dokument koji nijedan kanal nije kandidovao.
+
+Ovde je \(R\) skup rang-lista, rang počinje od 1, a \(k\) je pozitivna konstanta koja ublažava dominaciju prvog mesta; nije broj vraćenih rezultata. Dokument odsutan iz neke liste iz te liste dobija doprinos nula. Mora se navesti dubina svake liste jer ona menja fuziju.
 
 ### Cross-encoder, late interaction i reranking
 

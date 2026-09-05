@@ -4,7 +4,7 @@
 
 ## 16.1 CSD, CSD entry i refcode
 
-Cambridge Structural Database (CSD) je kurirana, licencirana baza kristalnih struktura malih organskih i metal-organskih jedinjenja. CCDC-ov pregled razvoja baze je [A Million Crystal Structures: The Whole Is Greater than the Sum of Its Parts](https://pubs.acs.org/doi/full/10.1021/acs.chemrev.9b00155). Zvanični CCDC snapshot za 2026 navodi 1.431.347 struktura; broj je vremenski promenljiv i ne treba ga hardkodovati kao trajnu činjenicu ([CSD Entry Summary Statistics 2026](https://www.ccdc.cam.ac.uk/media/CSD-Entries-Summary-Statistics-2026.pdf)).
+Cambridge Structural Database (CSD) je kurirana, licencirana baza kristalnih struktura malih organskih i metal-organskih jedinjenja. CCDC-ov pregled razvoja baze je [A Million Crystal Structures: The Whole Is Greater than the Sum of Its Parts](https://pubs.acs.org/doi/full/10.1021/acs.chemrev.9b00155). Zvanični CCDC snapshot od **1. januara 2026.** navodi 1.431.347 struktura; broj je vremenski promenljiv i ne treba ga hardkodovati kao trajnu činjenicu ([CSD Entry Summary Statistics 2026](https://www.ccdc.cam.ac.uk/media/CSD-Entries-Summary-Statistics-2026.pdf)).
 
 **CSD entry** nije nužno jedna jedinstvena hemijska supstanca. Može predstavljati konkretno kristalografsko određivanje pri određenim uslovima, sa sastavom, 3D modelom, bibliografijom i kuriranim anotacijama. Bliski refcode-ovi mogu biti povezane redeterminations ili forme; identitet se ne određuje samo string poređenjem.
 
@@ -31,7 +31,7 @@ Forenzički pregled čitljivog serializovanog sadržaja dva `.cqs` fajla pokazuj
 | `1 - Sifove baze DAP.cqs` | 18-atomsko DAP query jezgro sa dve `C=N` veze | nema dodatnog metalnog uslova; metal nije ni zahtevan ni zabranjen | 2.110 |
 | `2 - Kompleksi sa DAP SB.cqs` | isti 18-atomski motiv | odvojeni atom tipa `4M` | 2.038 |
 
-CCDC ConQuest vodič definiše `4M` kao grupu svih metalnih elemenata ([ConQuest User Guide](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf)). U query objektu atom 19 je **nepovezan** sa DAP motivom: nema metal–N bond/contact/geometric constraint.
+CCDC ConQuest vodič definiše `4M` kao svoju grupu „svih metalnih elemenata“ ([ConQuest User Guide](https://www.ccdc.cam.ac.uk/media/Documentation/2F0D7443-9739-46EB-BE9F-69E62E531FB7/2f0d7443973946ebbe9f69e62e531fb7.pdf)). To je softverska klasifikacija: preko podgrupe `2M` uključuje i Ge i Sb, koji se često svrstavaju u polumetale. U ovom opisu „metal-containing“ znači prisustvo člana te verzionisane `4M` grupe, ne univerzalnu klasifikaciju periodnog sistema. U query objektu atom 19 je **nepovezan** sa DAP motivom: nema metal–N bond/contact/geometric constraint.
 
 Zato je dokazano samo:
 
