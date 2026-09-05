@@ -1,5 +1,7 @@
 # 11. Polimorfi i druge čvrste forme
 
+**Preduslov:** razlikuješ hemijske komponente, protonaciju i jonske forme iz [poglavlja 4](04-organska.md), a kristalni raspored, simetriju i kvalitet modela iz [8](08-celija.md), [9](09-simetrija.md) i [10](10-difrakcija-kvalitet.md). [Interakcije](07-interakcije.md) daju fizički most; entalpija i entropija uvode se ovde pre termodinamičkog računa.
+
 ## Šta treba da umeš posle ovog poglavlja
 
 Posle ovog poglavlja treba da možeš da:
@@ -142,13 +144,19 @@ Kako se gradi i tumači referentna geometrijska raspodela, zašto su torzije kru
 
 ## Termodinamički minimum
 
+**Pitanje:** zašto jedna forma može biti povoljnija na niskoj, a druga na višoj temperaturi? Različita pakovanja imaju različite interakcije, ali i različita dostupna mikroskopska stanja i kretanja.
+
+**Entalpija** \(H=U+pV\) sabira unutrašnju energiju \(U\) i pritisno-zapreminski član \(pV\), gde su \(p\) pritisak, a \(V\) zapremina. Razlika entalpija pri stalnom pritisku odgovara razmenjenoj toploti kada je jedini rad pritisno-zapreminski. U kristalu na nju utiču međuatomske i intermolekulske interakcije, konformacija i toplotno kretanje; nije samo broj jakih kontakata.
+
+**Entropija** \(S\) opisuje koliko su brojna i kako su dostupna mikroskopska stanja kompatibilna sa zadatim makroskopskim uslovima. Vibracije rešetke, molekulska kretanja i moguće orijentacije mogu razlikovati dve forme. Uredan kristal ima entropiju; iz vizuelnog utiska „više nereda“ ne možeš pouzdano odrediti njenu vrednost. [OpenStax o entropiji i mikrostanjima](https://openstax.org/books/chemistry-2e/pages/16-2-entropy) daje osnovu ovog tumačenja.
+
 Pri konstantnoj temperaturi, pritisku i ukupnom sastavu, ravnotežno stabilno stanje ima najnižu Gibbsovu slobodnu energiju. Za poređenje polimorfa istog sastava koristi se ista količina supstance, na primer jedan mol iste formula unit:
 
 \[
 G = H - TS
 \]
 
-Ovde je \(H\) entalpija, \(S\) entropija, a \(T\) apsolutna temperatura. U računima po molu i \(G\), \(H\) i \(S\) odnose se na tu istu molarnu osnovu. Ne možeš samo uporediti sirove \(G\) vrednosti anhidrata i hidrata sa različitim brojem molekula vode: potrebno je bilansirati i vodu razmenjenu sa okolinom. Tada stabilnost zavisi i od njenog hemijskog potencijala, odnosno aktivnosti vode pri zadatim uslovima. [Eksperimentalna studija hidrata/anhidrata karbamazepina](https://doi.org/10.1021/op7001497) pokazuje zašto se redosled stabilnosti može promeniti sa aktivnošću vode pri istoj temperaturi.
+\(T\) je apsolutna temperatura u K. U računima po molu i \(G\), \(H\) i \(S\) odnose se na istu molarnu osnovu: \(G,H\) su u J/mol, a \(S\) u J/(mol·K), pa \(TS\) ima jedinicu J/mol. Član \(-TS\) pokazuje kako viša temperatura daje veći značaj entropijskoj razlici. Poređenje sastava sa različitim sadržajem vode obrađeno je [posebno ispod](#ravnoteza-hidrata).
 
 Za dve forme A i B:
 
@@ -162,11 +170,7 @@ Za dve forme A i B:
 
 ### Numerički primer
 
-Pretpostavi, samo za ovaj idealizovani račun, da su \(\Delta H_{B-A}\) i
-\(\Delta S_{B-A}\) konstantni u posmatranom temperaturnom opsegu. Time
-zanemarujemo razliku toplotnih kapaciteta \(\Delta C_p\), kao i topljenje,
-raspad i sve druge fazne prelaze koji bi se mogli javiti pre izračunatog
-preseka:
+U nastavnom računu uzimamo dve konstantne razlike:
 
 \[
 \Delta H_{B-A}=1.0\ \text{kJ mol}^{-1}
@@ -186,6 +190,12 @@ Tada:
 - na 298 K, \(\Delta G=-192\ \text{J mol}^{-1}\): B je stabilnija;
 - linearno ekstrapolirani presek je na 250 K.
 
+B ima entalpiju višu za 1000 J/mol, pa je pri niskoj temperaturi ta cena dominantna. Međutim, B ima i entropiju višu za 4 J/(mol·K): na 100 K član \(-T\Delta S=-400\) J/mol ne nadoknađuje cenu, dok na 298 K doprinosi −1192 J/mol i preokreće znak. Presek \(1000/4=250\) K pokazuje mesto izjednačenja u modelu. To ne govori koliko se brzo forma menja. [OpenStax Gibbsov kriterijum](https://openstax.org/books/chemistry-2e/pages/16-4-free-energy) povezuje znak slobodne energije i uslove ravnoteže.
+
+### Stručna provera temperaturnog zaključka
+
+Konstantnim \(\Delta H\) i \(\Delta S\) zanemarili smo razliku toplotnih kapaciteta \(\Delta C_p\), kao i topljenje, raspad i druge fazne prelaze koji bi se mogli javiti pre izračunatog preseka.
+
 U ovom modelu redosled stabilnosti menja se sa temperaturom, što je obrazac
 **kompatibilan** sa enantiotropijom. Sam presek dve aproksimirane prave nije
 dokaz enantiotropnog odnosa: treba pokazati da obe faze postoje u relevantnom
@@ -199,6 +209,20 @@ raspad i druge prelaze. U monotropnom odnosu jedna forma ostaje stabilnija u
 ## Kinetika: zašto se prvo pojavi „pogrešna“ forma
 
 Termodinamika kaže koja forma ima najniži \(G\) u ravnoteži. Kinetika određuje koliko brzo faza nukleira, raste ili prelazi u drugu fazu.
+
+Sledeća kvalitativna skica važi pri jednoj fiksnoj temperaturi i istom sastavu, za slučaj kada A ima niži \(G\). Horizontalna osa je put transformacije, a ne vreme ili rastojanje između molekula:
+
+```text
+G ↑                         ‡ prelazno područje
+  │                        / \
+  │                       /   \_____ B: viši lokalni minimum
+  │  \                   /
+  │   \_____ A _________/             barijera: vrh − polazni minimum
+  │          niži minimum
+  └────────────────────────────────→ put transformacije
+```
+
+Razlika visina **dva minimuma** određuje ravnotežni smer B→A, dok visina prelaznog područja **iznad B** predstavlja barijeru tog prelaza. Zato B može opstati dugo. Skica sažima složen fazni put; stvarna nukleacija i rast zavise i od površina, veličine jezgra i uslova, pa brzinu ne određujemo iz ove skice.
 
 Kristalizacija zavisi od:
 
@@ -216,20 +240,38 @@ Metastabilna forma je lokalni minimum slobodne energije odvojen kinetičkom bari
 
 Nukleacija i rast takođe stvaraju selection bias baze: u bazi vidimo ono što je pokušano, kristalisalo, bilo merljivo i sačuvano, ne ceo prostor mogućih formi.
 
+## Anhidrat i voda iz okoline u ravnoteži sa hidratom {#ravnoteza-hidrata}
+
+Anhidrat i hidrat nemaju isti sastav. Za hidrat sa \(\nu\) molekula vode po istoj osnovnoj formulskoj jedinki bilans je:
+
+\[
+\text{anhidrat}+\nu\,\mathrm{H_2O}_{\mathrm{okolina}}
+\rightleftharpoons\text{hidrat}.
+\]
+
+**Hemijski potencijal vode** \(\mu_w\) govori kako se Gibbsova energija rezervoara menja kada mu se pri zadatim uslovima doda mala količina vode, po molu dodate vode. On povezuje vodu u okolini sa vodom ugrađenom u čvrstu fazu. Za ovaj bilans po molu osnovne jedinke:
+
+\[
+\Delta_rG=G_{\mathrm{hidrat}}-G_{\mathrm{anhidrat}}-\nu\mu_w.
+\]
+
+Negativan \(\Delta_rG\) favorizuje hidrataciju, a nula znači ravnotežu tih faza sa zadatom okolinom. **Aktivnost vode** \(a_w>0\) je bezdimenziona mera njene termodinamičke dostupnosti u odnosu na izabrano standardno stanje, sa vezom:
+
+\[
+\mu_w=\mu_w^\circ+RT\ln a_w.
+\]
+
+\(\mu_w^\circ\) je referentni hemijski potencijal, \(R\) gasna konstanta u J/(mol·K), a \(T\) temperatura u K. Veća aktivnost pri istoj temperaturi povećava \(\mu_w\), pa član \(-\nu\mu_w\) više pogoduje hidrataciji. Aktivnost nije prosto broj molekula vode niti opšta koncentracija; njena definicija zavisi od izabranog standardnog stanja ([IUPAC: aktivnost](https://goldbook.iupac.org/terms/view/A00115)). [Studija hidrata/anhidrata karbamazepina](https://doi.org/10.1021/op7001497) pokazuje uticaj aktivnosti vode pri istoj temperaturi. Sam broj H-veza u hidratu ne odlučuje ovaj bilans.
+
 ## Solubilnost i fazna stabilnost
 
-Pri istoj temperaturi, rastvaraču i hemijskom stanju, metastabilna kristalna
-forma često daje višu **solubilnost u odnosu na tu fazu** nego stabilna forma,
-jer je izlazak iz njene rešetke termodinamički povoljniji. Ako se zasićenje
-uspostavi dok ta faza ostaje nepromenjena, rezultat se može opisati kao
-**metastabilna, fazno-uslovljena solubilnost** — ravnoteža rastvor–metastabilna
-faza pod kinetičkim ograničenjem. Strogo govoreći, globalna ravnoteža ne
-zadržava metastabilnu čvrstu fazu ako je prelaz u stabilnu fazu dostupan;
-dugotrajnu zasićenu ravnotežu tada određuje stabilna faza. Vrednost se zato
-može pripisati metastabilnoj fazi samo ako je njen identitet potvrđen tokom
-merenja i ako se na vremenskoj skali eksperimenta uspostavio reproduktivan
-odnos čvrsta faza–rastvor. Ako se faza transformiše ili zasićenje nije
-dostignuto, izmereni plato može biti samo kinetički ili prividan. Pored toga:
+**Rastvorljivost** (*solubility*) počinje od ravnoteže `čvrsta faza ⇌ rastvorena vrsta`. U zasićenom rastvoru, pri zadatoj temperaturi, rastvaraču i hemijskom stanju, nema neto rastvaranja iako se razmena jedinki nastavlja. Hemijski potencijal iste komponente u čvrstoj fazi i rastvoru tada je jednak. Rastvorljivost opisuje sastav takvog rastvora; brzina kojom do njega stižemo je drugo pitanje.
+
+Zatim proveri da li tokom merenja ostaje ista čvrsta faza. Ako početna forma A pređe u B, konačna koncentracija više ne opisuje jednostavno rastvorljivost početne A. Pri istim uslovima metastabilna forma često ima višu **rastvorljivost u odnosu na tu fazu**: njen viši hemijski potencijal dopušta višu zasićenu aktivnost rastvorene komponente. Ako faza ostaje nepromenjena do zasićenja, to je **metastabilna, fazno uslovljena rastvorljivost**, uz kinetički sprečen prelaz u stabilniju fazu.
+
+### Stručna provera merenja
+
+Globalna ravnoteža ne zadržava metastabilnu čvrstu fazu kada je prelaz u stabilnu dostupan; dugotrajnu zasićenu ravnotežu tada određuje stabilna faza. Vrednost se pripisuje metastabilnoj fazi samo uz potvrđen identitet tokom merenja i reproduktivan odnos čvrsta faza–rastvor na vremenskoj skali eksperimenta. Ako se faza transformiše ili zasićenje nije dostignuto, plato može biti kinetički ili prividan. Pored toga:
 
 - dissolution rate nije isto što i equilibrium solubility;
 - veličina čestice, površina i habit utiču na brzinu;
@@ -271,7 +313,7 @@ Za teorijsko razumevanje treba razlikovati:
 | Measurement | property, vrednost, jedinica, uslovi, uncertainty |
 | Evidence | PXRD/SCXRD/DSC/TGA izvor i quality status |
 
-Ovo je pojmovna hijerarhija identiteta, ne propisana data schema. Naziv „Form I“ nije globalni identifikator: različite organizacije mogu različito numerisati forme, pa etiketa ima značenje samo uz izvor i namespace.
+Status hijerarhije identiteta objašnjen je u [centralnoj napomeni o teorijskom i referentnom sloju](kako-koristiti.md#teorijski-i-referentni-sloj). Naziv „Form I“ nije globalni identifikator: različite organizacije mogu različito numerisati forme, pa etiketa ima značenje samo uz izvor i namespace.
 
 ## Moguće ose relevantne za dve aplikacije
 
