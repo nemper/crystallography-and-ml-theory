@@ -15,6 +15,61 @@ Graf je korisna apstrakcija, ali nije cela elektronska struktura. Bond order i a
 
 ## 14.2 Kristal zahteva periodični graf
 
+### Od dve tačke do periodičnog lanca {#periodicki-graf-most}
+
+**Preduslovi:** [ćelija i koordinate](08-celija.md), [simetrija](09-simetrija.md) i [drugi prolaz kroz kontakte](07-interakcije.md). Pitanje je kako konačna tabela čvorova može da opiše beskonačnu mrežu.
+
+U nastavnom jednodimenzionalnom modelu ćelija ima dužinu 10 Å. Predstavnici čvorova su A na frakcionoj koordinati 0,9 i B na 0,1. Ivica **A→B sa oznakom +1** vodi do B u sledećoj ćeliji, na 1,1:
+
+\[
+\Delta r=10(0,1+1-0,9)=2\ \text{Å}.
+\]
+
+U konačnom označenom grafu čuvamo samo A, B i oznaku ivice +1. Periodični nastavak sadrži Aₖ na \(10(k+0,9)\) i Bₖ na \(10(k+0,1)\), za sve cele \(k\). Obrnuta ivica B→A ima oznaku −1 i pomeraj −2 Å. Ako dodamo i ivicu B→A sa oznakom 0, dobijamo nastavni lanac sa naizmeničnim razmacima 8 i 2 Å:
+
+```text
+... B₀(1 Å) --8 Å-- A₀(9 Å) --2 Å-- B₁(11 Å) --8 Å-- A₁(19 Å) ...
+
+konačni graf: B --[0]--> A --[+1]--> B
+```
+
+Duga ivica ovde služi ilustraciji topologije i nije tvrdnja o hemijskoj vezi od 8 Å. Samo ponavljanje izolovanih A–B parova preko granice ne bi dalo povezan lanac; zato smo naveli obe ivice.
+
+Sada za predstavnika B izaberimo 1,1 umesto 0,1. Isti kratki kontakt A→B ima oznaku **0**, jer je \(10(1,1+0-0,9)=2\) Å. Predstavnik se promenio, fizički pomeraj nije. Druga ivica B→A sada dobija oznaku +1. Takva promena izbora predstavnika često se naziva *gauge promena*.
+
+### Ciklus, povratak i rang mreže
+
+Put A₀→B₁→A₀ po kratkoj ivici i njenoj inverznoj ima zbir oznaka \(+1-1=0\): vraća se na isti fizički čvor. Put B₀→A₀→B₁ ima zbir \(0+1=1\). On je zatvoren u konačnom grafu predstavnika, ali u periodičnom nastavku završava u drugoj kopiji B; zato otkriva pravac beskonačnog povezivanja.
+
+Rang povezanog periodičnog dela broji nezavisne translacione pravce koje ovakvi zatvoreni putevi generišu: rang 0 daje konačnu komponentu, 1 lanac, 2 sloj, a 3 prostornu mrežu. Broj nacrtanih ivica i broj nekolinearnih tačaka sami ne određuju taj rang.
+
+### Opšti zapis i granice {#periodicki-graf-formule}
+
+Za već simetrijski razvijene predstavnike \(f_i\), matricu ćelije \(A\) sa baznim vektorima u kolonama i translacionu oznaku \(n_{ij}\in\mathbb Z^3\), fizički pomeraj je
+
+\[
+d_{ij}=A(f_j+n_{ij}-f_i).
+\]
+
+Ako izaberemo \(f'_i=f_i+s_i\), gde je \(s_i\) celobrojan vektor, ista ivica zahteva
+
+\[
+n'_{ij}=n_{ij}+s_i-s_j.
+\]
+
+Uvrštavanjem se članovi \(s_i,s_j\) poništavaju i \(d'_{ij}=d_{ij}\). Duž zatvorenog puta poništavaju se i sve promene predstavnika, pa ukupna translacija ostaje ista. Ovo je osnovni most za [periodično mapiranje i unwrap](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/04-precise-pairwise.md) i [neuralni periodični graf](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/05-periodic-crystal-encoders.md). *Unwrap* bira međusobno dosledne ćelijske kopije atoma; za mrežu nenultog ranga ne može sve periodične veze pretvoriti u unutrašnje veze jednog konačnog molekula.
+
+**Referentni sloj.** Ako se polazi od ASU, simetrijske operacije prethode ovom translacionom zapisu i njihovo poreklo se čuva. Graf zavisi od vrste kontakta, zauzeća mesta i nereda u modelu. Formulu za puno periodično rastojanje, uključujući kosu ćeliju, čitaj u drugom prolazu [interakcija](07-interakcije.md); ovde se izvodi samo promena oznaka grafa.
+
+Uz istovremenu celobrojnu unimodularnu promenu bazisa \(U\), sa \(\det U=\pm1\), isti fizički model ima \(A'=AU\), \(f'_i=U^{-1}f_i+s_i\) i
+
+\[
+n'_{ij}=U^{-1}n_{ij}+s_i-s_j,\qquad
+A'(f'_j+n'_{ij}-f'_i)=A(f_j+n_{ij}-f_i).
+\]
+
+Celobrojnost \(U^{-1}\) čuva translacione oznake u \(\mathbb Z^3\). Ovo obuhvata i promenu predstavnika iz primera; superćelija sa većom apsolutnom determinantom dodatno zahteva atomske kopije, kao u [konstrukciji superćelije](09-simetrija.md). Formula se koristi kao zajednička stručna referenca za deterministički i neuralni deo.
+
 Kristal nije samo graf asimetrične jedinice. Simetrijske operacije i translacije stvaraju periodične slike. Kontakt preko granice ćelije može biti najvažnija H-veza u mreži.
 
 Periodični model zato mora da pamti:
@@ -87,6 +142,8 @@ Za crystal-level poređenje mogu se graditi:
 Svaka ivica mora nositi rule provenance. Geometrijski cutoff sam po sebi nije hemijska istina; donor/acceptor type, angle, periodic image i uncertainty menjaju tumačenje.
 
 ## 14.7 Multimodalni zapis, ne jedna magična reprezentacija
+
+U [povezanom primeru](povezani-primer.md#objekti) isti Q ima izvorni opis sa dodatnom komponentom i namenski pogled na jezgro. B omogućava mapirano 3D poređenje, a C samo grafovski zaključak. Reprezentacija određuje primenljivost metode pre nego što se izračuna bilo koji skor.
 
 Za prvu aplikaciju je razumna hijerarhija:
 

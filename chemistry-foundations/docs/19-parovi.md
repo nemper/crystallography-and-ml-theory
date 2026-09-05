@@ -60,6 +60,23 @@ Pojedina grana može dati validno merenje, ostati neodređena, biti neprimenljiv
 
 ## 19.4 Component mapping
 
+### Zašto se dodela rešava globalno {#globalna-dodela}
+
+**Pitanje:** da li za svaku komponentu možemo uzeti njen najjeftiniji par? Razmotrimo nastavnu matricu troškova za komponente A₁/A₂ i B₁/B₂; manji broj je povoljniji. Brojevi ilustruju optimizaciju i nisu hemijske energije ili izmerene sličnosti.
+
+| Trošak | B₁ | B₂ |
+|---|---:|---:|
+| A₁ | 1 | 2 |
+| A₂ | 2 | 100 |
+
+Ako prvo pohlepno uzmemo A₁→B₁ sa troškom 1, za A₂ ostaje B₂: zbir je **101**. Potpune dodele postoje samo dve; ukrštena A₁→B₂, A₂→B₁ ima zbir **2+2=4**, pa je globalni optimum. Svaka B komponenta koristi se jednom.
+
+Hemijska dozvoljenost je odvojena od troška. Ako profil zabranjuje A₁→B₂, taj par uklanjamo iz dozvoljenih opcija bez obzira na broj 2; jedina preostala potpuna dodela košta 101. Ako profil dodatno dopušta neuparene komponente uz nastavnu kaznu 3 **za svaku neuparenu komponentu na obe strane**, A₁→B₁ i neuparene A₂/B₂ koštaju \(1+3+3=7\). To je bolji delimični izbor od 101, ali ne sme da se predstavi kao potpuno poklapanje. Zabrana, visok trošak i neupareno stanje imaju različito značenje.
+
+Tek izabrana komponentna mapa određuje koje skupove atoma smemo dalje uparivati. Ako je A₁ dodeljena B₂, atomska mapa te grane traži se unutar B₂, a ne u proizvoljnoj komponenti B₁. Hemijski primer glavne i dodatne komponente prati [Q–B](povezani-primer.md#komponente).
+
+### Referentni sloj: nepotpune i višeznačne dodele
+
 Pre atom mapping-a rešava se problem komponenti:
 
 1. classify components bez brisanja originala;
@@ -70,7 +87,37 @@ Pre atom mapping-a rešava se problem komponenti:
 
 „Uporedi samo najveći fragment“ je neprihvatljiv default za metalne komplekse i solid forms.
 
+Kod ponovljenih ekvivalentnih komponenti nekoliko numerički različitih dodela može opisivati isti fizički izbor. Njihove klase pod dozvoljenim permutacijama zovu se **orbite**. Najpre utvrdi multiplicitete, hemijska ograničenja i kaznu neuparivanja; potom razmatraj alternativne optima i *k-best*, odnosno nekoliko najboljih dozvoljenih rešenja. Detalji enumeracije dolaze u [ML/AI pairwise lekciji](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/04-precise-pairwise.md), posle ovog osnovnog računa.
+
 ## 19.5 Molekulski graf i atom mapping
+
+### Izbor MCS-a menja pitanje {#mcs-varijante}
+
+**MCS** (*maximum common subgraph*) traži najveći zajednički podgraf prema izabranom cilju, na primer broju čvorova. U nastavnom primeru svi čvorovi imaju istu oznaku, a sve ivice isti tip:
+
+```text
+P: p₁ — p₂ — p₃        T: t₁ — t₂
+                           \   /
+                             t₃
+```
+
+P je putanja sa dve ivice, T trougao sa tri. Mapa p₁→t₁, p₂→t₂, p₃→t₃ čuva ivice p₁–p₂ i p₂–p₃. U T ipak postoji dodatna ivica t₁–t₃, čijeg pandana u P nema.
+
+| Odluka | Dopušteno podudaranje | Posledica za ovaj primer |
+|---|---|---|
+| **non-induced**: dodatne ivice među izabranim čvorovima cilja su dopuštene | cela putanja u trouglu | 3/3 atoma obe strane; dve zajedničke ivice ne dokazuju jednakost grafova |
+| **induced**: moraju se očuvati i prisustvo i odsustvo ivica među mapiranim čvorovima | najviše jedna ivica i njena dva čvora | mapa p₁→t₁, p₂→t₂; pokrivenost 2/3 na P i 2/3 na T |
+| prstenaste ivice smeju samo na prstenaste ivice | ivice puta ne smeju na ivice trougla | najviše jedan čvor ako se dodatno ne zahteva isti prstenasti status čvorova |
+| očuvanje i prstenastog statusa čvorova | čvor van prstena ne sme na čvor u prstenu | u ovom paru nema dozvoljenog čvora |
+| mapiranje samo celih prstenova | ne bira se samo deo trougla kao prstenasto jezgro | pravilo dodatno sužava pretragu; navodi se odvojeno od induced uslova |
+
+Povezano i nepovezano jezgro je druga nezavisna odluka. Uz induced pravilo poredi putanju P sa grafom U koji ima samo ivicu u₁–u₂ i izolovan u₃. Nepovezano jezgro može mapirati {p₁,p₃}→{u₁,u₃}, dva čvora bez ivice i pokrivenost 2/3 obe strane. Zahtev povezanosti zabranjuje baš tu mapu, ali dopušta {p₁,p₂}→{u₁,u₂}, takođe veličine dva. Ista veličina optimuma zato ne znači isti dozvoljeni dokaz.
+
+Pokrivenost se uvek računa kao broj mapiranih dozvoljenih atoma podeljen brojem dozvoljenih atoma **svake strane zasebno**. Hemijske oznake, naboj, stereohemija, prstenovi i dozvoljena povezanost utvrđuju se pre optimizacije; različite opcije predstavljaju različita pitanja grafovima.
+
+### Referentni sloj: optimum i trag mapiranja
+
+*Incumbent* je najbolje trenutno pronađeno dozvoljeno rešenje. Kod prekida pretrage on daje donju granicu vrednosti maksimuma; bez poklopljene dokazane gornje granice nije dokaz globalnog optimuma. Enumeracija ekvivalentnih mapa, ograničenje vremena i izbor između alternativnih rešenja dolaze nakon definisanja MCS varijante i mere cilja.
 
 Za tumačenje graph poređenja relevantni su:
 
@@ -98,7 +145,7 @@ Za svaki relevantni metal naučno poređenje razmatra:
 
 Ne koristi jedan globalni distance cutoff za sve elemente i oxidation states. Nejasan connectivity rezultat ostaje `ambiguous` i ide na human review.
 
-## 19.7 Konformaciono/3D poređenje
+## 19.7 Konformaciono/3D poređenje {#geometrijsko-poredenje}
 
 Za svaki validni common core važno je razmotriti:
 
