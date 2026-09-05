@@ -69,6 +69,41 @@ Poredi smer, a ne veličinu vektora; za opšte realne vektore ima opseg od −1 
 
 **Transponovanje** \(X^T\) zamenjuje redove i kolone. Množenje matricom može predstavljati promenu koordinata. Rotacija čuva dužine; proper rotacija ne pretvara objekat u njegovu ogledalsku sliku. **SVD** razlaže matricu na ortogonalne smerove i nenegativne faktore njihovog skaliranja. U Kabsch algoritmu to pomaže pronalaženju najbolje rotacije već mapiranih tačaka; SVD sam ne utvrđuje koji atom odgovara kojem.
 
+### Logaritam, eksponenciranje i težine {#log-exp-softmax}
+
+**Pitanje:** kako se skor pretvara u težinu i zašto samouverena greška dobija veliki gubitak? **Eksponencijalna funkcija** \(\exp(t)=e^t\), sa \(e\approx2{,}71828\), pretvara realan broj u pozitivan broj. Povećanje \(t\) za 1 množi rezultat sa \(e\). **Prirodni logaritam** \(\ln(u)\), definisan za \(u>0\), radi obrnuto: \(\ln(e^t)=t\), \(\ln(1)=0\). U ML gubicima ispod \(\log\) znači \(\ln\); kada je baza drugačija, kao \(\log_2\) u nDCG-u, ona je napisana.
+
+Za stvarno pozitivnu labelu \(y=1\), gubitak je \(-\ln(p)\):
+
+| Predviđeno \(p\) | \(-\ln(p)\) | Tumačenje za pozitivnu labelu |
+|---|---:|---|
+| 0,9 | 0,10536 | velika verovatnoća tačnog događaja, mali gubitak |
+| 0,5 | 0,69315 | neodlučna prognoza, veći gubitak |
+| 0,1 | 2,30259 | mala verovatnoća događaja koji se desio, veliki gubitak |
+
+Kako se \(p\) približava nuli, \(-\ln(p)\) neograničeno raste. Ovo su nastavne prognoze; broj u intervalu od 0 do 1 sam ne potvrđuje kalibraciju. Logaritam ne prihvata nulu, pa numerička evaluacija mora deklarisati kako obrađuje krajnje verovatnoće.
+
+Sada uzmi dva skora \(a_1=2\) i \(a_2=1\). **Softmax** prvo eksponencira, pa deli zbirom:
+
+| Korak | Prvi skor | Drugi skor |
+|---|---:|---:|
+| skor \(a_j\) | 2 | 1 |
+| \(e^{a_j}\) | 7,38906 | 2,71828 |
+| težina \(e^{a_j}/(e^2+e^1)\) | 0,73106 | 0,26894 |
+
+Zbir je 1, a veći skor dobija veću težinu. Zajedničko dodavanje ili oduzimanje istog broja od svih skorova ne menja težine: skorovi \((1,0)\) daju isti rezultat. To omogućava stabilnije računanje oduzimanjem najvećeg skora pre eksponenciranja.
+
+Za dva skora prva softmax težina jednaka je **logističkoj funkciji**, odnosno sigmoidu njihove razlike:
+
+\[
+\frac{e^{a_1}}{e^{a_1}+e^{a_2}}
+=\sigma(a_1-a_2),\qquad \sigma(t)=\frac{1}{1+e^{-t}}.
+\]
+
+Za binarnu verovatnoću \(0<p<1\), **logit** je \(\operatorname{logit}(p)=\ln[p/(1-p)]\): logaritam odnosa šansi za pozitivan i negativan ishod. On je inverz sigmoida. Za \(p=0{,}9\) logit je \(\ln9\approx2{,}19722\), za \(p=0{,}5\) je 0, a za \(p=0{,}1\) je \(-2{,}19722\). U višeklasnom modelu „logiti“ su sirovi skorovi pre softmax-a; njihove razlike određuju odnose predviđenih verovatnoća.
+
+Ovaj račun je preduslov za gubitak u sledećem odeljku, attention u §8, [InfoNCE](06-metric-learning-and-evaluation.md) i [kalibraciju zamrznutih logita](02-classical-ml.md#kalibracija).
+
 ## 4. Šta znači trenirati model
 
 Jednostavan linearni model je
@@ -85,7 +120,7 @@ Jednostavan linearni model je
 \ell(y,p)=-y\log p-(1-y)\log(1-p).
 \]
 
-Ona snažno kažnjava samouverenu pogrešnu predikciju. Logistička funkcija \(\sigma(t)=1/(1+e^{-t})\) pretvara realni izlaz u broj između 0 i 1. **Broj u tom opsegu još ne dokazuje kalibraciju.**
+Za \(y=1\) ostaje upravo \(-\ln(p)\), iz [prethodnog numeričkog primera](#log-exp-softmax); za \(y=0\) ostaje \(-\ln(1-p)\). Zato ona snažno kažnjava samouverenu pogrešnu predikciju. Logistička funkcija pretvara realni izlaz u broj između 0 i 1, uz isto ograničenje: **broj u tom opsegu još ne dokazuje kalibraciju.**
 
 Treniranje bira parametre koji smanjuju prosečni trening gubitak. **Regularizacija** dodaje cenu prevelike ili nestabilne složenosti:
 
@@ -198,7 +233,7 @@ Formalni okvir poruka i readout-a u hemijskim grafovima daje [Gilmer et al., Neu
 
 **Pooling/readout** sabira ili drugačije agregira čvorove u vektor celog objekta. Suma se menja kada se broj istovetnih kopija poveća; sredina se u tom jednostavnom slučaju ne menja. U periodičnom sistemu mean pooling ipak ne dokazuje supercell invariance jer se pre njega mogu promeniti graf, normalizacija ili globalne osobine.
 
-**Attention** daje različite naučene težine porukama/kandidatima. **Softmax** pretvara logite \(a_j\) u pozitivne težine \(e^{a_j}/\sum_k e^{a_k}\), čiji je zbir 1. Attention kaže šta model koristi u tom računu, ne dokazuje fizičku vezu ili tačno atom mapping uparivanje. Transformer je porodica mreža koja koristi attention; jezički transformer i periodični crystal transformer nemaju isti ulaz ni isti target.
+**Attention** daje različite naučene težine porukama/kandidatima. Softmax pretvara skorove \(a_j\) u pozitivne težine \(e^{a_j}/\sum_k e^{a_k}\), čiji je zbir 1; [račun sa skorovima 2 i 1](#log-exp-softmax) pokazuje kako. Attention kaže šta model koristi u tom računu, ne dokazuje fizičku vezu ili tačno atom mapping uparivanje. Transformer je porodica mreža koja koristi attention; jezički transformer i periodični crystal transformer nemaju isti ulaz ni isti target.
 
 Originalni [Attention Is All You Need](https://proceedings.neurips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) uvodi transformer za jezički zadatak; njegova arhitektura nije sama po sebi dokaz kristalne relevantnosti.
 
