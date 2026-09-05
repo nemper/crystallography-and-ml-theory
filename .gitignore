@@ -1,5 +1,6 @@
 .venv/
 site/
+.local-site/
 .cache/
 tmp/
 __pycache__/
