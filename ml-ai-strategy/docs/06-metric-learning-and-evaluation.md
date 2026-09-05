@@ -49,7 +49,7 @@ Par koji je pozitivan za isti parent graph može biti negativan za isti packing.
 
 ### Label ugovor
 
-Labela je definisana tek kada navodi identitet/grupe oba endpoint-a, target i vrednost, reference na exact mapping/packing/interaction evidence, anotatore, adjudikaciju, pouzdanost i poreklo — stručnu anotaciju, metamorphic evidence ili slabo pravilo. Tačan tehnički format je implementacioni izbor.
+Labela je definisana tek kada navodi identitet/grupe oba endpoint-a, target i vrednost, reference na exact mapping/packing/interaction evidence, anotatore, adjudikaciju, pouzdanost i poreklo — stručnu anotaciju, metamorphic evidence ili slabo pravilo.
 
 Labela izvedena slabim pravilom može pomoći pretraining-u ili distillation-u, ali ne sme biti nezavisni gold test modela koji imitira isto pravilo.
 
@@ -94,6 +94,8 @@ Zato App 1 koristi uniju 2D, coordination, 3D i learned kanala. Neural kanal ne 
 
 ## 6.3 Loss porodice i njihove pretpostavke
 
+**Preduslovi i prvi prolaz.** Kvadrat rastojanja, [eksponencijalna funkcija, logaritam i softmax](00a-osnove-ml.md#log-exp-softmax) dovoljni su za račune ispod. Pitanje je kako gubitak kažnjava blizak negativ i kako to menja učenje embeddinga. Posle triplet i InfoNCE primera sledi stručni sloj o labelama, maskiranju i drugim porodicama gubitaka; njihova primenljivost zavisi od targeta iz §6.1.
+
 ### Pair contrastive loss
 
 Klasični [contrastive loss](https://doi.org/10.1109/CVPR.2006.100) za binary positive/negative parove može se zapisati kao
@@ -104,26 +106,49 @@ Klasični [contrastive loss](https://doi.org/10.1109/CVPR.2006.100) za binary po
 
 gde je \(d=d(z_A,z_B)\), \(y=1\) positive i \(m\) margin. To je najjednostavniji embedding baseline, ali margin i odnos easy/hard negativa snažno određuju geometriju.
 
-### Triplet loss
+### Triplet loss: tri proverljiva ishoda {#triplet-primer}
 
-[FaceNet](https://openaccess.thecvf.com/content_cvpr_2015/html/Schroff_FaceNet_A_Unified_2015_CVPR_paper.html) popularizuje uslov
-
-\[
-d(a,p)^2+m<d(a,n)^2.
-\]
-
-Za 2CDC se testira samo uz potvrđene negative i semi-hard mining. Globalno „najhardest“ negative često je pogrešna labela, redetermination, parsing failure ili nepoznat legitimate positive.
-
-### InfoNCE
-
-[InfoNCE/CPC](https://arxiv.org/abs/1807.03748) za anchor \(i\), positive \(p(i)\) i batch candidate-e koristi softmax nad scaled similarities:
+**Intuicija:** referentni objekat (*anchor*) \(a\) treba da bude bliži potvrđenom pozitivnom objektu \(p\) (*positive*) nego potvrđenom negativnom objektu \(n\) (*negative*), sa razmakom koji zadaje margina \(m>0\). „Pozitivan“ uvek znači pozitivan za jedan imenovani target. Eksplicitni triplet gubitak sa kvadratnim rastojanjima je
 
 \[
-\mathcal L_i=-\log\frac{\exp(s_{i,p(i)}/\tau)}
-{\sum_{k\in B}\exp(s_{i,k}/\tau)}.
+\mathcal L_{triplet}=\max\bigl(0,d(a,p)^2-d(a,n)^2+m\bigr).
 \]
 
-Denominator sadrži designated positive i sve dozvoljene negative, ali isključuje anchor-self kada bi se inače pojavio kao trivijalan kandidat. U cross-modal ili query↔candidate učenju loss se računa u oba smera **samo** kada je obrnuti retrieval smer semantički validan; inače se koristi directional objective. InfoNCE output je verovatnoća izbora positive-a unutar konkretnog sampled denominator-a; nije \(P(\text{hemijski relevantan}\mid A,B)\).
+Uzmimo bezdimenziono \(d(a,p)^2=0{,}2\) i \(m=0{,}3\). Željena donja granica za negativ je \(d(a,n)^2\ge0{,}5\):
+
+| Izbor negativa | \(d(a,n)^2\) | Račun gubitka | Šta model još treba da promeni |
+|---|---|---|---|
+| hard — bliži od pozitivnog | 0,1 | \(\max(0,0{,}2-0{,}1+0{,}3)=0{,}4\) | i poredak i razmak nisu zadovoljeni |
+| semi-hard — dalje od pozitivnog, unutar margine | 0,4 | \(\max(0,0{,}2-0{,}4+0{,}3)=0{,}1\) | poredak jeste dobar, ali razmak nije dovoljan |
+| easy — van zahtevane margine | 0,7 | \(\max(0,0{,}2-0{,}7+0{,}3)=0\) | ovaj triplet više ne daje aktivnu kaznu |
+
+Aktivan gubitak može se smanjiti približavanjem pozitivnog, udaljavanjem negativnog ili obema promenama. Nulti gubitak za jedan triplet ne dokazuje dobar globalni poredak. Na samoj granici 0,5 gubitak je takođe nula. Ovde margina ima jedinice **kvadrata** rastojanja; nije ista brojčana granica kao margina nad \(d\) u prethodnom pair contrastive gubitku.
+
+[FaceNet](https://openaccess.thecvf.com/content_cvpr_2015/html/Schroff_FaceNet_A_Unified_2015_CVPR_paper.html) je referenca za ovaj oblik i semi-hard izbor. Za 2CDC se negativi prethodno potvrđuju: globalno najbliži „negativ“ može biti pogrešna labela, redetermination, parsing failure ili nepoznat legitimate positive. Pravila njegovog izbora su u §6.5.
+
+### InfoNCE: softmax izbor, pa negativni logaritam {#infonce-primer}
+
+**Pitanje:** koliko dobro model izdvaja potvrđeni pozitivni objekat među konkretnim kandidatima? Neka je \(s_{i,k}\) skor sličnosti anchor-a \(i\) i kandidata \(k\), pri čemu veći znači sličniji, a \(\tau>0\) trening temperatura. [InfoNCE/CPC](https://arxiv.org/abs/1807.03748) koristi dva odvojena koraka:
+
+\[
+P_i^{batch}=\frac{\exp(s_{i,p(i)}/\tau)}{\sum_{k\in B}\exp(s_{i,k}/\tau)},
+\qquad \mathcal L_i=-\ln P_i^{batch}.
+\]
+
+\(B\) ovde znači skup kandidata u trening grupi (*batch-u*), ne ime kristala iz nastavljenog primera. Skup sadrži designated positive — odabrani pozitivni primer — i dozvoljene negative; ne sadrži sam anchor kao trivijalan identičan kandidat. Razlomak je softmax udeo pozitivnog, a negativni logaritam je gubitak koji se minimizuje.
+
+Za skorove pozitivnog 1 i dva negativa 0 i −1, pri \(\tau=1\) eksponencirane težine su \((2{,}71828,1,0{,}36788)\). Zato je \(P^{batch}=2{,}71828/4{,}08616=0{,}66524\) i \(\mathcal L=-\ln(0{,}66524)=0{,}40761\). Uticaj temperature i sastava imenitelja vidi se bez menjanja formule:
+
+| Skor pozitivnog; skorovi negativa | \(\tau\) | Eksponencirane težine | \(P^{batch}\) | \(-\ln P^{batch}\) |
+|---|---|---|---|---|
+| 1; 0 | 1 | \(2{,}71828;1\) | 0,73106 | 0,31326 |
+| 1; 0, −1 | 1 | \(2{,}71828;1;0{,}36788\) | 0,66524 | 0,40761 |
+| 1; 0, −1 | 0,5 | \(7{,}38906;1;0{,}13534\) | 0,86681 | 0,14293 |
+| 1; 0, 0,8 | 1 | \(2{,}71828;1;2{,}22554\) | 0,45733 | 0,78235 |
+
+Dodavanje čak i lakog negativa povećava imenitelj i gubitak. Zamena skora −1 skorom 0,8 dodaje mnogo veću konkurentsku težinu: potvrđen težak negativ jače kažnjava trenutnu geometriju. Niža temperatura ovde izoštrava raspodelu i smanjuje gubitak zato što pozitivni već ima najveći skor; kada pogrešan negativ ima najveći skor, izoštravanje povećava njegovu dominaciju. Iz tabela ne sledi da manja temperatura uvek poboljšava trening.
+
+**Granice i stručni sloj.** \(P^{batch}\) opisuje izbor unutar konkretnog uzorkovanog imenitelja; nije \(P(\text{hemijski relevantan}\mid A,B)\). Gubitak zavisi od broja, težine i ispravnosti negativa, pa se vrednosti iz različitih batch pravila ne porede kao ista metrika kvaliteta. Trening \(\tau\) utiče na gradijente i naučene težine; kasnija [kalibraciona temperatura \(T\)](02-classical-ml.md#kalibracija) fituje se na izdvojenim podacima nad zamrznutim logitima. To su odvojeni parametri i odvojene faze. U cross-modal ili query↔candidate učenju gubitak se računa u oba smera samo kada je i obrnuti retrieval smer semantički validan. Maskiranje lažnih negativa opisuje §6.5; odabrani pozitivni se nikada ne briše iz imenitelja.
 
 ### Supervised contrastive
 
@@ -299,9 +324,47 @@ Cold query grupe \(V,C,E\) su međusobno i prema izabranom cold key-u disjunktne
 
 Random pair split ne podržava ovde definisanu tvrdnju o novim endpoint-ima/familijama: `A–B` u train-u i `A–C` u testu dele endpoint i često većinu features. Predikcija **novih parova već poznatih struktura** može biti zaseban legitiman warm/warm zadatak, ali se tako imenuje, sprečava preklapanje istog/inverznog para i zadržava kontrolu zavisnosti parova. Ne predstavlja se kao cold-structure ili prospective generalizacija. Efektivni uzorak zavisi od nezavisnih query/family/endpoint grupa i njihovih zavisnosti, ne samo od broja \(n(n-1)/2\) parova.
 
-### Zavisnost parova i intervali
+### Grupno uzorkovanje i uparena razlika {#grupni-bootstrap}
 
-Resampling prati estimand:
+**Pitanje:** koliko opažena prednost zavisi od toga koje hemijske grupe su stigle u test? Bootstrap ponovo uzorkuje raspoložive jedinice **sa vraćanjem**. Jedna izabrana grupa zato može učestvovati više puta, zajedno sa svim svojim redovima. Najpre treba odrediti šta je nezavisna jedinica i koja se ciljna veličina — *estimand* — procenjuje.
+
+Uzmimo četiri nastavne nezavisne familije, svaku sa jednim upitom. Merimo jednako ponderisan prosek nDCG@3 preko familija za dva već zamrznuta modela. Veće je bolje; ocene svakog upita i definicija nDCG ostaju iste za oba modela, kao u [računu rangiranja](03-global-retrieval-ann-ranking.md#rangiranje-primer).
+
+| Familija | Model M0 | Model M1 | Uparena razlika M1 − M0 |
+|---|---|---|---|
+| F1 | 0,80 | 0,90 | +0,10 |
+| F2 | 0,60 | 0,55 | −0,05 |
+| F3 | 0,90 | 0,95 | +0,05 |
+| F4 | 0,50 | 0,60 | +0,10 |
+| prosek | 0,70 | 0,75 | +0,05 |
+
+U prvoj replici izaberimo F1,F1,F3,F4. **Iste izabrane familije sa istim multiplicitetima koriste oba modela:** \(M0^*=(0{,}80+0{,}80+0{,}90+0{,}50)/4=0{,}75\), \(M1^*=(0{,}90+0{,}90+0{,}95+0{,}60)/4=0{,}8375\). Razlika je \(\Delta^*=0{,}0875\), jednaka proseku izabranih parnih razlika \((0{,}10+0{,}10+0{,}05+0{,}10)/4\).
+
+| Nastavna replika | Izabrane familije | M0* | M1* | \(\Delta^*\) |
+|---|---|---|---|---|
+| 1 | F1,F1,F3,F4 | 0,7500 | 0,8375 | +0,0875 |
+| 2 | F2,F2,F3,F4 | 0,6500 | 0,6625 | +0,0125 |
+| 3 | F2,F2,F2,F3 | 0,6750 | 0,6500 | −0,0250 |
+
+Mnogo takvih replika aproksimira uzoračku raspodelu razlike metrike pod izabranim grupnim modelom. U ovom računu modeli se ne treniraju ponovo: procenjuje se varijabilnost test familija uslovno na njih. Varijabilnost trening seed-ova ispituje se zasebnim ponovljenim treninzima na istim podelama; deset seed-ova ne pretvara četiri familije u četrdeset nezavisnih hemijskih opažanja. Samo četiri familije i tri prikazane replike **ne daju pouzdan interval**. Ako familije imaju različite brojeve upita, unapred se bira family-macro ili query-macro agregacija i odgovarajuće ponderisanje; slučajno menjanje imenitelja menja estimand.
+
+### Zašto App 2 parovi traže oba endpoint-a {#zavisni-parovi}
+
+App 1 resampluje celu query/family listu. App 2 par ima dva krajnja objekta (*endpoint-a*), a deljenje bilo kog od njih stvara moguću zavisnost. Posmatrajmo četiri ocenjena para:
+
+```text
+A —— B       parovi: (A,B), (A,C), (B,D), (C,D)
+|    |
+C —— D
+```
+
+Grupisanje samo po prvom zapisanom članu dalo bi grupe A: \(\{(A,B),(A,C)\}\), B: \(\{(B,D)\}\), C: \(\{(C,D)\}\). Međutim, (A,B) i (B,D) dele B, a (A,C) i (C,D) dele C iako pripadaju različitim takvim grupama. Menjanje redosleda zapisa para ne sme promeniti zaključak o nezavisnosti.
+
+Jedna nastavna ilustracija endpoint bootstrap-a bira čvorove A,A,B,D, pa su multipliciteti \(m_A=2,m_B=1,m_C=0,m_D=1\). U reponderisanju **postojećih ocenjenih, dozvoljenih** parova težina para \((i,j)\) postaje \(m_i m_j\): (A,B) ima težinu 2, (B,D) težinu 1, a druga dva težinu 0. Za oba modela koriste se iste težine. Ne izmišljaju se labele za neopažen (A,D), a kopije A ne stvaraju novi self-par (A,A). Tačno postupanje sa dijagonalom, nedostajućim parovima i težinama pripada unapred definisanoj statističkoj metodi. Crtež objašnjava zavisnost, ne dokazuje da je ovaj jednostavni bootstrap validan za svaki dyadic estimand.
+
+Ako se umesto toga koriste nezavisne povezane komponente grafa zavisnosti, ceo nacrtani graf je **jedna** grupa; iz jedne takve grupe ne može se dobiti informativna među-grupna procena. Za dyadic inference potrebne su odgovarajuće pretpostavke i dovoljan efektivni broj endpoint/grupa, ne samo mnogo ivica. Time se isti problem iz [preciznog pairwise poređenja](04-precise-pairwise.md#416-evaluacioni-skup) povezuje sa ML evaluacijom.
+
+### Stručni sloj: resampling prati estimand
 
 - App 1 ranking: resample-uju se cele query/family liste;
 - 1D \(E\times T\): resample-uju se cold query grupe iz \(E\), dok zamrznuti corpus \(T\) ostaje fiksan;
@@ -372,6 +435,8 @@ PR krive su informativnije od samog ROC-a kod retkih positives ([Davis–Goadric
 
 ## 6.11 Calibration, OOD i abstention
 
+Mehanizam fitovanja mape nad zamrznutim modelom i neuralni račun \(softmax(logiti/T)\) nalaze se u [kalibracionom primeru](02-classical-ml.md#kalibracija). Za conformal granu prvo se izvodi [rezidual → kvantil → interval](02-classical-ml.md#split-conformal). Ovde se obrađuju dodatna ograničenja neuralnih i endpoint-zavisnih podataka.
+
 Cosine, margin, InfoNCE i LambdaMART score nisu probability. Poseban pointwise/pair probability head se kalibriše na reprezentativnom grouped calibration skupu sa deployment-like prevalence.
 
 [Temperature scaling](https://proceedings.mlr.press/v70/guo17a.html) je jednostavan neural baseline. Platt/isotonic su binary baseline-i; multiclass target zahteva koherentan simplex calibrator i classwise reliability, a ordinal target cumulative calibrator koji čuva redosled pragova. [Kull et al.](https://proceedings.neurips.cc/paper_files/paper/2019/hash/8ca01ea920679a0fe3728441494041b9-Abstract.html) daju multiclass calibration porodicu, ali konkretan metod se bira u validation-u.
@@ -404,6 +469,21 @@ Conformal sloj dobija claim samo pod odgovarajućom exchangeability pretpostavko
 Bez autorizovanog reprezentativnog CSD snapshot-a model može biti istraživačka hipoteza na public/dostavljenim podacima, ali ne podržava corpus-wide CSD claim.
 
 ## 6.12 Kategorije evaluacione odluke
+
+### Tačkasta prednost nije isto što i zaključak iz intervala
+
+Neka je \(\Delta=M1-M0\) za metriku kod koje je veće bolje, a unapred dogovorena granica prihvatljivog pogoršanja \(\delta=0{,}02\). Sledeći intervali su **izmišljeni primeri tumačenja**, nisu procenjeni iz tri bootstrap replike iznad:
+
+| Nalaz | Šta podržava |
+|---|---|
+| samo \(\hat\Delta=+0{,}05\) | tačkastu prednost na posmatranom testu; ne utvrđuje njenu preciznost |
+| upareni interval \([0{,}01,0{,}08]\) | superiornost prema unapred izabranom nivou pouzdanosti i pravilima poređenja, jer je ceo interval iznad 0 |
+| upareni interval \([-0{,}01,0{,}08]\) | ne pokazuje superiornost; podržava neinferiornost uz marginu 0,02 ako unapred izabrani inferencijalni postupak koristi ovu donju granicu, jer je \(-0{,}01>-0{,}02\) |
+| upareni interval \([-0{,}08,0{,}10]\) | preširok je za superiornost i za navedenu neinferiornost; odsustvo zaključka nije dokaz jednakosti niti dokaz da je M1 lošiji |
+
+Nivo pouzdanosti, jednostrana ili dvostrana konstrukcija, korekcija za više poređenja i praktična margina definišu se pre završnog testa. „Dokazana superiornost“ znači podršku u okviru tih statističkih pretpostavki, ne univerzalno svojstvo modela. Interval razlike metrike nije interval novog hemijskog cilja ni conformal pokrivenost; [tabela vrsta intervala](02-classical-ml.md#split-conformal) razdvaja te tvrdnje.
+
+### Stručni sloj: kriterijumi pre završnog testa
 
 Pre merenja se definišu estimand, jedinica agregacije (`query-macro`, micro ili pair), potreban broj nezavisnih grupa i positive događaja, paired interval/LCB sa estimand-ispravnim resampling-om i non-inferiority margina. Slice koji nema dovoljnu efektivnu veličinu dobija status `underpowered`, a ne automatski pass ili fail. Numeričke granice su claim-, rizik- i stakeholder-specifične i ne slede iz literature kao univerzalne konstante.
 
@@ -492,11 +572,11 @@ Trošak unapred izračunatih corpus reprezentacija je jedan embedding po autoriz
 
 Za \(n\) struktura postoji \(P=n(n-1)/2\) unordered parova. Shared embeddings se računaju \(n\) puta, a lagani pair head \(P\) puta. Cross-graph comparator se batch-uje po site/edge budget-u, ne samo po broju parova; veliki graph može dominirati memorijom.
 
-Računski izveštaj razlikuje full/pruned mode, cost distribuciju, timeout/failure statuse, peak memoriju i parcijalne rezultate bez pretvaranja neuspeha u score. Tačna queue i retry šema nisu deo algoritamske specifikacije.
+Računski izveštaj razlikuje full/pruned mode, cost distribuciju, timeout/failure statuse, peak memoriju i parcijalne rezultate bez pretvaranja neuspeha u score.
 
 ### Kompatibilnost reprezentacije i indeksa
 
-Promena standardizacije, graph builder-a, model weights-a, embedding normalizacije, distance metrike ili quantization-a menja definiciju embedding prostora. Indeks i query encoder moraju koristiti kompatibilnu reprezentaciju; lifecycle i rebuild mehanizam je implementacioni izbor.
+Promena standardizacije, graph builder-a, model weights-a, embedding normalizacije, distance metrike ili quantization-a menja definiciju embedding prostora. Indeks i query encoder moraju koristiti kompatibilnu reprezentaciju.
 
 ## 6.16 Informacije potrebne za reproduktivnu evaluaciju
 
@@ -519,7 +599,7 @@ Pored definicije modela iz prethodnog poglavlja navode se:
 - hardware/runtime/precision i izmereni computational scope;
 - code/dependency i weights identitet.
 
-Tačan tehnički format i infrastrukturni mehanizmi nisu naučni zahtevi; navedene kategorije jesu potrebne da bi se rezultat protumačio i ponovio.
+Navedene kategorije potrebne su da bi se rezultat protumačio i ponovio; njihov referentni status prati centralnu [granicu teorije i implementacije](00-scope.md#granica-izmeu-strategije-i-implementacije).
 
 ## 6.17 Anti-patterni
 
