@@ -134,7 +134,7 @@ p=\frac{1}{1+e^{-\left(\beta_0+\sum_j\beta_jx_j\right)}}.
 
 5. **Proveri model i coverage.** Čuvaju se fitting counts, excluded grupe, regresiona jednačina/feature-i, AUC ili drugi dijagnostički output, uncertainty i savet alata. Dobar AUC ne popravlja target van domena.
 6. **Izračunaj individualne propensity vrednosti.** Svaki potencijalni donor–acceptor par dobija model output, bounds/uncertainty i vezu sa dokazima. Posebno se beleži da li je veza stvarno opažena u target kristalu.
-7. **Generiši groupings.** Kompatibilni skupovi mogućih H-veza predstavljaju putative network-e. Group H-bond score sažima propensity uključenih veza, dok coordination score sažima koliko su donorni/akceptorski coordination outcomes saglasni sa modelom.
+7. **Generiši groupings.** Kompatibilni skupovi mogućih H-veza predstavljaju putative network-e. Group H-bond score sažima propensity uključenih veza, dok coordination score sažima koliko su donorni/akceptorski coordination outcomes saglasni sa modelom. Ovde „coordination“ znači koliko H-veza donor donira ili akceptor prihvata u predloženoj mreži, na primer „donira jednom“. To nije koordinacioni broj metala iz poglavlja 5.
 
 Zvanična [CCDC HBP dokumentacija](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/hbond_propensities.html) eksplicitno prikazuje fitting counts, positive/negative evidence, logistic regression, AUC, propensity uncertainty i group/coordination scores. Originalni metod je opisan u [Galek et al., Acta Cryst. B 2007](https://doi.org/10.1107/S0108768107030996).
 
