@@ -63,7 +63,7 @@ Minimalni plan konceptualno određuje:
 | periodic politika | definiše symmetry-expanded multigraph i tretman lattice slika |
 | tražene grane | composition, graph, coordination, geometry, packing, interactions i/ili PXRD |
 
-Tačan zapis ovog plana pripada implementaciji; semantičke odluke moraju biti deklarisane pre poređenja.
+Semantičke odluke moraju biti deklarisane pre poređenja; centralna [granica teorije i implementacije](00-scope.md#granica-izmeu-strategije-i-implementacije) objašnjava ulogu referentnih detalja ove lekcije.
 
 ## 4.2 State machine svake grane
 
@@ -105,7 +105,7 @@ Izvorni `dve funkcionalnosti.txt` zahteva poređenje svakog ulaznog CIF-a sa sva
 
 ### Računske posledice
 
-Per-structure podatke i skupe mapping rezultate moguće je ponovo koristiti, a svaki neuređeni par treba matematički računati jednom. Način raspodele posla i čuvanja rezultata zavisi od obima i hardvera i nije deo algoritamske specifikacije.
+Per-structure podatke i skupe mapping rezultate moguće je ponovo koristiti, a svaki neuređeni par treba matematički računati jednom.
 
 ### Pair-order symmetry
 
@@ -114,6 +114,8 @@ Neuređeni par može interno dobiti kanonsku orijentaciju radi izbegavanja duplo
 Zamena \(A \leftrightarrow B\) mora dati iste simetrične score-ove i statuse, dok se usmereni coverage i skupovi neuparenih objekata samo zamene između dve strane. Za simetričan target model koristi symmetric pair transforms/set architecture ili eksplicitno prosečava/vezuje \(f(A,B)\) i \(f(B,A)\). Kanonski ID redosled je eventualna tehnička optimizacija, ne simetrija modela: left/right slot ne sme dozvoliti različite težine koje uče hronologiju/source kroz ID redosled. Zamena A/B i ID-relabel/reingest su nužni metamorphic testovi.
 
 ## 4.4 Component assignment
+
+**Prvi prolaz:** [mala matrica globalne dodele](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/19-parovi.md#globalna-dodela) pokazuje zašto pohlepni trošak 101 gubi od ukrštene dodele sa troškom 4, kako se zasebno zabranjuje hemijski nedozvoljen par i kako mapa komponenti određuje narednu mapu atoma. Ovde slede uslovi stručne primene tog postupka.
 
 Ako A ima komponente \(A_1,\ldots,A_m\), a B komponente \(B_1,\ldots,B_k\), prvo se grade dozvoljeni candidate parovi po:
 
@@ -172,7 +174,7 @@ Dva označena grafa su exact match ako postoji bijekcija čvorova koja čuva iza
 
 Edge constraints mogu uključiti bond type/order, aromaticity i coordination-edge status. Periodic image/gain vector se čuva kao provenance, ali njegova raw integer trojka nije invariantna na basis, origin, wrapping, izbor predstavnika čvora ili supercell promenu. Poredi se tek posle transformacije oba grafa u zajednički lattice mapping i gauge ili preko kanonizovanog periodic quotient/gain odnosa; literalna equality image trojki nije VF2 constraint. Koordinaciona ivica nije automatski ekvivalentna organskoj single vezi.
 
-Promena periodičnog predstavnika jednog čvora dodaje/oduzima njegov integer gauge shift labelama incidentnih ivica. Dve reprezentacije su zato ekvivalentne tek ako postoji zajednička basis transformacija **i vertex-wise gauge transform**; invariantni cycle/path-sum odnosi se zatim mogu porediti. Samo basis transformacija ne rešava wrapping razliku.
+Promena predstavnika čvora, translacione oznake i zatvaranje periodičnih putanja izvedeni su u zajedničkom [primeru lanca i označenog konačnog grafa](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/14-reprezentacije.md#periodicki-graf-most). Matching zato usaglašava i bazu i predstavnike svakog čvora (*vertex gauge*); sama promena baze ne rešava različit wrapping.
 
 Stereo nije običan lokalni string atribut: tetrahedral parity zavisi od permutacije mapiranih suseda. Exact matcher posle candidate bijekcije proverava tetrahedral parity, double-bond `E/Z`, relevantne enhanced stereo groups i unknown/unspecified stanje prema verzionisanoj politici. Nepodržana metalna ili koordinaciona stereokemija ne postaje „ista“ zato što toolkit nema tag; rezultat ostaje dvosmislen i bez naučne relacione labele. Korisne formalne reference su [OpenSMILES stereochemistry pravila](http://opensmiles.org/opensmiles.html#stereochemistry) i [RDKit stereochemistry dokumentacija](https://www.rdkit.org/docs/RDKit_Book.html#stereochemistry).
 
@@ -181,6 +183,8 @@ Stereo nije običan lokalni string atribut: tetrahedral parity zavisi od permuta
 Substructure pitanje je asimetrično: query motif može biti sadržan u većem target-u, dok obrnuto ne važi. Izveštaj zato navodi smer, query coverage i target coverage.
 
 ### Maximum Common Subgraph
+
+Pre naprednih opcija treba proći [putanju naspram trougla i MCS varijante](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/19-parovi.md#mcs-varijante): dodatna ivica između mapiranih čvorova menja induced podudaranje, a povezano jezgro i pravila prstenova menjaju dozvoljeni rezultat. Konkretno atomsko mapiranje i pokrivenost obe strane određuju značenje sledećih metrika.
 
 MCS traži najveći zajednički deo pod zadatim pravilima. Umesto jednog procenta čuvaju se najmanje atom i bond coverage u oba smera:
 
@@ -203,7 +207,7 @@ MCS/subgraph search može imati eksponencijalan worst case. Definicija metode za
 - svi optimalni non-automorphic mappings ili unapred ograničen k-best/ambiguity set;
 - deterministic tie-break i hash svakog prihvaćenog atom mapping-a.
 
-MCS rezultat dodatno navodi da li je optimalnost dokazana, najbolji pronađeni incumbent, poznatu gornju granicu i razlog završetka. Ako istek vremena prekine dokaz optimalnosti, prijavljeni mapping/coverage je lower-bound kandidat, ne „the maximum common subgraph“. Enumeracija optimuma isto razlikuje kompletan od prekinutog ishoda kao component assignment.
+MCS rezultat dodatno navodi da li je optimalnost dokazana, najbolje trenutno pronađeno rešenje (*incumbent*), poznatu gornju granicu i razlog završetka. Ako istek vremena prekine dokaz optimalnosti, prijavljeni mapping/coverage je lower-bound kandidat, ne „the maximum common subgraph“. Enumeracija optimuma isto razlikuje kompletan od prekinutog ishoda kao component assignment.
 
 ### Automorphisms
 
@@ -217,6 +221,8 @@ Simetričan molekul može imati više hemijski ekvivalentnih atom maps. Ne bira 
 Ne smeju se isprobavati hemijski neekvivalentne mape samo da bi RMSD izgledao manji.
 
 ## 4.6 Kabsch i mapped 3D
+
+**Mali račun pre algoritma:** [nastavljeni primer Q i B](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/povezani-primer.md#poravnanje) pokazuje nekolinearne mapirane atome, centriranje, poznatu rotaciju, ručni RMSD i dvostranu pokrivenost. On priprema pitanje koje Kabsch rešava: najbolju rigidnu rotaciju uz već utvrđene korespondencije.
 
 [Kabsch algoritam](https://doi.org/10.1107/S0567739476001873) SVD postupkom nalazi optimalnu rigidnu rotaciju koja minimizuje sum of squared deviations između **već korespondentnih** tačaka. On ne pronalazi atom mapping.
 
@@ -246,9 +252,11 @@ Reproduktivna definicija poređenja navodi:
 
 Pre poravnanja finite molekulska komponenta se rekonstruše kontinuirano preko periodic boundary-ja. Frakcione koordinate iz različitih ćelija ne porede se direktno; za molecular RMSD koriste se odgovarajuće unwrapped kartezijanske koordinate. U suprotnom ista veza koja prelazi granicu ćelije može izgledati kao ogromno geometrijsko odstupanje.
 
-Unwrap koristi cycle-consistent propagation symmetry-operation/image labels kroz covalent graph, uključujući symmetry-generated i special-position atome. Za konačan molekul svi graph cycle sums moraju biti konzistentni sa zatvaranjem; nenulti periodic translation ukazuje na polymeric/infinite komponentu ili pogrešnu connectivity pretpostavku i blokira finite-molecule Kabsch profil. Više symmetry-equivalent realizacija se quotient-uju uz očuvan provenance.
+Unwrap propagira oznake simetrijskih operacija i periodičnih slika kroz kovalentni graf, uključujući symmetry-generated i special-position atome. [Nulta naspram nenulte translacije zatvorene putanje](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/14-reprezentacije.md#periodicki-graf-most) objašnjava proveru: za konačan molekul svaka zatvorena grafovska putanja mora biti saglasna sa zatvaranjem iste fizičke kopije. Nenulta translacija ukazuje na polymeric/infinite komponentu ili pogrešnu connectivity pretpostavku i blokira finite-molecule Kabsch profil. Više symmetry-equivalent realizacija se quotient-uju uz očuvan provenance.
 
 ### Chirality
+
+Geometrijsko značenje proper rotacije, refleksije i promene znaka orijentisane tetraedarske zapremine daje [numerički primer grupa i pariteta](05-periodic-crystal-encoders.md#grupe-i-paritet); dovoljan je njegov osnovni račun, bez čitanja ostalih neuronskih arhitektura.
 
 Default koristi proper rotation sa determinant-om `+1`; mirror reflection nije dozvoljen. Enantiomorph/mirror odnos se prijavljuje zasebno. Ako neki search mode namerno ignoriše chirality, to je nova verzija profila, ne skrivena numerička opcija.
 
@@ -324,7 +332,9 @@ Hungarian assignment može upariti isto-tipne donore po minimalnom geometrijskom
 
 ## 4.8 Periodični model pre crystal poređenja
 
-Kristal nije samo asimetrična jedinica. Periodična ivica konceptualno povezuje source i target atom i navodi symmetry operation, lattice image, rastojanje, fizičku ulogu kontakta i provenance pravila kojim je izvedena. Tačan tehnički format nije deo teorijske specifikacije.
+**Preduslov:** [periodični lanac sa dva predstavnika](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/14-reprezentacije.md#periodicki-graf-most) povezuje kontakte, oznake ivica i beskonačni nastavak. Isti osnovni blok koristi [neuralni graf](05-periodic-crystal-encoders.md#54-periodicni-graf-bez-gubitka-slike); ovde se zadržavaju specifičnosti determinističkog crystal poređenja.
+
+Kristal nije samo asimetrična jedinica. Periodična ivica konceptualno povezuje source i target atom i navodi symmetry operation, lattice image, rastojanje, fizičku ulogu kontakta i provenance pravila kojim je izvedena.
 
 Crystal branch mora biti invariant/equivariant prema:
 
@@ -395,7 +405,9 @@ Method paper ne daje automatski pravo korišćenja CCDC implementacije ili podat
 
 Kada prava i domen primenljivosti to dopuštaju, COMPACK/Packing Similarity može biti referentna metoda zbog direktne veze sa CSD praksom. PAC pruža nezavisno poređenje sa drugačijim cluster-shape informacijama. Njihova neslaganja su informativan skup za slepo stručno ocenjivanje, ali objavljeni threshold-i nisu univerzalni i ne prenose se bez target-specifične kalibracije. Svaki metod treba da prijavi matched \(N\), RMSD, cluster shape/coverage, parametre i failure reason.
 
-## 4.10 SOAP, REMatch i hemijski ograničena agregacija
+## 4.10 SOAP, REMatch i hemijski ograničena agregacija {#soap-rematch-reference}
+
+**Osnovni mehanizam:** [lokalno okruženje → gustina → matrica 2×2 → globalni skor](02-classical-ml.md#soap-rematch-primer) prikazuje prosek, strogo i meko uparivanje. Njegov [kernel i Gram uvod](02-classical-ml.md#kernel-gram) objašnjava zašto nije svaki globalni skor validan kernel. Sledeći odeljci predstavljaju stručni sloj o parametrima, hemijskoj dozvoljenosti i granicama konstrukcija.
 
 [SOAP](https://doi.org/10.1103/PhysRevB.87.184115) predstavlja lokalno atomsko okruženje glatkom atomskom gustinom i standardnim power-spectrum kernelom invariantnim na rotaciju i refleksiju. [REMatch](https://doi.org/10.1039/C6CP00415F) kombinuje matricu lokalnih sličnosti u globalni kernel kroz entropy-regularized matching; srodan computational princip je [Sinkhorn regularizovani optimal transport](https://papers.nips.cc/paper/2013/hash/af21d0c97db2e27e13572cbf59eb343d-Abstract.html).
 
@@ -463,14 +475,7 @@ Za svaki crystal gradi se typed periodic multigraph:
 
 ### Periodična topologija motiva
 
-Običan cycle detector nad jednom ćelijom nije dovoljan. Za orijentisanu putanju sabiraju se integer translation/gain labels, uz prethodno usaglašenu basis/gauge transformaciju:
-
-- **ring:** zatvorena putanja sa nultim ukupnim translation vektorom;
-- **periodic chain:** komponenta čiji nezavisni cycle-sum translation vektori imaju rang 1;
-- **layer:** rang 2;
-- **3D network:** rang 3.
-
-Ciklus u finite quotient grafu sa nenultim translation sum-om u beskonačnom lift-u nije prsten već nastavlja periodični put. Ova definicija čini dimensionality nezavisnom od proizvoljne supercell veličine; formalni okvir daju [periodic labelled quotient graphs](https://doi.org/10.1107/S2053273325008253) i [quotient-graph dimensionality algoritam](https://doi.org/10.1038/s41524-020-00409-0).
+Za razlikovanje prstena, lanca, sloja i prostorne mreže koristi se [isti račun ukupne translacije i ranga](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/14-reprezentacije.md#periodicki-graf-most). Običan cycle detector nad jednom ćelijom nije dovoljan: ciklus konačnog grafa sa nenultom translacijom u beskonačnom nastavku završava u drugoj ćelijskoj kopiji. Ova definicija čini dimensionality nezavisnom od proizvoljne supercell veličine; formalni okvir daju [periodic labelled quotient graphs](https://doi.org/10.1107/S2053273325008253) i [quotient-graph dimensionality algoritam](https://doi.org/10.1038/s41524-020-00409-0).
 
 ### Transparentne reference
 
@@ -543,7 +548,7 @@ Moguće target porodice uključuju:
 | interaction odnos | target-specific kategorije relacije | typed-edge/motif/network evidence |
 | korisnost za profil | graded relevance | samo uz eksplicitan label guide |
 
-Svaki od ovih target-a ostaje odvojen od ishoda izvršenja grane: ocenjeno, dvosmisleno, neprimenljivo, nedostaje ulaz, blokirano kvalitetom, istekao je vremenski limit ili je metod neuspešan. Tačan tehnički zapis nije deo konceptualnog modela.
+Svaki od ovih target-a ostaje odvojen od ishoda izvršenja grane: ocenjeno, dvosmisleno, neprimenljivo, nedostaje ulaz, blokirano kvalitetom, istekao je vremenski limit ili je metod neuspešan.
 
 Svaki target ima sopstveni label guide, calibrator i slice metrike. Relation loss se računa samo za ocenjene slučajeve sa poznatom gold relacionom labelom; neocenjeni slučajevi ulaze u coverage, failure i abstention metrike, ne postaju dodatna klasa. Agregatna odluka izostaje ako ključna grana nije ocenjena i semantika targeta ne dopušta zaključak.
 
@@ -615,7 +620,7 @@ Strukture/compound/scaffold/solid-form/publication/time grupe se dele pre generi
 | meta-model | grouped ROC/PR, calibration, coverage–risk, worst slice |
 | sistem | p50/p95, peak RAM i stopa svake kategorije neocenjenog ishoda |
 
-Continuous threshold-i se biraju samo na training/calibration grupama. Test izveštaj čuva paired interval po structure-family grupi i sve neuporedive parove.
+Continuous threshold-i se biraju samo na training/calibration grupama. Test izveštaj čuva sve neuporedive parove i upareni interval razlike metoda sa resampling-om koji obuhvata zavisnost preko **oba** endpoint-a. [Mali graf parova i grupni bootstrap račun](06-metric-learning-and-evaluation.md#grupni-bootstrap) pokazuju zašto grupisanje samo po prvom zapisanom članu nije dovoljno i kako se isti uzorak koristi za oba modela. Interval za query-family retrieval i interval za App 2 all-pairs ne dobijaju automatski isti postupak.
 
 ## 4.17 Metamorphic i adversarial suite
 

@@ -23,6 +23,8 @@ Pre encoder-a mora proći [cross-format i lifecycle eligibility ugovor](09-cross
 
 ## 5.1 Tri različita neuronska posla
 
+**Preduslovi.** Potrebni su vektori i skalarni proizvod iz [ML uvoda](00a-osnove-ml.md), ćelija i [konačan graf periodičnog lanca](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/14-reprezentacije.md#periodicki-graf-most). U prvom prolazu prati se značenje ulaza, geometrijski primer ispod i mehanizam periodičnih suseda u §5.4. Tabele arhitektura, ograničenja modela i reproduktivnost čine stručni nastavak; detaljna teorija reprezentacija grupa nije preduslov za osnovni račun.
+
 ```mermaid
 flowchart LR
     C[Validiran crystal view] --> E[Periodic encoder]
@@ -37,6 +39,44 @@ flowchart LR
 ### Crystal encoder
 
 Jednu periodičnu strukturu pretvara u vektor \(z=f_\theta(C)\). Vektor se može unapred izračunati za corpus i zato je pogodan za globalnu pretragu. Njegovo susedstvo ima značenje samo za loss/label semantiku na kojoj je model treniran.
+
+### Rotacije dva objekta i značenje grupa {#grupe-i-paritet}
+
+**Pitanje:** zašto okretanje jednog kristala na ekranu ne sme promeniti njegovu sličnost sa drugim? Koordinatni sistem svakog ulaza može biti izabran nezavisno. Grupa transformacija je skup dozvoljenih promena koji sadrži identitet, inverze i njihove kompozicije. U prostoru sa tri dimenzije koristimo sledeću legendu:
+
+| Oznaka | Delovanje na tačku \(r\) | Rotacije | Refleksije | Translacije |
+|---|---|---|---|---|
+| \(SO(3)\) | \(Rr\), \(R^TR=I,\det R=+1\) | da, orijentaciju čuvajuće (*proper*) | ne | ne |
+| \(O(3)\) | \(Or\), \(O^TO=I,\det O=\pm1\) | da | da | ne |
+| \(SE(3)\) | \(Rr+t\), \(R\in SO(3)\) | da | ne | da |
+| \(E(3)\) | \(Or+t\), \(O\in O(3)\) | da | da | da |
+
+\(t\) je vektor pomeranja; \(I\) je jedinična matrica. Ortogonalnost \(O^TO=I\) znači očuvanje dužina i uglova. Determinanta \(-1\) menja orijentaciju prostora. Za periodični kristal prostorna rotacija deluje i na atome i na vektore ćelije; nije fizička promena odnosa molekula i rešetke.
+
+Proizvod \(SE(3)\times SE(3)\) za par \((A,B)\) znači **nezavisan izbor** jedne transformacije za A i jedne za B. Ne zahteva da oba objekta rotiramo istom matricom. To se vidi na sirovim vektorskim osobinama \(v_A=(1,0,0)\), \(v_B=(1,0,0)\). Neka \(R_{90}(x,y,z)=(-y,x,z)\) i \(R_{180}(x,y,z)=(-x,-y,z)\), a ogledanje bude \(F(x,y,z)=(-x,y,z)\):
+
+| Promena ulaza | Novi \(v_A\) | Novi \(v_B\) | Sirovi skalarni proizvod |
+|---|---|---|---|
+| bez promene | \((1,0,0)\) | \((1,0,0)\) | 1 |
+| samo A rotiran za 90° | \((0,1,0)\) | \((1,0,0)\) | 0 |
+| samo B rotiran za 90° | \((1,0,0)\) | \((0,1,0)\) | 0 |
+| oba rotirana nezavisno: A za 90°, B za 180° | \((0,1,0)\) | \((-1,0,0)\) | 0 |
+| oba rotirana istih 90° | \((0,1,0)\) | \((0,1,0)\) | 1 |
+| ogledan samo A | \((-1,0,0)\) | \((1,0,0)\) | −1 |
+
+Za dozvoljene proper rotacije similarity rezultat mora ostati isti u svim prvim pet redova, iako sirovi skalarni proizvod ne ostaje isti. Algebra objašnjava zašto: \((R_Av_A)^T(R_Bv_B)=v_A^TR_A^TR_Bv_B\); srednja matrica nestaje za \(R_A=R_B\), ali ne za nezavisne rotacije. Zato equivariant vektori iz dva koordinatna sistema ne smeju nekritički da se porede ovim proizvodom. Skalarni proizvod **invariantnih embeddinga** ima drugačiji ulaz i ne pati od ove konkretne greške. Ogledanje je očekivana ekvivalencija samo u profilu koji namerno zanemaruje stereo.
+
+### Paritet na jednom tetraedru
+
+Uzmimo četiri označene tačke u Å: \(p_0=(0,0,0)\), \(p_1=(1,0,0)\), \(p_2=(0,1,0)\), \(p_3=(0,0,1)\). Njihova orijentisana zapremina je
+
+\[
+V_{or}=\frac{1}{6}\det[p_1-p_0,\ p_2-p_0,\ p_3-p_0]=\frac16\ \text{Å}^3.
+\]
+
+Proper rotacija množi determinantu sa \(+1\), pa znak ostaje. Posle ogledanja \(F\), prva kolona postaje \((-1,0,0)\) i \(V'_{or}=-1/6\ \text{Å}^3\). Sva rastojanja ostaju ista: od \(p_0\) do druga tri temena po 1 Å, a između ta tri temena po \(\sqrt2\) Å. Sam spisak udaljenosti zato ne razlikuje ovaj označeni ogledalski par.
+
+**Paritet** opisuje ponašanje pri promeni orijentacije: even skalar (`0e`) zadržava vrednost, a odd pseudoskalar (`0o`), poput \(V_{or}\), menja znak. Ta oznaka ne znači „negativnu verovatnoću“. Redosled i hemijska korespondencija temena moraju biti fiksirani: zamena dve oznake takođe menja znak determinante, pa sirovi znak nije automatska stereokemijska oznaka. Koplanarne tačke daju nultu zapreminu i ovaj test tada ne razlikuje orijentaciju. Neuralne posledice i referentna [e3nn notacija pariteta](https://docs.e3nn.org/en/stable/api/o3/o3_irreps.html) razrađene su u §5.6.
 
 ### Pair model
 
@@ -93,7 +133,7 @@ Model ne dobija „CIF tekst“. Dobija deterministički izveden crystal view sa
 | quality i loss | statusi potrebni za grananje i audit, ali ne nužno model features |
 | feature allowlist | eksplicitno određuje koje ulazne veličine ulaze u tensor za dati target |
 
-Tačan tehnički format je implementacioni izbor. Promena standardizacije, neighbor pravila, radii-ja, disorder politike ili element encoding-a menja samu reprezentaciju i zahteva odvojenu evaluaciju.
+Promena standardizacije, neighbor pravila, radii-ja, disorder politike ili element encoding-a menja samu reprezentaciju i zahteva odvojenu evaluaciju.
 
 ### Site features
 
@@ -125,21 +165,11 @@ Edge type je feature, ne neproverena nova „veza“. Model ne sme samim učenje
 
 ## 5.4 Periodični graf bez gubitka slike
 
-Ovde se koristi eksplicitna konvencija \(r=Ls\): tri lattice vektora su **kolone** matrice \(L\), a fractional koordinate i image/gain \(n\in\mathbb Z^3\) jesu column vektori. Za fractional pozicije \(s_i,s_j\), usmereni displacement je
+**Intuicija i mali primer** nalaze se u zajedničkom [mostu od periodičnih slika do konačnog označenog grafa](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/14-reprezentacije.md#periodicki-graf-most): ćelija 10 Å, predstavnici na 0,9 i 0,1 i oznaka ivice 1 daju kontakt od 2 Å; izbor predstavnika na 1,1 menja oznaku u 0, a kontakt ostaje isti. Tamo su izvedeni promena oznaka pri izboru predstavnika/baze, sume duž ciklusa i rang periodične mreže. Ovde se ta konstrukcija koristi kao ulaz neuronskog modela.
 
-\[
-r_{ij,n}=L(s_j-s_i+n).
-\]
+Za ivicu od site-a \(i\) do slike site-a \(j\), model polazi od fizičkog pomeraja \(r_{ij,n}=L(s_j-s_i+n)\). Ovde \(L\) označava istu matricu ćelije koja je u hemijskom mostu označena kao \(A\): lattice vektori su kolone, a \(s_i,s_j,n\) kolonski vektori. **Višestruke ivice (*multiedges*)** čuvaju različite slike istog para unutar cutoff-a, odnosno graničnog rastojanja. Njihovo spajanje samo po `(i,j)` briše deo susedstva i menja poruke koje model prima. Pri poređenju dva zapisa usaglašavaju se oznake čvorova, predstavnici i baza prema istom mostu; doslovna jednakost sirovih `n` trojki nije uslov ekvivalencije.
 
-Za isti par site-ova može postojati više legitimnih periodičnih slika u cutoff-u. One su multiedges; deduplikovanje samo po `(i,j)` može obrisati stvarno susedstvo.
-
-Za source \(i\), target \(j\) i unimodularnu basis promenu \(L'=LU\), uz moguće novo wrapping predstavljanje \(s'_i=U^{-1}s_i+k_i\), gain se transformiše kao
-
-\[
-n'=U^{-1}n+k_i-k_j.
-\]
-
-Tada \(L'(s'_j-s'_i+n')=L(s_j-s_i+n)\). Za čisto wrapping prebacivanje je \(U=I\). Edge multiset se u testu poredi modulo site relabeling i ovu vertex-gauge/basis transformaciju, ne literalnom jednakošću `n` trojki.
+### Stručni sloj: potpunost susedstva i ulaz modela
 
 Graph builder mora pronaći **svaki** \(n\) koji zadovoljava \(\lVert L(s_j-s_i+n)\rVert\le r_c\), uključujući sve ties/slike na granici. Fiksno pretraživanje `{-1,0,1}³` i običan minimum-image shortcut nisu potpuni za opšte, naročito skewed ćelije. Koristi se dokazano potpuna lattice-sphere enumeracija sa granicama izvedenim iz lattice/reciprocal geometrije; [pymatgen `get_points_in_sphere`](https://pymatgen.org/pymatgen.core.html#pymatgen.core.lattice.Lattice.get_points_in_sphere) je jedan zvanično dokumentovan primer algoritamske putanje, ali konkretna implementacija i tolerancije ostaju verzionisane.
 
@@ -344,7 +374,7 @@ Unapred izračunati corpus embedding može smanjiti ponovljeni račun u retrieva
 
 Ponovno korišćenje pojedinačnih crystal embeddinga čini jeftin symmetric pair head \(O(n^2)\) u broju parova bez \(O(n^2)\) ponovnog encoding-a. Cross-graph model i dalje radi po paru, pa njegova računarska cena mora biti procenjena na pair nivou.
 
-Reproduktivna ponovna upotreba embeddinga zahteva vezu sa source sadržajem, standardization/graph definicijom, encoder weights-ima, pooling/head definicijom i numeričkim okruženjem. Tačan cache ključ i storage mehanizam su implementacioni izbori.
+Reproduktivna ponovna upotreba embeddinga zahteva vezu sa source sadržajem, standardization/graph definicijom, encoder weights-ima, pooling/head definicijom i numeričkim okruženjem.
 
 Quantization ili mixed precision menjaju numeričku realizaciju. Njihova opravdanost se procenjuje kroz neighbor/rank i critical-slice rezultate; mala latentna cosine razlika nije dovoljna ako menja top-k.
 
@@ -368,7 +398,7 @@ Reproduktivna evaluacija navodi:
 - calibration/OOD/abstention definicije;
 - metamorphic test izveštaj i poznate failure slice-ove.
 
-Model weights bez graph-builder-a i standardization definicije nisu reproduktivan model. Tačan format zapisa i skladištenja nije teorijski zahtev.
+Model weights bez graph-builder-a i standardization definicije nisu reproduktivan model. Ulogu ovih referentnih detalja objašnjava centralna [granica teorije i implementacije](00-scope.md#granica-izmeu-strategije-i-implementacije).
 
 ## 5.12 Anti-patterni
 
