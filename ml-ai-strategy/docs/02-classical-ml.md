@@ -242,7 +242,7 @@ Za pairwise aplikaciju clustering se radi nad jednom validiranom distance kompon
 
 ### Kalibracija klasifikatora
 
-Ako model vraća score, „0,8“ nije verovatnoća dok reliability/Brier/log-loss test to ne podrži. [Niculescu-Mizil i Caruana](https://doi.org/10.1145/1102351.1102430) porede Platt scaling i isotonic regression za različite klasifikatore.
+Proizvoljan similarity score „0,8“ nema verovatnosno značenje samo zato što je u intervalu [0,1]. Nasuprot tome, izlaz modela definisan kao procena \(P(y=1\mid x)\) jeste verovatnosna predikcija i kada je loše kalibrisan. Brier i log-loss mogu oceniti takvu predikciju **pre i posle** kalibracije; ne zahtevaju da je kalibracija već dokazana. Niži Brier/log-loss sam ne dokazuje bolju kalibraciju, jer odražava i diskriminaciju; reliability prikaz proverava slaganje predikcija i učestalosti događaja ([zvanična dokumentacija](https://scikit-learn.org/stable/modules/calibration.html)). [Niculescu-Mizil i Caruana](https://doi.org/10.1145/1102351.1102430) porede Platt scaling i isotonic regression za različite klasifikatore.
 
 - Platt/logistic calibration je stabilnija kada calibration set nije velik.
 - Isotonic je fleksibilniji, ali može overfit-ovati mali calibration set.
