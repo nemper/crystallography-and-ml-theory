@@ -52,6 +52,8 @@ Promena standardizacije ili feature pravila menja semantiku reprezentacije. Zato
 
 ## 18.5 Candidate generation i reranking
 
+Najpre prati [Q sa kandidatima B, C i D](povezani-primer.md#kandidati). Par Q–B je uspešno mapiran i ocenjen, ali relevantan C nije stigao do rangiranja. Tabela tog primera odvojeno računa infrastrukturni, ekspertski kandidatski i konačni recall. Učenje ovih imenilaca prethodi izboru indeksne porodice.
+
 Jedna **ilustrativna, nenormativna** kaskada može sadržati sledeće uloge:
 
 - ograničavanje dozvoljenog korpusa i exact metadata uslova;

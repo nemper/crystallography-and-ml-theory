@@ -45,6 +45,8 @@ Formula iznad važi za **binarna prisustva**. Kod count-vektora postoji više pr
 
 ## 15.4 RMSD i geometrijska sličnost
 
+**Preduslov:** izabrana komponentna i atomska mapa. Najpre prođi [isti nastavni par Q–B](povezani-primer.md#poravnanje): tri nekolinearna atoma, centriranje i poznata rotacija daju RMSD 0,1333 Å, uz pokrivenost glavnih komponenti 3/4 i 3/5. Zapis Q* istog objekta daje nulu, dok skica suseda pokazuje odvojeno pitanje pakovanja.
+
 Za mapiranih \(N\) parova atoma, posle optimalnog poravnanja:
 
 \[

@@ -103,11 +103,13 @@ P: p₁ — p₂ — p₃        T: t₁ — t₂
 
 P je putanja sa dve ivice, T trougao sa tri. Mapa p₁→t₁, p₂→t₂, p₃→t₃ čuva ivice p₁–p₂ i p₂–p₃. U T ipak postoji dodatna ivica t₁–t₃, čijeg pandana u P nema.
 
+U sledećoj tabeli zahtevamo **povezano** zajedničko jezgro i maksimalizujemo broj čvorova. Prstenasta pravila proveravaju se prema statusu u izvornim grafovima.
+
 | Odluka | Dopušteno podudaranje | Posledica za ovaj primer |
 |---|---|---|
 | **non-induced**: dodatne ivice među izabranim čvorovima cilja su dopuštene | cela putanja u trouglu | 3/3 atoma obe strane; dve zajedničke ivice ne dokazuju jednakost grafova |
 | **induced**: moraju se očuvati i prisustvo i odsustvo ivica među mapiranim čvorovima | najviše jedna ivica i njena dva čvora | mapa p₁→t₁, p₂→t₂; pokrivenost 2/3 na P i 2/3 na T |
-| prstenaste ivice smeju samo na prstenaste ivice | ivice puta ne smeju na ivice trougla | najviše jedan čvor ako se dodatno ne zahteva isti prstenasti status čvorova |
+| isti prstenasti status svake mapirane ivice | ivice puta ne smeju na ivice trougla | najviše jedan čvor u povezanom jezgru ako se dodatno ne zahteva isti prstenasti status čvorova |
 | očuvanje i prstenastog statusa čvorova | čvor van prstena ne sme na čvor u prstenu | u ovom paru nema dozvoljenog čvora |
 | mapiranje samo celih prstenova | ne bira se samo deo trougla kao prstenasto jezgro | pravilo dodatno sužava pretragu; navodi se odvojeno od induced uslova |
 

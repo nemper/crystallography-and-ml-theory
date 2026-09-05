@@ -2,6 +2,8 @@
 
 **Prioritet: MORAŠ.** Model je validan tek kada je jasno koju naučnu tvrdnju test meri, ko je dao referentni odgovor i na kojim slučajevima sistem sme da kaže „ne znam“.
 
+**Preduslovi i prvi prolaz:** završi [reprezentacije](14-reprezentacije.md), [sličnost](15-slicnost.md), [parove](19-parovi.md) i osnovni [dohvat kandidata](18-globalna-pretraga.md). Ovde najpre savladaj tvrdnju, stručnu ocenu, split i metrike (§20.1–20.8), pa kalibraciju i grupnu neizvesnost (§20.9–20.10). Neuralne modele nije potrebno prethodno čitati. [Povezani primer Q–B–C–D](povezani-primer.md#evaluacija) daje mali zajednički slučaj za sve te korake.
+
 ## 20.1 Počni od claim-a
 
 Primer lošeg cilja:
@@ -159,7 +161,55 @@ Za svaki abstention prag nacrtaj **coverage–risk krivu**: coverage je udeo slu
 
 ## 20.10 Uncertainty i ponovljivost
 
-Objavljeni rezultat mora biti poveziv sa populacijom i verzijom podataka nad kojima je dobijen, granicom licence, pravilima standardizacije i reprezentacije, verzijom modela/metrike, stohastičkim uslovima i razlozima isključivanja. To su kategorije dokaza potrebne za ponavljanje i tumačenje rezultata, a ne propisana šema artefakata ili okruženja.
+### Tri grupe i upareni bootstrap {#grupno-resamplovanje}
+
+**Pitanje:** da li uočena razlika metoda zavisi od toga koje smo hemijske grupe uzorkovali? *Bootstrap* ponovo bira grupe iz opaženog skupa **sa vraćanjem**. U nastavnoj tabeli svaka nezavisna familija ima jedan evaluacioni upit. Metrika je query-level nDCG, veće je bolje, a svaka familija dobija jednaku težinu:
+
+| Nezavisna grupa | Referentna metoda R | Nova metoda N | Razlika N−R |
+|---|---:|---:|---:|
+| F₁ | 0,6 | 0,8 | +0,2 |
+| F₂ | 0,8 | 0,7 | −0,1 |
+| F₃ | 0,4 | 0,6 | +0,2 |
+| prosek | 0,6 | 0,7 | +0,1 |
+
+U svakoj replici biramo tri grupe, i **iste izabrane grupe** koristimo za obe metode:
+
+| Izbor sa vraćanjem | Prosek R | Prosek N | Uparena razlika |
+|---|---:|---:|---:|
+| F₁, F₁, F₃ | 1,6/3 = 0,5333 | 2,2/3 = 0,7333 | +0,2 |
+| F₂, F₂, F₃ | 2,0/3 = 0,6667 | 2,0/3 = 0,6667 | 0 |
+| F₁, F₂, F₃ | 0,6 | 0,7 | +0,1 |
+| F₂, F₂, F₂ | 0,8 | 0,7 | −0,1 |
+
+Ponovljena F₁ ulazi dva puta sa svim svojim pripadajućim ocenama; ne proglašava se novom nezavisnom familijom. Raspodela ovih razlika približava varijabilnost procene dobitka usled uzorkovanja grupa iz ciljne populacije, uslovno na fiksirane modele i evaluacioni protokol. **Četiri prikazane replike i tri grupe nisu pouzdana procena intervala.** Ako familije imaju različit broj upita, unapred odredi da li cilj daje jednaku težinu familijama ili upitima i u svakoj replici ponovo izračunaj baš taj agregat. Promena težina menja veličinu koju procenjujemo.
+
+### Zašto parovi nisu nezavisni redovi
+
+Za App 2 razmotri parove (A,B), (C,B), (C,D):
+
+```text
+A —— B —— C —— D
+  AB   CB   CD
+```
+
+Grupisanje samo po prvom članu odvaja AB od CB/CD, iako AB i CB dele B. Za tvrdnju o oba nova endpointa najpre odvoji osnovne strukture/familije, pa formiraj parove. U ovom malom grafu svi parovi su povezani preko endpointa i čine samo jednu povezanu grupu zavisnosti, ne tri nezavisna opažanja. Ako stvarni graf ima jednu veliku povezanu komponentu, običan bootstrap komponenti ne može stvoriti nezavisne podatke; potrebna je evaluaciona konstrukcija ili postupak koji odgovara dyadic zavisnosti. *Dyadic* znači da opažanje pripada paru objekata. Detalji istog principa su u [ML evaluaciji](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/06-metric-learning-and-evaluation.md).
+
+### Kako čitati interval razlike
+
+Neka je \(\Delta=\mathrm{metrika}(N)-\mathrm{metrika}(R)\), uz veću bolju metriku. Sledeći intervali su zasebne nastavne ilustracije, nisu izračunati iz četiri replike iznad:
+
+| Nalaz | Dopušteno tumačenje |
+|---|---|
+| tačkasta razlika +0,10 | opažena prednost; sama nema iskaz o neizvesnosti |
+| unapred definisan interval [0,02; 0,18] | podržava pozitivnu razliku na izabranom nivou pod pretpostavkama postupka; praktični značaj se proverava zasebno |
+| interval [−0,02; 0,08], unapred zadana margina neinferiornosti 0,03 | donja granica je iznad −0,03: podrška neinferiornosti, uz odgovarajući unapred izabran nivo i jednostrani/dvostrani protokol; nema dokaza superiornosti |
+| interval [−0,20; 0,30] | preširok za zaključak o superiornosti ili neinferiornosti sa marginom 0,03 |
+
+Margina se ne bira nakon gledanja rezultata. Interval evaluacione metrike odnosi se na populacioni učinak, a [conformal interval](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/02-classical-ml.md#split-conformal) na novi cilj pod drugim pretpostavkama. Pokrivenost predikcije i udeo slučajeva na koje sistem odgovara takođe su različite veličine.
+
+### Referentni sloj: reproduktivnost i seed-ovi
+
+Objavljeni rezultat mora biti poveziv sa populacijom i verzijom podataka nad kojima je dobijen, granicom licence, pravilima standardizacije i reprezentacije, verzijom modela/metrike, stohastičkim uslovima i razlozima isključivanja. [Granica teorijskih primera](kako-koristiti.md#teorijski-i-referentni-sloj) važi i za ove kategorije dokaza.
 
 Uz svaki primarni rezultat obavezno prijavi **point estimate i unapred definisan interval poverenja**. Pre evaluacije zapiši nivo intervala, metod i nezavisnu jedinicu uzorkovanja. Bootstrap ne radi nad pojedinačnim hitovima ili parovima kada dele isti query ili hemijsku porodicu: resampluj na nivou nezavisnog query-ja, odnosno compound-family grupe koja odgovara claim-u, da korelisani primeri ne glume dodatni uzorak.
 
