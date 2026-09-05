@@ -84,7 +84,7 @@ To označava karakteristično **Cu Kα rendgensko zračenje** korišćeno u mere
 ## 1.6 Posledice za aplikacije
 
 <div class="project-link">
-**Globalna pretraga:** element-set, formula, prisustvo metala i neto naboj su jeftini filteri, ali nisu dovoljan dokaz hemijskog identiteta. `4M` u ConQuest-u znači bilo koji metalni element, ne samo prelazni metal.
+**Globalna pretraga:** element-set, formula, prisustvo metala i neto naboj su jeftini filteri, ali nisu dovoljan dokaz hemijskog identiteta. `4M` je ConQuest grupa „bilo koji metal“, ne samo prelazni metal. To je operativna taksonomija alata: uključuje i Ge i Sb, koji se u školskim podelama često svrstavaju u metaloide; [precizna definicija i lokalno brojanje](05-kompleksi.md#54-koordinacioni-broj-broje-se-donor-atomi-ne-molekuli) moraju ostati vezani za isti skup elemenata.
 
 **Poređenje parova:** sastav treba prikazati kao odvojenu komponentu sličnosti. Razlika u H broju može biti eksplicitnost formata, protonacija, disorder ili prava hemijska razlika; ne kažnjava se automatski bez standardizacije.
 </div>
