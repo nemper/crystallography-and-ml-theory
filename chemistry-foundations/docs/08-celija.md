@@ -18,7 +18,7 @@ Posle ovog poglavlja treba da možeš da:
 
 ## Intuicija: ćelija je koordinatni izbor, ne fizička kutija
 
-Kristal možeš zamisliti kao beskonačnu periodičnu sliku. Jedinična ćelija je jedan izabrani paralelopiped čijim celobrojnim translacijama opisujemo celu rešetku. Njene ivice nisu fizički zidovi: atom na \(x=0.99\) može biti bliži atomu u sledećoj ćeliji nego atomu na \(x=0.50\) u istoj nacrtanoj ćeliji.
+Ovde razmatramo trodimenzionalno periodične kristalne modele, kao u dostavljenim CIF primerima. Jedinična ćelija je jedan izabrani paralelopiped čijim celobrojnim translacijama ponavljamo njegov atomski sadržaj i dobijamo kristal. Kod centrirane konvencionalne ćelije taj sadržaj obuhvata i centrirajuće kopije; sami vektori njenih ivica ne generišu sve tačke pune translacione rešetke. Njene ivice nisu fizički zidovi: atom na \(x=0.99\) može biti bliži atomu u sledećoj ćeliji nego atomu na \(x=0.50\) u istoj nacrtanoj ćeliji.
 
 U najkraćem:
 
@@ -27,7 +27,7 @@ U najkraćem:
 | rešetka | beskonačan skup translaciono ekvivalentnih tačaka |
 | motiv/basis | atomski ili molekulski sadržaj pridružen rešetki |
 | kristalna struktura | rešetka + motiv + simetrija i hemijski identitet |
-| jedinična ćelija | izabrani koordinatni paralelopiped koji generiše rešetku |
+| jedinična ćelija | izabrani koordinatni paralelopiped čiji sadržaj periodično ponavljamo; može biti primitivna ili centrirana konvencionalna |
 | asimetrična jedinica | najmanji jedinstveni sadržaj iz kog space-group simetrija daje ćeliju |
 
 !!! danger "Ista ćelija nije isto što i ista struktura"
