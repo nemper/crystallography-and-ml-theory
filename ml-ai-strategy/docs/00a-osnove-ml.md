@@ -118,6 +118,18 @@ Za male skupove **cross-validation (CV)** više puta menja koji deo razvoja slu�
 
 **Missing podatak** nije nula: neizračunat RMSD nije savršeno poravnanje. Imputacija procenjuje nedostajuću ulaznu feature vrednost prema pravilima fitovanim na treningu; ne sme izmišljeni score prikazati kao izmereni naučni dokaz. Njeno poreklo i status ostaju odvojeni.
 
+### Kako tabela postaje ulaz u model
+
+**Hemijska standardizacija** uređuje značenje grafa po izabranom profilu. **Statističko skaliranje** menja numerički prikaz deskriptora, bez dodeljivanja hemijskih veza. Na primer, površina i broj atoma mogu imati veoma različite numeričke opsege; u modelu zasnovanom na rastojanjima velika skala može dominirati samo zbog izabranih jedinica.
+
+Česta standardizacija jedne kolone je \(x'=(x-\mu_{train})/\sigma_{train}\). \(\mu_{train}\) je trening sredina, a \(\sigma_{train}\) standardna devijacija po deklarisanoj konvenciji. Na **izmišljenom** trening primeru sa vrednostima 2 i 4, uz deljenje varijanse brojem trening vrednosti, sredina je 3 i devijacija 1, pa dobijamo −1 i +1. Nova vrednost 7 postaje 4 pomoću **istih** trening parametara. Ne računamo novu sredinu uključivanjem testa. Konstantna kolona sa \(\sigma=0\) zahteva pravilo biblioteke ili uklanjanje unutar trening postupka, a ne deljenje nulom. Ovo skaliranje kolona nije L2 normalizacija celog vektora iz §3.
+
+Kategorije takođe traže smisleno kodiranje: proizvoljne šifre `Cu=1, Zn=2, Fe=3` ne znače da je Fe tri puta Cu ili da je bliži Zn-u. **One-hot** koristi zaseban indikator za svaku kategoriju; nepoznata buduća kategorija ima unapred definisan tretman. Odgovarajuće kodiranje i potreba za skaliranjem zavise od modela ([scikit-learn: preprocessing](https://scikit-learn.org/stable/modules/preprocessing.html)).
+
+Kada model zahteva potpunu numeričku tabelu, jedna razvojna opcija je imputacija trening medijanom/sredinom uz indikator nedostupnosti. Druga je model sa podrškom za missing vrednosti; treća je ograničena predikcija ili uzdržavanje. Nijedna opcija ne stvara nedostajuće kristalno pakovanje. Ako je neizračunat RMSD interno imputiran za neki prediktivni model, prikaz izvornog evidence-a i dalje kaže „nije ocenjeno“. Treba proveriti i model koji vidi samo statuse: visoka tačnost tog modela može otkriti prečicu kroz izvor/format, umesto hemijskog signala ([scikit-learn: imputacija](https://scikit-learn.org/stable/modules/impute.html)).
+
+Redosled je: podeli nezavisne grupe → fituj imputaciju/kodiranje/skaliranje i model samo na treningu → istim transformacijama obradi razvojne i test primere. Svaki CV fold ponavlja taj fit samo na svom trening delu; metodološke posledice za lokalno nepotpune formate daje [cross-format modul](09-cross-format-eligibility.md).
+
 ## 6. Prvi rešeni primer: fingerprint i tri nivoa pretrage
 
 Sledeći mali skup je **izmišljen radi računanja**; nije rezultat `2CDC` pretrage. Query ima uključene bitove \(Q=\{1,2,3\}\), kandidat A \(\{1,2,4\}\), a B \(\{1,2,3,5\}\). Binarni Tanimoto je presek podeljen unijom:
