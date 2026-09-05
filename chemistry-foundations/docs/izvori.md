@@ -2,6 +2,8 @@
 
 **Poslednji sadržajni pregled: 2026-09-05.** Lokalni nalazi ponovo su provereni nad dostavljenim fajlovima, a primarni izvori za naučne korekcije i ključne dinamičke tvrdnje otvoreni tokom pregleda. Ovo nije tvrdnja da je svaki bibliografski link ili svaka softverska mogućnost lokalno reprodukovana; za to su potrebni odgovarajući runtime, podaci i dozvole.
 
+Pregled obuhvata svih 36 hemijskih i 15 ML/AI Markdown stranica, uključujući rečnik, zablude, vežbe, rešenja i planove učenja. Lokalna provera koristi svih 15 izvornih artefakata iz `2CDC`, Gemmi 0.7.5 za CIF, nezavisno čitanje MOL2/SD/SMI zapisa i statičku inspekciju CQS-a bez izvršavanja pickle sadržaja. Svih 22 strana white paper-a provereno je i vizuelno. Brojčani agregati lokalnih pretraga, N14 i CAPHEK kontrolni računi potvrđeni su; opravdane dopune odnose se na značenje skorova i kalibracije, zavisnost parova u evaluaciji, poreklo H geometrije, HBP terminologiju i početničke međukorake. To nije benchmark predloženih modela niti potvrda njihovog rada nad punim CSD-om.
+
 !!! danger "Dinamičke i licencne tvrdnje moraju ponovo da se provere"
     CCDC licenca, Conditions of Use, portfolio/proizvodi, API ponašanje, dokumentacija i broj CSD zapisa mogu se promeniti. Proveri ih **pre svakog izdanja, deployment-a, novog načina obrade, deljenja ili objavljivanja**, a ne samo na datum ove stranice. Merodavan je ugovor konkretne institucije i pisano tumačenje vlasnika podataka; ova knjiga nije pravni savet.
 
@@ -222,6 +224,7 @@ IUPAC izvori određuju hemijsku nomenklaturu i preporučene definicije. Online G
 | [Asymmetric unit](https://dictionary.iucr.org/Asymmetric_unit) | minimalni nezavisni deo space-group prostora |
 | [Z and Z′](https://dictionary.iucr.org/Z_and_Z%27) | definicija \(Z'=Z/m\), uključujući razlomljene vrednosti na specijalnim pozicijama; numeričke primere proveriti nezavisno |
 | [Space group](https://dictionary.iucr.org/Space_group) | grupa operacija periodične simetrije |
+| [Clegg 2019: Some reflections on symmetry: pitfalls of automation and some illustrative examples](https://journals.iucr.org/e/issues/2019/12/00/su5523/index.html) | razlika Sohncke grupa, hiralnosti i prisustva enantiomera u kristalu |
 | [Lattice system](https://dictionary.iucr.org/Lattice_system) | razlika lattice-system i crystal-system klasifikacije |
 | [Miller indices](https://dictionary.iucr.org/Miller_indices) | značenje \((hkl)\) ravni/refleksije |
 | [Reciprocal lattice](https://dictionary.iucr.org/Reciprocal_lattice) | operativni real-space/reciprocal-space most |
@@ -294,6 +297,7 @@ Ovi linkovi su autoritativni za CCDC proizvode i njihove javne uslove, ali su **
 | [Etter, MacDonald & Bernstein 1990: Graph-set analysis of hydrogen-bond patterns in organic crystals](https://doi.org/10.1107/S0108768189012929) | originalna graph-set sistematika za H-bond motive |
 | [Bernstein et al. 1995: Patterns in Hydrogen Bonding: Functionality and Graph Set Analysis in Crystals](https://doi.org/10.1002/anie.199515551) | proširenje/praktična primena graph-set jezika |
 | [Galek et al. 2007: Knowledge-based model of hydrogen-bonding propensity](https://doi.org/10.1107/S0108768107030996) | primarni HBP metod; statistički output nije energetski ili polymorph oracle |
+| [Allen & Bruno 2010: Bond lengths in organic and metal-organic compounds revisited: X—H bond lengths from neutron diffraction data](https://doi.org/10.1107/S0108768110012048) | referentne internuklearne X–H dužine i potreba da se navede normalizacija H geometrije |
 | [Chisholm & Motherwell 2005: COMPACK](https://doi.org/10.1107/S0021889804027074) | originalni pristup za prepoznavanje crystal-structure/packing sličnosti |
 
 ### Cheminformatika i reprezentacije
