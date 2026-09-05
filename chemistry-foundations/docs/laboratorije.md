@@ -138,6 +138,7 @@ Koristi kandidate iz L4.
 3. Obeleži `geometric candidate`, `chemically plausible`, `ambiguous` ili `rejected`.
 4. Napiši jednu rečenicu dokaza i jednu moguću alternativu.
 5. Uporedi pravila sa [IUPAC H-bond preporukom](https://publications.iupac.org/pac/83/8/1637/index.html).
+6. Zabeleži da li su X–H dužine iz izvornog rendgenskog modela ili su neutron-normalizovane prema [lekciji o interakcijama](07-interakcije.md). Ako porediš oba prikaza, odvojeno prijavi H···A distance i uglove; normalizovana H pozicija je izvedena, a ne novo merenje.
 
 **Kontrola:** nijedan kontakt nije automatski „jak“ samo zato što je kratak.
 
