@@ -70,7 +70,7 @@ Ovo je mali, sintaksno validan **CIF 1.1 data block**, ali nije publication-read
 | višeredni tekst | redovi između samostalnih `;` u prvoj koloni | jedna tekstualna vrednost može zauzimati više redova |
 | tabela | `loop_` + imena kolona + vrednosti | vrednosti se dele u redove prema broju navedenih kolona |
 
-Autoritativna pravila za tokene, quoting, komentare, `loop_`, `?`, `.`, višeredni tekst i brojeve sa nesigurnošću daje [IUCr CIF 1.1 sintaksa](https://www.iucr.org/resources/cif/spec/version1.1/cifsyntax). Značenje pojedinačnih data names ne određuje izgled imena, već [IUCr core CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core1).
+Autoritativna pravila za tokene, quoting, komentare, `loop_`, `?`, `.`, višeredni tekst i brojeve sa nesigurnošću daje [IUCr CIF 1.1 sintaksa](https://www.iucr.org/resources/cif/spec/version1.1/cifsyntax). Značenje pojedinačnih data names ne određuje izgled imena, već [IUCr core CIF dictionary](https://cif-dictionaries.iucr.org/cifdic/dichtm.php?dic=cif_core_2.4.5).
 
 Missing-value značenje imaju samostalni **nenavodnički** tokeni `?` i `.`. Znak `'?'` u navodnicima ili `?` unutar semicolon-delimited tekstualnog polja sintaksno je tekst, čak i kada ga je autor upotrebio kao placeholder. Upravo tako je zapisano systematic-name polje lokalnog N14 CIF-a. Parser treba da očuva tu razliku; kasnija kuracija može prepoznati placeholder uz trag izmene.
 

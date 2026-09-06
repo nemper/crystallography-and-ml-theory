@@ -62,6 +62,8 @@ Pojedina grana može dati validno merenje, ostati neodređena, biti neprimenljiv
 
 ## 19.4 Component mapping
 
+<a name="globalna-dodela"></a>
+
 ### Zašto se dodela rešava globalno {#globalna-dodela}
 
 **Pitanje:** da li za svaku komponentu možemo uzeti njen najjeftiniji par? Razmotrimo nastavnu matricu troškova za komponente A₁/A₂ i B₁/B₂; manji broj je povoljniji. Brojevi ilustruju optimizaciju i nisu hemijske energije ili izmerene sličnosti.
@@ -92,6 +94,8 @@ Pre atom mapping-a rešava se problem komponenti:
 Kod ponovljenih ekvivalentnih komponenti nekoliko numerički različitih dodela može opisivati isti fizički izbor. Njihove klase pod dozvoljenim permutacijama zovu se **orbite**. Najpre utvrdi multiplicitete, hemijska ograničenja i kaznu neuparivanja; potom razmatraj alternativne optima i *k-best*, odnosno nekoliko najboljih dozvoljenih rešenja. Detalji enumeracije dolaze u [ML/AI pairwise lekciji](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/04-precise-pairwise.md), posle ovog osnovnog računa.
 
 ## 19.5 Molekulski graf i atom mapping
+
+<a name="mcs-varijante"></a>
 
 ### Izbor MCS-a menja pitanje {#mcs-varijante}
 

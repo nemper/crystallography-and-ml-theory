@@ -17,6 +17,8 @@ Graf je korisna apstrakcija, ali nije cela elektronska struktura. Bond order i a
 
 ## 14.2 Kristal zahteva periodični graf
 
+<a name="periodicki-graf-most"></a>
+
 ### Od dve tačke do periodičnog lanca {#periodicki-graf-most}
 
 **Preduslovi:** [ćelija i koordinate](08-celija.md), [simetrija](09-simetrija.md) i [drugi prolaz kroz kontakte](07-interakcije.md). Pitanje je kako konačna tabela čvorova može da opiše beskonačnu mrežu.

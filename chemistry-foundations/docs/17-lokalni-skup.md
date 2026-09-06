@@ -30,6 +30,8 @@ Forenzički izveštaj mora da razlikuje:
 
 Naziv fajla nije poseban četvrti izvor istine. `2 - Kompleksi sa DAP SB.cqs` opisuje nameru autora, ali izvršiva semantika query-ja je slabija od tog naziva.
 
+<span id="1715-sta-lokalna-forenzika-znaci-za-naucni-dizajn"></span>
+
 ## 17.14 Šta lokalna forenzika znači za naučni dizajn
 
 ### Ulaz i reprezentacije
@@ -49,8 +51,6 @@ Za `n` ulaza postoji `n(n−1)/2` neuređenih parova, ali nijedan pair score nem
 Stručna anotacija može razdvojiti valjanost motiva, scope prisustva metala, mapirane DAP donore i metal–donor veze, opaženi denticitet i geometriju, uloge komponenti, dovoljnost podataka, task-specific relevantnost i poreklo stručne odluke. To su dimenzije ground truth-a, ne fiksna lista polja.
 
 Članstvo u query rezultatu može biti candidate label, nikada automatski similarity rank ili konačna koordinaciona istina.
-
-<span id="1716-pitanja-za-proveru-reproduktivnosti-zakljucka"></span>
 
 ## 17.8 N14: jedan identitet, tri vrlo nejednake reprezentacije
 
@@ -167,7 +167,7 @@ Samo split po punom refcode string-u dopušta da, na primer, `ORIGII01` završi 
 !!! warning "Base refcode nije dovoljan"
     Exact-identičan SMILES cluster može da pređe granicu dve različite base-refcode porodice, kao `ORIFON` naspram `ORIGII...`. Zato je base refcode minimalna, ne konačna zaštita od leakage-a.
 
-<span id="1715-sta-lokalna-forenzika-znaci-za-naucni-dizajn"></span>
+<span id="1717-mini-vezbe"></span>
 
 ## 17.16 Mini-vežbe
 
@@ -539,6 +539,8 @@ Za tumačenje missingness-a treba razlikovati poznatu vrednost, odsustvo podatka
 
 Model se evaluira po missingness slice-ovima. „Drop rows with missing SMILES“ nije neutralno čišćenje: menja hemijsku populaciju.
 
+<span id="1716-pitanja-za-proveru-reproduktivnosti-zakljucka"></span>
+
 ## 17.15 Pitanja za proveru reproduktivnosti zaključka
 
 - Da li broj potiče iz originalnog izvora ili je izveden pod poznatim pravilima?
@@ -551,8 +553,6 @@ Model se evaluira po missingness slice-ovima. „Drop rows with missing SMILES�
 - Da li split sprečava curenje refcode/hemijskih familija i poštuje vremenski claim?
 - Da li statistika navodi parser/verziju, populaciju i denominator?
 - Da li interpretativni i licencni zaključci imaju odgovarajući stručni ili ugovorni dokaz?
-
-<span id="1717-mini-vezbe"></span>
 
 ## Primarni i autoritativni izvori
 

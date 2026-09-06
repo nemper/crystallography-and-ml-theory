@@ -148,7 +148,7 @@ Izabrano osnovno molekulsko jezgro za poređenje. Nema jednu univerzalnu definic
 U ovom projektu DAP znači 2,6-diacetilpiridin. Lokalni ConQuest upiti sadrže 18-atomsko DAP-derived query jezgro sa dve `C=N` veze. Sama podstrukturna podudarnost ne dokazuje da je pogodak bis-imin ili Schiffova baza; to zahteva proveru neposrednog supstituenta na svakom `C=N` azotu u kompletnoj strukturi. Tačan pozitivni opseg (supstituenti, protonacija, donor set, bridging) mora potvrditi naučni tim.
 
 **Schiffova baza / imin**  
-Imin sadrži motiv C=N. U užoj [IUPAC definiciji Schiffove baze](https://old.goldbook.iupac.org/html/S/S05498.html), na iminskom N je vezana hidrokarbilna grupa, npr. alkil ili aril; tipičan put nastanka je kondenzacija primarnog amina i karbonilnog jedinjenja. Sama C=N veza zato nije dovoljna etiketa: oksim C=N–OH i hidrazon C=N–N pripadaju drugim klasama. Iminski N može biti donor, ali protonacija i supstitucija menjaju ponašanje.
+Imin sadrži motiv C=N. U užoj [IUPAC definiciji Schiffove baze](https://goldbook.iupac.org/terms/view/S05498), na iminskom N je vezana hidrokarbilna grupa, npr. alkil ili aril; tipičan put nastanka je kondenzacija primarnog amina i karbonilnog jedinjenja. Sama C=N veza zato nije dovoljna etiketa: oksim C=N–OH i hidrazon C=N–N pripadaju drugim klasama. Iminski N može biti donor, ali protonacija i supstitucija menjaju ponašanje.
 
 **Kiselina/baza po Brønsted–Lowryju**  
 Kiselina donira proton; baza prima proton. Acid–base stanje menja formalni naboj, H-bond uloge, komponente i često čvrstu formu.

@@ -504,7 +504,7 @@ Poglavlje si savladao kada možeš da generišeš četiri N14 C1 položaja, obra
 ## Primarni i autoritativni izvori
 
 - [IUCr Core CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/cif_core)
-- [IUCr CIF dictionaries browser](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core)
+- [IUCr CIF dictionaries browser](https://cif-dictionaries.iucr.org/cifdic/dichtm.php?dic=cif_core_2.4.5)
 - [IUCr teaching pamphlet 9: matrices, translations and transformations](https://www.iucr.org/education/pamphlets/9)
 - [IUCr teaching pamphlet 13: symmetry](https://www.iucr.org/education/pamphlets/13)
 - [IUCr teaching pamphlet 14: space groups](https://www.iucr.org/education/pamphlets/14)

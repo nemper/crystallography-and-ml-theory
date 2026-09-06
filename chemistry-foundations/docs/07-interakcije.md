@@ -20,6 +20,8 @@ Posle **drugog prolaza**, uz ćeliju, simetriju i zauzeće mesta, treba da može
 - predstaviš kristal kao periodični kontaktni graf sa poreklom i neizvesnošću svake ivice;
 - prevedeš interakcije u objašnjive feature-e za obe 2CDC aplikacije.
 
+<a name="prvi-prolaz"></a>
+
 ## Prvi prolaz: hemijska i fizička intuicija {#prvi-prolaz}
 
 ## Intuicija: molekul se ne završava ivicom nacrtane ćelije
@@ -202,6 +204,8 @@ Negativan \(\Delta_{\mathrm{vdW}}\), odnosno \(R_{\mathrm{norm}}<1\), označava 
 ## Kapija prvog prolaza {#kapija-prvog-prolaza}
 
 Pre odlaska u [poglavlje 8](08-celija.md) objasni razliku kontakta i interakcije, izračunaj tri dužine i ugao gornjeg D–H···A primera i pokaži na LJ krivoj zašto \(r=0,9\sigma\) nije povoljniji od minimuma. Periodične primere i završnu kapiju radi tek po povratku posle poglavlja [8](08-celija.md), [9](09-simetrija.md) i [10](10-difrakcija-kvalitet.md).
+
+<a name="drugi-prolaz"></a>
 
 ## Drugi prolaz: periodični kontakti {#drugi-prolaz}
 

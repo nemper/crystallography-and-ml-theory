@@ -70,7 +70,7 @@ Za širi uvod vidi [IUCr definiciju refiniranja](https://dictionary.iucr.org/Ref
 
 ### Constraint i restraint nisu isto
 
-**Constraint** nameće tačnu vezu između parametara ili fiksira vrednost, pa smanjuje broj nezavisnih parametara. U riding modelu položaj H prati geometriju roditeljskog atoma. **Restraint** uvodi ciljnu geometriju sa težinom/neizvesnošću: odstupanje je dozvoljeno, ali doprinosi funkciji koja se minimizuje. Zato lokalnih `0 restraints` ne znači da su svi položaji nezavisno određeni — N14 istovremeno ima riding H atome i slobodnije refiniran H2N. Ovo razlikovanje objašnjava i broj parametara i neizvesnost geometrije. [IUCr rečnik restraints/constraints](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core_restraints) daje formalnu razliku.
+**Constraint** nameće tačnu vezu između parametara ili fiksira vrednost, pa smanjuje broj nezavisnih parametara. U riding modelu položaj H prati geometriju roditeljskog atoma. **Restraint** uvodi ciljnu geometriju sa težinom/neizvesnošću: odstupanje je dozvoljeno, ali doprinosi funkciji koja se minimizuje. Zato lokalnih `0 restraints` ne znači da su svi položaji nezavisno određeni — N14 istovremeno ima riding H atome i slobodnije refiniran H2N. Ovo razlikovanje objašnjava i broj parametara i neizvesnost geometrije. [IUCr rečnik restraints/constraints](https://cif-dictionaries.iucr.org/cifdic/dichtm.php?dic=cif_core_restraints) daje formalnu razliku.
 
 ## Reciprocal space: operativni most \(hkl\rightarrow d\rightarrow2\theta\)
 
@@ -454,5 +454,5 @@ Poglavlje si savladao kada možeš da uzmeš <code>cu_n14_a.cif</code>, napravi�
 - [IUCr definition of CIF](https://dictionary.iucr.org/CIF)
 - [IUCr Online Dictionary: Miller indices](https://dictionary.iucr.org/Miller_indices)
 - [IUCr Online Dictionary: reciprocal lattice](https://dictionary.iucr.org/Reciprocal_lattice)
-- [IUCr powder CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/browse/cif_pd)
+- [IUCr powder CIF dictionary](https://cif-dictionaries.iucr.org/cifdic/dichtm.php?dic=cif_pd)
 - [CCDC API: powder-pattern simulation settings](https://downloads.ccdc.cam.ac.uk/documentation/API/descriptive_docs/descriptors.html)

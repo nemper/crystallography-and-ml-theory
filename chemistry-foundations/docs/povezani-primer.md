@@ -5,6 +5,8 @@
 !!! info "Isključivo nastavni podaci"
     Svi nazivi, grafovi, koordinate, ocene i rezultati na ovoj strani su izmišljeni za ručni račun. Ne opisuju N14, CSD zapis niti sadržaj bilo kog spoljnog fajla. Grafovi su pojednostavljeni fragmenti sa izostavljenim vodonicima; nisu potpune specifikacije stvarnih jedinjenja. Mali skup služi proveri postupka, a ne proceni statističke pouzdanosti.
 
+<a name="objekti"></a>
+
 ## Pitanje i imenovani objekti {#objekti}
 
 Tražimo kandidate koji dele označeno molekulsko jezgro sa upitom **Q**, uz slično prostorno uređenje tog jezgra. Posebno pitamo da li je slično i okruženje susednih molekula. To su dve odvojene tvrdnje.
@@ -44,6 +46,8 @@ Hemijska dozvoljenost se zadaje pre minimizacije troška:
 Zato je mapa glavna Q → glavna B i W → W. U glavnom paru biramo atomsku mapu C₁→C₁, N₂→N₂, O₃→O₃. Za ovaj namenski pogled C₄ u Q i C₄/C₅ u B ostaju van geometrijskog računa. Ovo nije tvrdnja da je pronađeno najveće moguće zajedničko jezgro: graf dopušta i četvrti atom, ali smo za ručnu geometriju unapred izabrali tri nekolinearna atoma.
 
 Zašto se komponentna mapa traži globalno prikazuje [mala matrica dodele](19-parovi.md#globalna-dodela); izbor dopuštenog jezgra dodatno zavisi od [MCS varijante](19-parovi.md#mcs-varijante).
+
+<a name="poravnanje"></a>
 
 ## Centriranje, poznata rotacija i ručni RMSD {#poravnanje}
 
@@ -102,6 +106,8 @@ Zamisli susedne molekulske centre u okviru poravnatog jezgra Q na pomerajima (4;
 
 Ovo pokazuje zašto slična molekulska geometrija ne određuje raspored suseda. **Dva centra nisu periodični kristalni klaster, a ova skica nije COMPACK proračun.** Za jači zaključak nedostaju kompletne molekulske orijentacije, ćelija, simetrija, politika klastera i validirano poređenje. Jedan izmereni pomeraj ne dokazuje polimorfizam.
 
+<a name="kandidati"></a>
+
 ## Jedan uspešan par i jedan propušten kandidat {#kandidati}
 
 Za nastavno molekulsko pitanje stručna rubrika dodeljuje B ocenu **2** (najrelevantniji), C ocenu **1** (relevantan) i D ocenu **0**. Ocene su zadate za vežbu, nisu rezultat stvarne ekspertize. Sva tri kandidata su ocenjena; pozitivna relevantnost znači ocena > 0. Q\* se ne broji kao nezavisna struktura u evaluacionom korpusu.
@@ -116,6 +122,8 @@ Pretpostavimo da iscrpna pretraga izabranog deskriptora daje top-2 **[B,C]**, a 
 | Precision@2 konačne liste [B,D] | 1/2 | dva prikazana mesta |
 
 Brojevi prva dva reda su slučajno jednaki: exact lista potiče iz deskriptora, a ekspertski relevantan skup iz rubrike. U drugom upitu ti skupovi mogu biti različiti. Atomska pokrivenost 3/4 ili 3/5 iz geometrije nema isti imenilac ni značenje kao candidate recall. Nastavak: [globalna pretraga](18-globalna-pretraga.md) i [učenje rangiranja](https://github.com/nemper/crystallography-and-ml-theory/blob/main/ml-ai-strategy/docs/03-global-retrieval-ann-ranking.md).
+
+<a name="evaluacija"></a>
 
 ## Šta bi evaluacija morala da proveri {#evaluacija}
 

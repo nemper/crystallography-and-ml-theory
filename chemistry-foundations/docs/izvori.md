@@ -239,7 +239,7 @@ IUPAC izvori određuju hemijsku nomenklaturu i preporučene definicije. Online G
 | Izvor | Uloga |
 |---|---|
 | [IUCr CIF dictionaries](https://www.iucr.org/resources/cif/dictionaries) | autoritativna semantika data names; zabeležiti dictionary verziju |
-| [Core CIF dictionary browser](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core) | direktna provera polja iz `cu_n14_a.cif` |
+| [Core CIF dictionary browser](https://cif-dictionaries.iucr.org/cifdic/dichtm.php?dic=cif_core_2.4.5) | direktna provera polja iz `cu_n14_a.cif` |
 | [IUCr CIF guide](https://www.iucr.org/__data/assets/pdf_file/0019/22618/cifguide.pdf) | praktična sintaksa/data-block/loop osnova |
 | [checkCIF](https://checkcif.iucr.org/) | strukturisana validacija CIF-a; za poverljive podatke prethodno proveriti policy slanja |
 | [checkCIF FAQ](https://journals.iucr.org/services/cif/checking/checkfaq.html) | alerts i Validation Response tumačenje |
@@ -249,7 +249,7 @@ IUPAC izvori određuju hemijsku nomenklaturu i preporučene definicije. Online G
 | [Teaching pamphlet 9](https://www.iucr.org/education/pamphlets/9) | matrice, translacije i transformacije |
 | [Teaching pamphlet 10](https://www.iucr.org/education/pamphlets/10) | metric tensor i ćelijska geometrija |
 | [Teaching pamphlet 21](https://www.iucr.org/education/pamphlets/21) | crystal packing |
-| [Powder CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/browse/cif_pd) | measured/calculated powder data, radiation, instrument i profile metadata |
+| [Powder CIF dictionary](https://cif-dictionaries.iucr.org/cifdic/dichtm.php?dic=cif_pd) | measured/calculated powder data, radiation, instrument i profile metadata |
 
 ## Autoritativni izvori: CCDC/CSD
 

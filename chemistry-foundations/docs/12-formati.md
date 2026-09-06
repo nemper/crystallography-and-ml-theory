@@ -22,7 +22,7 @@ flowchart LR
 
 ## 12.2 CIF: datoteka i Crystallographic Information Framework {#122-cif-crystallographic-information-framework}
 
-CIF datoteka (*Crystallographic Information File*) koristi tekstualni, samopisujući format zasnovan na **data names** i rečnicima. Širi *Crystallographic Information Framework* obuhvata i standarde i rečnike koji daju značenje zapisu. Autoritativna definicija pojedinačnih polja je [IUCr core CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core); praktični uvod je [IUCr CIF guide](https://www.iucr.org/__data/assets/pdf_file/0019/22618/cifguide.pdf).
+CIF datoteka (*Crystallographic Information File*) koristi tekstualni, samopisujući format zasnovan na **data names** i rečnicima. Širi *Crystallographic Information Framework* obuhvata i standarde i rečnike koji daju značenje zapisu. Autoritativna definicija pojedinačnih polja je [IUCr core CIF dictionary](https://cif-dictionaries.iucr.org/cifdic/dichtm.php?dic=cif_core_2.4.5); praktični uvod je [IUCr CIF guide](https://www.iucr.org/__data/assets/pdf_file/0019/22618/cifguide.pdf).
 
 Za pun, bezbedan i parsabilan primer pređi odmah i [anatomiju jednog CIF fajla](12a-anatomija-cif.md). Tamo možeš da preuzmeš sintetički `.cif` i pročitaš svaku vrstu reda bez objavljivanja licenciranog projekta/CSD sadržaja.
 
