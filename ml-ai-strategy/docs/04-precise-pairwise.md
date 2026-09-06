@@ -176,7 +176,7 @@ Edge constraints mogu uključiti bond type/order, aromaticity i coordination-edg
 
 Promena predstavnika čvora, translacione oznake i zatvaranje periodičnih putanja izvedeni su u zajedničkom [primeru lanca i označenog konačnog grafa](https://github.com/nemper/crystallography-and-ml-theory/blob/main/chemistry-foundations/docs/14-reprezentacije.md#periodicki-graf-most). Matching zato usaglašava i bazu i predstavnike svakog čvora (*vertex gauge*); sama promena baze ne rešava različit wrapping.
 
-Stereo nije običan lokalni string atribut: tetrahedral parity zavisi od permutacije mapiranih suseda. Exact matcher posle candidate bijekcije proverava tetrahedral parity, double-bond `E/Z`, relevantne enhanced stereo groups i unknown/unspecified stanje prema verzionisanoj politici. Nepodržana metalna ili koordinaciona stereokemija ne postaje „ista“ zato što toolkit nema tag; rezultat ostaje dvosmislen i bez naučne relacione labele. Korisne formalne reference su [OpenSMILES stereochemistry pravila](http://opensmiles.org/opensmiles.html#stereochemistry) i [RDKit stereochemistry dokumentacija](https://www.rdkit.org/docs/RDKit_Book.html#stereochemistry).
+Stereo nije običan lokalni string atribut: tetrahedral parity zavisi od permutacije mapiranih suseda. Exact matcher posle candidate bijekcije proverava tetrahedral parity, double-bond `E/Z`, relevantne enhanced stereo groups i unknown/unspecified stanje prema verzionisanoj politici. Nepodržana metalna ili koordinaciona stereokemija ne postaje „ista“ zato što toolkit nema tag; rezultat ostaje dvosmislen i bez naučne relacione labele. Korisne formalne reference su [OpenSMILES stereochemistry pravila](http://opensmiles.org/opensmiles.html#chirality) i [RDKit stereochemistry dokumentacija](https://www.rdkit.org/docs/RDKit_Book.html#stereochemistry).
 
 ### Subgraph relation
 
@@ -360,7 +360,7 @@ Atom sa nenultom site symmetry može kroz više symmetry operacija generisati is
 4. proverava dobijenu multiplicity prema CIF/Wyckoff/site-symmetry podatku;
 5. ne spaja različite disorder alternative, species ili occupancy modele.
 
-Bez toga se dupliraju susedi, coordination number, kontakti i occupancy doprinos. Formalna polazna tačka je [IUCr Core CIF dictionary](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core), koji razlikuje multiplicity generisanih mesta i site-symmetry red.
+Bez toga se dupliraju susedi, coordination number, kontakti i occupancy doprinos. Formalna polazna tačka je [IUCr Core CIF dictionary](https://cif-dictionaries.iucr.org/cifdic/dichtm.php?dic=cif_core_2.4.5), koji razlikuje multiplicity generisanih mesta i site-symmetry red.
 
 ### Lattice candidate algoritam
 
@@ -404,6 +404,8 @@ Method paper ne daje automatski pravo korišćenja CCDC implementacije ili podat
 ### Poređenje uloga
 
 Kada prava i domen primenljivosti to dopuštaju, COMPACK/Packing Similarity može biti referentna metoda zbog direktne veze sa CSD praksom. PAC pruža nezavisno poređenje sa drugačijim cluster-shape informacijama. Njihova neslaganja su informativan skup za slepo stručno ocenjivanje, ali objavljeni threshold-i nisu univerzalni i ne prenose se bez target-specifične kalibracije. Svaki metod treba da prijavi matched \(N\), RMSD, cluster shape/coverage, parametre i failure reason.
+
+<a name="soap-rematch-reference"></a>
 
 ## 4.10 SOAP, REMatch i hemijski ograničena agregacija {#soap-rematch-reference}
 
@@ -452,7 +454,7 @@ Reproduktivna definicija poređenja navodi najmanje:
 - simulator, verziju, numeričke tolerancije i razliku između simuliranog i izmerenog obrasca;
 - za measured pattern: instrument geometry, kalibraciju/zero shift i poznate sample corrections.
 
-Bez ovih informacija intensity-based cosine/correlation score nije nužno reproduktivan: različite probe i korekcije daju različite intenzitete i kada je strukturni model isti. Kategorije se oslanjaju na zvanične [IUCr pdCIF definicije](https://www.iucr.org/resources/cif/dictionaries/cif_pd) i [IUCr Core CIF scattering kategorije](https://www.iucr.org/resources/cif/dictionaries/browse/cif_core1); svaka reprodukcija mora navesti korišćeni simulator i fizički model.
+Bez ovih informacija intensity-based cosine/correlation score nije nužno reproduktivan: različite probe i korekcije daju različite intenzitete i kada je strukturni model isti. Kategorije se oslanjaju na zvanične [IUCr pdCIF definicije](https://www.iucr.org/resources/cif/dictionaries/cif_pd) i [IUCr Core CIF scattering kategorije](https://cif-dictionaries.iucr.org/cifdic/dichtm.php?dic=cif_core_2.4.5); svaka reprodukcija mora navesti korišćeni simulator i fizički model.
 
 Važne granice:
 

@@ -447,6 +447,8 @@ Proizvoljan similarity score „0,8“ nema verovatnosno značenje samo zato št
 
 Za retku pozitivnu klasu obavezni su precision–recall prikaz i AUPRC; [Saito i Rehmsmeier](https://doi.org/10.1371/journal.pone.0118432) objašnjavaju zašto ROC prikaz može biti intuitivno varljiv pod velikim imbalance-om.
 
+<a name="split-conformal"></a>
+
 ### Split-conformal: od reziduala do intervala {#split-conformal}
 
 **Uslovni nastavak za conformal granu. Pitanje:** koliki pojas oko nove tačkaste predikcije treba uzeti na osnovu grešaka izdvojenih kalibracionih primera? Zamrzni regresioni model i izračunaj apsolutne reziduale \(r_i=|y_i-\hat y_i|\). To su **nonconformity skorovi**, mere nesaglasnosti prognoze i poznatog cilja; veći skor znači veće odstupanje.

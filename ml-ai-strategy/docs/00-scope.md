@@ -35,6 +35,8 @@ Zato se porodice metoda opisuju kroz tri neutralne uloge:
 - **alternativna porodica**: metod sa drugačijim pretpostavkama, reprezentacijom ili kapacitetom;
 - **uslov primenljivosti**: podatak i dokaz koji određuju kada je poređenje smisleno, a kada rezultat treba ograničiti ili izostaviti.
 
+<a name="granica-izmeu-strategije-i-implementacije"></a>
+
 ## Granica između strategije i implementacije
 
 Ova dokumentacija objašnjava koje algoritamske funkcije postoje, zašto su naučno relevantne, pod kojim pretpostavkama važe i kako se porodice metoda mogu fer porediti. Ona nije specifikacija konkretnog proizvoda i ne određuje šta treba implementirati niti kojim redosledom.

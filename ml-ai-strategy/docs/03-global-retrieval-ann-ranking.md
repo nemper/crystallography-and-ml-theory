@@ -390,7 +390,7 @@ Za nezavisne uniformno slučajne permutacije, verovatnoća istog minimuma jednak
 
 **Uslovna LSH grana.** Hashiranje osetljivo na lokalnost (*locality-sensitive hashing*) može potpise podeliti u dve trake (*bands*) po dve komponente. Kandidat se bira ako se sa Q poklopi cela prva **ili** cela druga traka. B se bira preko prve \((1,1)\), D preko druge \((1,2)\), dok se C ne bira ni preko jedne. Potom se nad B i D ponovo računa exact Jaccard originalnih skupova i skuplji stručni dokazi. Propušteni C se tim ponovnim rangiranjem ne može vratiti.
 
-Uz idealno nezavisne MinHash komponente, \(b\) traka od po \(r\) komponenti daje verovatnoću kandidature \(1-(1-J^r)^b\). Za \(b=r=2\) i \(J=0{,}5\) to je \(1-(1-0{,}25)^2=0{,}4375\), ne garancija za jedan konkretan potpis. Ovde je broj komponenti \(L=br\). Duži potpis smanjuje grešku procene sličnosti, dok raspored traka određuje propuštanje kandidata i veličinu kandidatnog skupa; promena oba parametra mora razdvojiti ova dva efekta. Ovu klasičnu MinHash/LSH konstrukciju izvodi [autorski udžbenik, poglavlje 3.3–3.4](https://infolab.stanford.edu/~ullman/mmds/ch3n.pdf).
+Uz idealno nezavisne MinHash komponente, \(b\) traka od po \(r\) komponenti daje verovatnoću kandidature \(1-(1-J^r)^b\). Za \(b=r=2\) i \(J=0{,}5\) to je \(1-(1-0{,}25)^2=0{,}4375\), ne garancija za jedan konkretan potpis. Ovde je broj komponenti \(L=br\). Duži potpis smanjuje grešku procene sličnosti, dok raspored traka određuje propuštanje kandidata i veličinu kandidatnog skupa; promena oba parametra mora razdvojiti ova dva efekta. Ovu klasičnu MinHash/LSH konstrukciju izvodi [autorski udžbenik, poglavlje 3.3–3.4](http://infolab.stanford.edu/~ullman/mmds/ch3n.pdf).
 
 ### Stručni sloj: MHFP reprezentacija i dve vrste greške
 
@@ -506,6 +506,8 @@ ANN score nikada nije dovoljan kao finalni naučni score. Ako je candidate vecto
 [COMPACK](https://doi.org/10.1107/S0021889804027074) i [PAC](https://doi.org/10.1107/S1600576722009670) nisu generičke etikete za proizvoljan crystal embedding. Packing poređenje zahteva pouzdanu molekulsku dekompoziciju, koordinate, ćeliju/simetrijsku ekspanziju i eksplicitnu politiku za višekomponentne, polimerne i disordered strukture. Izlaz čuva najmanje matched-molecule coverage i RMSD; PAC dodatno koristi oblik klastera, uključujući radius of gyration. PXRD/periodični embedding može biti candidate signal, ali sam ne dokazuje identičan packing. Neprimenljivo poređenje označava se kao takvo i ne dobija naučnu relacionu labelu niti izmišljenu nulu.
 
 ## 3.13 Learning-to-rank: kada i koji model
+
+<a name="rangiranje-primer"></a>
 
 ### Jedan upit, tri zapisa iste supervizije {#rangiranje-primer}
 
