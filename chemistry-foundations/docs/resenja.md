@@ -4,7 +4,7 @@ Ne čitaj ovo pre prvog pokušaja. Rešenja daju kontrolne vrednosti za opcione 
 
 ## L0 — očekivani inventar
 
-U dostavljenom korenu postoji 15 izvornih fajlova:
+Vežba L0 obuhvata 15 izvornih fajlova iz [prikazane strukture lokalnih fajlova](kako-koristiti.md#lokalni-fajlovi):
 
 - white paper PDF;
 - opis dve funkcionalnosti TXT;
