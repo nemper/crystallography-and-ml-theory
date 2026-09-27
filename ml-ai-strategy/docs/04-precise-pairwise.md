@@ -298,7 +298,7 @@ S_P[Q]=100\min\frac{\sum_k\|\mathbf q_k-\mathbf p_k\|^2}
 {\sum_k\|\mathbf q_k-\bar{\mathbf q}\|^2},
 \]
 
-uz optimizaciju skale, rotacije i dozvoljenih vertex permutacija. Manje znači bliže idealnom obliku. [Pregled continuous shape pristupa](https://doi.org/10.1016/j.ccr.2005.03.031) pokazuje zašto diskretne etikete poput „octahedral“ mogu sakriti kontinuirane distortion puteve.
+nakon centriranja oba skupa u koordinatnom početku, uz optimizaciju skale, rotacije i dozvoljenih vertex permutacija. Manje znači bliže idealnom obliku. [Pregled continuous shape pristupa](https://doi.org/10.1016/j.ccr.2005.03.031) pokazuje zašto diskretne etikete poput „octahedral“ mogu sakriti kontinuirane distortion puteve.
 
 Ne čuvati samo najbolju etiketu. Čuvaju se CSM vrednosti prema svim relevantnim idealnim oblicima, neighbor set, CN i gap između najboljih kandidata.
 
@@ -607,7 +607,7 @@ Disagreement pool je odličan za nalaženje failure modes, ali nije reprezentati
 
 Strukture/compound/scaffold/solid-form/publication/time grupe se dele pre generisanja parova. `A–B` u train-u i `A–C` u testu nije nezavisna procena. Za metamorphic varijante svi derivati originala ostaju u istoj particiji.
 
-**2D cold/cold** estimand koristi disjunktne endpoint grupe: ako su particije struktura (T,V,E), train sadrži samo (T\times T), validation samo (V\times V), a test samo (E\times E). Cross-partition parovi poput (T\times E) se iz ovog estimanda izostavljaju. Ako je cilj „nov query naspram poznatog korpusa“, (T\times E) se meri kao zasebno imenovan **1D warm/cold** režim, sa sopstvenim metrikama; nikad se ne meša u cold/cold test. [DataSAIL](https://doi.org/10.1038/s41467-025-58606-8) daje formalni okvir za razlikovanje 1D i 2D splitova. Evaluaciona definicija navodi ciljnu distribuciju, pravilo za cross-partition parove i tačan estimand pre model-selection rada.
+**2D cold/cold** estimand koristi disjunktne endpoint grupe: ako su particije struktura (T,V,E), train sadrži samo \(T\times T\), validation samo \(V\times V\), a test samo \(E\times E\). Cross-partition parovi poput \(T\times E\) se iz ovog estimanda izostavljaju. Ako je cilj „nov query naspram poznatog korpusa“, \(T\times E\) se meri kao zasebno imenovan **1D warm/cold** režim, sa sopstvenim metrikama; nikad se ne meša u cold/cold test. [DataSAIL](https://doi.org/10.1038/s41467-025-58606-8) daje formalni okvir za razlikovanje 1D i 2D splitova. Evaluaciona definicija navodi ciljnu distribuciju, pravilo za cross-partition parove i tačan estimand pre model-selection rada.
 
 ### Metrike po grani
 

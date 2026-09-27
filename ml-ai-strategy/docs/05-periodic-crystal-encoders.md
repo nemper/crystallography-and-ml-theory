@@ -236,8 +236,8 @@ Model card mora odvojiti:
 | wrapping pojedinačnog site-a | invariant |
 | promena origin-a | invariant |
 | symmetry-equivalent ASU/setting | invariant u toleranciji |
-| primitive basis \(U\in GL(3,\mathbb Z), |\det U|=1\), uključujući sign, permutaciju i shear | invariant |
-| conventional cell ili supercell \( |\det U|>1 \) uz pravilnu replikaciju motiva | invariant za isti beskonačni kristal |
+| primitive basis \(U\in GL(3,\mathbb Z), \lvert\det U\rvert=1\), uključujući sign, permutaciju i shear | invariant |
+| conventional cell ili supercell \( \lvert\det U\rvert>1 \) uz pravilnu replikaciju motiva | invariant za isti beskonačni kristal |
 | uniform strain | **nije** automatska invariance; target-specific augmentation |
 | mirror/reflection | zavisi od eksplicitnog stereo režima |
 
