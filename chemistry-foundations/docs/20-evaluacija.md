@@ -242,7 +242,7 @@ Spremnost za naučni claim nije jedna univerzalna kapija. Snaga tvrdnje zavisi o
     1. Meša različite naučne nivoe i skriva razlog/nesigurnost.  
     2. Model može prepoznati gotovo isti family record umesto da generalizuje.  
     3. Search ima rangiranu listu i mnogo neizabranih kandidata; accuracy ne meri da li su relevantni vraćeni u vrhu.  
-    4. Metric similarity, kalibrisana relevantnost i pouzdanost ulaza/modela su odvojene veličine.  
+    4. Metric similarity, procenjena verovatnoća relevantnosti i pouzdanost ulaza/modela su odvojene veličine.
     5. Kada claim nema potrebne podatke, representation je ambiguous/out-of-domain ili confidence ispod unapred definisanog praga.
 
 **Kriterijum prolaza:** možeš da napišeš testable claim, formiraš leakage-safe evaluation i objasniš svaki exclusion, threshold i failure slice.
