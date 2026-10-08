@@ -177,6 +177,14 @@ pa se cink opisuje kao Zn(II). Acetonitril i voda u odvojenim komponentama su ne
 !!! danger "Ne čitaj oksidaciono stanje iz MOL2 charge kolone"
     `USER_CHARGES`, `NO_CHARGES`, `M  CHG` ili formalni naboj u eksportovanom SMILES-u opisuju konkretnu reprezentacionu šemu. Oni nisu automatski oksidaciona stanja. U lokalnom APHZUC SMILES-u uranijumski fragment čak nosi reprezentacioni zapis koji se ne sme doslovno prevesti u oksidaciono stanje bez hemijskog bilansa i provere strukture.
 
+### Kada i ligand učestvuje u redoks promeni {#redoks-aktivni-ligandi}
+
+**Redoks aktivan ligand** može primiti ili izgubiti elektrone; promena elektronskog stanja kompleksa zato ne mora biti lokalizovana samo na metalu. Protonaciono stanje i redoks stanje liganda različita su pitanja, iako njihove promene mogu biti spregnute. Neprotonovan ligand nije time automatski dokazan kao neutralan u kompleksu. Izraz **non-innocent ligand** označava slučaj u kojem elektronska struktura metal–ligand otežava jednoznačnu dodelu njihovih oksidacionih stanja; samo postojanje redoks aktivnosti ne znači da je svaka takva dodela nerešiva ([IUPAC preporuke 2016, §5.1](https://doi.org/10.1515/pac-2015-1204)).
+
+Ovo je neposredno relevantno DAP-derived bis(imino)piridinskoj porodici. [Darmon i saradnici, JACS 2012](https://doi.org/10.1021/ja306526d) opisali su komplekse sa Fe(III) centrom magnetno spregnutim sa bis(imino)piridinskim radikal-anionom: ligand nosi negativan naboj i nesparen elektron. Elektronsko stanje ustanovljeno je kombinacijom spektroskopije, magnetnih merenja i proračuna, uz kristalografsku strukturu. To je primer moguće elektronske strukture ove porodice, a ne dokaz da svaki DAP kompleks ili neki konkretan lokalni zapis ima isto stanje.
+
+Bilans naboja ostaje važeći, ali pretpostavljeni naboj liganda mora imati opravdanje. Ako više raspodela elektrona odgovara dostupnim podacima, čuvaju se alternative i neodređenost oksidacionog stanja; iz toga se ne izvode prisilno jedinstven metalni \(d^n\) broj ili spin. Metalni spin i ukupni spin kompleksa takođe se razlikuju kada ligand nosi nesparen elektron. Primer CAPHEK-a iznad ostaje uslovljen eksplicitno navedenim neutralnim ligandom.
+
 ## 5.7 Od d-broja i ligandnog polja do geometrije
 
 **Pitanje:** zašto isti broj donora ne određuje jednoznačno oblik kompleksa? Elektroni ne zauzimaju sve prostorne rasporede podjednako povoljno. Prvo iz već poznatog oksidacionog stanja prebrojimo \(d\)-elektrone, zatim pogledamo njihov raspored po orbitalama.

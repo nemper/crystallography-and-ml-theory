@@ -214,6 +214,7 @@ Jedan 2D scaffold može dati mnogo struktukturnih varijanti:
 - E/Z konfiguracije iminskih veza;
 - različite konformacije i orijentacije aromatičnih supstituenata;
 - neutralni ligand, protonovani oblik ili druga tautomerna/protonaciona stanja;
+- različita redoks stanja liganda, uključujući ligandni radikal-anion u odgovarajućim kompleksima;
 - jedan ili više metalnih centara;
 - dodatni monodentatni ili polidentatni ligandi;
 - koordinacioni polimeri, bridging i symmetry-generated veze;
@@ -221,6 +222,8 @@ Jedan 2D scaffold može dati mnogo struktukturnih varijanti:
 - disorder, parcijalna okupacija i zapisi bez punih koordinata.
 
 To objašnjava zašto „isti DAP motiv“ nije isto što i „ista molekulska struktura“, „isti koordinacioni kompleks“ ili „ista kristalna forma“.
+
+Redoks stanje liganda ne određuje se samo iz protonacije ili prepoznatog 2D motiva. [Objašnjenje redoks aktivnih i non-innocent liganada u §5.6](05-kompleksi.md#redoks-aktivni-ligandi) pokazuje zašto naboj liganda i oksidaciono stanje metala zahtevaju potkrepljenu dodelu pre izvođenja \(d^n\) broja i tumačenja spina. Kada elektronska struktura nije razrešena, ta neodređenost ostaje deo poređenja.
 
 ## 6.11 Moguće ose relevantne za dve aplikacije
 

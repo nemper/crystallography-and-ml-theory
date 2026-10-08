@@ -247,7 +247,7 @@ Obavezno jezgro čuva razgraničenja sastava, grafa, konformacije, pakovanja, sv
 
 **Projektantska vežba:** usmeno odbrani jedan search query, pair rezultat, **UNKNOWN** slučaj, leakage incident i licence stop. Za FL prođi preduslove i nacrtaj threat model na konceptualnom nivou.
 
-**Kapija:** umeš da objasniš zašto FL zahteva zakonit zajednički multi-site supervised target, a SLM/API ne postaju naučni autoritet time što su jezički sposobni.
+**Kapija:** umeš da objasniš zašto FL zahteva dozvoljenu obradu podataka, usaglašen multi-site cilj učenja i evaluaciju, ali ne nužno supervised labele; razlikuješ nadgledanu granu od nenadgledanog ili samonadgledanog učenja reprezentacija. SLM/API ne postaju naučni autoritet time što su jezički sposobni.
 
 ## Kapije prelaza
 
@@ -301,7 +301,7 @@ Pročitaj API/security modul. Objasni razliku između izvorne licence, minimizac
 
 Ponovo pročitaj FL delove hemijskog poglavlja 22 i uporedne mape. Uporedi centralizovano, local-only, shared-public-pretraining i federativno učenje, pa objasni kako threat model određuje secure aggregation, diferencijalnu privatnost i robust aggregation.
 
-**Ishod učenja:** konceptualno objašnjenje uslova pod kojima FL ima smisla. Bez stvarnog multi-site targeta koji se zakonito ne može centralizovati, FL ostaje samo teorijska porodica.
+**Ishod učenja:** konceptualno objašnjenje uslova pod kojima FL ima smisla, uključujući razliku između cilja učenja i dostupnosti supervised labela. Bez stvarnog multi-site zadatka i opravdanog razloga da podaci ostanu kod institucija, FL ovde ostaje samo teorijska porodica.
 
 ## Završni kriterijum spremnosti
 

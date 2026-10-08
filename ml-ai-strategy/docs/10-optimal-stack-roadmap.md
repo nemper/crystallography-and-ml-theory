@@ -236,11 +236,13 @@ Jača tvrdnja zahteva jasno definisan estimand, reprezentativan referentni skup,
 
 Federativno učenje (FL) koordinira učenje bez centralizovanja raw podataka. Ono nije potrebno svojstvo retrieval-a ili determinističkog poređenja i nije automatska zaštita privatnosti.
 
-FL ima smisla samo kada postoji:
+FL može biti nadgledano, nenadgledano ili samonadgledano: potreban je usaglašen cilj učenja i način evaluacije, ali ne nužno spolja dodeljene labele. Primarni primeri su [Orchestra, ICML 2022](https://proceedings.mlr.press/v162/lubana22a.html), sa nenadgledanim federativnim klasterovanjem, i [FedX, ECCV 2022](https://www.ecva.net/papers/eccv_2022/papers_ECCV/html/3932_ECCV_2022_paper.php), sa federativnim učenjem reprezentacija uz kontrastivno učenje i distilaciju. Njihovi rezultati ne dokazuju korist za 2CDC; pokazuju da supervised target nije opšti preduslov FL-a.
 
-- zajednički supervised target na više institucija;
+Za razmatranje FL-a u ovom projektu potrebno je:
+
+- jasno definisan zajednički cilj učenja na više institucija i odgovarajući evaluacioni protokol;
 - pravni ili poslovni razlog da se raw podaci ne centralizuju;
-- usaglašena semantika podataka i labela, jedinice i quality politika;
+- usaglašena semantika podataka, reprezentacija, jedinica i quality politike; za supervised granu i semantika labela, a za self-supervised granu definicija pretext zadatka i dozvoljenih transformacija;
 - dovoljno heterogenih site-ova za smislen globalni i worst-site rezultat;
 - threat model za update/gradient leakage, malicious client, coordinator i finalni model;
 - odgovarajuće secure aggregation, diferencijalna privatnost ili robust aggregation kontrole;
