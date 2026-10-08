@@ -7,6 +7,15 @@ Ovaj repozitorijum sadrži dva odvojena, ali međusobno usklađena dokumentacion
 
 Oba dela ostaju u istom repozitorijumu i imaju zasebne MkDocs konfiguracije. Svi nastavni fajlovi leže neposredno u odgovarajućem `docs/` folderu, bez tematskih podfoldera. Zajedničke Python zavisnosti, virtuelno okruženje i statički runtime resursi nalaze se u korenu repozitorijuma.
 
+## PDF izdanja za čitanje
+
+Najnovija objedinjena izdanja, generisana 08.10.2026. iz nastavnih izvora u commitu `b260ecb`:
+
+- [Hemijske osnove — 253 stranice](pdfs/2CDC-Hemijske-osnove-2026-10-08.pdf)
+- [ML/AI strategija — 144 stranice](pdfs/2CDC-ML-AI-strategija-2026-10-08.pdf)
+
+PDF-ovi uključuju sve nastavne celine, sadržaj sa brojevima stranica, veze ka odeljcima i izvorima, formule, dijagrame i otvorene odgovore na vežbe. Izvor za naredne dopune ostaju Markdown fajlovi u odgovarajućem `docs/` folderu.
+
 ## Struktura
 
 ```text
